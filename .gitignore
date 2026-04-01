@@ -1,0 +1,8 @@
+/.metadata/
+
+# Eclipse
+**/.settings/
+**/bin/
+
+
+# Modelio
