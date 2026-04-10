@@ -1,0 +1,17 @@
+<?xml version="1.0" ?>
+<!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="Subsistema Factura" version="4">
+  <OBJECT>
+    <ID name="Subsistema Factura" mc="Standard.Package" uid="e2cd593e-0a9a-4ee1-929d-1d750a0e772b"/>
+    <PID name="Diagramas de CDU actividades y secuencia" mc="Standard.Package" uid="1c67caf5-cfde-4d37-a73a-ff8050ab2658"/>
+    <ATTRIBUTES>
+      <ATT name="IsInstantiable">false</ATT>
+      <ATT name="IsAbstract">false</ATT>
+      <ATT name="IsLeaf">false</ATT>
+      <ATT name="IsRoot">false</ATT>
+      <ATT name="Visibility">Public</ATT>
+      <ATT name="Name"><![CDATA[Subsistema Factura]]></ATT>
+      <ATT name="status">1970354901745664</ATT>
+    </ATTRIBUTES>
+    <DEPENDENCIES></DEPENDENCIES>
+  </OBJECT>
+</EXT>

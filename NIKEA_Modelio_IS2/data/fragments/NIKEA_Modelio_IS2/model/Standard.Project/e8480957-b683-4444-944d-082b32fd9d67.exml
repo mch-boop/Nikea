@@ -1,0 +1,20 @@
+<?xml version="1.0" ?>
+<!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="NIKEA_Modelio_IS2" version="4">
+  <OBJECT>
+    <ID name="NIKEA_Modelio_IS2" mc="Standard.Project" uid="e8480957-b683-4444-944d-082b32fd9d67"/>
+    <ATTRIBUTES>
+      <ATT name="ProjectContext"></ATT>
+      <ATT name="ProjectDescr"></ATT>
+      <ATT name="Name"><![CDATA[NIKEA_Modelio_IS2]]></ATT>
+      <ATT name="status">1970354901745664</ATT>
+    </ATTRIBUTES>
+    <DEPENDENCIES>
+      <COMP relation="Model">
+        <COMPID name="nikea_modelio_is2" mc="Standard.Package" uid="d071a2c6-fca5-4430-932c-c76ef35be17a"/>
+      </COMP>
+      <COMP relation="DiagramRoot">
+        <COMPID name="NIKEA_Modelio_IS2" mc="Infrastructure.DiagramSet" uid="486279d4-320a-493f-b7f2-6e74254bb64a"/>
+      </COMP>
+    </DEPENDENCIES>
+  </OBJECT>
+</EXT>

@@ -1,0 +1,30 @@
+<?xml version="1.0" ?>
+<!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="Subsistema clientes" version="4">
+  <OBJECT>
+    <ID name="Subsistema clientes" mc="Standard.Package" uid="4232611b-56b3-4327-a05e-248ae57c60c9"/>
+    <PID name="Diagramas de CDU actividades y secuencia" mc="Standard.Package" uid="1c67caf5-cfde-4d37-a73a-ff8050ab2658"/>
+    <ATTRIBUTES>
+      <ATT name="IsInstantiable">false</ATT>
+      <ATT name="IsAbstract">false</ATT>
+      <ATT name="IsLeaf">false</ATT>
+      <ATT name="IsRoot">false</ATT>
+      <ATT name="Visibility">Public</ATT>
+      <ATT name="Name"><![CDATA[Subsistema clientes]]></ATT>
+      <ATT name="status">1970354901745664</ATT>
+    </ATTRIBUTES>
+    <DEPENDENCIES>
+      <COMP relation="OwnedElement">
+        <COMPID name="Alta de cliente" mc="Standard.UseCase" uid="185da57c-d5ca-403a-8e46-683bb3887938"/>
+        <COMPID name="Baja de Cliente" mc="Standard.UseCase" uid="37036208-16f3-4e3f-9786-364422934c71"/>
+        <COMPID name="Modificación de cliente" mc="Standard.UseCase" uid="ac21d0f4-ddc9-4f86-885c-80b00a1281e2"/>
+        <COMPID name="Consultar cliente" mc="Standard.UseCase" uid="0855579a-477b-495b-96ea-60d1403d247f"/>
+        <COMPID name="Listar clientes" mc="Standard.UseCase" uid="5980715c-eb5d-4758-9b5e-b394217c6959"/>
+        <COMPID name="Cliente" mc="Standard.Actor" uid="8b0d0b1a-b0d2-47b2-a014-47ab6690de5a"/>
+        <COMPID name="Actor" mc="Standard.Actor" uid="73ed47fc-6958-44fe-80d3-a2a1a8d811c3"/>
+      </COMP>
+      <COMP relation="Product">
+        <COMPID name="Subsistema clientes Use Case diagram" mc="Standard.UseCaseDiagram" uid="124d6e12-df84-4792-a4e2-3a1e53152079"/>
+      </COMP>
+    </DEPENDENCIES>
+  </OBJECT>
+</EXT>

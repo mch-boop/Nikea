@@ -1,0 +1,37 @@
+<?xml version="1.0" ?>
+<!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="Subsistema clientes Use Case diagram" version="4">
+  <OBJECT>
+    <ID name="Subsistema clientes Use Case diagram" mc="Standard.UseCaseDiagram" uid="124d6e12-df84-4792-a4e2-3a1e53152079"/>
+    <PID name="Subsistema clientes" mc="Standard.Package" uid="4232611b-56b3-4327-a05e-248ae57c60c9"/>
+    <ATTRIBUTES>
+      <ATT name="UiDataVersion">3</ATT>
+      <ATT name="UiData"><![CDATA[eJztmm1zojoUx78Kw9y3oiA+9Gq7o+i1Tq10pN07u2+cCNGyDaQTwrZ8+5uIeJUqTRW10/VVaSD/nCS/c5KT2Pz26iHpNySBi/1LWVVKsvTtqmlOfkGbSq7DimSJRs/wUsZkpnjYgcjFSughJQygDQLouGBGgKewB4qJAhH0oE+D9Oue9xBAgxV04gJZ8sAvTMbLpkvyVfOO4GdIaCT5wGMtIhDhkHYABezdd4BCuDDFDxGSi1fNYlLhTVWLRgjKax3RNnUkMS/g3weKjQlU4roC9rHu2MCBTtJY95WO4FSwlSGTWNSU4CvtTPrMxvkjfzDwBCCa3ceWZZnG2Lo2/x2Zg66VGqM2xggCX5Z+88JLeQpQAEUFh63v/V6r3R/073/kqTtotbuDPAWN1qiTl55hDodd475vDkfmw313lNLt+qH3txA7NzD6y8C+z8hj6IwYw5D0naVBnf6INZOyqBiTmmUlgQhQ6DDEUpbd8qJE3aLAdwBxlHV/k1RNd6pQ1QrOtK4X9NqFVgA61AploMJKWa1opdpF9ighENAbH7/4AzCBKGWDRYnrz+QrK5wEbkChByQbuSwSwEBilkjcFGkxYs3ivGZmX9kc9n0De884cPkobmlOQMp4dJFDIFcYMMvWYkJ5x+AWRLyLLKhZ84fjBzP94MGMR7I4bP4xoH4eLitZ07uk0Maeh33lEbJ5IwzGDpyCENFb/n03/uh6/u74fFZF+WRSr9HekOpnSHeANAZHQDB4xC9j134jtMNSO5d6gtELJk4OahTYT2M2QATid9QoCUVMQxtmQ0BqCdyKD9TyWVz+IRD+xL6Qf+TrxPWzE39+J55gJ9pltSku/mwa7zevUmIJmspimlOm9VkXZ3zVWYy/KuAsFzs6C7D5vz2vxf/u5SIjZgrwZ5zhxO5ypaHWy42q3qhXP+w9aukL7dHmwyvVytDRa1O7UL2o1Au6PoWFeskpF4AGVFB36qpql3NwmHljn2czpu56BLLG5h1xPUCiIaueM6alRokjWk3HTwFEhc9E8onwzCXOoGaAegtcnwOyL7Bb01q2X6Lu0zZeuXLwDGy4zCiGScmp8ghVONHNidBzKM0k9DrvlEFwWy6WMQiIfZaEISUFJgElbL3YISXatJtSNx4gvB8BAGXzPAnZ9o3g8JkvXUlBjxecwP+PfJBw9v9s/1/nIee8Y3XetybP2QBzTcDtTwA2k4JTAXzkJPoM8DtbLEgfsXNoerdms9n0uixxJj6L8WzBsGnIoOh5/UWZlZSd4OZUOJM9M3wMhhMk9kwTtK15bQ6UnijcakfOaLUvltHmSOmBY6y2Y5IrRO9pztu1Iye7Xw3evOMsp+DgR+sfOXVPHyQKnr9vXU5X2fvQlfM86Y2/WrzafP0cz1bOp/IVftpZ1htaul8CHnbsdPLsYZkeZrGeIuRSETf7CpfQorbtewu9T5gZuP5TkBHLUp+3Zx0CXthsDkDEYs66u23M4t8EFScWCFhYieIfsqwqHmcZ/litU987u2lsE4fq9JRB60d3NG63jJveyHwYdvJewbaqrM7a/wCt4pB5FnLG4YA43Jt3x/+RwHo/99ys/AeWT1ao]]></ATT>
+      <ATT name="PreviewData"><![CDATA[data:image/png;base64,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]]></ATT>
+      <ATT name="JsStructure"><![CDATA[73ed47fc-6958-44fe-80d3-a2a1a8d811c3,Standard.Actor,10,10,64,64|73ed47fc-6958-44fe-80d3-a2a1a8d811c3,Standard.Actor,25,74,34,22]]></ATT>
+      <ATT name="Name"><![CDATA[Subsistema clientes Use Case diagram]]></ATT>
+      <ATT name="status">1970354901745664</ATT>
+    </ATTRIBUTES>
+    <DEPENDENCIES>
+      <LINK relation="Represented">
+        <ID name="Subsistema clientes" mc="Standard.Package" uid="4232611b-56b3-4327-a05e-248ae57c60c9"/>
+        <ID name="Actor" mc="Standard.Actor" uid="73ed47fc-6958-44fe-80d3-a2a1a8d811c3"/>
+      </LINK>
+      <COMP relation="Descriptor">
+        <OBJECT>
+          <ID name="" mc="Infrastructure.Note" uid="fa371e36-d36f-4e86-a38a-010405763bbd"/>
+          <ATTRIBUTES>
+            <ATT name="Content"></ATT>
+            <ATT name="MimeType"><![CDATA[text/plain]]></ATT>
+            <ATT name="Name"></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES>
+            <LINK relation="Model">
+              <FOREIGNID name="description" mc="Infrastructure.NoteType" uid="00000000-0000-3e81-0000-000000000000"/>
+            </LINK>
+          </DEPENDENCIES>
+        </OBJECT>
+      </COMP>
+    </DEPENDENCIES>
+  </OBJECT>
+</EXT>

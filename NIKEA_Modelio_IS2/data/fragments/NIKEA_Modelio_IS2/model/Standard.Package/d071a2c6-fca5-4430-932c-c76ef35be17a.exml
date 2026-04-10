@@ -1,0 +1,22 @@
+<?xml version="1.0" ?>
+<!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="nikea_modelio_is2" version="4">
+  <OBJECT>
+    <ID name="nikea_modelio_is2" mc="Standard.Package" uid="d071a2c6-fca5-4430-932c-c76ef35be17a"/>
+    <PID name="NIKEA_Modelio_IS2" mc="Standard.Project" uid="e8480957-b683-4444-944d-082b32fd9d67"/>
+    <ATTRIBUTES>
+      <ATT name="IsInstantiable">false</ATT>
+      <ATT name="IsAbstract">false</ATT>
+      <ATT name="IsLeaf">false</ATT>
+      <ATT name="IsRoot">false</ATT>
+      <ATT name="Visibility">Public</ATT>
+      <ATT name="Name"><![CDATA[nikea_modelio_is2]]></ATT>
+      <ATT name="status">1970354901745664</ATT>
+    </ATTRIBUTES>
+    <DEPENDENCIES>
+      <COMP relation="OwnedElement">
+        <COMPID name="Diagramas de clase" mc="Standard.Package" uid="cc692a4f-f18f-4670-bd8d-36e013633160"/>
+        <COMPID name="Diagramas de CDU actividades y secuencia" mc="Standard.Package" uid="1c67caf5-cfde-4d37-a73a-ff8050ab2658"/>
+      </COMP>
+    </DEPENDENCIES>
+  </OBJECT>
+</EXT>
