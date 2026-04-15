@@ -1,5 +1,8 @@
 package integracion.servicio;
 
-public interface DAOArticulo {
+import negocio.servicio.TArticulo;
+
+public interface DAOArticulo extends DAOServicio{
+
 
 }

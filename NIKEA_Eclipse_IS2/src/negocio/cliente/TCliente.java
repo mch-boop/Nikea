@@ -11,6 +11,20 @@ public class TCliente {
 	private boolean activo;
 	
 	// MÉTODOS
+	public String getNombre() {
+		return this.nombre;
+	}
 	
+	public String getApellidos() {
+		return this.apellidos;
+	}
+	
+	public int getTelefono() {
+		return this.telefono;
+	}
+	
+	public int getID() {
+		return this.id;
+	}
 	// getters, setters y toString opcional
 }
