@@ -12,7 +12,7 @@ import presentacion.controlador.Eventos;
 import presentacion.controlador.Controlador;
 import presentacion.controlador.Eventos;
 
-public class VistaAltaEmpleado extends JFrame implements IGUI {
+public class VistaAnadirEmpleado extends JFrame implements IGUI {
 	
 	// ATRIBUTOS
 	
@@ -22,7 +22,7 @@ public class VistaAltaEmpleado extends JFrame implements IGUI {
 	
 	// CONSTRUCTORA
 	
-	public VistaAltaEmpleado() {
+	public VistaAnadirEmpleado() {
 		setTitle("Alta Empleado"); 
 		initGUI(); 
 	}

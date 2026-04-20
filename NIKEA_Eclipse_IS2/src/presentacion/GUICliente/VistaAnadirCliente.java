@@ -15,7 +15,7 @@ import presentacion.IGUI;
 import presentacion.controlador.Controlador;
 import presentacion.controlador.Eventos;
 
-public class VistaAnadirCl extends JFrame implements IGUI {
+public class VistaAnadirCliente extends JFrame implements IGUI {
 
 	// ATRIBUTOS
 	
@@ -30,7 +30,7 @@ public class VistaAnadirCl extends JFrame implements IGUI {
 	
 	// CONSTRUCTORA 
 	
-	public VistaAnadirCl() {
+	public VistaAnadirCliente() {
 		setTitle("Alta Cliente");
 		JPanel panel = new JPanel();
 		lDNI = new JLabel("DNI:");

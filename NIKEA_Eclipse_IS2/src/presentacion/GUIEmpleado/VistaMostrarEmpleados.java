@@ -8,7 +8,7 @@ import presentacion.IGUI;
 import presentacion.controlador.Controlador;
 import presentacion.controlador.Eventos;
 
-public class VistaListarEmpleados extends JFrame implements IGUI {
+public class VistaMostrarEmpleados extends JFrame implements IGUI {
 
 	// ATRIBUTOS
 	
@@ -17,7 +17,7 @@ public class VistaListarEmpleados extends JFrame implements IGUI {
 
     // CONSTRUCTORA
     
-    public VistaListarEmpleados() {
+    public VistaMostrarEmpleados() {
         setTitle("Listado General de Empleados");
         initGUI();
     }

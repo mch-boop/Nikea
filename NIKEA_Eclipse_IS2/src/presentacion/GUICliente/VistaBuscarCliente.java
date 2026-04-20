@@ -4,7 +4,7 @@ import javax.swing.JFrame;
 
 import presentacion.IGUI;
 
-public class VistaEliminarCl extends JFrame implements IGUI {
+public class VistaBuscarCliente extends JFrame implements IGUI {
 
 	// MÉTODO DE IGUI
 	

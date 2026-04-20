@@ -9,7 +9,7 @@ import presentacion.IGUI;
 import presentacion.controlador.Controlador;
 import presentacion.controlador.Eventos;
 
-public class VistaConsultarEmpleado extends JFrame implements IGUI {
+public class VistaBuscarEmpleado extends JFrame implements IGUI {
 
 	// ATRIBUTOS
 	
@@ -19,7 +19,7 @@ public class VistaConsultarEmpleado extends JFrame implements IGUI {
 
     // CONSTRUCTORA
     
-    public VistaConsultarEmpleado() {
+    public VistaBuscarEmpleado() {
         setTitle("Consultar Empleado por ID");
         initGUI();
     }

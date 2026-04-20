@@ -8,7 +8,7 @@ import presentacion.IGUI;
 import presentacion.controlador.Controlador;
 import presentacion.controlador.Eventos;
 
-public class VistaBajaEmpleado extends JFrame implements IGUI {
+public class VistaEliminarEmpleado extends JFrame implements IGUI {
 
 	// ATRIBUTOS
 	
@@ -17,7 +17,7 @@ public class VistaBajaEmpleado extends JFrame implements IGUI {
 
     // CONSTRUCTORA
     
-    public VistaBajaEmpleado() {
+    public VistaEliminarEmpleado() {
         setTitle("Baja Empleado");
         initGUI();
     }
