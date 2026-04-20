@@ -12,7 +12,7 @@ public class DAOMontadorMontajeImp implements DAOMontadorMontaje {
     @Override
     public int vincular(TMontadorMontaje tmm) {
         // 1. Leemos todas las vinculaciones actuales del archivo JSON
-        List<TMontadorMontaje> lista = (List<TMontadorMontaje>) leerTodas();
+        List<TMontadorMontaje> lista = (List<TMontadorMontaje>) readAll();
 
         // 2. Añadimos la nueva pareja de IDs
         lista.add(tmm);
@@ -26,7 +26,7 @@ public class DAOMontadorMontajeImp implements DAOMontadorMontaje {
 
     @Override
     public int desvincular(TMontadorMontaje tmm) {
-        List<TMontadorMontaje> lista = (List<TMontadorMontaje>) leerTodas();
+        List<TMontadorMontaje> lista = (List<TMontadorMontaje>) readAll();
         boolean encontrado = false;
 
         // Buscamos la pareja exacta (ID_Montador + ID_Montaje) para eliminarla
@@ -50,7 +50,7 @@ public class DAOMontadorMontajeImp implements DAOMontadorMontaje {
 
     @Override
     public boolean existeVinculacion(TMontadorMontaje tmm) {
-        Collection<TMontadorMontaje> todas = leerTodas();
+        Collection<TMontadorMontaje> todas = readAll();
         
         for (TMontadorMontaje actual : todas) {
             // Si coincide tanto el montador como el montaje, es que ya están vinculados
@@ -62,7 +62,7 @@ public class DAOMontadorMontajeImp implements DAOMontadorMontaje {
         return false;
     }
     
-    private Collection<TMontadorMontaje> leerTodas() {
+    private Collection<TMontadorMontaje> readAll() {
         // Para abrir montajes_empleados.json y parsear a lista de TMontadorMontaje
         return new ArrayList<TMontadorMontaje>();
     }
