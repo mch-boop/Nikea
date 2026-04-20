@@ -11,15 +11,15 @@ public class SAEmpleadoImp implements SAEmpleado {
 	// Métodos de CU Básicos
 	
 	@Override
-	public int altaEmpleado(TEmpleado te) {
+	public int create(TEmpleado te) {
 		
-		DAOEmpleado dao = FactoriaIntegracion.getInstance().generarDAOEmpleado(); 
+		DAOEmpleado dao = FactoriaIntegracion.getInstance().crearDAOEmpleado(); 
 		
 		// Buscamos si ya existe el DNI en el sistema
 		TEmpleado existente = dao.readByDNI(te.getDNI());
 		
 		if(existente == null) { // No existe, es un alta nueva
-			return dao.write(te); 
+			return dao.create(te); 
 		}
 		else {
 			if(!existente.isActivo()) { // Existe pero está inactivo (borrado lógico) -> Reactivamos
@@ -38,8 +38,8 @@ public class SAEmpleadoImp implements SAEmpleado {
 	}
 
 	@Override
-	public int bajaEmpleado(int id) {
-		DAOEmpleado dao = FactoriaIntegracion.getInstance().generarDAOEmpleado();
+	public int delete(int id) {
+		DAOEmpleado dao = FactoriaIntegracion.getInstance().crearDAOEmpleado();
         TEmpleado te = dao.read(id);
         
         // Borrado lógico: Solo si existe y está activo
@@ -51,8 +51,8 @@ public class SAEmpleadoImp implements SAEmpleado {
 	}
 
 	@Override
-	public int modificarEmpleado(TEmpleado te) {
-		DAOEmpleado dao = FactoriaIntegracion.getInstance().generarDAOEmpleado();
+	public int update(TEmpleado te) {
+		DAOEmpleado dao = FactoriaIntegracion.getInstance().crearDAOEmpleado();
         TEmpleado existente = dao.read(te.getId());
         if (existente != null && existente.isActivo()) {
             // Campos opcionales
@@ -66,14 +66,14 @@ public class SAEmpleadoImp implements SAEmpleado {
 	}
 
 	@Override
-	public TEmpleado consultarEmpleado(int id) {
-		DAOEmpleado dao = FactoriaIntegracion.getInstance().generarDAOEmpleado();
+	public TEmpleado read(int id) {
+		DAOEmpleado dao = FactoriaIntegracion.getInstance().crearDAOEmpleado();
         return dao.read(id);
 	}
 
 	@Override
-	public Collection<TEmpleado> listarEmpleados() {
-		DAOEmpleado dao = FactoriaIntegracion.getInstance().generarDAOEmpleado();
+	public Collection<TEmpleado> readAll() {
+		DAOEmpleado dao = FactoriaIntegracion.getInstance().crearDAOEmpleado();
         return dao.readAll();
 	}
 
@@ -88,9 +88,9 @@ public class SAEmpleadoImp implements SAEmpleado {
 	
 	@Override
 	public int vincularMontadorAMontaje(TMontadorMontaje tmm) {
-	    DAOEmpleado daoEmp = FactoriaIntegracion.getInstance().generarDAOEmpleado();
-	    DAOMontaje daoMontaje = FactoriaIntegracion.getInstance().generarDAOMontaje();
-	    DAOMontadorMontaje daoMN = FactoriaIntegracion.getInstance().generarDAOMontadorMontaje();
+	    DAOEmpleado daoEmp = FactoriaIntegracion.getInstance().crearDAOEmpleado();
+	    DAOMontaje daoMontaje = FactoriaIntegracion.getInstance().crearDAOMontaje();
+	    DAOMontadorMontaje daoMN = FactoriaIntegracion.getInstance().crearDAOMontadorMontaje();
 
 	    // COMPROBACIÓN: Existe el empleado y es un Montador activo?
 	    TEmpleado emp = daoEmp.read(tmm.getIdMontador());
@@ -119,7 +119,7 @@ public class SAEmpleadoImp implements SAEmpleado {
 
 	@Override
 	public int desvincularMontadorDeMontaje(TMontadorMontaje tmm) {
-	    DAOMontadorMontaje daoMN = FactoriaIntegracion.getInstance().generarDAOMontadorMontaje();
+	    DAOMontadorMontaje daoMN = FactoriaIntegracion.getInstance().crearDAOMontadorMontaje();
 
 	    // COMPROBACIÓN: ¿Existe la vinculación antes de intentar borrarla?
 	    if (!daoMN.existeVinculacion(tmm)) {

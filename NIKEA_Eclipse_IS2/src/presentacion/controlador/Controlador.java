@@ -4,7 +4,7 @@ public abstract class Controlador {
 
 	static Controlador instancia = null;
 	
-	static public Controlador getInstancia() {
+	static public Controlador getInstance() {
 		if (instancia == null)
 			instancia = new ControladorImp();
 		return instancia;

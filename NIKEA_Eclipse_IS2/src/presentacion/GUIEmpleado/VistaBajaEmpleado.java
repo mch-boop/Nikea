@@ -5,22 +5,26 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import presentacion.IGUI;
-import presentacion.Controlador.Controlador;
-import presentacion.Controlador.Evento;
+import presentacion.controlador.Controlador;
+import presentacion.controlador.Eventos;
 
 public class VistaBajaEmpleado extends JFrame implements IGUI {
 
-	// Atributos
+	// ATRIBUTOS
+	
     private JTextField txtId;
     private JButton btnBaja, btnCancelar;
 
-    // Constructora
+    // CONSTRUCTORA
+    
     public VistaBajaEmpleado() {
         setTitle("Baja Empleado");
         initGUI();
     }
 
-    // Métodos
+    
+    // MÉTODOS
+    
     private void initGUI() {
     	
     	// Panel principal
@@ -45,15 +49,15 @@ public class VistaBajaEmpleado extends JFrame implements IGUI {
                 try {
                     String textoId = txtId.getText();
                     if (textoId.isEmpty()) {
-                        Controlador.getInstance().accion(Evento.BAJA_EMPLEADO_ERROR_ID_VACIO, null);
+                        Controlador.getInstance().accion(Eventos.RES_BAJA_EMPLEADO_KO_ID_VACIO, null);
                     } else {
                         int id = Integer.parseInt(textoId);
                         // Enviamos el ID al controlador
-                        Controlador.getInstance().accion(Evento.BAJA_EMPLEADO, id);
+                        Controlador.getInstance().accion(Eventos.BAJA_EMPLEADO, id);
                     }
                 } catch (NumberFormatException ex) {
                     // Si el ID no es numérico, enviamos evento de error de formato
-                    Controlador.getInstance().accion(Evento.BAJA_EMPLEADO_ERROR_ID_FORMATO, null);
+                    Controlador.getInstance().accion(Eventos.RES_BAJA_EMPLEADO_KO_ID_FORMATO, null);
                 }
             }
         });
@@ -84,26 +88,26 @@ public class VistaBajaEmpleado extends JFrame implements IGUI {
     	// El controlador llama a este método tras la ejecución en el SA
         switch (evento) {
             
-            case Evento.RES_BAJA_EMPLEADO_OK:
+            case Eventos.RES_BAJA_EMPLEADO_OK:
                 JOptionPane.showMessageDialog(this, "El empleado con ID " + datos + " ha sido dado de baja (borrado lógico).", "Éxito", JOptionPane.INFORMATION_MESSAGE);
                 txtId.setText("");
                 break;
 
-            case Evento.RES_BAJA_EMPLEADO_KO_NO_EXISTE:
+            case Eventos.RES_BAJA_EMPLEADO_KO_NO_EXISTE:
                 JOptionPane.showMessageDialog(this, "Error: No existe ningún empleado con el ID: " + datos, "Error", JOptionPane.ERROR_MESSAGE);
                 txtId.requestFocus();
                 break;
 
-            case Evento.RES_BAJA_EMPLEADO_KO_YA_INACTIVO:
+            case Eventos.RES_BAJA_EMPLEADO_KO_YA_INACTIVO:
                 JOptionPane.showMessageDialog(this, "El empleado ya se encuentra en estado inactivo.", "Aviso", JOptionPane.WARNING_MESSAGE);
                 break;
 
-            case Evento.BAJA_EMPLEADO_ERROR_ID_FORMATO:
+            case Eventos.RES_BAJA_EMPLEADO_KO_ID_FORMATO:
                 JOptionPane.showMessageDialog(this, "El ID debe ser un número entero válido.", "Error de Formato", JOptionPane.ERROR_MESSAGE);
                 txtId.requestFocus();
                 break;
 
-            case Evento.BAJA_EMPLEADO_ERROR_ID_VACIO:
+            case Eventos.RES_BAJA_EMPLEADO_KO_ID_VACIO:
                 JOptionPane.showMessageDialog(this, "El campo ID no puede estar vacío.", "Error", JOptionPane.WARNING_MESSAGE);
                 txtId.requestFocus();
                 break;

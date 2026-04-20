@@ -6,7 +6,7 @@ public abstract class FactoriaAbstractaPresentacion {
 
 	private static FactoriaAbstractaPresentacion instance;
 	
-	public static FactoriaAbstractaPresentacion getInstnace() {
+	public static FactoriaAbstractaPresentacion getInstance() {
 		if (instance == null)
 			instance = new FactoriaPresentacion();
 		return instance;

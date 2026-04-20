@@ -8,23 +8,28 @@ import negocio.empleado.TEmpleado;
 import negocio.empleado.TVendedor;
 import negocio.empleado.TMontador;
 import presentacion.IGUI;
-import presentacion.Controlador.Controlador;
-import presentacion.Controlador.Evento;
+import presentacion.controlador.Eventos;
+import presentacion.controlador.Controlador;
+import presentacion.controlador.Eventos;
 
 public class VistaAltaEmpleado extends JFrame implements IGUI {
 	
-	// Atributos
+	// ATRIBUTOS
+	
 	private JTextField txtNombre, txtApellido, txtDNI, txtSueldo;
 	private JRadioButton rbVendedor, rbMontador; // Selección de tipo
 	private JButton btnAceptar, btnCancelar; 
 	
-	// Constructora
+	// CONSTRUCTORA
+	
 	public VistaAltaEmpleado() {
 		setTitle("Alta Empleado"); 
 		initGUI(); 
 	}
 	
-	// Métodos
+	
+	// MÉTODOS
+	
 	private void limpiarCampos() {
         txtNombre.setText("");
         txtApellido.setText("");
@@ -85,12 +90,12 @@ public class VistaAltaEmpleado extends JFrame implements IGUI {
                     // Asignación de atributos 
                     te.setNombre(txtNombre.getText());
                     te.setApellido(txtApellido.getText());
-                    te.setDni(txtDNI.getText());
+                    te.setDNI(txtDNI.getText());
                     te.setSueldo(Double.parseDouble(txtSueldo.getText()));
                     te.setActivo(true); // Se da de alta siempre como activo
 
                     // Comunicación con el Controlador (Singleton)
-                    Controlador.getInstance().accion(Evento.ALTA_EMPLEADO, te);
+                    Controlador.getInstance().accion(Eventos.ALTA_EMPLEADO, te);
                     
                 } catch (NumberFormatException ex) {
                     JOptionPane.showMessageDialog(null, "Error: El sueldo debe ser un número válido.");
@@ -138,34 +143,34 @@ public class VistaAltaEmpleado extends JFrame implements IGUI {
         // El controlador llama a este método tras la ejecución en el SA
 		switch (evento) {
 
-        case Evento.RES_ALTA_EMPLEADO_OK:
+        case Eventos.RES_ALTA_EMPLEADO_OK:
             JOptionPane.showMessageDialog(this, "Empleado creado con ID: " + datos);
             limpiarCampos();
             break;
 
-        case Evento.RES_ALTA_EMPLEADO_YA_EXISTE:
+        case Eventos.RES_ALTA_EMPLEADO_YA_EXISTE:
             TEmpleado existente = (TEmpleado) datos; 
             String msgExiste = "Error: El DNI ya pertenece a: " + existente.getNombre() + " " + existente.getApellido() + 
                                "\nEstado: " + (existente.isActivo() ? "Activo" : "Inactivo");
             JOptionPane.showMessageDialog(this, msgExiste, "DNI Duplicado", JOptionPane.WARNING_MESSAGE);
             break;
 
-        case Evento.RES_ALTA_EMPLEADO_ERROR_DNI:
+        case Eventos.RES_ALTA_EMPLEADO_KO_DNI:
             JOptionPane.showMessageDialog(this, "El DNI introducido no es válido.", "Error de Validación", JOptionPane.ERROR_MESSAGE);
             txtDNI.requestFocus();
             break;
 
-        case Evento.RES_ALTA_EMPLEADO_ERROR_NOMBRE:
+        case Eventos.RES_ALTA_EMPLEADO_KO_NOMBRE:
             JOptionPane.showMessageDialog(this, "El nombre es obligatorio.", "Error de Validación", JOptionPane.ERROR_MESSAGE);
             txtNombre.requestFocus();
             break;
 
-        case Evento.RES_ALTA_EMPLEADO_ERROR_APELLIDO:
+        case Eventos.RES_ALTA_EMPLEADO_KO_APELLIDO:
             JOptionPane.showMessageDialog(this, "El apellido es obligatorio para evitar duplicados.", "Error de Validación", JOptionPane.ERROR_MESSAGE);
             txtApellido.requestFocus();
             break;
 
-        case Evento.RES_ALTA_EMPLEADO_ERROR_SUELDO:
+        case Eventos.RES_ALTA_EMPLEADO_KO_SUELDO:
             JOptionPane.showMessageDialog(this, "El sueldo debe ser un número positivo.", "Error de Validación", JOptionPane.ERROR_MESSAGE);
             txtSueldo.requestFocus();
             break;

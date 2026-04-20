@@ -8,7 +8,7 @@ import java.util.List;
 public class DAOEmpleadoImp implements DAOEmpleado {
 
     @Override
-    public int write(TEmpleado te) {
+    public int create(TEmpleado te) {
         List<TEmpleado> lista = (List<TEmpleado>) readAll();
         
         // Si es un alta (id null o 0), generamos uno nuevo
@@ -36,7 +36,7 @@ public class DAOEmpleadoImp implements DAOEmpleado {
     @Override
     public int update(TEmpleado te) {
         // "Si tiene ID, busca en la lista y reemplaza"
-        return this.write(te);
+        return this.create(te);
     }
 
     @Override

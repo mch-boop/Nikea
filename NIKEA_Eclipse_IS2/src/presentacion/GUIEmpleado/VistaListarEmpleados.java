@@ -5,22 +5,26 @@ import java.awt.*;
 import java.util.Collection;
 import negocio.empleado.TEmpleado;
 import presentacion.IGUI;
-import presentacion.Controlador.Controlador;
-import presentacion.Controlador.Evento;
+import presentacion.controlador.Controlador;
+import presentacion.controlador.Eventos;
 
 public class VistaListarEmpleados extends JFrame implements IGUI {
 
-	// Atributos
+	// ATRIBUTOS
+	
     private JTextArea areaListado;
     private JButton btnCargar, btnLimpiar, btnCancelar;
 
-    // Constructora
+    // CONSTRUCTORA
+    
     public VistaListarEmpleados() {
         setTitle("Listado General de Empleados");
         initGUI();
     }
+    
 
-    // Métodos
+    // MÉTODOS
+    
     private void initGUI() {
     	
     	// Panel principal
@@ -49,7 +53,7 @@ public class VistaListarEmpleados extends JFrame implements IGUI {
         // Lógica de Carga
         btnCargar.addActionListener(e -> {
             // No necesitamos enviar datos para listar, el SA ya sabe qué hacer
-            Controlador.getInstance().accion(Evento.LISTAR_EMPLEADOS, null);
+            Controlador.getInstance().accion(Eventos.MOSTRAR_EMPLEADOS, null);
         });
 
         // Lógica de Limpiar
@@ -76,7 +80,7 @@ public class VistaListarEmpleados extends JFrame implements IGUI {
     public void actualizar(int evento, Object datos) {
         switch (evento) {
 
-            case Evento.RES_LISTAR_EMPLEADOS_OK:
+            case Eventos.RES_MOSTRAR_EMPLEADOS_OK:
                 Collection<TEmpleado> lista = (Collection<TEmpleado>) datos;
                 
                 if (lista.isEmpty()) {
@@ -92,13 +96,13 @@ public class VistaListarEmpleados extends JFrame implements IGUI {
                         String estado = te.isActivo() ? "Activo" : "Inactivo";
                         
                         sb.append(String.format("%-5d | %-12s | %-25s | %-10.2f | %-10s\n", 
-                                te.getId(), te.getDni(), nombreCompleto, te.getSueldo(), estado));
+                                te.getId(), te.getDNI(), nombreCompleto, te.getSueldo(), estado));
                     }
                     areaListado.setText(sb.toString());
                 }
                 break;
 
-            case Evento.RES_LISTAR_EMPLEADOS_KO:
+            case Eventos.RES_MOSTRAR_EMPLEADOS_KO:
                 areaListado.setText("");
                 JOptionPane.showMessageDialog(this, "Error al recuperar la lista de empleados.", "Error", JOptionPane.ERROR_MESSAGE);
                 break;

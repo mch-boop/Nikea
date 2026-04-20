@@ -6,22 +6,26 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import negocio.empleado.TEmpleado;
 import presentacion.IGUI;
-import presentacion.Controlador.Controlador;
-import presentacion.Controlador.Evento;
+import presentacion.controlador.Controlador;
+import presentacion.controlador.Eventos;
 
 public class VistaModificarEmpleado extends JFrame implements IGUI {
 
-	// Atributos
+	// ATRIBUTOS
+	
     private JTextField txtId, txtNombre, txtApellido, txtSueldo;
     private JButton btnModificar, btnCancelar;
 
-    // Constructora
+    // CONSTRUCTORA
+    
     public VistaModificarEmpleado() {
         setTitle("Modificar Empleado (Campos Opcionales)");
         initGUI();
     }
 
-    // Métodos
+    
+    // MÉTODOS
+    
     private void initGUI() {
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
@@ -73,7 +77,7 @@ public class VistaModificarEmpleado extends JFrame implements IGUI {
                         te.setSueldo(-1.0); // Valor centinela: "No modificar sueldo"
                     }
 
-                    Controlador.getInstance().accion(Evento.MODIFICAR_EMPLEADO, te);
+                    Controlador.getInstance().accion(Eventos.MODIFICAR_EMPLEADO, te);
                     
                 } catch (NumberFormatException ex) {
                     JOptionPane.showMessageDialog(null, "Asegúrese de que el ID y el Sueldo sean números válidos.");
@@ -116,17 +120,17 @@ public class VistaModificarEmpleado extends JFrame implements IGUI {
     public void actualizar(int evento, Object datos) {
         switch (evento) {
 
-            case Evento.RES_MODIFICAR_EMPLEADO_OK:
+            case Eventos.RES_MODIFICAR_EMPLEADO_OK:
                 JOptionPane.showMessageDialog(this, "Datos actualizados correctamente para el empleado ID: " + datos, "Éxito", JOptionPane.INFORMATION_MESSAGE);
                 // Opcional: limpiar campos tras éxito
                 break;
 
-            case Evento.RES_MODIFICAR_EMPLEADO_KO_NO_EXISTE:
+            case Eventos.RES_MODIFICAR_EMPLEADO_KO_NO_EXISTE:
                 JOptionPane.showMessageDialog(this, "Error: No se encontró ningún empleado con el ID especificado.", "Error", JOptionPane.ERROR_MESSAGE);
                 txtId.requestFocus();
                 break;
 
-            case Evento.RES_MODIFICAR_EMPLEADO_KO_DATOS_INVALIDOS:
+            case Eventos.RES_MODIFICAR_EMPLEADO_KO_DATOS_INVALIDOS:
                 // Aquí podrías ser más específico con sub-eventos como hicimos en el Alta
                 JOptionPane.showMessageDialog(this, "Error: Los datos introducidos no son válidos para la modificación.", "Validación Fallida", JOptionPane.WARNING_MESSAGE);
                 break;

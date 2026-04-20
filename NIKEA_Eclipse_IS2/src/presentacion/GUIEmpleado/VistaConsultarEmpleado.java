@@ -6,23 +6,27 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import negocio.empleado.TEmpleado;
 import presentacion.IGUI;
-import presentacion.Controlador.Controlador;
-import presentacion.Controlador.Evento;
+import presentacion.controlador.Controlador;
+import presentacion.controlador.Eventos;
 
 public class VistaConsultarEmpleado extends JFrame implements IGUI {
 
-	// Atributos
+	// ATRIBUTOS
+	
     private JTextField txtId;
     private JTextArea areaDetalles;
     private JButton btnConsultar, btnLimpiar, btnCancelar;
 
-    // Constructora
+    // CONSTRUCTORA
+    
     public VistaConsultarEmpleado() {
         setTitle("Consultar Empleado por ID");
         initGUI();
     }
 
-    // Métodos
+    
+    // MÉTODOS
+    
     private void initGUI() {
     	
     	// Panel principal
@@ -61,7 +65,7 @@ public class VistaConsultarEmpleado extends JFrame implements IGUI {
                         JOptionPane.showMessageDialog(null, "Debe introducir un ID.");
                     } else {
                         int id = Integer.parseInt(textoId);
-                        Controlador.getInstance().accion(Evento.CONSULTAR_EMPLEADO, id);
+                        Controlador.getInstance().accion(Eventos.BUSCAR_EMPLEADO, id);
                     }
                 } catch (NumberFormatException ex) {
                     JOptionPane.showMessageDialog(null, "El ID debe ser un número entero.");
@@ -98,11 +102,11 @@ public class VistaConsultarEmpleado extends JFrame implements IGUI {
     public void actualizar(int evento, Object datos) {
         switch (evento) {
 
-            case Evento.RES_CONSULTAR_EMPLEADO_OK:
+            case Eventos.RES_BUSCAR_EMPLEADO_OK:
                 TEmpleado te = (TEmpleado) datos;
                 StringBuilder sb = new StringBuilder();
                 sb.append("ID: ").append(te.getId()).append("\n");
-                sb.append("DNI: ").append(te.getDni()).append("\n");
+                sb.append("DNI: ").append(te.getDNI()).append("\n");
                 sb.append("Nombre: ").append(te.getNombre()).append("\n");
                 sb.append("Apellido: ").append(te.getApellido()).append("\n");
                 sb.append("Sueldo: ").append(te.getSueldo()).append(" €\n");
@@ -111,7 +115,7 @@ public class VistaConsultarEmpleado extends JFrame implements IGUI {
                 areaDetalles.setText(sb.toString());
                 break;
 
-            case Evento.RES_CONSULTAR_EMPLEADO_KO:
+            case Eventos.RES_BUSCAR_EMPLEADO_KO:
                 areaDetalles.setText("");
                 JOptionPane.showMessageDialog(this, "No se ha encontrado ningún empleado con el ID: " + datos, "Error", JOptionPane.ERROR_MESSAGE);
                 txtId.requestFocus();
