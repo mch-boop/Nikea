@@ -2,6 +2,7 @@ package negocio.empleado;
 
 import integracion.factoria.FactoriaIntegracion;
 import integracion.servicio.DAOMontaje;
+import negocio.servicio.TMontaje;
 import integracion.empleado.DAOEmpleado;
 import integracion.empleado.DAOMontadorMontaje; // DAO para la tabla intermedia M:N
 import java.util.Collection;

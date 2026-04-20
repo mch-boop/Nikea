@@ -143,41 +143,41 @@ public class VistaAnadirEmpleado extends JFrame implements IGUI {
         // El controlador llama a este método tras la ejecución en el SA
 		switch (evento) {
 
-        case Eventos.RES_ALTA_EMPLEADO_OK:
-            JOptionPane.showMessageDialog(this, "Empleado creado con ID: " + datos);
-            limpiarCampos();
-            break;
-
-        case Eventos.RES_ALTA_EMPLEADO_YA_EXISTE:
-            TEmpleado existente = (TEmpleado) datos; 
-            String msgExiste = "Error: El DNI ya pertenece a: " + existente.getNombre() + " " + existente.getApellido() + 
-                               "\nEstado: " + (existente.isActivo() ? "Activo" : "Inactivo");
-            JOptionPane.showMessageDialog(this, msgExiste, "DNI Duplicado", JOptionPane.WARNING_MESSAGE);
-            break;
-
-        case Eventos.RES_ALTA_EMPLEADO_KO_DNI:
-            JOptionPane.showMessageDialog(this, "El DNI introducido no es válido.", "Error de Validación", JOptionPane.ERROR_MESSAGE);
-            txtDNI.requestFocus();
-            break;
-
-        case Eventos.RES_ALTA_EMPLEADO_KO_NOMBRE:
-            JOptionPane.showMessageDialog(this, "El nombre es obligatorio.", "Error de Validación", JOptionPane.ERROR_MESSAGE);
-            txtNombre.requestFocus();
-            break;
-
-        case Eventos.RES_ALTA_EMPLEADO_KO_APELLIDO:
-            JOptionPane.showMessageDialog(this, "El apellido es obligatorio para evitar duplicados.", "Error de Validación", JOptionPane.ERROR_MESSAGE);
-            txtApellido.requestFocus();
-            break;
-
-        case Eventos.RES_ALTA_EMPLEADO_KO_SUELDO:
-            JOptionPane.showMessageDialog(this, "El sueldo debe ser un número positivo.", "Error de Validación", JOptionPane.ERROR_MESSAGE);
-            txtSueldo.requestFocus();
-            break;
-
-        default:
-            JOptionPane.showMessageDialog(this, "Error no identificado.");
-            break;
-    }
+	        case Eventos.RES_ALTA_EMPLEADO_OK:
+	            JOptionPane.showMessageDialog(this, "Empleado creado con ID: " + datos);
+	            limpiarCampos();
+	            break;
+	
+	        case Eventos.RES_ALTA_EMPLEADO_YA_EXISTE:
+	            TEmpleado existente = (TEmpleado) datos; 
+	            String msgExiste = "Error: El DNI ya pertenece a: " + existente.getNombre() + " " + existente.getApellido() + 
+	                               "\nEstado: " + (existente.isActivo() ? "Activo" : "Inactivo");
+	            JOptionPane.showMessageDialog(this, msgExiste, "DNI Duplicado", JOptionPane.WARNING_MESSAGE);
+	            break;
+	
+	        case Eventos.RES_ALTA_EMPLEADO_KO_DNI:
+	            JOptionPane.showMessageDialog(this, "El DNI introducido no es válido.", "Error de Validación", JOptionPane.ERROR_MESSAGE);
+	            txtDNI.requestFocus();
+	            break;
+	
+	        case Eventos.RES_ALTA_EMPLEADO_KO_NOMBRE:
+	            JOptionPane.showMessageDialog(this, "El nombre es obligatorio.", "Error de Validación", JOptionPane.ERROR_MESSAGE);
+	            txtNombre.requestFocus();
+	            break;
+	
+	        case Eventos.RES_ALTA_EMPLEADO_KO_APELLIDO:
+	            JOptionPane.showMessageDialog(this, "El apellido es obligatorio para evitar duplicados.", "Error de Validación", JOptionPane.ERROR_MESSAGE);
+	            txtApellido.requestFocus();
+	            break;
+	
+	        case Eventos.RES_ALTA_EMPLEADO_KO_SUELDO:
+	            JOptionPane.showMessageDialog(this, "El sueldo debe ser un número positivo.", "Error de Validación", JOptionPane.ERROR_MESSAGE);
+	            txtSueldo.requestFocus();
+	            break;
+	
+	        default:
+	            JOptionPane.showMessageDialog(this, "Error no identificado.");
+	            break;
+		}
     }
 }
