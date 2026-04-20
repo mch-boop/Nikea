@@ -7,6 +7,8 @@ import java.util.List;
 
 public class DAOEmpleadoImp implements DAOEmpleado {
 
+	private final String PATH = "empleados.json";
+	
     @Override
     public int create(TEmpleado te) {
         List<TEmpleado> lista = (List<TEmpleado>) readAll();
