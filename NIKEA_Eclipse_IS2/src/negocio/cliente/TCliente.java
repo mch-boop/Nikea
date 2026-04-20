@@ -11,6 +11,7 @@ public class TCliente {
 	private boolean activo;
 	
 	// MÉTODOS
+	
 	public String getNombre() {
 		return this.nombre;
 	}
@@ -24,7 +25,8 @@ public class TCliente {
 	}
 	
 	public int getID() {
-		return this.id;
+		return this.idCliente;
 	}
+	
 	// getters, setters y toString opcional
 }
