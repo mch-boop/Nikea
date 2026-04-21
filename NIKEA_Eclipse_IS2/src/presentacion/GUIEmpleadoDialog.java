@@ -2,22 +2,29 @@ package presentacion;
 
 import javax.swing.*;
 import java.awt.*;
-import presentacion.controlador.Controlador;
 import presentacion.controlador.Eventos;
 import presentacion.factoria.FactoriaAbstractaPresentacion;
 
 public class GUIEmpleadoDialog extends JDialog {
+	
+	// CONSTRUCTORA
 
     public GUIEmpleadoDialog(JFrame owner) {
         super(owner, "Gestión de Empleados", false);
-    	setSize(700, 150);
+        // Evita que el usuario pueda cambiar el tamaño del diálogo
+        setResizable(false); 
+        setSize(850, 120); 
         setLocationRelativeTo(owner);
         
         initGUI();
     }
     
+    // MÉTODOS
+    
     private void initGUI() {
-        JPanel panel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
+    	
+        JPanel panel = new JPanel(new GridLayout(1, 5, 10, 0));
+        panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
         JButton btnAlta       = new JButton("Alta Empleado");
         JButton btnBaja       = new JButton("Baja Empleado");
@@ -25,37 +32,39 @@ public class GUIEmpleadoDialog extends JDialog {
         JButton btnBuscar     = new JButton("Buscar Empleado");
         JButton btnListar     = new JButton("Listar Empleados");
 
-        panel.add(btnAlta);
-        panel.add(btnBaja);
-        panel.add(btnActualizar);
-        panel.add(btnBuscar);
-        panel.add(btnListar);
+        JButton[] botones = {btnAlta, btnBaja, btnActualizar, btnBuscar, btnListar};
+        for (JButton b : botones) {
+            b.setFocusPainted(false);
+            panel.add(b);
+        }
 
-        add(panel);
+        add(panel, BorderLayout.CENTER);
 
+        // Listeners
+        
         btnAlta.addActionListener(e -> {
             IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.ALTA_EMPLEADO);
             ((JFrame) vista).setVisible(true);
         });
 
         btnBaja.addActionListener(e -> {
-        	IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.BAJA_EMPLEADO);
+            IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.BAJA_EMPLEADO);
             ((JFrame) vista).setVisible(true);
         });
 
         btnActualizar.addActionListener(e -> {
-        	IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.MODIFICAR_EMPLEADO);
+            IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.MODIFICAR_EMPLEADO);
             ((JFrame) vista).setVisible(true);
         });
 
         btnBuscar.addActionListener(e -> {
-        	IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.BUSCAR_EMPLEADO);
+            IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.BUSCAR_EMPLEADO);
             ((JFrame) vista).setVisible(true);
         });
 
         btnListar.addActionListener(e -> { 
-        	IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.MOSTRAR_EMPLEADOS);
-        	((JFrame) vista).setVisible(true);
+            IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.MOSTRAR_EMPLEADOS);
+            ((JFrame) vista).setVisible(true);
         });
     }
 }

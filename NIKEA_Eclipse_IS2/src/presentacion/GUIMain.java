@@ -104,7 +104,6 @@ public class GUIMain extends JFrame {
 	// MÉTODOS AUXILIARES DE ESTILO
 	
 	private JButton crearBotonNikea(String texto) {
-		@SuppressWarnings("serial")
 		JButton boton = new JButton(texto) {
 			@Override
 			protected void paintComponent(Graphics g) {
@@ -138,7 +137,6 @@ public class GUIMain extends JFrame {
 
 	// CLASE INTERNA PARA EL LOGO
 	
-	@SuppressWarnings("serial")
 	class ImagePanel extends JPanel {
 		private Image img;
 

@@ -9,6 +9,7 @@ import presentacion.IGUI;
 import presentacion.controlador.Controlador;
 import presentacion.controlador.Eventos;
 
+@SuppressWarnings("serial")
 public class VistaBuscarEmpleado extends JFrame implements IGUI {
 
 	// ATRIBUTOS
@@ -35,7 +36,7 @@ public class VistaBuscarEmpleado extends JFrame implements IGUI {
         mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
         // Panel de búsqueda
-        JPanel panelBusqueda = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        JPanel panelBusqueda = new JPanel(new FlowLayout(FlowLayout.CENTER));
         txtId = new JTextField(10);
         btnConsultar = new JButton("CONSULTAR");
         panelBusqueda.add(new JLabel("ID Empleado:"));
@@ -46,6 +47,7 @@ public class VistaBuscarEmpleado extends JFrame implements IGUI {
         areaDetalles = new JTextArea(10, 30);
         areaDetalles.setEditable(false);
         areaDetalles.setBorder(BorderFactory.createTitledBorder("Detalles del Empleado"));
+        areaDetalles.setFont(new Font("Monospaced", Font.PLAIN, 13));
         JScrollPane scroll = new JScrollPane(areaDetalles);
 
         // Panel de botones inferiores
@@ -95,6 +97,7 @@ public class VistaBuscarEmpleado extends JFrame implements IGUI {
 
         getContentPane().add(mainPanel);
         pack();
+        setResizable(false); // Evitamos que se deforme el layout
         setLocationRelativeTo(null);
     }
 
@@ -105,12 +108,12 @@ public class VistaBuscarEmpleado extends JFrame implements IGUI {
             case Eventos.RES_BUSCAR_EMPLEADO_OK:
                 TEmpleado te = (TEmpleado) datos;
                 StringBuilder sb = new StringBuilder();
-                sb.append("ID: ").append(te.getId()).append("\n");
-                sb.append("DNI: ").append(te.getDNI()).append("\n");
-                sb.append("Nombre: ").append(te.getNombre()).append("\n");
+                sb.append("ID:       ").append(te.getId()).append("\n");
+                sb.append("DNI:      ").append(te.getDNI()).append("\n");
+                sb.append("Nombre:   ").append(te.getNombre()).append("\n");
                 sb.append("Apellido: ").append(te.getApellido()).append("\n");
-                sb.append("Sueldo: ").append(te.getSueldo()).append(" €\n");
-                sb.append("Estado: ").append(te.isActivo() ? "ACTIVO" : "INACTIVO (Baja)");
+                sb.append("Sueldo:   ").append(te.getSueldo()).append(" €\n");
+                sb.append("Estado:   ").append(te.isActivo() ? "ACTIVO" : "INACTIVO (Baja)");
                 
                 areaDetalles.setText(sb.toString());
                 break;

@@ -9,6 +9,7 @@ import presentacion.IGUI;
 import presentacion.controlador.Controlador;
 import presentacion.controlador.Eventos;
 
+@SuppressWarnings("serial")
 public class VistaModificarEmpleado extends JFrame implements IGUI {
 
 	// ATRIBUTOS
@@ -19,7 +20,7 @@ public class VistaModificarEmpleado extends JFrame implements IGUI {
     // CONSTRUCTORA
     
     public VistaModificarEmpleado() {
-        setTitle("Modificar Empleado (Campos Opcionales)");
+        setTitle("Modificar Empleado");
         initGUI();
     }
 
@@ -38,6 +39,11 @@ public class VistaModificarEmpleado extends JFrame implements IGUI {
         txtNombre = new JTextField(20);
         txtApellido = new JTextField(20);
         txtSueldo = new JTextField(20);
+
+        // --- CÓDIGO AÑADIDO: TOOLTIPS ---
+        txtNombre.setToolTipText("Deje este campo vacío para conservar el nombre actual");
+        txtApellido.setToolTipText("Deje este campo vacío para conservar el apellido actual");
+        txtSueldo.setToolTipText("Deje este campo vacío para conservar el sueldo actual");
 
         btnModificar = new JButton("GUARDAR CAMBIOS");
         btnCancelar = new JButton("CANCELAR");
@@ -91,20 +97,44 @@ public class VistaModificarEmpleado extends JFrame implements IGUI {
             dispose();
         });
 
+        // --- CÓDIGO AÑADIDO PARA ALINEACIÓN ---
+        JPanel formPanel = new JPanel(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.insets = new Insets(5, 5, 5, 5);
+
+        // Fila 0: ID
+        gbc.gridx = 0; gbc.gridy = 0;
+        formPanel.add(new JLabel("ID Empleado (Obligatorio):"), gbc);
+        gbc.gridx = 1;
+        formPanel.add(txtId, gbc);
+
+        // Fila 1: Separador (dentro del GridBag)
+        gbc.gridx = 0; gbc.gridy = 1; gbc.gridwidth = 2;
+        formPanel.add(new JSeparator(), gbc);
+        gbc.gridwidth = 1; // Reset
+
+        // Fila 2: Nombre
+        gbc.gridx = 0; gbc.gridy = 2;
+        formPanel.add(new JLabel("Nuevo Nombre:"), gbc);
+        gbc.gridx = 1;
+        formPanel.add(txtNombre, gbc);
+
+        // Fila 3: Apellido
+        gbc.gridx = 0; gbc.gridy = 3;
+        formPanel.add(new JLabel("Nuevo Apellido:"), gbc);
+        gbc.gridx = 1;
+        formPanel.add(txtApellido, gbc);
+
+        // Fila 4: Sueldo
+        gbc.gridx = 0; gbc.gridy = 4;
+        formPanel.add(new JLabel("Nuevo Sueldo:"), gbc);
+        gbc.gridx = 1;
+        formPanel.add(txtSueldo, gbc);
+
         // Añadir componentes al panel principal
-        mainPanel.add(new JLabel("ID del empleado (Obligatorio):"));
-        mainPanel.add(txtId);
-        mainPanel.add(new JSeparator()); 
+        mainPanel.add(formPanel);
         mainPanel.add(Box.createRigidArea(new Dimension(0, 10)));
-        
-        mainPanel.add(new JLabel("Nuevo Nombre (vacío para mantener actual):"));
-        mainPanel.add(txtNombre);
-        
-        mainPanel.add(new JLabel("Nuevo Apellido (vacío para mantener actual):"));
-        mainPanel.add(txtApellido);
-        
-        mainPanel.add(new JLabel("Nuevo Sueldo (vacío para mantener actual):"));
-        mainPanel.add(txtSueldo);
         
         // Panel de botones
         JPanel pBotones = new JPanel();
@@ -113,6 +143,7 @@ public class VistaModificarEmpleado extends JFrame implements IGUI {
 
         getContentPane().add(mainPanel);
         pack();
+        setResizable(false);
         setLocationRelativeTo(null);
     }
 

@@ -8,6 +8,7 @@ import presentacion.IGUI;
 import presentacion.controlador.Controlador;
 import presentacion.controlador.Eventos;
 
+@SuppressWarnings("serial")
 public class VistaEliminarEmpleado extends JFrame implements IGUI {
 
 	// ATRIBUTOS
@@ -32,8 +33,12 @@ public class VistaEliminarEmpleado extends JFrame implements IGUI {
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
         mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
-        // Inicialización del campo
+        // --- CÓDIGO AÑADIDO PARA ALINEACIÓN ---
+        // Panel para alinear la etiqueta y el campo horizontalmente
+        JPanel panelInput = new JPanel(new FlowLayout(FlowLayout.CENTER));
         txtId = new JTextField(10);
+        panelInput.add(new JLabel("ID Empleado:"));
+        panelInput.add(txtId);
         
         // Panel de botones
         JPanel panelBotones = new JPanel();
@@ -72,14 +77,18 @@ public class VistaEliminarEmpleado extends JFrame implements IGUI {
         });
 
         // Añadir componentes al panel principal
-        mainPanel.add(new JLabel("Introduzca el ID del empleado a dar de baja:"));
+        JLabel lblTitulo = new JLabel("Introduzca el ID del empleado a dar de baja:");
+        lblTitulo.setAlignmentX(Component.CENTER_ALIGNMENT);
+        
+        mainPanel.add(lblTitulo);
         mainPanel.add(Box.createRigidArea(new Dimension(0, 10)));
-        mainPanel.add(txtId);
-        mainPanel.add(Box.createRigidArea(new Dimension(0, 20)));
+        mainPanel.add(panelInput); // Añadimos el panel alineado
+        mainPanel.add(Box.createRigidArea(new Dimension(0, 10)));
         mainPanel.add(panelBotones);
 
         getContentPane().add(mainPanel);
         pack();
+        setResizable(false);
         setLocationRelativeTo(null);
     }
 

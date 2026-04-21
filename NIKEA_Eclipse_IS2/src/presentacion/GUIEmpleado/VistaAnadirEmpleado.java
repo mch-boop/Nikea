@@ -10,8 +10,8 @@ import negocio.empleado.TMontador;
 import presentacion.IGUI;
 import presentacion.controlador.Eventos;
 import presentacion.controlador.Controlador;
-import presentacion.controlador.Eventos;
 
+@SuppressWarnings("serial")
 public class VistaAnadirEmpleado extends JFrame implements IGUI {
 	
 	// ATRIBUTOS
@@ -112,29 +112,47 @@ public class VistaAnadirEmpleado extends JFrame implements IGUI {
             dispose();
         });
         
-        // Añadir componentes al panel principal
-        mainPanel.add(new JLabel("Nombre:")); 
-        mainPanel.add(txtNombre);
-        mainPanel.add(Box.createRigidArea(new Dimension(0, 10))); // Espaciado
-        
-        mainPanel.add(new JLabel("Apellido:")); 
-        mainPanel.add(txtApellido);
-        mainPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+        // --- CÓDIGO AÑADIDO PARA ALINEACIÓN ---
+        // Creamos un panel con GridBagLayout para alinear etiquetas y campos
+        JPanel formPanel = new JPanel(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.insets = new Insets(5, 5, 5, 5); // Espaciado entre componentes
 
-        mainPanel.add(new JLabel("DNI:")); 
-        mainPanel.add(txtDNI);
-        mainPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+        // Fila 0: Nombre
+        gbc.gridx = 0; gbc.gridy = 0;
+        formPanel.add(new JLabel("Nombre:"), gbc);
+        gbc.gridx = 1;
+        formPanel.add(txtNombre, gbc);
 
-        mainPanel.add(new JLabel("Sueldo Bruto:")); 
-        mainPanel.add(txtSueldo);
-        mainPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+        // Fila 1: Apellido
+        gbc.gridx = 0; gbc.gridy = 1;
+        formPanel.add(new JLabel("Apellido:"), gbc);
+        gbc.gridx = 1;
+        formPanel.add(txtApellido, gbc);
 
+        // Fila 2: DNI
+        gbc.gridx = 0; gbc.gridy = 2;
+        formPanel.add(new JLabel("DNI:"), gbc);
+        gbc.gridx = 1;
+        formPanel.add(txtDNI, gbc);
+
+        // Fila 3: Sueldo
+        gbc.gridx = 0; gbc.gridy = 3;
+        formPanel.add(new JLabel("Sueldo Bruto:"), gbc);
+        gbc.gridx = 1;
+        formPanel.add(txtSueldo, gbc);
+
+        // Añadir el formulario alineado al panel principal
+        mainPanel.add(formPanel);
+        mainPanel.add(Box.createRigidArea(new Dimension(0, 10)));
         mainPanel.add(panelRadio);
         mainPanel.add(Box.createRigidArea(new Dimension(0, 20)));
         mainPanel.add(panelBotones);
 
         getContentPane().add(mainPanel);
         pack();
+        setResizable(false); // Recomendado para que no se desajuste al redimensionar
         setLocationRelativeTo(null); // Centrar en pantalla
 	}
 	
