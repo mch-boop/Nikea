@@ -39,35 +39,23 @@ public class GUIEmpleadoDialog extends JDialog {
         });
 
         btnBaja.addActionListener(e -> {
-            String idStr = JOptionPane.showInputDialog(this, "ID del empleado a dar de baja:");
-            if (idStr != null && !idStr.trim().isEmpty()) {
-                try {
-                    int id = Integer.parseInt(idStr.trim());
-                    Controlador.getInstance().accion(Eventos.BAJA_EMPLEADO, id);
-                } catch (NumberFormatException ex) {
-                    JOptionPane.showMessageDialog(this, "ID numérico obligatorio.");
-                }
-            }
+        	IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.BAJA_EMPLEADO);
+            ((JFrame) vista).setVisible(true);
         });
 
         btnActualizar.addActionListener(e -> {
-            JOptionPane.showMessageDialog(this, "Modificar empleado (en desarrollo)");
+        	IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.MODIFICAR_EMPLEADO);
+            ((JFrame) vista).setVisible(true);
         });
 
         btnBuscar.addActionListener(e -> {
-            String idStr = JOptionPane.showInputDialog(this, "ID del empleado:");
-            if (idStr != null && !idStr.trim().isEmpty()) {
-                try {
-                    int id = Integer.parseInt(idStr.trim());
-                    Controlador.getInstance().accion(Eventos.BUSCAR_EMPLEADO, id);
-                } catch (NumberFormatException ex) {
-                    JOptionPane.showMessageDialog(this, "ID numérico obligatorio.");
-                }
-            }
+        	IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.BUSCAR_EMPLEADO);
+            ((JFrame) vista).setVisible(true);
         });
 
-        btnListar.addActionListener(e -> {
-            Controlador.getInstance().accion(Eventos.MOSTRAR_EMPLEADOS, null);
+        btnListar.addActionListener(e -> { 
+        	IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.MOSTRAR_EMPLEADOS);
+        	((JFrame) vista).setVisible(true);
         });
     }
 }
