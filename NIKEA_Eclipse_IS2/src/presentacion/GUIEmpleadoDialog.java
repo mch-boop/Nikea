@@ -5,6 +5,7 @@ import java.awt.*;
 import presentacion.controlador.Eventos;
 import presentacion.factoria.FactoriaAbstractaPresentacion;
 
+@SuppressWarnings("serial")
 public class GUIEmpleadoDialog extends JDialog {
 	
 	// CONSTRUCTORA

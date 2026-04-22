@@ -11,6 +11,9 @@ public class Eventos {
     public static final int MODIFICAR_CLIENTE = 103;
     public static final int BUSCAR_CLIENTE = 104;
     public static final int MOSTRAR_CLIENTES = 105;
+    public static final int MOSTRAR_MEJOR_CLIENTE = 106;
+    public static final int MOSTRAR_FACTURAS_CLIENTE = 107;
+
     
     // EVENTOS DE FACTURA
 	

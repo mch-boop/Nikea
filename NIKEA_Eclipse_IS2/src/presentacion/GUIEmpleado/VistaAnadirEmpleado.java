@@ -97,6 +97,9 @@ public class VistaAnadirEmpleado extends JFrame implements IGUI {
                     // Comunicación con el Controlador (Singleton)
                     Controlador.getInstance().accion(Eventos.ALTA_EMPLEADO, te);
                     
+                    // Limpiar campos para poder dar de alta otro empleado.
+                    limpiarCampos();
+                    
                 } catch (NumberFormatException ex) {
                     JOptionPane.showMessageDialog(null, "Error: El sueldo debe ser un número válido.");
                 }
