@@ -1,12 +1,12 @@
 package presentacion;
 
 import java.awt.BorderLayout;
-import java.awt.Dialog;
 import java.awt.GridLayout;
 import java.awt.FlowLayout;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -14,7 +14,7 @@ import presentacion.controlador.Eventos;
 import presentacion.factoria.FactoriaAbstractaPresentacion;
 
 @SuppressWarnings("serial")
-public class GUIClienteDialog extends Dialog {
+public class GUIClienteDialog extends JDialog {
 	
 	// CONSTRUCTORA
 	
@@ -61,7 +61,8 @@ public class GUIClienteDialog extends Dialog {
         mainPanel.add(fila1);
         mainPanel.add(fila2);
 
-        add(mainPanel);
+        add(mainPanel, BorderLayout.CENTER);
+        
 
         // Listeners de los botones.
         btnAlta.addActionListener(e -> {

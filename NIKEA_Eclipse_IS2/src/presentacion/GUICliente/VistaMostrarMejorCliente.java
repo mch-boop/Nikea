@@ -4,11 +4,8 @@ import javax.swing.JFrame;
 
 import presentacion.IGUI;
 
-@SuppressWarnings("serial")
-public class VistaModificarCliente extends JFrame implements IGUI {
+public class VistaMostrarMejorCliente extends JFrame implements IGUI {
 
-	// MÉTODO DE IGUI
-	
 	@Override
 	public void actualizar(int evento, Object datos) {
 		// TODO Auto-generated method stub

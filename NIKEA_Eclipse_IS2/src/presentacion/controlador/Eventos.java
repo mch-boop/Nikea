@@ -7,7 +7,13 @@ public class Eventos {
 	public static final int ALTA_CLIENTE = 101;
 	public static final int RES_ALTA_CLIENTE_OK = 1011;
 	public static final int RES_ALTA_CLIENTE_KO = 1010;
+	
     public static final int BAJA_CLIENTE = 102;
+    public static final int RES_BAJA_CLIENTE_OK = 1021;
+    public static final int RES_BAJA_CLIENTE_KO = 1020;
+    public static final int RES_BAJA_CLIENTE_KO_NO_EXISTE = 10201;
+    public static final int RES_BAJA_CLIENTE_KO_YA_INACTIVO = 10202;
+    
     public static final int MODIFICAR_CLIENTE = 103;
     public static final int BUSCAR_CLIENTE = 104;
     public static final int MOSTRAR_CLIENTES = 105;

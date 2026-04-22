@@ -18,8 +18,8 @@ public class TCliente {
 	public String getApellidos() { return this.apellidos; }
 	public String getDNI() { return this.DNI; } 
 	public int getTelefono() { return this.telefono; }
-	public int getID() { return this.idCliente; }
-	public boolean getActivo() { return this.activo; }
+	public int getId() { return this.idCliente; }
+	public boolean isActivo() { return this.activo; }
 	
 	// Setters
 	public void setNombre(String nom) { this.nombre = nom; }

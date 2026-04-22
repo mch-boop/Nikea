@@ -1,5 +1,7 @@
 package presentacion.GUICliente;
 
+import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -7,13 +9,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
 import negocio.cliente.TCliente;
@@ -21,6 +23,7 @@ import presentacion.IGUI;
 import presentacion.controlador.Controlador;
 import presentacion.controlador.Eventos;
 
+@SuppressWarnings("serial")
 public class VistaAnadirCliente extends JFrame implements IGUI {
 
 	// ATRIBUTOS	
@@ -87,7 +90,7 @@ public class VistaAnadirCliente extends JFrame implements IGUI {
                     limpiarCampos();
 				}
 				catch (NumberFormatException ex) {
-					JOptionPane.showMessageDialog(null, "Error: El teléfono debe ser un número válido.", "Número no admitido", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "El teléfono debe ser un número válido.", "Error", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});
@@ -101,9 +104,8 @@ public class VistaAnadirCliente extends JFrame implements IGUI {
             dispose();
 		});
 		
-		// --- CÓDIGO AÑADIDO PARA ALINEACIÓN ---
-        // Creamos un panel con GridBagLayout para alinear etiquetas y campos
-		// trabajando con el ajuste de GridBagConstraints.
+		// Panel de datos: lo creamos con GridBagLayout para alinear etiquetas y 
+		// campos trabajando con el ajuste de GridBagConstraints.
         JPanel formPanel = new JPanel(new GridBagLayout());
         GridBagConstraints ajuste = new GridBagConstraints();
         ajuste.fill = GridBagConstraints.HORIZONTAL;
@@ -132,7 +134,18 @@ public class VistaAnadirCliente extends JFrame implements IGUI {
         formPanel.add(new JLabel("Teléfono:"), ajuste);
         ajuste.gridx = 1;
         formPanel.add(txtTelefono, ajuste);
-
+        
+        // Panel de título.
+        JLabel lblTitulo = new JLabel("Introduzca el ID del Cliente a dar de alta:");
+        lblTitulo.setAlignmentX(Component.CENTER_ALIGNMENT);
+        
+        // Añadir componentes.
+        viewPanel.add(lblTitulo);
+        viewPanel.add(Box.createRigidArea(new Dimension(0, 20)));
+        viewPanel.add(formPanel);
+        viewPanel.add(Box.createRigidArea(new Dimension(0, 20)));
+        viewPanel.add(pBotones);
+        
         getContentPane().add(viewPanel);
         pack();
         setResizable(false); // Recomendado para que no se desajuste al redimensionar
@@ -144,8 +157,7 @@ public class VistaAnadirCliente extends JFrame implements IGUI {
 	
 	// Datos es el id del cliente.
 	@Override public void actualizar(int evento, Object datos) {	
-		// A este método lo llamará el controlador para actualizar la GUI
-
+    	// El controlador llama a este método tras la ejecución en el SA
 		if (evento == Eventos.RES_ALTA_CLIENTE_OK)
 			JOptionPane.showMessageDialog(this, "Se ha creado correctamente el cliente con id " + (Integer) datos + ".");
 

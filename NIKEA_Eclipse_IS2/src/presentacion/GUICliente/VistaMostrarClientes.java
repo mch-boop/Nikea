@@ -4,6 +4,7 @@ import javax.swing.JFrame;
 
 import presentacion.IGUI;
 
+@SuppressWarnings("serial")
 public class VistaMostrarClientes extends JFrame implements IGUI {
 
 	// MÉTODO DE IGUI

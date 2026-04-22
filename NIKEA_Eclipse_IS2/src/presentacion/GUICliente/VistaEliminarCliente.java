@@ -1,17 +1,122 @@
 package presentacion.GUICliente;
 
-import javax.swing.JFrame;
+import javax.swing.*;
 
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import presentacion.IGUI;
+import presentacion.controlador.Controlador;
+import presentacion.controlador.Eventos;
 
+@SuppressWarnings("serial")
 public class VistaEliminarCliente extends JFrame implements IGUI {
 
-	// MÉTODO DE IGUI
+	// ATRIBUTOS
 	
-	@Override
-	public void actualizar(int evento, Object datos) {
-		// TODO Auto-generated method stub
-		
-	}
+    private JTextField txtId;
+    private JButton btnBaja, btnCancelar;
 
+    
+    // CONSTRUCTORA
+    
+    public VistaEliminarCliente() {
+        setTitle("Baja Cliente");
+        initGUI();
+    }
+
+    
+    // MÉTODOS
+    
+    private void initGUI() {
+    	
+    	// Panel principal.
+        JPanel viewPanel = new JPanel();
+        viewPanel.setLayout(new BoxLayout(viewPanel, BoxLayout.Y_AXIS));
+        viewPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+
+        // Panel de entrada de texto.
+        JPanel panelInput = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        txtId = new JTextField(10);
+        panelInput.add(new JLabel("ID Cliente:"));
+        panelInput.add(txtId);
+        
+        // Panel de botones.
+        JPanel panelBotones = new JPanel();
+        btnBaja = new JButton("DAR DE BAJA");
+        btnCancelar = new JButton("CANCELAR");
+        panelBotones.add(btnBaja);
+        panelBotones.add(btnCancelar);
+
+        // Listener de botón Baja.
+        btnBaja.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    String textoId = txtId.getText();
+                    if (textoId.isEmpty()) {
+                        JOptionPane.showMessageDialog(null, "No se ha completado el campo ID Cliente.", "Error", JOptionPane.ERROR_MESSAGE);
+                        txtId.requestFocus();
+                    } else {
+                    	// Leemos la entrada.
+                        int id = Integer.parseInt(textoId);
+                        // Enviamos el ID al controlador
+                        Controlador.getInstance().accion(Eventos.BAJA_EMPLEADO, id);
+                    }
+                } catch (NumberFormatException ex) {
+                    // Si el ID no es numérico, enviamos evento de error de formato
+                    JOptionPane.showMessageDialog(null, "El ID debe ser un número válido.", "Error", JOptionPane.ERROR_MESSAGE);
+                    txtId.requestFocus();
+                }
+            }
+        });
+
+        // Listener de botón Cancelar.
+        btnCancelar.addActionListener(al -> {
+            // Cerrar la ventana.
+            setVisible(false);
+            dispose();
+        });
+
+        // Panel de título.
+        JLabel lblTitulo = new JLabel("Introduzca el ID del Cliente a dar de baja:");
+        lblTitulo.setAlignmentX(Component.CENTER_ALIGNMENT);
+        
+        // Añadimos componentes al panel principal.
+        viewPanel.add(lblTitulo);
+        viewPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+        viewPanel.add(panelInput); // Añadimos el panel alineado
+        viewPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+        viewPanel.add(panelBotones);
+
+        getContentPane().add(viewPanel);
+        pack();
+        setResizable(false);
+        setLocationRelativeTo(null);
+    }
+
+    // Datos es el id del cliente.
+    @Override public void actualizar(int evento, Object datos) {
+    	// El controlador llama a este método tras la ejecución en el SA
+        switch (evento) {
+            
+            case Eventos.RES_BAJA_CLIENTE_OK:
+                JOptionPane.showMessageDialog(this, "El empleado con ID " + datos + " ha sido dado de baja (borrado lógico).", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                txtId.setText("");
+                break;
+
+            case Eventos.RES_BAJA_CLIENTE_KO_NO_EXISTE:
+                JOptionPane.showMessageDialog(this, "No existe ningún empleado con el ID: " + datos, "Error", JOptionPane.ERROR_MESSAGE);
+                txtId.requestFocus();
+                break;
+
+            case Eventos.RES_BAJA_CLIENTE_KO_YA_INACTIVO:
+                JOptionPane.showMessageDialog(this, "El empleado ya se encuentra en estado inactivo.", "Aviso", JOptionPane.WARNING_MESSAGE);
+                break;
+
+            default:
+                JOptionPane.showMessageDialog(this, "Error al procesar la baja.", "Error", JOptionPane.ERROR_MESSAGE);
+                break;
+        }
+    }
 }
