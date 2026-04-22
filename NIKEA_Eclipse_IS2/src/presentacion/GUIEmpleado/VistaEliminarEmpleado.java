@@ -33,8 +33,7 @@ public class VistaEliminarEmpleado extends JFrame implements IGUI {
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
         mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
-        // --- CÓDIGO AÑADIDO PARA ALINEACIÓN ---
-        // Panel para alinear la etiqueta y el campo horizontalmente
+        // ALINEACIÓN
         JPanel panelInput = new JPanel(new FlowLayout(FlowLayout.CENTER));
         txtId = new JTextField(10);
         panelInput.add(new JLabel("ID Empleado:"));

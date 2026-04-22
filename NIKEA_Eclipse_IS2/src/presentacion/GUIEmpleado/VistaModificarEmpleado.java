@@ -40,7 +40,6 @@ public class VistaModificarEmpleado extends JFrame implements IGUI {
         txtApellido = new JTextField(20);
         txtSueldo = new JTextField(20);
 
-        // --- CÓDIGO AÑADIDO: TOOLTIPS ---
         txtNombre.setToolTipText("Deje este campo vacío para conservar el nombre actual");
         txtApellido.setToolTipText("Deje este campo vacío para conservar el apellido actual");
         txtSueldo.setToolTipText("Deje este campo vacío para conservar el sueldo actual");
@@ -97,7 +96,7 @@ public class VistaModificarEmpleado extends JFrame implements IGUI {
             dispose();
         });
 
-        // --- CÓDIGO AÑADIDO PARA ALINEACIÓN ---
+        // ALINEACIÓN
         JPanel formPanel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.HORIZONTAL;
@@ -153,7 +152,7 @@ public class VistaModificarEmpleado extends JFrame implements IGUI {
 
             case Eventos.RES_MODIFICAR_EMPLEADO_OK:
                 JOptionPane.showMessageDialog(this, "Datos actualizados correctamente para el empleado ID: " + datos, "Éxito", JOptionPane.INFORMATION_MESSAGE);
-                // Opcional: limpiar campos tras éxito
+                limpiarCampos();
                 break;
 
             case Eventos.RES_MODIFICAR_EMPLEADO_KO_NO_EXISTE:
@@ -162,7 +161,6 @@ public class VistaModificarEmpleado extends JFrame implements IGUI {
                 break;
 
             case Eventos.RES_MODIFICAR_EMPLEADO_KO_DATOS_INVALIDOS:
-                // Aquí podrías ser más específico con sub-eventos como hicimos en el Alta
                 JOptionPane.showMessageDialog(this, "Error: Los datos introducidos no son válidos para la modificación.", "Validación Fallida", JOptionPane.WARNING_MESSAGE);
                 break;
 
@@ -171,4 +169,12 @@ public class VistaModificarEmpleado extends JFrame implements IGUI {
                 break;
         }
     }
+
+
+	private void limpiarCampos() {
+		txtId.setText("");
+		txtNombre.setText("");
+        txtApellido.setText("");
+        txtSueldo.setText("");
+	}
 }

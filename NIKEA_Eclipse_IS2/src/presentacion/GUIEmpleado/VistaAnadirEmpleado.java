@@ -97,9 +97,6 @@ public class VistaAnadirEmpleado extends JFrame implements IGUI {
                     // Comunicación con el Controlador (Singleton)
                     Controlador.getInstance().accion(Eventos.ALTA_EMPLEADO, te);
                     
-                    // Limpiar campos para poder dar de alta otro empleado.
-                    limpiarCampos();
-                    
                 } catch (NumberFormatException ex) {
                     JOptionPane.showMessageDialog(null, "Error: El sueldo debe ser un número válido.");
                 }
@@ -115,8 +112,7 @@ public class VistaAnadirEmpleado extends JFrame implements IGUI {
             dispose();
         });
         
-        // --- CÓDIGO AÑADIDO PARA ALINEACIÓN ---
-        // Creamos un panel con GridBagLayout para alinear etiquetas y campos
+        // ALINEACIÓN 
         JPanel formPanel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.HORIZONTAL;
@@ -165,7 +161,7 @@ public class VistaAnadirEmpleado extends JFrame implements IGUI {
 		switch (evento) {
 
 	        case Eventos.RES_ALTA_EMPLEADO_OK:
-	            JOptionPane.showMessageDialog(this, "Empleado creado con ID: " + datos);
+	            JOptionPane.showMessageDialog(this, "Éxito: Empleado creado con ID: " + datos);
 	            limpiarCampos();
 	            break;
 	

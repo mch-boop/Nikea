@@ -8,6 +8,7 @@ import presentacion.IGUI;
 import presentacion.controlador.Controlador;
 import presentacion.controlador.Eventos;
 
+@SuppressWarnings("serial")
 public class VistaMostrarEmpleados extends JFrame implements IGUI {
 
 	// ATRIBUTOS
@@ -87,7 +88,7 @@ public class VistaMostrarEmpleados extends JFrame implements IGUI {
                     areaListado.setText("No hay empleados registrados en el sistema.");
                 } else {
                     StringBuilder sb = new StringBuilder();
-                    // Cabecera simple
+                    // Cabecera
                     sb.append(String.format("%-5s | %-12s | %-25s | %-10s | %-10s\n", "ID", "DNI", "NOMBRE COMPLETO", "SUELDO", "ESTADO"));
                     sb.append("--------------------------------------------------------------------------------\n");
                     
