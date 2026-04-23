@@ -20,7 +20,7 @@ public class GUIClienteDialog extends JDialog {
 	
 	public GUIClienteDialog(JFrame owner) {
         super(owner, "Gestión de Cliente", false);
-     // Evita que el usuario pueda cambiar el tamaño del diálogo
+        // Evita que el usuario pueda cambiar el tamaño del diálogo
         setResizable(false); 
         setSize(600, 120); 
         setLocationRelativeTo(owner);
@@ -96,7 +96,7 @@ public class GUIClienteDialog extends JDialog {
         });
         
         btnMostrarFacturas.addActionListener(e -> { 
-            IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.MOSTRAR_FACTURAS_CLIENTE);
+            IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.MOSTRAR_FACTURAS_CLIENTE_POR_ID);
             ((JFrame) vista).setVisible(true);
         });
     }

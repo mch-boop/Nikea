@@ -55,14 +55,10 @@ public class VistaMostrarFacturasCliente extends JFrame implements IGUI{
         panelId.add(new JLabel("ID Cliente:"));
         panelId.add(txtId);
 		
-        // Panel de tabla.
-        JPanel panelTabla = new JPanel();
-        // Creo una tabla con el modelo correspondiente y la añado al panel.
-        panelTabla.add(new JTable(tabla));
-        panelTabla.setBorder(BorderFactory.createTitledBorder("Detalles del Cliente"));
-        // Lo meto en un JScrollPane para que se pueda ir scrolleando la información mostrada.
-        JScrollPane scroll = new JScrollPane(panelTabla);
-        
+        // Creo una tabla con el modelo correspondiente y la añado al JScrollPane.
+        JScrollPane scroll = new JScrollPane(new JTable(tabla));
+        scroll.setBorder(BorderFactory.createTitledBorder("Facturas del Cliente"));
+
         // Panel de botones inferiores
         JPanel panelBotones = new JPanel();
         btnMostrar = new JButton("MOSTRAR");
