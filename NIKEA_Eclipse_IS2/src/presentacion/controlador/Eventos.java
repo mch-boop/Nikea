@@ -28,12 +28,8 @@ public class Eventos {
 
     
     public static final int MOSTRAR_MEJOR_CLIENTE = 106;
-    
-    public static final int MOSTRAR_FACTURAS_CLIENTE = 107;
 
     
-    // EVENTOS DE FACTURA
-	
 	// EVENTOS DE SERVICIO
 	
 	// EVENTOS DE EMPLEADO
@@ -67,6 +63,15 @@ public class Eventos {
     public static final int MOSTRAR_EMPLEADOS = 205;
     public static final int RES_MOSTRAR_EMPLEADOS_OK = 2051;
     public static final int RES_MOSTRAR_EMPLEADOS_KO = 2050;
+    
+    // EVENTOS DE FACTURA
+    
+    public static final int INICIAR_VENTA = 301;
+    public static final int CERRAR_VENTA = 302;
+    public static final int ANNADIR_SERVICIO = 303;
+    public static final int BUSCAR_FACTURA = 304;
+    public static final int MOSTRAR_FACTURAS = 305;
+    public static final int MOSTRAR_FACTURAS_CLIENTE = 306;
 
 	
 	// EVENTOS DE MARCA
