@@ -47,7 +47,7 @@ public class GUIFacturaDialog  extends JDialog  {
 
         add(panel, BorderLayout.CENTER);
         
-// Listeners
+        // Listeners
         
         btnIniciar.addActionListener(e -> {
             IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.INICIAR_VENTA);

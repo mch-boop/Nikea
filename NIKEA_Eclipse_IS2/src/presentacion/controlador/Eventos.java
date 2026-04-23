@@ -73,10 +73,17 @@ public class Eventos {
     public static final int BUSCAR_FACTURA = 304;
     public static final int MOSTRAR_FACTURAS = 305;
     public static final int MOSTRAR_FACTURAS_CLIENTE = 306;
-
+    
+    // EVENTOS DE DESCUENTO
+    
+    public static final int ALTA_DESCUENTO = 401;
+    public static final int BAJA_DESCUENTO = 402;
+    public static final int MODIFICAR_DESCUENTO = 403;
+    public static final int MOSTRAR_DESCUENTOS = 404;
+    public static final int BUSCAR_DESCUENTO = 405;
 	
 	// EVENTOS DE MARCA
 	
-	// EVENTOS DE DESCUENTO
+	
     
 }
