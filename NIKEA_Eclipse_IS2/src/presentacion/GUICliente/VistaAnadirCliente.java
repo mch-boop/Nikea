@@ -135,7 +135,7 @@ public class VistaAnadirCliente extends JFrame implements IGUI {
         ajuste.gridx = 1;
         formPanel.add(txtTelefono, ajuste);
         
-        // Panel de título.
+        // Label de título.
         JLabel lblTitulo = new JLabel("Introduzca el ID del Cliente a dar de alta:");
         lblTitulo.setAlignmentX(Component.CENTER_ALIGNMENT);
         
