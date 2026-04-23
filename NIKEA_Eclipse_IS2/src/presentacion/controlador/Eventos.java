@@ -26,8 +26,9 @@ public class Eventos {
     public static final int RES_MOSTRAR_CLIENTES_OK = 1051;
     public static final int RES_MOSTRAR_CLIENTES_KO = 1050;
 
-    
     public static final int MOSTRAR_MEJOR_CLIENTE = 106;
+    
+    public static final int MOSTRAR_FACTURAS_CLIENTE_POR_ID = 107;
 
     
 	// EVENTOS DE SERVICIO
