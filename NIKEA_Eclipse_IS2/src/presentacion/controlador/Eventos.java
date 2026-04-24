@@ -21,6 +21,8 @@ public class Eventos {
     public static final int RES_MODIFICAR_CLIENTE_KO_DATOS_INVALIDOS = 10301;
     
     public static final int BUSCAR_CLIENTE = 104;
+    public static final int RES_BUSCAR_CLIENTE_KO = 1040;
+    public static final int RES_BUSCAR_CLIENTE_OK = 1041;
     
     public static final int MOSTRAR_CLIENTES = 105;
     public static final int RES_MOSTRAR_CLIENTES_OK = 1051;
@@ -28,7 +30,9 @@ public class Eventos {
 
     public static final int MOSTRAR_MEJOR_CLIENTE = 106;
     
-    public static final int MOSTRAR_FACTURAS_CLIENTE_POR_ID = 107;
+    public static final int MODIFICAR_BUSCAR_CLIENTE = 107;
+    public static final int RES_MODIFICAR_BUSCAR_CLIENTE_OK = 1071;
+    public static final int RES_MODIFICAR_BUSCAR_CLIENTE_KO = 1070;
 
     
 	// EVENTOS DE SERVICIO

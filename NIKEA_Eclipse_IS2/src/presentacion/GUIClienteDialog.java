@@ -35,28 +35,28 @@ public class GUIClienteDialog extends JDialog {
         JPanel mainPanel = new JPanel(new GridLayout(2, 1, 10, 10));
         mainPanel.setBorder(BorderFactory.createEmptyBorder());
 
-        // Fila 1: 4 botones
+        // Fila 1: 3 botones
         JPanel fila1 = new JPanel(new FlowLayout(FlowLayout.CENTER));
         JButton btnAlta = new JButton("Alta Cliente");
         JButton btnBaja = new JButton("Baja Cliente");
         JButton btnModificar = new JButton("Modificar Cliente");
-        JButton btnBuscar = new JButton("Buscar Cliente");
+        
         
         fila1.add(btnAlta);
         fila1.add(btnBaja);
         fila1.add(btnModificar);
-        fila1.add(btnBuscar);
+        
 
         // Fila 2: 3 botones (centrados por uso de FlowLayout).
         JPanel fila2 = new JPanel(new FlowLayout(FlowLayout.CENTER));
         JButton btnListar = new JButton("Listar Cliente");
         JButton btnMostrarMejor = new JButton("Mostrar Mejor Cliente");
-        JButton btnMostrarFacturas = new JButton("Mostrar Facturas Cliente");
+        JButton btnBuscar = new JButton("Buscar Cliente");
         
         fila2.add(btnListar);
         fila2.add(btnMostrarMejor);
-        fila2.add(btnMostrarFacturas);
-
+        fila2.add(btnBuscar);
+        
         // Añado las dos filas al panel principal.
         mainPanel.add(fila1);
         mainPanel.add(fila2);
@@ -95,9 +95,5 @@ public class GUIClienteDialog extends JDialog {
             ((JFrame) vista).setVisible(true);
         });
         
-        btnMostrarFacturas.addActionListener(e -> { 
-            IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.MOSTRAR_FACTURAS_CLIENTE_POR_ID);
-            ((JFrame) vista).setVisible(true);
-        });
     }
 }

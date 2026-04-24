@@ -2,6 +2,8 @@ package presentacion.GUICliente;
 
 import javax.swing.*;
 
+import negocio.cliente.TCliente;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -60,8 +62,8 @@ public class VistaEliminarCliente extends JFrame implements IGUI {
                     } else {
                     	// Leemos la entrada.
                         int id = Integer.parseInt(textoId);
-                        // Enviamos el ID al controlador
-                        Controlador.getInstance().accion(Eventos.BAJA_EMPLEADO, id);
+                        // Enviamos el ID al controlador, primero lo buscamos para pedir confirmación y luego eliminamos.
+                        Controlador.getInstance().accion(Eventos.BUSCAR_CLIENTE, id);
                     }
                 } catch (NumberFormatException ex) {
                     // Si el ID no es numérico, enviamos evento de error de formato
@@ -101,17 +103,27 @@ public class VistaEliminarCliente extends JFrame implements IGUI {
         switch (evento) {
             
             case Eventos.RES_BAJA_CLIENTE_OK:
-                JOptionPane.showMessageDialog(this, "El empleado con ID " + datos + " ha sido dado de baja (borrado lógico).", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-                txtId.setText("");
+            	TCliente tc = (TCliente) datos;
+                String info = "ID: " + tc.getId() + "\nNombre: " + tc.getNombre() + " " + tc.getApellidos() + "\nDNI: " + tc.getDNI();
+                
+                int respuesta = JOptionPane.showConfirmDialog(this, 
+                    "Se ha encontrado el siguiente cliente:\n\n" + info + "\n\n¿Está seguro de que desea darlo de baja?",
+                    "Confirmar Eliminación", 
+                    JOptionPane.YES_NO_OPTION, 
+                    JOptionPane.WARNING_MESSAGE);
+
+                if (respuesta == JOptionPane.YES_OPTION) {
+                    Controlador.getInstance().accion(Eventos.BAJA_CLIENTE, tc.getId());
+                }
                 break;
 
             case Eventos.RES_BAJA_CLIENTE_KO_NO_EXISTE:
-                JOptionPane.showMessageDialog(this, "No existe ningún empleado con el ID: " + datos, "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "No existe ningún cliente con el ID: " + datos, "Error", JOptionPane.ERROR_MESSAGE);
                 txtId.requestFocus();
                 break;
 
             case Eventos.RES_BAJA_CLIENTE_KO_YA_INACTIVO:
-                JOptionPane.showMessageDialog(this, "El empleado ya se encuentra en estado inactivo.", "Aviso", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(this, "El cliente ya se encuentra en estado inactivo.", "Aviso", JOptionPane.WARNING_MESSAGE);
                 break;
 
             default:
