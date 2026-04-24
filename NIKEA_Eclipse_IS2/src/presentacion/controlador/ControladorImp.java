@@ -53,15 +53,19 @@ public class ControladorImp extends Controlador {
 			    else {
 			        switch (res) {
 			            case -1: // Ya existe y está activo
-			                vista.actualizar(Eventos.RES_ALTA_EMPLEADO_YA_EXISTE, tEmpleado);
+			            	vista.actualizar(Eventos.RES_ALTA_EMPLEADO_YA_EXISTE_MISMO, saEmpleado.getUltimoDuplicado());
+			                break;
+			                
+			            case -100: // Existe activo pero es OTRA persona (DNI ocupado)
+			                vista.actualizar(Eventos.RES_ALTA_EMPLEADO_YA_EXISTE_DISTINTO, saEmpleado.getUltimoDuplicado());
 			                break;
 
 			            case -2: // Existe inactivo con datos distintos
-			                vista.actualizar(Eventos.RES_ALTA_EMPLEADO_CONFIRMAR_REACTIVACION, tEmpleado);
+			                vista.actualizar(Eventos.RES_ALTA_EMPLEADO_CONFIRMAR_REACTIVACION, saEmpleado.getUltimoDuplicado());
 			                break;
 
 			            case -3: // Existe inactivo, mismos datos pero distinto tipo
-			                vista.actualizar(Eventos.RES_ALTA_EMPLEADO_CONFIRMAR_CAMBIO_TIPO, tEmpleado);
+			                vista.actualizar(Eventos.RES_ALTA_EMPLEADO_CONFIRMAR_CAMBIO_TIPO, saEmpleado.getUltimoDuplicado());
 			                break;
 
 			            case -4: // DNI inválido

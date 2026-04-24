@@ -183,80 +183,89 @@ public class VistaAnadirEmpleado extends JFrame implements IGUI {
 	@Override
     public void actualizar(int evento, Object datos) {
         // El controlador llama a este método tras la ejecución en el SA
-		switch (evento) {
+		SwingUtilities.invokeLater(new Runnable() {
+	        @Override
+	        public void run() {
+	            switch (evento) {
 
-	        case Eventos.RES_ALTA_EMPLEADO_OK:
-	        	limpiarCampos(); // Limpia los campos para el siguiente alta
-	            JOptionPane.showMessageDialog(this, "Éxito: Empleado creado con ID: " + datos); 
-	            break;
-	
-	        case Eventos.RES_ALTA_EMPLEADO_YA_EXISTE:
-	        	TEmpleado existente = (TEmpleado) datos;
-	            
-	            String nUI = txtNombre.getText().trim().toLowerCase();
-	            String aUI = txtApellido.getText().trim().toLowerCase();
-	            String nDB = (existente.getNombre() != null) ? existente.getNombre().trim().toLowerCase() : "";
-	            String aDB = (existente.getApellido() != null) ? existente.getApellido().trim().toLowerCase() : "";
+	                case Eventos.RES_ALTA_EMPLEADO_OK:
+	                	VistaAnadirEmpleado.this.limpiarCampos(); // Limpia los campos para el siguiente alta
+	                    JOptionPane.showMessageDialog(VistaAnadirEmpleado.this, "Éxito: Empleado creado con ID: " + datos); 
+	                    VistaAnadirEmpleado.this.setVisible(false);
+	                    VistaAnadirEmpleado.this.dispose();
+	                    break;
+	        
+	                case Eventos.RES_ALTA_EMPLEADO_YA_EXISTE_MISMO:
+	                    // El SA ya nos confirmó que nombre y apellido coinciden
+	                    JOptionPane.showMessageDialog(VistaAnadirEmpleado.this, 
+	                        "Este empleado ya existe en el sistema.", 
+	                        "Aviso", JOptionPane.WARNING_MESSAGE);
+	                    VistaAnadirEmpleado.this.txtDNI.requestFocus();
+	                    break;
 
-	            if (nUI.equals(nDB) && aUI.equals(aDB)) {
-	                JOptionPane.showMessageDialog(this, "Este empleado ya existe en el sistema.", "Aviso", JOptionPane.WARNING_MESSAGE);
-	            } else {
-	                JOptionPane.showMessageDialog(this, "EL DNI introducido ya pertenece a:\n" + existente.getNombre() + " " + existente.getApellido(), "DNI Duplicado", JOptionPane.WARNING_MESSAGE);
+	                case Eventos.RES_ALTA_EMPLEADO_YA_EXISTE_DISTINTO:
+	                    // El SA nos confirmó que el DNI es de otra persona
+	                    TEmpleado dup = (TEmpleado) datos;
+	                    JOptionPane.showMessageDialog(VistaAnadirEmpleado.this, 
+	                        "El DNI introducido ya pertenece a: " + dup.getNombre() + " " + dup.getApellido(), 
+	                        "Conflicto de Identidad", JOptionPane.ERROR_MESSAGE);
+	                    VistaAnadirEmpleado.this.txtDNI.requestFocus();
+	                    break;
+	                    
+	                case Eventos.RES_ALTA_EMPLEADO_CONFIRMAR_REACTIVACION:
+	                    // El empleado existe inactivo con datos distintos (Caso -2)
+	                    TEmpleado empReac = (TEmpleado) datos;
+	                    
+	                    int respReac = JOptionPane.showConfirmDialog(VistaAnadirEmpleado.this, 
+	                        "Existe un empleado inactivo con DNI " + empReac.getDNI() + ".\n" +
+	                        "¿Desea reactivarlo y actualizarlo con los nuevos datos introducidos?", 
+	                        "Confirmar Reactivación y Modificación", 
+	                        JOptionPane.YES_NO_OPTION, 
+	                        JOptionPane.QUESTION_MESSAGE);
+	                    
+	                    if (respReac == JOptionPane.YES_OPTION) {
+	                        // Al darle a SÍ, enviamos el Transfer con los datos nuevos al controlador
+	                        Controlador.getInstance().accion(Eventos.REACTIVAR_EMPLEADO, empReac);
+	                        VistaAnadirEmpleado.this.setVisible(false);
+	                        VistaAnadirEmpleado.this.dispose();
+	                    }
+	                    break;
+
+	                case Eventos.RES_ALTA_EMPLEADO_CONFIRMAR_CAMBIO_TIPO:
+	                    // Caso -3: El empleado existe inactivo pero con distinto tipo
+	                    JOptionPane.showMessageDialog(VistaAnadirEmpleado.this, 
+	                        "El empleado existe en el histórico pero con un tipo distinto.\nDebe darlo de alta con su tipo original o contactar con el administrador.", 
+	                        "Cambio de Tipo no permitido", JOptionPane.ERROR_MESSAGE);
+	                    break;
+	                    
+	                case Eventos.RES_ALTA_EMPLEADO_KO:
+	                    JOptionPane.showMessageDialog(VistaAnadirEmpleado.this, "Error en el sistema de persistencia.", "Error Grave", JOptionPane.ERROR_MESSAGE);
+	                    break;
+	        
+	                case Eventos.RES_ALTA_EMPLEADO_KO_DNI:
+	                    JOptionPane.showMessageDialog(VistaAnadirEmpleado.this, "El DNI introducido no es válido.", "Error de Validación", JOptionPane.ERROR_MESSAGE);
+	                    txtDNI.requestFocus();
+	                    break;
+	        
+	                case Eventos.RES_ALTA_EMPLEADO_KO_NOMBRE:
+	                    JOptionPane.showMessageDialog(VistaAnadirEmpleado.this, "El nombre es obligatorio.", "Error de Validación", JOptionPane.ERROR_MESSAGE);
+	                    txtNombre.requestFocus();
+	                    break;
+	        
+	                case Eventos.RES_ALTA_EMPLEADO_KO_APELLIDO:
+	                    JOptionPane.showMessageDialog(VistaAnadirEmpleado.this, "El apellido es obligatorio para evitar duplicados.", "Error de Validación", JOptionPane.ERROR_MESSAGE);
+	                    txtApellido.requestFocus();
+	                    break;
+	        
+	                case Eventos.RES_ALTA_EMPLEADO_KO_SUELDO:
+	                    JOptionPane.showMessageDialog(VistaAnadirEmpleado.this, "El sueldo debe ser un número positivo.", "Error de Validación", JOptionPane.ERROR_MESSAGE);
+	                    break;
+	        
+	                default:
+	                    JOptionPane.showMessageDialog(VistaAnadirEmpleado.this, "Error no identificado.");
+	                    break;
 	            }
-	            txtDNI.requestFocus();
-	            break;
-	            
-	        case Eventos.RES_ALTA_EMPLEADO_CONFIRMAR_REACTIVACION:
-	        	// El empleado existe inactivo con datos distintos (Caso -2)
-	            TEmpleado empReac = (TEmpleado) datos;
-	            
-	            int respReac = JOptionPane.showConfirmDialog(this, 
-	                "Existe un empleado inactivo con DNI " + empReac.getDNI() + ".\n" +
-	                "¿Desea reactivarlo y actualizarlo con los nuevos datos introducidos?", 
-	                "Confirmar Reactivación y Modificación", 
-	                JOptionPane.YES_NO_OPTION, 
-	                JOptionPane.QUESTION_MESSAGE);
-	            
-	            if (respReac == JOptionPane.YES_OPTION) {
-	                // Al darle a SÍ, enviamos el Transfer con los datos nuevos al controlador
-	                // Usamos un evento específico para que el SA sepa que debe sobreescribir y activar
-	                Controlador.getInstance().accion(Eventos.REACTIVAR_EMPLEADO, empReac);
-	            }
-	            break;
-
-	        case Eventos.RES_ALTA_EMPLEADO_CONFIRMAR_CAMBIO_TIPO:
-	            // Caso -3: El empleado existe inactivo pero con distinto tipo (ej: era Vendedor y ahora se pide Montador)
-	            JOptionPane.showMessageDialog(this, 
-	                "El empleado existe en el histórico pero con un tipo distinto.\nDebe darlo de alta con su tipo original o contactar con el administrador.", 
-	                "Cambio de Tipo no permitido", JOptionPane.ERROR_MESSAGE);
-	            break;
-	            
-	        case Eventos.RES_ALTA_EMPLEADO_KO:
-	            JOptionPane.showMessageDialog(this, "Error en el sistema de persistencia (JSON).", "Error Grave", JOptionPane.ERROR_MESSAGE);
-	            break;
-	
-	        case Eventos.RES_ALTA_EMPLEADO_KO_DNI:
-	            JOptionPane.showMessageDialog(this, "El DNI introducido no es válido.", "Error de Validación", JOptionPane.ERROR_MESSAGE);
-	            txtDNI.requestFocus();
-	            break;
-	
-	        case Eventos.RES_ALTA_EMPLEADO_KO_NOMBRE:
-	            JOptionPane.showMessageDialog(this, "El nombre es obligatorio.", "Error de Validación", JOptionPane.ERROR_MESSAGE);
-	            txtNombre.requestFocus();
-	            break;
-	
-	        case Eventos.RES_ALTA_EMPLEADO_KO_APELLIDO:
-	            JOptionPane.showMessageDialog(this, "El apellido es obligatorio para evitar duplicados.", "Error de Validación", JOptionPane.ERROR_MESSAGE);
-	            txtApellido.requestFocus();
-	            break;
-	
-	        case Eventos.RES_ALTA_EMPLEADO_KO_SUELDO:
-	            JOptionPane.showMessageDialog(this, "El sueldo debe ser un número positivo.", "Error de Validación", JOptionPane.ERROR_MESSAGE);
-	            break;
-	
-	        default:
-	            JOptionPane.showMessageDialog(this, "Error no identificado.");
-	            break;
-		}
-    }
+	        }
+	    });
+	}
 }

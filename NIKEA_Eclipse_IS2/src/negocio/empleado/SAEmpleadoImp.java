@@ -8,69 +8,87 @@ import integracion.empleado.DAOMontadorMontaje; // DAO para la tabla intermedia 
 import java.util.Collection;
 
 public class SAEmpleadoImp implements SAEmpleado {
+	
+	private TEmpleado ultimoDuplicado;
 
 	// Métodos de CU Básicos
 	
 	@Override
 	public int create(TEmpleado te) {
-		
-		DAOEmpleado dao = FactoriaIntegracion.getInstance().crearDAOEmpleado(); 
-		
-		// Buscamos si ya existe el DNI en el sistema
-		TEmpleado existente = dao.readByDNI(te.getDNI());
-		
-		/*
+	    // 1. Obtenemos el DAO
+	    DAOEmpleado dao = FactoriaIntegracion.getInstance().crearDAOEmpleado(); 
+	    
+	    // 2. Buscamos si ya existe el DNI en el sistema
+	    TEmpleado existente = dao.readByDNI(te.getDNI());
+	    
+	    // Reseteamos el rastro del duplicado para esta nueva operación
+	    this.ultimoDuplicado = null;
+
+	    /*
 	     * Códigos de retorno:
-	     *
-	     * > 0  -> Alta correcta / Reactivación correcta
-	     * -1   -> Ya existe activo
-	     * -2   -> Existe inactivo pero los datos no coinciden (pedir confirmación)
-	     * -3   -> Existe inactivo, mismos datos pero distinto tipo de empleado
+	     * > 0  -> Alta correcta / Reactivación automática exitosa
+	     * -1   -> Ya existe activo con los MISMOS datos (mismo nombre/apellido)
+	     * -100 -> Ya existe activo pero con DISTINTOS datos (DNI de otra persona)
+	     * -2   -> Existe inactivo pero los datos no coinciden (pedir confirmación de reactivación)
+	     * -3   -> Existe inactivo, mismos datos pero distinto TIPO (vendedor/montador)
 	     */
 
-	    // CASO 1: no existe -> alta normal
+	    // --- CASO 1: NO EXISTE EN EL SISTEMA ---
 	    if (existente == null) {
 	        return dao.create(te);
 	    }
+	    
+	    // Si existe (activo o inactivo), lo guardamos para que el Controlador/Vista lo consulten
+	    this.ultimoDuplicado = existente;
 
-	    // CASO 2: existe pero está inactivo
+	    // --- LÓGICA DE COMPARACIÓN DE DATOS ---
+	    boolean mismoNombre = existente.getNombre() != null &&
+	                          existente.getNombre().trim().equalsIgnoreCase(te.getNombre().trim());
+
+	    boolean mismoApellido = ((existente.getApellido() == null && te.getApellido() == null) ||
+	                            (existente.getApellido() != null && te.getApellido() != null &&
+	                             existente.getApellido().trim().equalsIgnoreCase(te.getApellido().trim())));
+
+	    boolean mismosDatosPersonales = mismoNombre && mismoApellido;
+
+	    // --- CASO 2: EL EMPLEADO EXISTE PERO ESTÁ INACTIVO (BORRADO LÓGICO) ---
 	    if (!existente.isActivo()) {
-
-	        boolean mismoNombre =
-	                existente.getNombre() != null &&
-	                existente.getNombre().equalsIgnoreCase(te.getNombre());
-
-	        boolean mismoApellido =
-	                ((existente.getApellido() == null && te.getApellido() == null) ||
-	                (existente.getApellido() != null &&
-	                 te.getApellido() != null &&
-	                 existente.getApellido().equalsIgnoreCase(te.getApellido())));
-
-	        boolean mismosDatos = mismoNombre && mismoApellido;
 	        
-	        // mismos datos personales pero distinto tipo (vendedor -> montador o viceversa)
-	        if (mismosDatos && existente.getTipo() != te.getTipo()) {
+	        // A) Mismos datos pero distinto tipo (No se puede reactivar cambiando el rol directamente)
+	        if (mismosDatosPersonales && existente.getTipo() != te.getTipo()) {
 	            return -3;
 	        }
 
-	        // mismos datos + mismo tipo -> reactivación automática
-	        if (mismosDatos) {
+	        // B) Mismos datos + mismo tipo -> Reactivación automática
+	        if (mismosDatosPersonales) {
 	            existente.setActivo(true);
-	            existente.setSueldo(te.getSueldo());
-
-	            // mantenemos el tipo original porque coincide
+	            existente.setSueldo(te.getSueldo()); // Actualizamos el sueldo al nuevo valor
+	            
 	            dao.update(existente);
-
 	            return existente.getId();
 	        }
 
-	        // existe inactivo pero los datos no coinciden
+	        // C) Existe inactivo pero con datos distintos (Nombre/Apellido no coinciden)
+	        // Devolvemos -2 para que la vista pida confirmación para "pisar" los datos antiguos
 	        return -2;
 	    }
 
-	    // CASO 3: existe y ya está activo
-	    return -1;
+	    // --- CASO 3: EL EMPLEADO YA EXISTE Y ESTÁ ACTIVO ---
+	    if (existente.isActivo()) {
+	        if (mismosDatosPersonales) {
+	            return -1;   // Es el mismo empleado (Aviso: "Este empleado ya existe")
+	        } else {
+	            return -100; // Es otro empleado (Aviso: "DNI registrado a nombre de...")
+	        }
+	    }
+
+	    return -1; // Fallback de seguridad
 	}
+	
+	@Override
+    public TEmpleado getUltimoDuplicado() {
+        return this.ultimoDuplicado;
+    }
 
 	@Override
 	public int delete(int id) {
