@@ -1,21 +1,9 @@
-[
-    {
-        "tipo": 1,
-        "apellido": "",
-        "sueldo": 1200,
-        "id": 1,
-        "nombre": "gregs",
-        "dni": "12",
-        "numeroVentas": 0,
-        "activo": true
-    },
-    {
-        "tipo": 1,
-        "apellido": "",
-        "sueldo": 1200,
-        "id": 2,
-        "nombre": "ju",
-        "dni": "1",
-        "activo": true
-    }
-]
+[{
+    "tipo": 1,
+    "apellido": "Kiki",
+    "sueldo": 1200,
+    "id": 1,
+    "nombre": "Juan",
+    "dni": "123",
+    "activo": true
+}]

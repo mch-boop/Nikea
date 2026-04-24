@@ -19,23 +19,57 @@ public class SAEmpleadoImp implements SAEmpleado {
 		// Buscamos si ya existe el DNI en el sistema
 		TEmpleado existente = dao.readByDNI(te.getDNI());
 		
-		if(existente == null) { // No existe, es un alta nueva
-			return dao.create(te); 
-		}
-		else {
-			if(!existente.isActivo()) { // Existe pero está inactivo (borrado lógico) -> Reactivamos
-				existente.setActivo(true);
-				existente.setNombre(te.getNombre());
-				existente.setApellido(te.getApellido());
-				existente.setSueldo(te.getSueldo());
-				// No cambiamos el ID original
-				dao.update(existente); 
-				return existente.getId();
-			}
-			else { // Existe y ya está activo
-				return -1; 
-			}
-		}
+		/*
+	     * Códigos de retorno:
+	     *
+	     * > 0  -> Alta correcta / Reactivación correcta
+	     * -1   -> Ya existe activo
+	     * -2   -> Existe inactivo pero los datos no coinciden (pedir confirmación)
+	     * -3   -> Existe inactivo, mismos datos pero distinto tipo de empleado
+	     */
+
+	    // CASO 1: no existe -> alta normal
+	    if (existente == null) {
+	        return dao.create(te);
+	    }
+
+	    // CASO 2: existe pero está inactivo
+	    if (!existente.isActivo()) {
+
+	        boolean mismoNombre =
+	                existente.getNombre() != null &&
+	                existente.getNombre().equalsIgnoreCase(te.getNombre());
+
+	        boolean mismoApellido =
+	                ((existente.getApellido() == null && te.getApellido() == null) ||
+	                (existente.getApellido() != null &&
+	                 te.getApellido() != null &&
+	                 existente.getApellido().equalsIgnoreCase(te.getApellido())));
+
+	        boolean mismosDatos = mismoNombre && mismoApellido;
+	        
+	        // mismos datos personales pero distinto tipo (vendedor -> montador o viceversa)
+	        if (mismosDatos && existente.getTipo() != te.getTipo()) {
+	            return -3;
+	        }
+
+	        // mismos datos + mismo tipo -> reactivación automática
+	        if (mismosDatos) {
+	            existente.setActivo(true);
+	            existente.setSueldo(te.getSueldo());
+
+	            // mantenemos el tipo original porque coincide
+	            dao.update(existente);
+
+	            return existente.getId();
+	        }
+
+	        // existe inactivo pero los datos no coinciden
+	        return -2;
+	    }
+
+	    // CASO 3: existe y ya está activo
+	    return -1;
 	}
 
 	@Override
@@ -127,6 +161,43 @@ public class SAEmpleadoImp implements SAEmpleado {
 	    }
 
 	    return daoMN.desvincular(tmm);
+	}
+	
+	@Override
+	public int reactivate(TEmpleado tEmpleado) {
+	    int res = -1;
+	    DAOEmpleado daoEmpleado = FactoriaIntegracion.getInstance().crearDAOEmpleado();
+	    
+	    // Leemos el empleado que ya existe por su DNI
+	    TEmpleado empleadoExistente = daoEmpleado.readByDNI(tEmpleado.getDNI());
+	    
+	    if (empleadoExistente != null) {
+	        // Verificamos que sea del mismo tipo (No se puede reactivar un Vendedor como Montador)
+	        if (empleadoExistente.getTipo() == tEmpleado.getTipo()) {
+	            
+	            // Actualizamos los datos del empleado existente con los nuevos del formulario
+	            empleadoExistente.setNombre(tEmpleado.getNombre());
+	            empleadoExistente.setApellido(tEmpleado.getApellido());
+	            empleadoExistente.setSueldo(tEmpleado.getSueldo());
+	            
+	            // Cambiamos el estado a ACTIVO
+	            empleadoExistente.setActivo(true);
+	            
+	            // Persistimos los cambios en el JSON a través del DAO
+	            // El método update del DAO busca por ID y sobreescribe
+	            res = daoEmpleado.update(empleadoExistente);
+	            
+	            // Si el update fue bien, devolvemos el ID del empleado reactivado
+	            if (res > 0) {
+	                res = empleadoExistente.getId();
+	            }
+	        } else {
+	            // Error: El tipo no coincide (Caso -3) 
+	            res = -3;
+	        }
+	    }
+	    
+	    return res;
 	}
 	
 }

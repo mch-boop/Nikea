@@ -32,21 +32,21 @@ public class VistaAnadirEmpleado extends JFrame implements IGUI {
 	// MÉTODOS
 	
 	private void limpiarCampos() {
-		SwingUtilities.invokeLater(() -> {
-	        txtNombre.setText("");
-	        txtApellido.setText("");
-	        txtDNI.setText("");
+		txtNombre.setText("");
+	    txtApellido.setText("");
+	    txtDNI.setText("");
 
-	        if (spSueldo != null) {
-	            spSueldo.setValue(1200.0); 
-	        }
+	    if (spSueldo != null) {
+	        spSueldo.setValue(1200.0);
+	    }
 
-	        if (rbVendedor != null) {
-	            rbVendedor.setSelected(true);
-	        }
-	        
-	        txtNombre.requestFocus(); // Ponemos el cursor en el primer campo
-	    });
+	    if (rbVendedor != null) {
+	        rbVendedor.setSelected(true);
+	    }
+
+	    txtNombre.requestFocus();
+	    repaint();
+	    revalidate();
     }
 	
 	private void initGUI() {
@@ -191,10 +191,44 @@ public class VistaAnadirEmpleado extends JFrame implements IGUI {
 	            break;
 	
 	        case Eventos.RES_ALTA_EMPLEADO_YA_EXISTE:
-	            TEmpleado existente = (TEmpleado) datos; 
-	            String msgExiste = "Error: El DNI ya pertenece a: " + existente.getNombre() + " " + existente.getApellido() + 
-	                               "\nEstado: " + (existente.isActivo() ? "Activo" : "Inactivo");
-	            JOptionPane.showMessageDialog(this, msgExiste, "DNI Duplicado", JOptionPane.WARNING_MESSAGE);
+	        	TEmpleado existente = (TEmpleado) datos;
+	            
+	            String nUI = txtNombre.getText().trim().toLowerCase();
+	            String aUI = txtApellido.getText().trim().toLowerCase();
+	            String nDB = (existente.getNombre() != null) ? existente.getNombre().trim().toLowerCase() : "";
+	            String aDB = (existente.getApellido() != null) ? existente.getApellido().trim().toLowerCase() : "";
+
+	            if (nUI.equals(nDB) && aUI.equals(aDB)) {
+	                JOptionPane.showMessageDialog(this, "Este empleado ya existe en el sistema.", "Aviso", JOptionPane.WARNING_MESSAGE);
+	            } else {
+	                JOptionPane.showMessageDialog(this, "EL DNI introducido ya pertenece a:\n" + existente.getNombre() + " " + existente.getApellido(), "DNI Duplicado", JOptionPane.WARNING_MESSAGE);
+	            }
+	            txtDNI.requestFocus();
+	            break;
+	            
+	        case Eventos.RES_ALTA_EMPLEADO_CONFIRMAR_REACTIVACION:
+	        	// El empleado existe inactivo con datos distintos (Caso -2)
+	            TEmpleado empReac = (TEmpleado) datos;
+	            
+	            int respReac = JOptionPane.showConfirmDialog(this, 
+	                "Existe un empleado inactivo con DNI " + empReac.getDNI() + ".\n" +
+	                "¿Desea reactivarlo y actualizarlo con los nuevos datos introducidos?", 
+	                "Confirmar Reactivación y Modificación", 
+	                JOptionPane.YES_NO_OPTION, 
+	                JOptionPane.QUESTION_MESSAGE);
+	            
+	            if (respReac == JOptionPane.YES_OPTION) {
+	                // Al darle a SÍ, enviamos el Transfer con los datos nuevos al controlador
+	                // Usamos un evento específico para que el SA sepa que debe sobreescribir y activar
+	                Controlador.getInstance().accion(Eventos.REACTIVAR_EMPLEADO, empReac);
+	            }
+	            break;
+
+	        case Eventos.RES_ALTA_EMPLEADO_CONFIRMAR_CAMBIO_TIPO:
+	            // Caso -3: El empleado existe inactivo pero con distinto tipo (ej: era Vendedor y ahora se pide Montador)
+	            JOptionPane.showMessageDialog(this, 
+	                "El empleado existe en el histórico pero con un tipo distinto.\nDebe darlo de alta con su tipo original o contactar con el administrador.", 
+	                "Cambio de Tipo no permitido", JOptionPane.ERROR_MESSAGE);
 	            break;
 	            
 	        case Eventos.RES_ALTA_EMPLEADO_KO:

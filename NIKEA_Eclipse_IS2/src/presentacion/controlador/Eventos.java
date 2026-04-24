@@ -43,6 +43,9 @@ public class Eventos {
 	public static final int RES_ALTA_EMPLEADO_KO_NOMBRE = 20103;
 	public static final int RES_ALTA_EMPLEADO_KO_DNI = 20104;
 	public static final int RES_ALTA_EMPLEADO_YA_EXISTE = 20105;
+	public static final int REACTIVAR_EMPLEADO = 20111;
+	public static final int RES_ALTA_EMPLEADO_CONFIRMAR_REACTIVACION = 201111;
+	public static final int RES_ALTA_EMPLEADO_CONFIRMAR_CAMBIO_TIPO = 201112;
 	
     public static final int BAJA_EMPLEADO = 202;
     public static final int RES_BAJA_EMPLEADO_OK = 2021;

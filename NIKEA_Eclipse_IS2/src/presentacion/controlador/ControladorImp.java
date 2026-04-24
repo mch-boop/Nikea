@@ -40,36 +40,66 @@ public class ControladorImp extends Controlador {
 			case Eventos.ALTA_EMPLEADO: {
 				TEmpleado tEmpleado = (TEmpleado) datos;
 			    SAEmpleado saEmpleado = FactoriaAbstractaNegocio.getInstance().crearSAEmpleado();
-			    int res = saEmpleado.create(tEmpleado); 
+
+			    // El create devuelve el ID (>0) o un código de error (<0)
+			    int res = saEmpleado.create(tEmpleado);
 
 			    IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(evento);
-			    
-			    // Si res > 0, es el ID del empleado creado
+
 			    if (res > 0) {
+			        // Alta o reactivación exitosa
 			        vista.actualizar(Eventos.RES_ALTA_EMPLEADO_OK, res);
-			    } else {
-			        // Si es negativo, mapeamos el error
+			    } 
+			    else {
 			        switch (res) {
-			            case -1:
-			                vista.actualizar(Eventos.RES_ALTA_EMPLEADO_KO_DNI, tEmpleado);
-			                break;
-			            case -2:
-			                vista.actualizar(Eventos.RES_ALTA_EMPLEADO_KO_NOMBRE, tEmpleado);
-			                break;
-			            case -3:
-			                vista.actualizar(Eventos.RES_ALTA_EMPLEADO_KO_APELLIDO, tEmpleado);
-			                break;
-			            case -4:
-			                vista.actualizar(Eventos.RES_ALTA_EMPLEADO_KO_SUELDO, tEmpleado);
-			                break;
-			            case -5:
+			            case -1: // Ya existe y está activo
 			                vista.actualizar(Eventos.RES_ALTA_EMPLEADO_YA_EXISTE, tEmpleado);
 			                break;
-			            default:
-			                // Este es el evento que hacía saltar el "Error no identificado"
+
+			            case -2: // Existe inactivo con datos distintos
+			                vista.actualizar(Eventos.RES_ALTA_EMPLEADO_CONFIRMAR_REACTIVACION, tEmpleado);
+			                break;
+
+			            case -3: // Existe inactivo, mismos datos pero distinto tipo
+			                vista.actualizar(Eventos.RES_ALTA_EMPLEADO_CONFIRMAR_CAMBIO_TIPO, tEmpleado);
+			                break;
+
+			            case -4: // DNI inválido
+			                vista.actualizar(Eventos.RES_ALTA_EMPLEADO_KO_DNI, tEmpleado);
+			                break;
+
+			            case -5: // Nombre inválido
+			                vista.actualizar(Eventos.RES_ALTA_EMPLEADO_KO_NOMBRE, tEmpleado);
+			                break;
+
+			            case -6: // Apellido inválido
+			                vista.actualizar(Eventos.RES_ALTA_EMPLEADO_KO_APELLIDO, tEmpleado);
+			                break;
+
+			            case -7: // Sueldo inválido
+			                vista.actualizar(Eventos.RES_ALTA_EMPLEADO_KO_SUELDO, tEmpleado);
+			                break;
+
+			            default: // Error genérico o fallo de persistencia
 			                vista.actualizar(Eventos.RES_ALTA_EMPLEADO_KO, res);
 			                break;
 			        }
+			    }
+			    break;
+			}
+			
+			case Eventos.REACTIVAR_EMPLEADO: {
+			    TEmpleado t = (TEmpleado) datos;
+			    SAEmpleado sa = FactoriaAbstractaNegocio.getInstance().crearSAEmpleado();
+			    
+			    // El SA hace un update de los datos y cambiar activo a true
+			    int res = sa.reactivate(t);  
+
+			    IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.ALTA_EMPLEADO);
+			    if (res > 0) {
+			        vista.actualizar(Eventos.RES_ALTA_EMPLEADO_OK, res);
+			    } else {
+			        vista.actualizar(Eventos.RES_ALTA_EMPLEADO_KO, res);
 			    }
 			    break;
 			}
