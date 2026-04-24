@@ -18,25 +18,26 @@ public class GUIDescuentoDialog extends JDialog {
 	//CONSTRUCTORA
 	
 	public GUIDescuentoDialog(JFrame owner) {
-        super(owner, "Gestión de Descuento", false);
-    	setSize(800, 150);
-    	setResizable(false);
-        setLocationRelativeTo(owner);
-        
-        initGUI();
+	    super(owner, "Gestión de Descuento", false);
+	    setResizable(false);
+	    setSize(850, 120);
+	    setLocationRelativeTo(owner);
+	    
+	    initGUI();
 	}
 	
 	// MÉTODOS
     
     private void initGUI() {
-    	JPanel panel = new JPanel(new GridLayout(1, 5,  10, 10));
+    	
+    	JPanel panel = new JPanel(new GridLayout(1, 5, 10, 10));
         panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
         
-        JButton btnAlta           = new JButton("Alta descuento");
-        JButton btnBaja           = new JButton("Baja descuento");
-        JButton btnModificar      = new JButton("Modificar descuento");
-        JButton btnListar         = new JButton("Listar descuentos");
-        JButton btnBuscar         = new JButton("Buscar descuento");
+        JButton btnAlta      = new JButton("Alta descuento");
+        JButton btnBaja      = new JButton("Baja descuento");
+        JButton btnModificar = new JButton("Modificar descuento");
+        JButton btnListar    = new JButton("Listar descuentos");
+        JButton btnBuscar    = new JButton("Buscar descuento");
 
         JButton[] botones = {btnAlta, btnBaja, btnModificar, btnListar, btnBuscar};
         for (JButton b : botones) {

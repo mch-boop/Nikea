@@ -19,49 +19,34 @@ public class GUIClienteDialog extends JDialog {
 	// CONSTRUCTORA
 	
 	public GUIClienteDialog(JFrame owner) {
-        super(owner, "Gestión de Cliente", false);
-        // Evita que el usuario pueda cambiar el tamaño del diálogo
-        setResizable(false); 
-        setSize(600, 120); 
-        setLocationRelativeTo(owner);
-        
-        initGUI();
+	    super(owner, "Gestión de Cliente", false);
+	    setResizable(false); 
+	    setSize(800, 150); 
+	    setLocationRelativeTo(owner);
+	    
+	    initGUI();
 	}
 	
 	// MÉTODO INITGUI
 	
 	private void initGUI() {
-		// Creo botón principal, con dos filas (para organizar los botones centrados en cada fila).
-        JPanel mainPanel = new JPanel(new GridLayout(2, 1, 10, 10));
-        mainPanel.setBorder(BorderFactory.createEmptyBorder());
+		JPanel panel = new JPanel(new GridLayout(2, 3, 10, 10));
+	    panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
-        // Fila 1: 3 botones
-        JPanel fila1 = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        JButton btnAlta = new JButton("Alta Cliente");
-        JButton btnBaja = new JButton("Baja Cliente");
-        JButton btnModificar = new JButton("Modificar Cliente");
-        
-        
-        fila1.add(btnAlta);
-        fila1.add(btnBaja);
-        fila1.add(btnModificar);
-        
+	    JButton btnAlta          = new JButton("Alta Cliente");
+	    JButton btnBaja          = new JButton("Baja Cliente");
+	    JButton btnModificar     = new JButton("Modificar Cliente");
+	    JButton btnListar        = new JButton("Listar Clientes");
+	    JButton btnMostrarMejor  = new JButton("Mejor Cliente");
+	    JButton btnBuscar        = new JButton("Buscar Cliente");
 
-        // Fila 2: 3 botones (centrados por uso de FlowLayout).
-        JPanel fila2 = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        JButton btnListar = new JButton("Listar Cliente");
-        JButton btnMostrarMejor = new JButton("Mostrar Mejor Cliente");
-        JButton btnBuscar = new JButton("Buscar Cliente");
-        
-        fila2.add(btnListar);
-        fila2.add(btnMostrarMejor);
-        fila2.add(btnBuscar);
-        
-        // Añado las dos filas al panel principal.
-        mainPanel.add(fila1);
-        mainPanel.add(fila2);
+	    JButton[] botones = {btnAlta, btnBaja, btnModificar, btnListar, btnMostrarMejor, btnBuscar};
+	    for (JButton b : botones) {
+	        b.setFocusPainted(false);
+	        panel.add(b);
+	    }
 
-        add(mainPanel, BorderLayout.CENTER);
+	    add(panel, BorderLayout.CENTER);
         
 
         // Listeners de los botones.
