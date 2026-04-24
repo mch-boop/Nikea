@@ -1,0 +1,9 @@
+[{
+    "tipo": 2,
+    "apellido": "Empleable",
+    "sueldo": 1000,
+    "id": 1,
+    "nombre": "Empleado",
+    "dni": "1",
+    "activo": false
+}]

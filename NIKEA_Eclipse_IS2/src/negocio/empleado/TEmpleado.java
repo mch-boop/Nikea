@@ -1,5 +1,7 @@
 package negocio.empleado;
 
+import org.json.JSONObject;
+
 public class TEmpleado {
 
     // Atributos 
@@ -24,6 +26,22 @@ public class TEmpleado {
         this.activo = activo;
         this.tipo = tipo;
     }
+    
+    // Métodos traducción de/a JSON
+    public JSONObject asJSON() {
+        JSONObject obj = new JSONObject();
+        obj.put("id", this.id);
+        obj.put("nombre", this.nombre);
+        obj.put("apellido", this.apellido);
+        obj.put("dni", this.dni);
+        obj.put("sueldo", this.sueldo);
+        obj.put("activo", this.activo);
+        obj.put("tipo", this.tipo);
+        return obj;
+    }
+    
+    // Permite a las subclases extraer sus datos específicos del JSON
+    public void fromJSON(JSONObject obj) {}
 
     // Getters y Setters
     public Integer getId() {
