@@ -19,8 +19,7 @@ public class FactoriaPresentacion extends FactoriaAbstractaPresentacion {
 				return new VistaModificarCliente();
 			case Eventos.MOSTRAR_CLIENTES:
 				return new VistaMostrarClientes();
-			case Eventos.MOSTRAR_FACTURAS_CLIENTE_POR_ID:
-				return new VistaMostrarFacturasCliente();
+
 			case Eventos.MOSTRAR_MEJOR_CLIENTE:
 				return new VistaMostrarMejorCliente();
 				

@@ -131,7 +131,7 @@ public class VistaBuscarCliente extends JFrame implements IGUI {
     	// El controlador llama a este método tras la ejecución en el SA
         switch (evento) {
 
-            case Eventos.RES_BUSCAR_EMPLEADO_OK:
+            case Eventos.RES_BUSCAR_CLIENTE_OK:
             	// Recibo el transfer de cliente para leer los datos.
                 TCliente tc = (TCliente) datos;
                 // Formateo los datos en un StringBuilder.
@@ -146,7 +146,7 @@ public class VistaBuscarCliente extends JFrame implements IGUI {
                 areaDetalles.setText(sb.toString());
                 break;
 
-            case Eventos.RES_BUSCAR_EMPLEADO_KO:
+            case Eventos.RES_BUSCAR_CLIENTE_KO:
                 areaDetalles.setText("");
                 JOptionPane.showMessageDialog(this, "No se ha encontrado ningún cliente con el ID: " + ((TCliente)datos).getId(), "Error", JOptionPane.ERROR_MESSAGE);
                 txtId.requestFocus();
