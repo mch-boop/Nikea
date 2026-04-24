@@ -1,6 +1,9 @@
 package presentacion.GUIEmpleado;
 
 import javax.swing.*;
+
+import negocio.empleado.TEmpleado;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -97,8 +100,18 @@ public class VistaEliminarEmpleado extends JFrame implements IGUI {
         switch (evento) {
             
             case Eventos.RES_BAJA_EMPLEADO_OK:
-                JOptionPane.showMessageDialog(this, "El empleado con ID " + datos + " ha sido dado de baja (borrado lógico).", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-                txtId.setText("");
+            	TEmpleado te = (TEmpleado) datos;
+                String info = "ID: " + te.getId() + "\nNombre: " + te.getNombre() + " " + te.getApellido() + "\nDNI: " + te.getDNI();
+                
+                int respuesta = JOptionPane.showConfirmDialog(this, 
+                    "Se ha encontrado el siguiente empleado:\n\n" + info + "\n\n¿Está seguro de que desea darlo de baja?",
+                    "Confirmar Eliminación", 
+                    JOptionPane.YES_NO_OPTION, 
+                    JOptionPane.WARNING_MESSAGE);
+
+                if (respuesta == JOptionPane.YES_OPTION) {
+                    Controlador.getInstance().accion(Eventos.BAJA_EMPLEADO, te.getId());
+                }
                 break;
 
             case Eventos.RES_BAJA_EMPLEADO_KO_NO_EXISTE:
