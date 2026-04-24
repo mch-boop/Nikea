@@ -50,6 +50,7 @@ public class SAEmpleadoImp implements SAEmpleado {
 	                             existente.getApellido().trim().equalsIgnoreCase(te.getApellido().trim())));
 
 	    boolean mismosDatosPersonales = mismoNombre && mismoApellido;
+	    
 
 	    // --- CASO 2: EL EMPLEADO EXISTE PERO ESTÁ INACTIVO (BORRADO LÓGICO) ---
 	    if (!existente.isActivo()) {
@@ -75,6 +76,11 @@ public class SAEmpleadoImp implements SAEmpleado {
 
 	    // --- CASO 3: EL EMPLEADO YA EXISTE Y ESTÁ ACTIVO ---
 	    if (existente.isActivo()) {
+	    	// Mismos datos pero distinto tipo (No se puede reactivar cambiando el rol directamente)
+		    if (mismosDatosPersonales && existente.getTipo() != te.getTipo()) {
+	            return -300;
+	        } 
+		    
 	        if (mismosDatosPersonales) {
 	            return -1;   // Es el mismo empleado (Aviso: "Este empleado ya existe")
 	        } else {

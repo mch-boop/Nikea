@@ -69,10 +69,21 @@ public class GUIConfirmarModificar extends JDialog {
 
     private TEmpleado fusionarDatos(TEmpleado v, TEmpleado n) {
         TEmpleado f = new TEmpleado();
-        f.setNombre(n.getNombre() != null ? n.getNombre() : v.getNombre());
-        f.setApellido(n.getApellido() != null ? n.getApellido() : v.getApellido());
-        f.setSueldo(n.getSueldo() != -1.0 ? n.getSueldo() : v.getSueldo());
-        f.setDNI(v.getDNI()); // El DNI no suele cambiar en modificación por ID
+        // Copiamos ID y DNI del viejo (no cambian)
+        f.setId(v.getId());
+        f.setDNI(v.getDNI());
+
+        // Si el usuario no escribió nada en un campo, mantenemos el valor viejo
+        if (n != null) {
+            f.setNombre(n.getNombre() != null ? n.getNombre() : v.getNombre());
+            f.setApellido(n.getApellido() != null ? n.getApellido() : v.getApellido());
+            f.setSueldo(n.getSueldo() != -1.0 ? n.getSueldo() : v.getSueldo());
+        } else {
+            // Si por algún error n llega null, la vista previa es igual al viejo
+            f.setNombre(v.getNombre());
+            f.setApellido(v.getApellido());
+            f.setSueldo(v.getSueldo());
+        }
         return f;
     }
 

@@ -231,11 +231,29 @@ public class VistaAnadirEmpleado extends JFrame implements IGUI {
 	                    }
 	                    break;
 
-	                case Eventos.RES_ALTA_EMPLEADO_CONFIRMAR_CAMBIO_TIPO:
-	                    // Caso -3: El empleado existe inactivo pero con distinto tipo
+	                case Eventos.RES_ALTA_EMPLEADO_CAMBIO_TIPO_REQUERIDO_ACTIVO:
+	                    // El empleado ya está trabajando pero con otro cargo
 	                    JOptionPane.showMessageDialog(VistaAnadirEmpleado.this, 
-	                        "El empleado existe en el histórico pero con un tipo distinto.\nDebe darlo de alta con su tipo original o contactar con el administrador.", 
-	                        "Cambio de Tipo no permitido", JOptionPane.ERROR_MESSAGE);
+	                        "Este empleado ya figura en el sistema pero con un cargo distinto.\n" +
+	                        "Para cambiar su tipo (ej. de Vendedor a Montador), use el botón 'Actualizar Empleado' del menú.", 
+	                        "Empleado Activo - Cambio de Tipo", 
+	                        JOptionPane.INFORMATION_MESSAGE);
+	                    VistaAnadirEmpleado.this.dispose();
+	                    break;
+
+	                case Eventos.RES_ALTA_EMPLEADO_CAMBIO_TIPO_REQUERIDO_INACTIVO:
+	                    // El empleado fue borrado con otro cargo
+	                    TEmpleado inactivo = (TEmpleado) datos;
+	                    String tipoOriginal = (inactivo.getTipo() == 1) ? "Vendedor" : "Montador";
+	                    
+	                    JOptionPane.showMessageDialog(VistaAnadirEmpleado.this, 
+	                        "El empleado existe en el histórico como inactivo con el cargo de: " + tipoOriginal + ".\n\n" +
+	                        "PASOS A SEGUIR:\n" +
+	                        "1. Vuelva a darle de alta seleccionando el tipo '" + tipoOriginal + "' para reactivarlo.\n" +
+	                        "2. Una vez reactivado, use el botón 'Actualizar Empleado' para cambiar su cargo actual.", 
+	                        "Reactivación Requerida", 
+	                        JOptionPane.WARNING_MESSAGE);
+	                    VistaAnadirEmpleado.this.dispose();
 	                    break;
 	                    
 	                case Eventos.RES_ALTA_EMPLEADO_KO:

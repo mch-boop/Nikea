@@ -50,7 +50,8 @@ public class Eventos {
 	public static final int RES_ALTA_EMPLEADO_YA_EXISTE_DISTINTO = 201052;
 	public static final int REACTIVAR_EMPLEADO = 20111;
 	public static final int RES_ALTA_EMPLEADO_CONFIRMAR_REACTIVACION = 201111;
-	public static final int RES_ALTA_EMPLEADO_CONFIRMAR_CAMBIO_TIPO = 201112;
+	public static final int RES_ALTA_EMPLEADO_CAMBIO_TIPO_REQUERIDO_INACTIVO = 201061;
+	public static final int RES_ALTA_EMPLEADO_CAMBIO_TIPO_REQUERIDO_ACTIVO = 201062;
 	
     public static final int BAJA_EMPLEADO = 202;
     public static final int RES_BAJA_EMPLEADO_OK = 2021;
@@ -66,6 +67,9 @@ public class Eventos {
     public static final int RES_MODIFICAR_EMPLEADO_OK = 2031;
     public static final int RES_MODIFICAR_EMPLEADO_KO_NO_EXISTE = 20301;
     public static final int RES_MODIFICAR_EMPLEADO_KO_DATOS_INVALIDOS = 20302;
+    public static final int BUSCAR_EMPLEADO_PARA_MODIFICAR = 20303; 
+    public static final int RES_BUSCAR_EMPLEADO_PARA_MODIFICAR_OK = 203031;
+    public static final int RES_BUSCAR_EMPLEADO_PARA_MODIFICAR_KO = 203032;
     
     public static final int BUSCAR_EMPLEADO = 204;
     public static final int RES_BUSCAR_EMPLEADO_KO = 2040;

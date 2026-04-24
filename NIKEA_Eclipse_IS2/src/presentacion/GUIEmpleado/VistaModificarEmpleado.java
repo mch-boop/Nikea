@@ -16,6 +16,7 @@ public class VistaModificarEmpleado extends JFrame implements IGUI {
 	
     private JTextField txtId, txtNombre, txtApellido, txtSueldo;
     private JButton btnModificar, btnCancelar;
+    private static TEmpleado datosNuevosParaConfirmar;
 
     // CONSTRUCTORA
     
@@ -51,41 +52,21 @@ public class VistaModificarEmpleado extends JFrame implements IGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    if (txtId.getText().isEmpty()) {
-                        JOptionPane.showMessageDialog(null, "El ID es obligatorio para identificar al empleado.");
+                    if (txtId.getText().trim().isEmpty()) {
+                        JOptionPane.showMessageDialog(VistaModificarEmpleado.this, "El ID es obligatorio.");
                         return;
                     }
 
-                    TEmpleado te = new TEmpleado();
-                    te.setId(Integer.parseInt(txtId.getText()));
+                    datosNuevosParaConfirmar = new TEmpleado();
+                    datosNuevosParaConfirmar.setId(Integer.parseInt(txtId.getText().trim()));
+                    datosNuevosParaConfirmar.setNombre(!txtNombre.getText().trim().isEmpty() ? txtNombre.getText().trim() : null);
+                    datosNuevosParaConfirmar.setApellido(!txtApellido.getText().trim().isEmpty() ? txtApellido.getText().trim() : null);
+                    datosNuevosParaConfirmar.setSueldo(!txtSueldo.getText().trim().isEmpty() ? Double.parseDouble(txtSueldo.getText().trim()) : -1.0);
 
-                    // Solo enviamos datos si el usuario escribió algo
-                    
-                    // Nombre
-                    if (!txtNombre.getText().trim().isEmpty()) {
-                        te.setNombre(txtNombre.getText().trim());
-                    } else {
-                        te.setNombre(null); // Indicamos al SA que ignore este campo
-                    }
-
-                    // Apellido
-                    if (!txtApellido.getText().trim().isEmpty()) {
-                        te.setApellido(txtApellido.getText().trim());
-                    } else {
-                        te.setApellido(null);
-                    }
-
-                    // Sueldo 
-                    if (!txtSueldo.getText().trim().isEmpty()) {
-                        te.setSueldo(Double.parseDouble(txtSueldo.getText().trim()));
-                    } else {
-                        te.setSueldo(-1.0); // Valor centinela: "No modificar sueldo"
-                    }
-
-                    Controlador.getInstance().accion(Eventos.MODIFICAR_EMPLEADO, te);
+                    Controlador.getInstance().accion(Eventos.BUSCAR_EMPLEADO_PARA_MODIFICAR, datosNuevosParaConfirmar.getId());
                     
                 } catch (NumberFormatException ex) {
-                    JOptionPane.showMessageDialog(null, "Asegúrese de que el ID y el Sueldo sean números válidos.");
+                    JOptionPane.showMessageDialog(VistaModificarEmpleado.this, "ID o Sueldo no válidos.");
                 }
             }
         });
@@ -148,26 +129,41 @@ public class VistaModificarEmpleado extends JFrame implements IGUI {
 
     @Override
     public void actualizar(int evento, Object datos) {
-        switch (evento) {
+        SwingUtilities.invokeLater(() -> {
+            switch (evento) {
+                // Recibimos los datos del empleado que queremos modificar
+                case Eventos.RES_BUSCAR_EMPLEADO_PARA_MODIFICAR_OK:
+                    TEmpleado datosViejos = (TEmpleado) datos;
+                    
+                    // Lanzamos el diálogo de las tarjetas
+                    GUIConfirmarModificar dialog = new GUIConfirmarModificar(this, datosViejos, datosNuevosParaConfirmar);
+                    dialog.setVisible(true);
+                    
+                    if (dialog.isConfirmado()) {
+                        // Si el usuario acepta en las tarjetas, se lanza la modificación real
+                        Controlador.getInstance().accion(Eventos.MODIFICAR_EMPLEADO, datosNuevosParaConfirmar);
+                    }
+                    break;
 
-            case Eventos.RES_MODIFICAR_EMPLEADO_OK:
-                JOptionPane.showMessageDialog(this, "Datos actualizados correctamente para el empleado ID: " + datos, "Éxito", JOptionPane.INFORMATION_MESSAGE);
-                limpiarCampos();
-                break;
+                case Eventos.RES_BUSCAR_EMPLEADO_PARA_MODIFICAR_KO:
+                    JOptionPane.showMessageDialog(this, "Error: No se encontró el empleado con ID: " + datos, "ID no encontrado", JOptionPane.ERROR_MESSAGE);
+                    txtId.requestFocus();
+                    break;
 
-            case Eventos.RES_MODIFICAR_EMPLEADO_KO_NO_EXISTE:
-                JOptionPane.showMessageDialog(this, "Error: No se encontró ningún empleado con el ID especificado.", "Error", JOptionPane.ERROR_MESSAGE);
-                txtId.requestFocus();
-                break;
+                case Eventos.RES_MODIFICAR_EMPLEADO_OK:
+                    JOptionPane.showMessageDialog(this, "Empleado actualizado correctamente.");
+                    this.dispose(); // Cerramos al terminar
+                    break;
 
-            case Eventos.RES_MODIFICAR_EMPLEADO_KO_DATOS_INVALIDOS:
-                JOptionPane.showMessageDialog(this, "Error: Los datos introducidos no son válidos para la modificación.", "Validación Fallida", JOptionPane.WARNING_MESSAGE);
-                break;
+                case Eventos.RES_MODIFICAR_EMPLEADO_KO_NO_EXISTE:
+                    JOptionPane.showMessageDialog(this, "El empleado ha dejado de existir durante la operación.", "Error", JOptionPane.ERROR_MESSAGE);
+                    break;
 
-            default:
-                JOptionPane.showMessageDialog(this, "Error inesperado al intentar modificar.");
-                break;
-        }
+                case Eventos.RES_MODIFICAR_EMPLEADO_KO_DATOS_INVALIDOS:
+                    JOptionPane.showMessageDialog(this, "Datos no válidos para la actualización.", "Error de validación", JOptionPane.WARNING_MESSAGE);
+                    break;
+            }
+        });
     }
 
 

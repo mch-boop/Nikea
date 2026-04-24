@@ -65,7 +65,11 @@ public class ControladorImp extends Controlador {
 			                break;
 
 			            case -3: // Existe inactivo, mismos datos pero distinto tipo
-			                vista.actualizar(Eventos.RES_ALTA_EMPLEADO_CONFIRMAR_CAMBIO_TIPO, saEmpleado.getUltimoDuplicado());
+			                vista.actualizar(Eventos.RES_ALTA_EMPLEADO_CAMBIO_TIPO_REQUERIDO_INACTIVO, saEmpleado.getUltimoDuplicado());
+			                break;
+			                
+			            case -300: // Activo, mismo nombre, distinto tipo
+			                vista.actualizar(Eventos.RES_ALTA_EMPLEADO_CAMBIO_TIPO_REQUERIDO_ACTIVO, saEmpleado.getUltimoDuplicado());
 			                break;
 
 			            case -4: // DNI inválido
@@ -165,6 +169,22 @@ public class ControladorImp extends Controlador {
 					vista.actualizar(Eventos.RES_MODIFICAR_EMPLEADO_KO_DATOS_INVALIDOS, tEmpleado);
 				}
 				break;
+			}
+			
+			case Eventos.BUSCAR_EMPLEADO_PARA_MODIFICAR: {
+			    Integer id = (Integer) datos;
+			    SAEmpleado saEmp = FactoriaAbstractaNegocio.getInstance().crearSAEmpleado();
+			    TEmpleado empleado = saEmp.read(id);
+			    
+			    // Obtenemos la vista de Modificar (la factoría debería devolver la actual)
+			    IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.MODIFICAR_EMPLEADO);
+			    
+			    if (empleado != null) {
+			        vista.actualizar(Eventos.RES_BUSCAR_EMPLEADO_PARA_MODIFICAR_OK, empleado);
+			    } else {
+			        vista.actualizar(Eventos.RES_BUSCAR_EMPLEADO_PARA_MODIFICAR_KO, id);
+			    }
+			    break;
 			}
 			
 			case Eventos.BUSCAR_EMPLEADO: {
