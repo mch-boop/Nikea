@@ -38,7 +38,7 @@ public class VistaEliminarEmpleado extends JFrame implements IGUI {
 
         // ALINEACIÓN
         JPanel panelInput = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        txtId = new JTextField(10);
+        this.txtId = new JTextField(10);
         panelInput.add(new JLabel("ID Empleado:"));
         panelInput.add(txtId);
         
@@ -99,20 +99,30 @@ public class VistaEliminarEmpleado extends JFrame implements IGUI {
     	// El controlador llama a este método tras la ejecución en el SA
         switch (evento) {
             
-            case Eventos.RES_BAJA_EMPLEADO_OK:
-            	TEmpleado te = (TEmpleado) datos;
-                String info = "ID: " + te.getId() + "\nNombre: " + te.getNombre() + " " + te.getApellido() + "\nDNI: " + te.getDNI();
-                
-                int respuesta = JOptionPane.showConfirmDialog(this, 
-                    "Se ha encontrado el siguiente empleado:\n\n" + info + "\n\n¿Está seguro de que desea darlo de baja?",
-                    "Confirmar Eliminación", 
-                    JOptionPane.YES_NO_OPTION, 
-                    JOptionPane.WARNING_MESSAGE);
+        case Eventos.RES_BAJA_EMPLEADO_OK:
+            TEmpleado te = (TEmpleado) datos; 
+            
+            String info = "ID: " + te.getId() + "\nNombre: " + te.getNombre() + 
+                          " " + te.getApellido() + "\nDNI: " + te.getDNI();
+            
+            int respuesta = JOptionPane.showConfirmDialog(this, 
+                "Se ha encontrado el siguiente empleado activo:\n\n" + info + 
+                "\n\n¿Está seguro de que desea darlo de baja?",
+                "Confirmar Baja", 
+                JOptionPane.YES_NO_OPTION, 
+                JOptionPane.WARNING_MESSAGE);
 
-                if (respuesta == JOptionPane.YES_OPTION) {
-                    Controlador.getInstance().accion(Eventos.BAJA_EMPLEADO, te.getId());
-                }
-                break;
+            if (respuesta == JOptionPane.YES_OPTION) {
+                // Llamamos a la ejecución definitiva del borrado lógico
+                Controlador.getInstance().accion(Eventos.CONFIRMAR_BAJA_EMPLEADO, te.getId());
+            }
+            break;
+
+        case Eventos.RES_BAJA_EMPLEADO_CONFIRMADA:
+            // 3. Éxito final
+            JOptionPane.showMessageDialog(this, "El empleado con ID " + datos + " ahora está INACTIVO.");
+            txtId.setText("");
+            break;
 
             case Eventos.RES_BAJA_EMPLEADO_KO_NO_EXISTE:
                 JOptionPane.showMessageDialog(this, "Error: No existe ningún empleado con el ID: " + datos, "Error", JOptionPane.ERROR_MESSAGE);

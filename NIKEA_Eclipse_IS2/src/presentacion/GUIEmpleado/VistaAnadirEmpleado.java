@@ -16,7 +16,8 @@ public class VistaAnadirEmpleado extends JFrame implements IGUI {
 	
 	// ATRIBUTOS
 	
-	private JTextField txtNombre, txtApellido, txtDNI, txtSueldo;
+	private JTextField txtNombre, txtApellido, txtDNI;
+	private JSpinner spSueldo;
 	private JRadioButton rbVendedor, rbMontador; // Selección de tipo
 	private JButton btnAceptar, btnCancelar; 
 	
@@ -31,11 +32,21 @@ public class VistaAnadirEmpleado extends JFrame implements IGUI {
 	// MÉTODOS
 	
 	private void limpiarCampos() {
-        txtNombre.setText("");
-        txtApellido.setText("");
-        txtDNI.setText("");
-        txtSueldo.setText("");
-        rbVendedor.setSelected(true);
+		SwingUtilities.invokeLater(() -> {
+	        txtNombre.setText("");
+	        txtApellido.setText("");
+	        txtDNI.setText("");
+
+	        if (spSueldo != null) {
+	            spSueldo.setValue(1200.0); 
+	        }
+
+	        if (rbVendedor != null) {
+	            rbVendedor.setSelected(true);
+	        }
+	        
+	        txtNombre.requestFocus(); // Ponemos el cursor en el primer campo
+	    });
     }
 	
 	private void initGUI() {
@@ -49,7 +60,10 @@ public class VistaAnadirEmpleado extends JFrame implements IGUI {
         txtNombre = new JTextField(20); 
         txtApellido = new JTextField(20); 
         txtDNI = new JTextField(20); 
-        txtSueldo = new JTextField(20); 
+        
+     // Configuración del Spinner para el sueldo (mínimo 1200, sin máximo, pasos de 500)
+        SpinnerNumberModel sueldoModel = new SpinnerNumberModel(1200.0, 1000.0, null, 500.0);
+        spSueldo = new JSpinner(sueldoModel);
         
         // Selección de tipo (Vendedor/Montador)
         rbVendedor = new JRadioButton("Vendedor", true);
@@ -76,6 +90,17 @@ public class VistaAnadirEmpleado extends JFrame implements IGUI {
         	@Override
             public void actionPerformed(ActionEvent e) {
                 try {
+                	// Validación previa de campos obligatorios
+                    if (txtNombre.getText().trim().isEmpty()) {
+                        JOptionPane.showMessageDialog(null, "Error: El nombre es un campo obligatorio.", "Faltan datos", JOptionPane.WARNING_MESSAGE);
+                        txtNombre.requestFocus();
+                        return;
+                    }
+                    if (txtDNI.getText().trim().isEmpty()) {
+                        JOptionPane.showMessageDialog(null, "Error: El DNI es un campo obligatorio.", "Faltan datos", JOptionPane.WARNING_MESSAGE);
+                        txtDNI.requestFocus();
+                        return;
+                    }
                     TEmpleado te;
                     
                     // Decisión de instanciación del Transfer según el RadioButton
@@ -91,7 +116,7 @@ public class VistaAnadirEmpleado extends JFrame implements IGUI {
                     te.setNombre(txtNombre.getText());
                     te.setApellido(txtApellido.getText());
                     te.setDNI(txtDNI.getText());
-                    te.setSueldo(Double.parseDouble(txtSueldo.getText()));
+                    te.setSueldo((Double) spSueldo.getValue());
                     te.setActivo(true); // Se da de alta siempre como activo
 
                     // Comunicación con el Controlador (Singleton)
@@ -140,7 +165,7 @@ public class VistaAnadirEmpleado extends JFrame implements IGUI {
         gbc.gridx = 0; gbc.gridy = 3;
         formPanel.add(new JLabel("Sueldo Bruto:"), gbc);
         gbc.gridx = 1;
-        formPanel.add(txtSueldo, gbc);
+        formPanel.add(spSueldo, gbc);
 
         // Añadir el formulario alineado al panel principal
         mainPanel.add(formPanel);
@@ -161,8 +186,8 @@ public class VistaAnadirEmpleado extends JFrame implements IGUI {
 		switch (evento) {
 
 	        case Eventos.RES_ALTA_EMPLEADO_OK:
-	            JOptionPane.showMessageDialog(this, "Éxito: Empleado creado con ID: " + datos);
-	            limpiarCampos();
+	        	limpiarCampos(); // Limpia los campos para el siguiente alta
+	            JOptionPane.showMessageDialog(this, "Éxito: Empleado creado con ID: " + datos); 
 	            break;
 	
 	        case Eventos.RES_ALTA_EMPLEADO_YA_EXISTE:
@@ -170,6 +195,10 @@ public class VistaAnadirEmpleado extends JFrame implements IGUI {
 	            String msgExiste = "Error: El DNI ya pertenece a: " + existente.getNombre() + " " + existente.getApellido() + 
 	                               "\nEstado: " + (existente.isActivo() ? "Activo" : "Inactivo");
 	            JOptionPane.showMessageDialog(this, msgExiste, "DNI Duplicado", JOptionPane.WARNING_MESSAGE);
+	            break;
+	            
+	        case Eventos.RES_ALTA_EMPLEADO_KO:
+	            JOptionPane.showMessageDialog(this, "Error en el sistema de persistencia (JSON).", "Error Grave", JOptionPane.ERROR_MESSAGE);
 	            break;
 	
 	        case Eventos.RES_ALTA_EMPLEADO_KO_DNI:
@@ -189,7 +218,6 @@ public class VistaAnadirEmpleado extends JFrame implements IGUI {
 	
 	        case Eventos.RES_ALTA_EMPLEADO_KO_SUELDO:
 	            JOptionPane.showMessageDialog(this, "El sueldo debe ser un número positivo.", "Error de Validación", JOptionPane.ERROR_MESSAGE);
-	            txtSueldo.requestFocus();
 	            break;
 	
 	        default:

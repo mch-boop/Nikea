@@ -39,65 +39,82 @@ public class ControladorImp extends Controlador {
 			
 			case Eventos.ALTA_EMPLEADO: {
 				TEmpleado tEmpleado = (TEmpleado) datos;
-				SAEmpleado saEmpleado = FactoriaAbstractaNegocio.getInstance().crearSAEmpleado();
-				int res = saEmpleado.create(tEmpleado); 
-	
-				IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(evento);
-				
-				// Mapeo de códigos de error del SA a eventos de presentación
-				switch (res) {
-					case 1: // Éxito
-						vista.actualizar(Eventos.RES_ALTA_EMPLEADO_OK, res);
-						break;
-					case -1: // DNI inválido
-						vista.actualizar(Eventos.RES_ALTA_EMPLEADO_KO_DNI, tEmpleado);
-						break;
-					case -2: // Nombre obligatorio
-						vista.actualizar(Eventos.RES_ALTA_EMPLEADO_KO_NOMBRE, tEmpleado);
-						break;
-					case -3: // Apellido obligatorio
-						vista.actualizar(Eventos.RES_ALTA_EMPLEADO_KO_APELLIDO, tEmpleado);
-						break;
-					case -4: // Sueldo inválido
-						vista.actualizar(Eventos.RES_ALTA_EMPLEADO_KO_SUELDO, tEmpleado);
-						break;
-					case -5: // Ya existe
-						vista.actualizar(Eventos.RES_ALTA_EMPLEADO_YA_EXISTE, tEmpleado);
-						break;
-					default: // Error inesperado
-						vista.actualizar(Eventos.RES_ALTA_EMPLEADO_KO, res);
-						break;
-				}
-				break;
+			    SAEmpleado saEmpleado = FactoriaAbstractaNegocio.getInstance().crearSAEmpleado();
+			    int res = saEmpleado.create(tEmpleado); 
+
+			    IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(evento);
+			    
+			    // Si res > 0, es el ID del empleado creado
+			    if (res > 0) {
+			        vista.actualizar(Eventos.RES_ALTA_EMPLEADO_OK, res);
+			    } else {
+			        // Si es negativo, mapeamos el error
+			        switch (res) {
+			            case -1:
+			                vista.actualizar(Eventos.RES_ALTA_EMPLEADO_KO_DNI, tEmpleado);
+			                break;
+			            case -2:
+			                vista.actualizar(Eventos.RES_ALTA_EMPLEADO_KO_NOMBRE, tEmpleado);
+			                break;
+			            case -3:
+			                vista.actualizar(Eventos.RES_ALTA_EMPLEADO_KO_APELLIDO, tEmpleado);
+			                break;
+			            case -4:
+			                vista.actualizar(Eventos.RES_ALTA_EMPLEADO_KO_SUELDO, tEmpleado);
+			                break;
+			            case -5:
+			                vista.actualizar(Eventos.RES_ALTA_EMPLEADO_YA_EXISTE, tEmpleado);
+			                break;
+			            default:
+			                // Este es el evento que hacía saltar el "Error no identificado"
+			                vista.actualizar(Eventos.RES_ALTA_EMPLEADO_KO, res);
+			                break;
+			        }
+			    }
+			    break;
 			}
 			
 			case Eventos.BAJA_EMPLEADO: {
 				Integer id = (Integer) datos;
-				SAEmpleado saEmp = FactoriaAbstractaNegocio.getInstance().crearSAEmpleado();
-				int res = saEmp.delete(id);
-				
-				IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(evento);
-				switch (res) {
-					case 1:
-						vista.actualizar(Eventos.RES_BAJA_EMPLEADO_OK, id);
-						break;
-					case -1:
-						vista.actualizar(Eventos.RES_BAJA_EMPLEADO_KO_ID_VACIO, id);
-						break;
-					case -2:
-						vista.actualizar(Eventos.RES_BAJA_EMPLEADO_KO_ID_FORMATO, id);
-						break;
-					case -3:
-						vista.actualizar(Eventos.RES_BAJA_EMPLEADO_KO_NO_EXISTE, id);
-						break;
-					case -4:
-						vista.actualizar(Eventos.RES_BAJA_EMPLEADO_KO_YA_INACTIVO, id);
-						break;
-					default:
-						vista.actualizar(Eventos.RES_BAJA_EMPLEADO_KO, res);
-						break;
-				}
-				break;			
+			    SAEmpleado saEmp = FactoriaAbstractaNegocio.getInstance().crearSAEmpleado();
+			    int res = saEmp.delete(id);
+			    
+			    IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(evento);
+			    switch (res) {
+			        case 1:
+			            TEmpleado emp = saEmp.read(id); 
+			            vista.actualizar(Eventos.RES_BAJA_EMPLEADO_OK, emp); 
+			            break;
+			        case -1:
+			            vista.actualizar(Eventos.RES_BAJA_EMPLEADO_KO_ID_VACIO, id);
+			            break;
+			        case -2:
+			            vista.actualizar(Eventos.RES_BAJA_EMPLEADO_KO_ID_FORMATO, id);
+			            break;
+			        case -3:
+			            vista.actualizar(Eventos.RES_BAJA_EMPLEADO_KO_NO_EXISTE, id);
+			            break;
+			        case -4:
+			            vista.actualizar(Eventos.RES_BAJA_EMPLEADO_KO_YA_INACTIVO, id);
+			            break;
+			        default:
+			            vista.actualizar(Eventos.RES_BAJA_EMPLEADO_KO, res);
+			            break;
+			    }
+			    break;			
+			}
+			
+			case Eventos.CONFIRMAR_BAJA_EMPLEADO: {
+			    Integer id = (Integer) datos;
+			    SAEmpleado saEmp = FactoriaAbstractaNegocio.getInstance().crearSAEmpleado();
+			    
+			    int res = saEmp.delete(id); 
+			    
+			    IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.BAJA_EMPLEADO);
+			    if (res > 0) {
+			        vista.actualizar(Eventos.RES_BAJA_EMPLEADO_CONFIRMADA, id);
+			    }
+			    break;
 			}
 			
 			case Eventos.MODIFICAR_EMPLEADO: {

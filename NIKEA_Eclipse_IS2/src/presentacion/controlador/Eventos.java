@@ -51,6 +51,8 @@ public class Eventos {
     public static final int RES_BAJA_EMPLEADO_KO_ID_FORMATO = 20202;
 	public static final int RES_BAJA_EMPLEADO_KO_NO_EXISTE = 20203;
 	public static final int RES_BAJA_EMPLEADO_KO_YA_INACTIVO = 20204;
+	public static final int CONFIRMAR_BAJA_EMPLEADO = 20211;
+	public static final int RES_BAJA_EMPLEADO_CONFIRMADA = 202111;
     
     public static final int MODIFICAR_EMPLEADO = 203;
     public static final int RES_MODIFICAR_EMPLEADO_OK = 2031;

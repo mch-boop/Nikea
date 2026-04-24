@@ -43,12 +43,11 @@ public class SAEmpleadoImp implements SAEmpleado {
 		DAOEmpleado dao = FactoriaIntegracion.getInstance().crearDAOEmpleado();
         TEmpleado te = dao.read(id);
         
-        // Borrado lógico: Solo si existe y está activo
-        if (te != null && te.isActivo()) {
-            te.setActivo(false);
-            return dao.update(te);
-        }
-        return -1; // No existe o ya estaba inactivo
+        if (te == null) return -3; // No existe
+        if (!te.isActivo()) return -4; // Ya está inactivo
+        
+        te.setActivo(false); // BORRADO LÓGICO
+        return dao.update(te); // Persistimos el cambio en el JSON
 	}
 
 	@Override
