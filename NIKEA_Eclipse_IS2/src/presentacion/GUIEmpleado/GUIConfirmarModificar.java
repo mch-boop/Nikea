@@ -4,6 +4,8 @@ import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
 import negocio.empleado.TEmpleado;
+import negocio.empleado.TVendedor;
+
 import java.awt.Frame;
 import java.awt.GraphicsConfiguration;
 import java.awt.Window;
@@ -64,6 +66,12 @@ public class GUIConfirmarModificar extends JDialog {
         p.add(new JLabel(" Nombre: " + te.getNombre() + " " + te.getApellido()));
         p.add(new JLabel(" DNI: " + te.getDNI()));
         p.add(new JLabel(" Sueldo: " + te.getSueldo() + " €"));
+        
+        // Si es vendedor, añadimos la fila de ventas a la tarjeta
+        if (te.getTipo() == 1) {
+            p.add(new JLabel(" Ventas: " + ((TVendedor)te).getNumeroVentas()));
+        }
+        
         return p;
     }
 

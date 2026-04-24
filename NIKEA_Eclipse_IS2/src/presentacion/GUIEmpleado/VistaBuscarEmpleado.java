@@ -103,30 +103,46 @@ public class VistaBuscarEmpleado extends JFrame implements IGUI {
 
     @Override
     public void actualizar(int evento, Object datos) {
-        switch (evento) {
+        // Usamos invokeLater para asegurar que Swing pinte el texto
+        SwingUtilities.invokeLater(() -> {
+            switch (evento) {
+                case Eventos.RES_BUSCAR_EMPLEADO_OK:
+                    TEmpleado te = (TEmpleado) datos;
+                    StringBuilder sb = new StringBuilder();
+                    sb.append("------------------------------------------\n");
+                    sb.append("   DETALLES DEL EMPLEADO\n");
+                    sb.append("------------------------------------------\n");
+                    sb.append("ID:       ").append(te.getId()).append("\n");
+                    sb.append("DNI:      ").append(te.getDNI()).append("\n");
+                    sb.append("Nombre:   ").append(te.getNombre()).append("\n");
+                    sb.append("Apellido: ").append(te.getApellido()).append("\n");
+                    sb.append("Sueldo:   ").append(te.getSueldo()).append(" €\n");
+                    
+                    // Mostramos el tipo y sus datos específicos
+                    if (te.getTipo() == 1) { // Vendedor
+                        sb.append("Tipo:     VENDEDOR\n");
+                        // Aquí hacemos el cast para sacar las ventas si el transfer las trae
+                        if (te instanceof negocio.empleado.TVendedor) {
+                             sb.append("Ventas:   ").append(((negocio.empleado.TVendedor)te).getNumeroVentas()).append("\n");
+                        }
+                    } else {
+                        sb.append("Tipo:     MONTADOR\n");
+                    }
+                    
+                    sb.append("Estado:   ").append(te.isActivo() ? "ACTIVO" : "INACTIVO (Baja)").append("\n");
+                    sb.append("------------------------------------------");
+                    
+                    areaDetalles.setText(sb.toString());
+                    // Forzamos el scroll hacia arriba
+                    areaDetalles.setCaretPosition(0);
+                    break;
 
-            case Eventos.RES_BUSCAR_EMPLEADO_OK:
-                TEmpleado te = (TEmpleado) datos;
-                StringBuilder sb = new StringBuilder();
-                sb.append("ID:       ").append(te.getId()).append("\n");
-                sb.append("DNI:      ").append(te.getDNI()).append("\n");
-                sb.append("Nombre:   ").append(te.getNombre()).append("\n");
-                sb.append("Apellido: ").append(te.getApellido()).append("\n");
-                sb.append("Sueldo:   ").append(te.getSueldo()).append(" €\n");
-                sb.append("Estado:   ").append(te.isActivo() ? "ACTIVO" : "INACTIVO (Baja)");
-                
-                areaDetalles.setText(sb.toString());
-                break;
-
-            case Eventos.RES_BUSCAR_EMPLEADO_KO:
-                areaDetalles.setText("");
-                JOptionPane.showMessageDialog(this, "No se ha encontrado ningún empleado con el ID: " + datos, "Error", JOptionPane.ERROR_MESSAGE);
-                txtId.requestFocus();
-                break;
-
-            default:
-                JOptionPane.showMessageDialog(this, "Error inesperado al consultar.");
-                break;
-        }
+                case Eventos.RES_BUSCAR_EMPLEADO_KO:
+                    areaDetalles.setText("");
+                    JOptionPane.showMessageDialog(this, "No existe empleado con ID: " + datos, "Error", JOptionPane.ERROR_MESSAGE);
+                    txtId.requestFocus();
+                    break;
+            }
+        });
     }
 }

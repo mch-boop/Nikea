@@ -188,17 +188,18 @@ public class ControladorImp extends Controlador {
 			}
 			
 			case Eventos.BUSCAR_EMPLEADO: {
-				Integer id = (Integer) datos;
-				SAEmpleado saEmp = FactoriaAbstractaNegocio.getInstance().crearSAEmpleado();
-				TEmpleado empleado = saEmp.read(id);
-				
-				IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(evento);
-				if (empleado != null) {
-					vista.actualizar(Eventos.RES_BUSCAR_EMPLEADO_OK, empleado);
-				} else {
-					vista.actualizar(Eventos.RES_BUSCAR_EMPLEADO_KO, id);
-				}
-				break;
+			    Integer id = (Integer) datos;
+			    SAEmpleado saEmp = FactoriaAbstractaNegocio.getInstance().crearSAEmpleado();
+			    TEmpleado empleado = saEmp.read(id);
+			    
+			    IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.BUSCAR_EMPLEADO);
+			    
+			    if (empleado != null) {
+			        vista.actualizar(Eventos.RES_BUSCAR_EMPLEADO_OK, empleado);
+			    } else {
+			        vista.actualizar(Eventos.RES_BUSCAR_EMPLEADO_KO, id);
+			    }
+			    break;
 			}
 			
 			case Eventos.MOSTRAR_EMPLEADOS: {

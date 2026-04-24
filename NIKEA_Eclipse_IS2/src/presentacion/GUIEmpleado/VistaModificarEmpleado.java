@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import negocio.empleado.TEmpleado;
+import negocio.empleado.TVendedor;
 import presentacion.IGUI;
 import presentacion.controlador.Controlador;
 import presentacion.controlador.Eventos;
@@ -14,8 +15,9 @@ public class VistaModificarEmpleado extends JFrame implements IGUI {
 
 	// ATRIBUTOS
 	
-    private JTextField txtId, txtNombre, txtApellido, txtSueldo;
+    private JTextField txtId, txtNombre, txtApellido, txtSueldo, txtVentas;
     private JButton btnModificar, btnCancelar;
+    private JLabel lblVentas;
     private static TEmpleado datosNuevosParaConfirmar;
 
     // CONSTRUCTORA
@@ -44,6 +46,14 @@ public class VistaModificarEmpleado extends JFrame implements IGUI {
         txtNombre.setToolTipText("Deje este campo vacío para conservar el nombre actual");
         txtApellido.setToolTipText("Deje este campo vacío para conservar el apellido actual");
         txtSueldo.setToolTipText("Deje este campo vacío para conservar el sueldo actual");
+        
+        lblVentas = new JLabel("Número de Ventas:");
+        txtVentas = new JTextField(20);
+        txtSueldo.setToolTipText("Deje este campo vacío para conservar el número de ventas actual");
+
+        // Por defecto no sabemos qué es el empleado, así que ocultamos
+        lblVentas.setVisible(false);
+        txtVentas.setVisible(false);
 
         btnModificar = new JButton("GUARDAR CAMBIOS");
         btnCancelar = new JButton("CANCELAR");
@@ -63,6 +73,13 @@ public class VistaModificarEmpleado extends JFrame implements IGUI {
                     datosNuevosParaConfirmar.setApellido(!txtApellido.getText().trim().isEmpty() ? txtApellido.getText().trim() : null);
                     datosNuevosParaConfirmar.setSueldo(!txtSueldo.getText().trim().isEmpty() ? Double.parseDouble(txtSueldo.getText().trim()) : -1.0);
 
+                    if (txtVentas.isVisible() && !txtVentas.getText().trim().isEmpty()) {
+                        // Hacemos el cast a TVendedor para poder acceder a sus métodos específicos
+                        ((TVendedor) datosNuevosParaConfirmar).setNumeroVentas(Integer.parseInt(txtVentas.getText().trim()));
+                        datosNuevosParaConfirmar.setTipo(1); 
+                    }
+                    
+                    
                     Controlador.getInstance().accion(Eventos.BUSCAR_EMPLEADO_PARA_MODIFICAR, datosNuevosParaConfirmar.getId());
                     
                 } catch (NumberFormatException ex) {
@@ -111,6 +128,12 @@ public class VistaModificarEmpleado extends JFrame implements IGUI {
         formPanel.add(new JLabel("Nuevo Sueldo:"), gbc);
         gbc.gridx = 1;
         formPanel.add(txtSueldo, gbc);
+        
+        // Fila 5: Número de ventas
+        gbc.gridx = 0; gbc.gridy = 5;
+        formPanel.add(lblVentas, gbc);
+        gbc.gridx = 1;
+        formPanel.add(txtVentas, gbc);
 
         // Añadir componentes al panel principal
         mainPanel.add(formPanel);
