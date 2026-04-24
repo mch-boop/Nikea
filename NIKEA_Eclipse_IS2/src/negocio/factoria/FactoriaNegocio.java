@@ -1,11 +1,17 @@
 package negocio.factoria;
 
 import negocio.cliente.SACliente;
+import negocio.cliente.SAClienteImp;
 import negocio.descuento.SADescuento;
+import negocio.descuento.SADescuentoImp;
 import negocio.empleado.SAEmpleado;
+import negocio.empleado.SAEmpleadoImp;
 import negocio.factura.SAFactura;
+import negocio.factura.SAFacturaImp;
 import negocio.marca.SAMarca;
+import negocio.marca.SAMarcaImp;
 import negocio.servicio.SAServicio;
+import negocio.servicio.SAServicioImp;
 
 public class FactoriaNegocio extends FactoriaAbstractaNegocio {
 
@@ -13,38 +19,32 @@ public class FactoriaNegocio extends FactoriaAbstractaNegocio {
 	
 	@Override
 	public SACliente crearSACliente() {
-		// TODO Auto-generated method stub
-		return null;
+		return new SAClienteImp();
 	}
 
 	@Override
 	public SADescuento crearSADescuento() {
-		// TODO Auto-generated method stub
-		return null;
+		return new SADescuentoImp();
 	}
 
 	@Override
 	public SAEmpleado crearSAEmpleado() {
-		// TODO Auto-generated method stub
-		return null;
+		return new SAEmpleadoImp();
 	}
 
 	@Override
 	public SAFactura crearSAFactura() {
-		// TODO Auto-generated method stub
-		return null;
+		return new SAFacturaImp();
 	}
 
 	@Override
 	public SAMarca crearSAMarca() {
-		// TODO Auto-generated method stub
-		return null;
+		return new SAMarcaImp();
 	}
 
 	@Override
 	public SAServicio crearSAServicio() {
-		// TODO Auto-generated method stub
-		return null;
+		return new SAServicioImp();
 	}
 
 }
