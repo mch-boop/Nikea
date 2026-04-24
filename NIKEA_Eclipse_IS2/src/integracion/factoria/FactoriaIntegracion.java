@@ -1,5 +1,7 @@
 package integracion.factoria;
 
+import integracion.cliente.DAOCliente;
+import integracion.cliente.DAOClienteImp;
 import integracion.empleado.DAOEmpleado;
 import integracion.empleado.DAOEmpleadoImp;
 import integracion.empleado.DAOMontadorMontaje;
@@ -22,5 +24,10 @@ public class FactoriaIntegracion extends FactoriaAbstractaIntegracion {
 	@Override
 	public DAOMontaje crearDAOMontaje() {
 		return new DAOMontajeImp();
+	}
+
+	@Override
+	public DAOCliente crearDAOCliente() {
+		return new DAOClienteImp();
 	}
 }
