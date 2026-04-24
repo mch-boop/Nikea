@@ -185,7 +185,7 @@ public class VistaModificarCliente extends JFrame implements IGUI {
 	                if (!txtTelefono.getText().trim().isEmpty()) {
 	                	tc.setTelefono(Integer.valueOf(txtTelefono.getText().trim()));
 	                } else {
-	                	tc.setTelefono((Integer)null); // Valor centinela: "No modificar teléfono"
+	                	tc.setTelefono(-1); // Valor centinela: "No modificar teléfono"
 	                }
 	                
 	                // DNI 
