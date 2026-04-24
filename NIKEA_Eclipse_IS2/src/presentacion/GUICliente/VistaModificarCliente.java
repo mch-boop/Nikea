@@ -44,9 +44,9 @@ public class VistaModificarCliente extends JFrame implements IGUI {
         txtDNI = new JTextField(20);
         
         txtNombre.setToolTipText("Deje este campo vacío para conservar el nombre actual");
-        txtApellido.setToolTipText("Deje este campo vacío para conservar el nombre actual");
-        txtTelefono.setToolTipText("Deje este campo vacío para conservar el nombre actual");
-        txtDNI.setToolTipText("Deje este campo vacío para conservar el nombre actual");
+        txtApellido.setToolTipText("Deje este campo vacío para conservar el apellido actual");
+        txtTelefono.setToolTipText("Deje este campo vacío para conservar el telefono actual");
+        txtDNI.setToolTipText("Deje este campo vacío para conservar el DNI actual");
 
         btnModificar = new JButton("GUARDAR CAMBIOS");
         btnCancelar = new JButton("CANCELAR");
