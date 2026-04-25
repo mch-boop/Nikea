@@ -1,12 +1,12 @@
 [
     {
         "tipo": 1,
-        "apellido": "gt",
+        "apellido": "ju",
         "sueldo": 1200,
         "id": 1,
-        "nombre": "pablo",
+        "nombre": "pepito",
         "dni": "1",
-        "numeroVentas": 0,
+        "numeroVentas": -1,
         "activo": true
     },
     {

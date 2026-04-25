@@ -110,17 +110,43 @@ public class SAEmpleadoImp implements SAEmpleado {
 
 	@Override
 	public int update(TEmpleado te) {
-		DAOEmpleado dao = FactoriaIntegracion.getInstance().crearDAOEmpleado();
-        TEmpleado existente = dao.read(te.getId());
-        if (existente != null && existente.isActivo()) {
-            // Campos opcionales
-            if (te.getNombre() != null) existente.setNombre(te.getNombre());
-            if (te.getApellido() != null) existente.setApellido(te.getApellido());
-            if (te.getSueldo() != -1.0) existente.setSueldo(te.getSueldo());
-            
-            return dao.update(existente);
-        }
-        return -1;
+	    DAOEmpleado dao = FactoriaIntegracion.getInstance().crearDAOEmpleado();
+	    TEmpleado existente = dao.read(te.getId());
+	    
+	    if (existente != null && existente.isActivo()) {
+	        
+	        // COMPROBAR CAMBIO DE TIPO
+	        // Si el tipo de 'te' es distinto al de 'existente', usamos la nueva instancia 'te'
+	        if (te.getTipo() != null && !te.getTipo().equals(existente.getTipo())) {
+	            // Rellenamos los huecos de 'te' con lo que ya había en 'existente' si vienen vacíos
+	            if (te.getNombre() == null) te.setNombre(existente.getNombre());
+	            if (te.getApellido() == null) te.setApellido(existente.getApellido());
+	            if (te.getSueldo() == -1.0) te.setSueldo(existente.getSueldo());
+	            
+	            te.setDNI(existente.getDNI());
+	            te.setActivo(existente.isActivo());
+
+	            // Guardamos directamente la nueva instancia 'te' (que es TVendedor o TMontador)
+	            return dao.update(te);
+	        } 
+	        else {
+	            // SI EL TIPO ES EL MISMO, seguimos con tu lógica habitual
+	            if (te.getNombre() != null) existente.setNombre(te.getNombre());
+	            if (te.getApellido() != null) existente.setApellido(te.getApellido());
+	            if (te.getSueldo() != -1.0) existente.setSueldo(te.getSueldo());
+	            
+	            // Si es vendedor y el tipo no cambió, actualizamos también sus ventas
+	            if (existente.getTipo() == 1 && te instanceof TVendedor) {
+	                int nuevasVentas = ((TVendedor) te).getNumeroVentas();
+	                if (nuevasVentas != -1) {
+	                    ((TVendedor) existente).setNumeroVentas(nuevasVentas);
+	                }
+	            }
+
+	            return dao.update(existente);
+	        }
+	    }
+	    return -1;
 	}
 
 	@Override

@@ -5,7 +5,7 @@ import org.json.JSONObject;
 public class TVendedor extends TEmpleado {
 	
 	// Atributos
-	private Integer numeroVentas;
+	private Integer numeroVentas = 0;
 
 	// Constructora 
     public TVendedor() {

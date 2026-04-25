@@ -19,6 +19,8 @@ public class VistaModificarEmpleado extends JFrame implements IGUI {
 	private JTextField txtId, txtNombre, txtApellido, txtSueldo, txtVentas;
 	private JLabel lblVentas;
 	private JButton btnModificar, btnCancelar;
+	private JComboBox<String> comboTipo;
+	private final String[] tipos = {"Montador", "Vendedor"};
 	private TEmpleado empleadoEncontrado; // Guardamos el original para las tarjetas
 	private static TEmpleado datosNuevosParaConfirmar;
 
@@ -55,6 +57,15 @@ public class VistaModificarEmpleado extends JFrame implements IGUI {
 		// Por defecto no sabemos qué es el empleado, así que ocultamos
 		lblVentas.setVisible(false);
 		txtVentas.setVisible(false);
+		
+		comboTipo = new JComboBox<>(tipos);
+		// Listener para mostrar/ocultar campos dinámicamente según el combo
+		comboTipo.addActionListener(e -> {
+		    boolean esVendedor = comboTipo.getSelectedIndex() == 1; // Vendedor es índice 1
+		    lblVentas.setVisible(esVendedor);
+		    txtVentas.setVisible(esVendedor);
+		    this.pack();
+		});
 
 		btnModificar = new JButton("GUARDAR CAMBIOS");
 		btnCancelar = new JButton("CANCELAR");
@@ -64,19 +75,25 @@ public class VistaModificarEmpleado extends JFrame implements IGUI {
 		        // Validar que tenemos un empleado original cargado
 		        if (empleadoEncontrado == null) return;
 
-		        // Instanciar el transfer correcto según el tipo del empleado original
-		        if (empleadoEncontrado.getTipo() == 1) {
+		        // Obtenemos el tipo del combo, no del empleado antiguo
+		        int nuevoTipo = comboTipo.getSelectedIndex(); 
+		        int valorTipoNegocio;
+		        
+		        // Instanciar el transfer correcto según el tipo seleccionado en el combo
+		        if (nuevoTipo == 1) {
+		        	valorTipoNegocio = 1; // Vendedor
 		            datosNuevosParaConfirmar = new TVendedor();
 		            // Casteamos para rellenar el campo específico de vendedor
 		            int v = !txtVentas.getText().trim().isEmpty() ? Integer.parseInt(txtVentas.getText().trim()) : -1;
 		            ((TVendedor) datosNuevosParaConfirmar).setNumeroVentas(v);
-		        } else {
+		        } else { // Montador
+		        	valorTipoNegocio = 2; // Montador
 		            datosNuevosParaConfirmar = new TMontador(); 
 		        }
 
 		        // RELLENAR DATOS COMUNES 
 		        datosNuevosParaConfirmar.setId(empleadoEncontrado.getId());
-		        datosNuevosParaConfirmar.setTipo(empleadoEncontrado.getTipo()); 
+		        datosNuevosParaConfirmar.setTipo(valorTipoNegocio); // Asignamos el nuevo tipo seleccionado
 		        
 		        datosNuevosParaConfirmar.setNombre(!txtNombre.getText().trim().isEmpty() ? txtNombre.getText().trim() : null);
 		        datosNuevosParaConfirmar.setApellido(!txtApellido.getText().trim().isEmpty() ? txtApellido.getText().trim() : null);
@@ -153,6 +170,12 @@ public class VistaModificarEmpleado extends JFrame implements IGUI {
 		formPanel.add(lblVentas, gbc);
 		gbc.gridx = 1;
 		formPanel.add(txtVentas, gbc);
+		
+		// Fila 6: Tipo
+		gbc.gridx = 0; gbc.gridy = -1; // Ponlo al principio
+		formPanel.add(new JLabel("Cambiar Tipo:"), gbc);
+		gbc.gridx = 1;
+		formPanel.add(comboTipo, gbc);
 
 		// Añadir componentes al panel principal
 		mainPanel.add(formPanel);
@@ -176,25 +199,30 @@ public class VistaModificarEmpleado extends JFrame implements IGUI {
 			switch (evento) {
 			// Recibimos los datos del empleado que queremos modificar
 			case Eventos.RES_BUSCAR_EMPLEADO_PARA_MODIFICAR_OK:
-				empleadoEncontrado = (TEmpleado) datos;
+                empleadoEncontrado = (TEmpleado) datos;
+                
+                // Rellenamos el ID y lo bloqueamos
+                txtId.setText(String.valueOf(empleadoEncontrado.getId()));
+                txtId.setEditable(false);
+                
+                // Traducimos el tipo de negocio al índice del JComboBox
+                // Recordamos: Índice 0 = Montador, Índice 1 = Vendedor
+                if (empleadoEncontrado.getTipo() == 1) { // Caso Vendedor
+                    comboTipo.setSelectedIndex(1);
+                    lblVentas.setVisible(true);
+                    txtVentas.setVisible(true);
+                } 
+                else if (empleadoEncontrado.getTipo() == 2) { // Caso Montador
+                    comboTipo.setSelectedIndex(0);
+                    lblVentas.setVisible(false);
+                    txtVentas.setVisible(false);
+                }
 
-				// Rellenamos el ID y lo bloqueamos
-				txtId.setText(String.valueOf(empleadoEncontrado.getId()));
-				txtId.setEditable(false);
-
-				// Mostramos/Ocultamos campos según el tipo
-				if (empleadoEncontrado.getTipo() == 1) {
-					lblVentas.setVisible(true);
-					txtVentas.setVisible(true);
-				} else {
-					lblVentas.setVisible(false);
-					txtVentas.setVisible(false);
-				}
-
-				this.pack();
-				this.setLocationRelativeTo(null);
-				this.setVisible(true); 
-				break;
+                // Mostramos la ventana y ajustamos tamaño
+                this.pack();
+                this.setLocationRelativeTo(null);
+                this.setVisible(true);
+                break;
 
 			case Eventos.RES_MODIFICAR_EMPLEADO_OK:
 				JOptionPane.showMessageDialog(this, "Empleado actualizado correctamente.");

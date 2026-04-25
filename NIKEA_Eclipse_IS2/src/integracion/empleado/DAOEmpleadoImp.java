@@ -23,8 +23,8 @@ public class DAOEmpleadoImp implements DAOEmpleado {
     public int create(TEmpleado te) {
         List<TEmpleado> lista = (List<TEmpleado>) readAll();
         
-        // Si es un alta (id null o 0), generamos uno nuevo
         if (te.getId() == null || te.getId() <= 0) {
+            // Lógica de ALTA
             int maxId = 0;
             for (TEmpleado e : lista) {
                 if (e.getId() > maxId) maxId = e.getId();
@@ -32,16 +32,18 @@ public class DAOEmpleadoImp implements DAOEmpleado {
             te.setId(maxId + 1);
             lista.add(te);
         } else {
-            // Modificación / Borrado Lógico: Reemplazamos el existente
+            // Lógica de MODIFICACIÓN
             for (int i = 0; i < lista.size(); i++) {
                 if (lista.get(i).getId().equals(te.getId())) {
-                    lista.set(i, te);
+                    // Reemplazamos la instancia antigua por la nueva 'te'.
+                    // 'te' ya es de la clase correcta porque la creamos en la Vista.
+                    lista.set(i, te); 
                     break;
                 }
             }
         }
         
-        guardarEnArchivo(lista);
+        guardarEnArchivo(lista); // Esto recorrerá la lista y llamará a asJSON() de cada uno
         return te.getId();
     }
     

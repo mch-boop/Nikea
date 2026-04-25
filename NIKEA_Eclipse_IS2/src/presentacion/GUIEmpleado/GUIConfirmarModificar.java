@@ -79,37 +79,39 @@ public class GUIConfirmarModificar extends JDialog {
         return p;
     }
 
-    private TEmpleado fusionarDatos(TEmpleado v, TEmpleado n) {
-        TEmpleado f;
-        
-        // Instanciamos el tipo correcto para no perder los campos específicos
-        if (v.getTipo() != null && v.getTipo() == 1) {
-            f = new TVendedor();
-            // Fusionamos ventas
-            int ventasNuevas = (n instanceof TVendedor) ? ((TVendedor)n).getNumeroVentas() : -1;
-            ((TVendedor)f).setNumeroVentas(ventasNuevas != -1 ? ventasNuevas : ((TVendedor)v).getNumeroVentas());
-        } else {
-            f = new TMontador(); 
-        }
+	private TEmpleado fusionarDatos(TEmpleado v, TEmpleado n) {
+	    TEmpleado f;
+	    
+	    // Instanciamos según el nuevo tipo solicitado 
+	    int tipoFinal = (n != null) ? n.getTipo() : v.getTipo();
 
-        // Copiamos ID, DNI y TIPO 
-        f.setId(v.getId());
-        f.setDNI(v.getDNI());
-        f.setTipo(v.getTipo());
+	    if (tipoFinal == 1) {
+	        f = new TVendedor();
+	        // Si el nuevo es vendedor, intentamos pillar sus ventas, si no las del viejo (si era vendedor)
+	        int ventasNuevas = (n instanceof TVendedor) ? ((TVendedor)n).getNumeroVentas() : -1;
+	        int ventasViejas = (v instanceof TVendedor) ? ((TVendedor)v).getNumeroVentas() : 0;
+	        ((TVendedor)f).setNumeroVentas(ventasNuevas != -1 ? ventasNuevas : ventasViejas);
+	    } else {
+	        f = new TMontador();
+	    }
 
-        // Fusionamos campos comunes: si 'n' tiene dato lo usamos, si no, usamos el de 'v'
-        if (n != null) {
-            f.setNombre(n.getNombre() != null ? n.getNombre() : v.getNombre());
-            f.setApellido(n.getApellido() != null ? n.getApellido() : v.getApellido());
-            f.setSueldo(n.getSueldo() != -1.0 ? n.getSueldo() : v.getSueldo());
-        } else {
-            f.setNombre(v.getNombre());
-            f.setApellido(v.getApellido());
-            f.setSueldo(v.getSueldo());
-        }
-        
-        return f;
-    }
+	    // Copiamos ID y DNI del viejo (no cambian)
+	    f.setId(v.getId());
+	    f.setDNI(v.getDNI());
+	    f.setTipo(tipoFinal); // Mantenemos el tipo nuevo
+
+	    // Si el usuario no escribió nada en un campo, mantenemos el valor viejo
+	    if (n != null) {
+	        f.setNombre(n.getNombre() != null ? n.getNombre() : v.getNombre());
+	        f.setApellido(n.getApellido() != null ? n.getApellido() : v.getApellido());
+	        f.setSueldo(n.getSueldo() != -1.0 ? n.getSueldo() : v.getSueldo());
+	    } else {
+	        f.setNombre(v.getNombre());
+	        f.setApellido(v.getApellido());
+	        f.setSueldo(v.getSueldo());
+	    }
+	    return f;
+	}
 
     public boolean isConfirmado() { return confirmado; }
 
