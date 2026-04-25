@@ -50,7 +50,7 @@ public class VistaModificarEmpleado extends JFrame implements IGUI {
 
 		lblVentas = new JLabel("Número de Ventas:");
 		txtVentas = new JTextField(20);
-		txtSueldo.setToolTipText("Deje este campo vacío para conservar el número de ventas actual");
+		txtVentas.setToolTipText("Deje este campo vacío para conservar el número de ventas actual");
 
 		// Por defecto no sabemos qué es el empleado, así que ocultamos
 		lblVentas.setVisible(false);
@@ -60,42 +60,44 @@ public class VistaModificarEmpleado extends JFrame implements IGUI {
 		btnCancelar = new JButton("CANCELAR");
 
 		btnModificar.addActionListener(e -> {
-			try {
-				// Instanciamos según el tipo del empleado que buscamos al principio
-				if (empleadoEncontrado.getTipo() == 1) {
-					datosNuevosParaConfirmar = new TVendedor();
-				} else {
-					datosNuevosParaConfirmar = new TMontador();
-				}
+		    try {
+		        // Validar que tenemos un empleado original cargado
+		        if (empleadoEncontrado == null) return;
 
-				// Copiamos el tipo y el ID del original
-				datosNuevosParaConfirmar.setId(empleadoEncontrado.getId());
-				datosNuevosParaConfirmar.setTipo(empleadoEncontrado.getTipo());
+		        // Instanciar el transfer correcto según el tipo del empleado original
+		        if (empleadoEncontrado.getTipo() == 1) {
+		            datosNuevosParaConfirmar = new TVendedor();
+		            // Casteamos para rellenar el campo específico de vendedor
+		            int v = !txtVentas.getText().trim().isEmpty() ? Integer.parseInt(txtVentas.getText().trim()) : -1;
+		            ((TVendedor) datosNuevosParaConfirmar).setNumeroVentas(v);
+		        } else {
+		            datosNuevosParaConfirmar = new TMontador(); 
+		        }
 
-				// Recogemos el resto de campos
-				datosNuevosParaConfirmar
-						.setNombre(!txtNombre.getText().trim().isEmpty() ? txtNombre.getText().trim() : null);
-				datosNuevosParaConfirmar
-						.setApellido(!txtApellido.getText().trim().isEmpty() ? txtApellido.getText().trim() : null);
-				datosNuevosParaConfirmar.setSueldo(
-						!txtSueldo.getText().trim().isEmpty() ? Double.parseDouble(txtSueldo.getText().trim()) : -1.0);
+		        // RELLENAR DATOS COMUNES 
+		        datosNuevosParaConfirmar.setId(empleadoEncontrado.getId());
+		        datosNuevosParaConfirmar.setTipo(empleadoEncontrado.getTipo()); 
+		        
+		        datosNuevosParaConfirmar.setNombre(!txtNombre.getText().trim().isEmpty() ? txtNombre.getText().trim() : null);
+		        datosNuevosParaConfirmar.setApellido(!txtApellido.getText().trim().isEmpty() ? txtApellido.getText().trim() : null);
+		        
+		        try {
+		            double s = !txtSueldo.getText().trim().isEmpty() ? Double.parseDouble(txtSueldo.getText().trim()) : -1.0;
+		            datosNuevosParaConfirmar.setSueldo(s);
+		        } catch (NumberFormatException nfe) {
+		            throw new Exception("El sueldo debe ser un número válido.");
+		        }
 
-				if (empleadoEncontrado.getTipo() == 1) {
-					int v = !txtVentas.getText().trim().isEmpty() ? Integer.parseInt(txtVentas.getText().trim()) : -1;
-					((TVendedor) datosNuevosParaConfirmar).setNumeroVentas(v);
-				}
+		        // Abrir confirmación
+		        GUIConfirmarModificar dialog = new GUIConfirmarModificar(this, empleadoEncontrado, datosNuevosParaConfirmar);
+		        dialog.setVisible(true);
 
-				// 4. Ahora sí abrimos el diálogo
-				GUIConfirmarModificar dialog = new GUIConfirmarModificar(this, empleadoEncontrado,
-						datosNuevosParaConfirmar);
-				dialog.setVisible(true);
-
-				if (dialog.isConfirmado()) {
-					Controlador.getInstance().accion(Eventos.MODIFICAR_EMPLEADO, datosNuevosParaConfirmar);
-				}
-			} catch (Exception ex) {
-				JOptionPane.showMessageDialog(this, "Error en los datos: " + ex.getMessage());
-			}
+		        if (dialog.isConfirmado()) {
+		            Controlador.getInstance().accion(Eventos.MODIFICAR_EMPLEADO, datosNuevosParaConfirmar);
+		        }
+		    } catch (Exception ex) {
+		        JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage());
+		    }
 		});
 
 		// Lógica de Cancelar
@@ -192,12 +194,6 @@ public class VistaModificarEmpleado extends JFrame implements IGUI {
 				this.pack();
 				this.setLocationRelativeTo(null);
 				this.setVisible(true); 
-				break;
-
-			case Eventos.RES_BUSCAR_EMPLEADO_PARA_MODIFICAR_KO:
-				JOptionPane.showMessageDialog(this, "Error: No se encontró el empleado con ID: " + datos,
-						"ID no encontrado", JOptionPane.ERROR_MESSAGE);
-				txtId.requestFocus();
 				break;
 
 			case Eventos.RES_MODIFICAR_EMPLEADO_OK:

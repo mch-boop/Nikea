@@ -186,12 +186,7 @@ public class ControladorImp extends Controlador {
 				    FactoriaAbstractaPresentacion.getInstance()
 				        .createVista(Eventos.MODIFICAR_EMPLEADO)
 				        .actualizar(Eventos.RES_BUSCAR_EMPLEADO_PARA_MODIFICAR_OK, emp);
-				} else {
-				    // Si no existe, solo avisamos a la pequeña para que muestre el error
-				    FactoriaAbstractaPresentacion.getInstance()
-				        .createVista(Eventos.VENTANA_BUSCAR_ID_EMPLEADO)
-				        .actualizar(Eventos.RES_BUSCAR_EMPLEADO_PARA_MODIFICAR_KO, id);
-				}
+				} 
 			}
 			
 			case Eventos.BUSCAR_EMPLEADO: {

@@ -4,6 +4,7 @@ import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
 import negocio.empleado.TEmpleado;
+import negocio.empleado.TMontador;
 import negocio.empleado.TVendedor;
 
 import java.awt.Frame;
@@ -58,8 +59,8 @@ public class GUIConfirmarModificar extends JDialog {
         setLocationRelativeTo(getOwner());
     }
 
-    private JPanel crearTarjetaEmpleado(TEmpleado te, String titulo, Color fondo) {
-        JPanel p = new JPanel(new GridLayout(3, 1));
+	private JPanel crearTarjetaEmpleado(TEmpleado te, String titulo, Color fondo) {
+        JPanel p = new JPanel(new GridLayout(0, 1, 5, 5));
         p.setBackground(fondo);
         p.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.GRAY), titulo));
         
@@ -67,31 +68,46 @@ public class GUIConfirmarModificar extends JDialog {
         p.add(new JLabel(" DNI: " + te.getDNI()));
         p.add(new JLabel(" Sueldo: " + te.getSueldo() + " €"));
         
-        // Si es vendedor, añadimos la fila de ventas a la tarjeta
-        if (te.getTipo() == 1) {
-            p.add(new JLabel(" Ventas: " + ((TVendedor)te).getNumeroVentas()));
+        // Comprobación de seguridad para evitar NullPointerException en el tipo
+        if (te.getTipo() != null && te.getTipo() == 1) {
+            // Si es Vendedor, mostramos sus ventas
+            if (te instanceof TVendedor) {
+                p.add(new JLabel(" Ventas: " + ((TVendedor)te).getNumeroVentas()));
+            }
         }
         
         return p;
     }
 
     private TEmpleado fusionarDatos(TEmpleado v, TEmpleado n) {
-        TEmpleado f = new TEmpleado();
-        // Copiamos ID y DNI del viejo (no cambian)
+        TEmpleado f;
+        
+        // Instanciamos el tipo correcto para no perder los campos específicos
+        if (v.getTipo() != null && v.getTipo() == 1) {
+            f = new TVendedor();
+            // Fusionamos ventas
+            int ventasNuevas = (n instanceof TVendedor) ? ((TVendedor)n).getNumeroVentas() : -1;
+            ((TVendedor)f).setNumeroVentas(ventasNuevas != -1 ? ventasNuevas : ((TVendedor)v).getNumeroVentas());
+        } else {
+            f = new TMontador(); 
+        }
+
+        // Copiamos ID, DNI y TIPO 
         f.setId(v.getId());
         f.setDNI(v.getDNI());
+        f.setTipo(v.getTipo());
 
-        // Si el usuario no escribió nada en un campo, mantenemos el valor viejo
+        // Fusionamos campos comunes: si 'n' tiene dato lo usamos, si no, usamos el de 'v'
         if (n != null) {
             f.setNombre(n.getNombre() != null ? n.getNombre() : v.getNombre());
             f.setApellido(n.getApellido() != null ? n.getApellido() : v.getApellido());
             f.setSueldo(n.getSueldo() != -1.0 ? n.getSueldo() : v.getSueldo());
         } else {
-            // Si por algún error n llega null, la vista previa es igual al viejo
             f.setNombre(v.getNombre());
             f.setApellido(v.getApellido());
             f.setSueldo(v.getSueldo());
         }
+        
         return f;
     }
 
