@@ -3,6 +3,9 @@ package presentacion.factoria;
 import presentacion.IGUI;
 import presentacion.GUICliente.*;
 import presentacion.GUIEmpleado.*;
+import presentacion.GUIFactura.VistaCerrarVenta;
+import presentacion.GUIFactura.VistaIniciarVenta;
+import presentacion.GUIFactura.VistaMostrarFacturas;
 import presentacion.controlador.Eventos;
 
 public class FactoriaPresentacion extends FactoriaAbstractaPresentacion {
@@ -14,6 +17,9 @@ public class FactoriaPresentacion extends FactoriaAbstractaPresentacion {
 	private VistaModificarEmpleado vistaModificar;
 	private VistaBuscarEmpleado vistaBuscar;
 	private VistaMostrarEmpleados vistaMostrar;
+	private VistaIniciarVenta vistaIniciar;
+	private VistaCerrarVenta vistaCerrar;
+	private VistaMostrarFacturas vistaMostrarFacturas;
 		
 
 	public IGUI createVista(int idEvento) {
@@ -64,7 +70,23 @@ public class FactoriaPresentacion extends FactoriaAbstractaPresentacion {
 					vistaMostrar = new VistaMostrarEmpleados();
 				}
 				return vistaMostrar;
-				
+			
+			//VISTAS DE FACTURA
+			case Eventos.INICIAR_VENTA:
+				if(vistaIniciar == null) {
+					vistaIniciar = new VistaIniciarVenta();
+				}
+				return vistaIniciar;
+			case Eventos.CERRAR_VENTA:
+				if(vistaCerrar == null) {
+					vistaCerrar = new VistaCerrarVenta();
+				}
+				return vistaCerrar;
+			case Eventos.MOSTRAR_FACTURAS:
+				if(vistaMostrarFacturas == null) {
+					vistaMostrarFacturas = new VistaMostrarFacturas();
+				}
+				return vistaMostrarFacturas;
 			
 			//... 
 			default:

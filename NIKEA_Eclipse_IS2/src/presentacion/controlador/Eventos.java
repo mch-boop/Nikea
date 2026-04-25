@@ -80,10 +80,20 @@ public class Eventos {
     // EVENTOS DE FACTURA
     
     public static final int INICIAR_VENTA = 301;
+    public static final int RES_INICIAR_VENTA_OK = 3011;
+	public static final int RES_INICIAR_VENTA_KO = 3010;
+    
     public static final int CERRAR_VENTA = 302;
+    public static final int RES_CERRAR_VENTA_OK = 3021;
+	public static final int RES_CERRAR_VENTA_KO = 3020;
+	
     public static final int ANNADIR_SERVICIO = 303;
     public static final int BUSCAR_FACTURA = 304;
+    
     public static final int MOSTRAR_FACTURAS = 305;
+    public static final int RES_MOSTRAR_FACTURAS_OK = 3051;
+	public static final int RES_MOSTRAR_FACTURAS_KO = 3050;
+	
     public static final int MOSTRAR_FACTURAS_CLIENTE = 306;
     
     // EVENTOS DE DESCUENTO
