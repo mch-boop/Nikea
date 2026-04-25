@@ -24,6 +24,13 @@ public class VistaMostrarEmpleados extends JFrame implements IGUI {
     public VistaMostrarEmpleados() {
         setTitle("Listado General de Empleados");
         initGUI();
+        this.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent e) {
+                modeloTabla.setRowCount(0);
+            }
+        });
+        setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
     }
     
 
@@ -119,7 +126,7 @@ public class VistaMostrarEmpleados extends JFrame implements IGUI {
                 
                 if (!hayActivos) {
                     JOptionPane.showMessageDialog(this, "No hay empleados activos para mostrar.", "Información", JOptionPane.INFORMATION_MESSAGE);
-                }
+                } 
             }
             break;
 
