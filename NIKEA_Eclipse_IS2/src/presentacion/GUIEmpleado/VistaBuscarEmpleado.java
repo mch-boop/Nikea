@@ -139,8 +139,10 @@ public class VistaBuscarEmpleado extends JFrame implements IGUI {
                     break;
 
                 case Eventos.RES_BUSCAR_EMPLEADO_KO:
+                	txtId.setText("");
                     areaDetalles.setText("");
-                    areaDetalles.setPreferredSize(new Dimension(400, 150));
+                    areaDetalles.setPreferredSize(new Dimension(363, 200));
+                    pack();
                     JOptionPane.showMessageDialog(this, "No existe empleado con ID: " + datos, "Error", JOptionPane.ERROR_MESSAGE);
                     txtId.requestFocus();
                     break;

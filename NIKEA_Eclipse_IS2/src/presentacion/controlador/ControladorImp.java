@@ -115,35 +115,26 @@ public class ControladorImp extends Controlador {
 			}
 			
 			case Eventos.BAJA_EMPLEADO: {
-				Integer id = (Integer) datos;
+			    Integer id = (Integer) datos;
 			    SAEmpleado saEmp = FactoriaAbstractaNegocio.getInstance().crearSAEmpleado();
-			    int res = saEmp.delete(id);
 			    
-			    IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(evento);
-			    switch (res) {
-			        case 1:
-			            TEmpleado emp = saEmp.read(id); 
-			            vista.actualizar(Eventos.RES_BAJA_EMPLEADO_OK, emp); 
-			            break;
-			        case -1:
-			            vista.actualizar(Eventos.RES_BAJA_EMPLEADO_KO_ID_VACIO, id);
-			            break;
-			        case -2:
-			            vista.actualizar(Eventos.RES_BAJA_EMPLEADO_KO_ID_FORMATO, id);
-			            break;
-			        case -3:
-			            vista.actualizar(Eventos.RES_BAJA_EMPLEADO_KO_NO_EXISTE, id);
-			            break;
-			        case -4:
-			            vista.actualizar(Eventos.RES_BAJA_EMPLEADO_KO_YA_INACTIVO, id);
-			            break;
-			        default:
-			            vista.actualizar(Eventos.RES_BAJA_EMPLEADO_KO, res);
-			            break;
+			    TEmpleado emp = saEmp.read(id); 
+			    
+			    IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.BAJA_EMPLEADO);
+			    
+			    if (emp == null) {
+			        // El empleado no existe en el sistema
+			        vista.actualizar(Eventos.RES_BAJA_EMPLEADO_KO_NO_EXISTE, id);
+			    } else if (!emp.isActivo()) {
+			        // El empleado existe pero ya está de baja
+			        vista.actualizar(Eventos.RES_BAJA_EMPLEADO_KO_YA_INACTIVO, id);
+			    } else {
+			        // El empleado existe y está activo: mandamos una vista para confirmar la baja
+			        vista.actualizar(Eventos.RES_BAJA_EMPLEADO_OK, emp);
 			    }
 			    break;			
 			}
-			
+
 			case Eventos.CONFIRMAR_BAJA_EMPLEADO: {
 			    Integer id = (Integer) datos;
 			    SAEmpleado saEmp = FactoriaAbstractaNegocio.getInstance().crearSAEmpleado();
@@ -152,7 +143,11 @@ public class ControladorImp extends Controlador {
 			    
 			    IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.BAJA_EMPLEADO);
 			    if (res > 0) {
+			        // Avisamos a la vista de que el borrado lógico se completó
 			        vista.actualizar(Eventos.RES_BAJA_EMPLEADO_CONFIRMADA, id);
+			    } else {
+			        // Por si acaso hubiera un error de escritura en el último momento
+			        vista.actualizar(Eventos.RES_BAJA_EMPLEADO_KO, id);
 			    }
 			    break;
 			}
