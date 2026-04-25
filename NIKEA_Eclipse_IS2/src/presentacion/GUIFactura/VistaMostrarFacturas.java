@@ -74,10 +74,10 @@ public class VistaMostrarFacturas extends JFrame implements IGUI {
 
         for (TFactura f : facturas) {
             modelo.addRow(new Object[] {
-                //f.getId(),
-                //f.getIdCliente(),
-                //f.getIdVendedor(),
-                //f.getFecha()
+                f.getId(),
+                f.getIdCliente(),
+                f.getIdVendedor(),
+                f.getFecha()
             });
         }
     }

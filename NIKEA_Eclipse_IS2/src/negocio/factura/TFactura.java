@@ -37,6 +37,31 @@ public class TFactura {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	public void setIdCliente(int int1) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void setIdDescuento(int int1) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void setFecha(String text) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void setIdVendedor(int int1) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public Object getIdVendedor() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 	// MÉTODOS
 	

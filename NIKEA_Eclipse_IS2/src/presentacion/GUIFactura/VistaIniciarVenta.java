@@ -57,7 +57,7 @@ public class VistaIniciarVenta extends JFrame implements IGUI {
             try {
                 TFactura tFactura = new TFactura();
 
-                //tFactura.setIdVendedor(Integer.parseInt(txtIdVendedor.getText()));
+                tFactura.setIdVendedor(Integer.parseInt(txtIdVendedor.getText()));
 
                 Controlador.getInstance().accion(Eventos.INICIAR_VENTA, tFactura);
 

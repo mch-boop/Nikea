@@ -19,128 +19,126 @@ import javax.swing.JTextField;
 import presentacion.IGUI;
 import presentacion.controlador.Controlador;
 import presentacion.controlador.Eventos;
-import negocio.factura.TFactura; 
+import negocio.factura.TFactura;
 
 @SuppressWarnings("serial")
 public class VistaCerrarVenta extends JFrame implements IGUI {
 
-    // ATRIBUTOS
-    private JTextField txtIdCliente, txtIdDescuento, txtFecha;
-    private JButton btnAceptar, btnCancelar;
+	// ATRIBUTOS
+	private JTextField txtIdCliente, txtIdDescuento, txtFecha;
+	private JButton btnAceptar, btnCancelar;
 
-    // CONSTRUCTORA
-    public VistaCerrarVenta() {
-        setTitle("Cerrar Venta");
-        initGUI();
-    }
+	// CONSTRUCTORA
+	public VistaCerrarVenta() {
+		setTitle("Cerrar Venta");
+		initGUI();
+	}
 
-    // Limpia los campos
-    private void limpiarCampos() {
-        txtIdCliente.setText("");
-        txtIdDescuento.setText("");
-        txtFecha.setText("");
-    }
+	// Limpia los campos
+	private void limpiarCampos() {
+		txtIdCliente.setText("");
+		txtIdDescuento.setText("");
+		txtFecha.setText("");
+	}
 
-    // INIT GUI
-    private void initGUI() {
+	// INIT GUI
+	private void initGUI() {
 
-        JPanel viewPanel = new JPanel();
-        viewPanel.setLayout(new BoxLayout(viewPanel, BoxLayout.Y_AXIS));
-        viewPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+		JPanel viewPanel = new JPanel();
+		viewPanel.setLayout(new BoxLayout(viewPanel, BoxLayout.Y_AXIS));
+		viewPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
-        // Campos
-        txtIdCliente = new JTextField(20);
-        txtIdDescuento = new JTextField(20);
-        txtFecha = new JTextField(20); 
-        
-        // Panel botones
-        JPanel pBotones = new JPanel();
-        btnAceptar = new JButton("ACEPTAR");
-        btnCancelar = new JButton("CANCELAR");
+		// Campos
+		txtIdCliente = new JTextField(20);
+		txtIdDescuento = new JTextField(20);
+		txtFecha = new JTextField(20);
 
-        pBotones.add(btnAceptar);
-        pBotones.add(btnCancelar);
+		// Panel botones
+		JPanel pBotones = new JPanel();
+		btnAceptar = new JButton("ACEPTAR");
+		btnCancelar = new JButton("CANCELAR");
 
-        // Acción aceptar
-        btnAceptar.addActionListener(e -> {
-            try {
-                TFactura tFactura = new TFactura();
+		pBotones.add(btnAceptar);
+		pBotones.add(btnCancelar);
 
-                //tFactura.setIdCliente(Integer.parseInt(txtIdCliente.getText()));
-                //tFactura.setIdVendedor(Integer.parseInt(txtIdVendedor.getText()));
-                //tFactura.setFecha(txtFecha.getText());
+		// Acción aceptar
+		btnAceptar.addActionListener(e -> {
+			try {
+				TFactura tFactura = new TFactura();
 
-                Controlador.getInstance().accion(Eventos.CERRAR_VENTA, tFactura);
+				tFactura.setIdCliente(Integer.parseInt(txtIdCliente.getText()));
+				tFactura.setIdDescuento(Integer.parseInt(txtIdDescuento.getText()));
+				tFactura.setFecha(txtFecha.getText());
 
-                limpiarCampos();
+				Controlador.getInstance().accion(Eventos.CERRAR_VENTA, tFactura);
 
-            } catch (NumberFormatException ex) {
-                JOptionPane.showMessageDialog(null, 
-                    "Los IDs deben ser números válidos.", 
-                    "Error", 
-                    JOptionPane.ERROR_MESSAGE);
-            }
-        });
+				limpiarCampos();
 
-        // Acción cancelar
-        btnCancelar.addActionListener(e -> {
-            limpiarCampos();
-            setVisible(false);
-            dispose();
-        });
+			} catch (NumberFormatException ex) {
+				JOptionPane.showMessageDialog(null, "Los IDs deben ser números válidos.", "Error",
+						JOptionPane.ERROR_MESSAGE);
+			}
+		});
 
-        // Panel formulario
-        JPanel formPanel = new JPanel(new GridBagLayout());
-        GridBagConstraints ajuste = new GridBagConstraints();
-        ajuste.fill = GridBagConstraints.HORIZONTAL;
-        ajuste.insets = new Insets(5, 5, 5, 5);
+		// Acción cancelar
+		btnCancelar.addActionListener(e -> {
+			limpiarCampos();
+			setVisible(false);
+			dispose();
+		});
 
-        // ID Cliente
-        ajuste.gridx = 0; ajuste.gridy = 0;
-        formPanel.add(new JLabel("ID Cliente:"), ajuste);
-        ajuste.gridx = 1;
-        formPanel.add(txtIdCliente, ajuste);
+		// Panel formulario
+		JPanel formPanel = new JPanel(new GridBagLayout());
+		GridBagConstraints ajuste = new GridBagConstraints();
+		ajuste.fill = GridBagConstraints.HORIZONTAL;
+		ajuste.insets = new Insets(5, 5, 5, 5);
 
-        // ID Vendedor
-        ajuste.gridx = 0; ajuste.gridy = 1;
-        formPanel.add(new JLabel("Descuento %:"), ajuste);
-        ajuste.gridx = 1;
-        formPanel.add(txtIdDescuento, ajuste);
+		// ID Cliente
+		ajuste.gridx = 0;
+		ajuste.gridy = 0;
+		formPanel.add(new JLabel("ID Cliente:"), ajuste);
+		ajuste.gridx = 1;
+		formPanel.add(txtIdCliente, ajuste);
 
-        // Fecha
-        ajuste.gridx = 0; ajuste.gridy = 2;
-        formPanel.add(new JLabel("Fecha:"), ajuste);
-        ajuste.gridx = 1;
-        formPanel.add(txtFecha, ajuste);
+		// ID Vendedor
+		ajuste.gridx = 0;
+		ajuste.gridy = 1;
+		formPanel.add(new JLabel("Descuento %:"), ajuste);
+		ajuste.gridx = 1;
+		formPanel.add(txtIdDescuento, ajuste);
 
-        // Título
-        JLabel lblTitulo = new JLabel("Introduzca los datos para cerrar la venta:");
-        lblTitulo.setAlignmentX(Component.CENTER_ALIGNMENT);
+		// Fecha
+		ajuste.gridx = 0;
+		ajuste.gridy = 2;
+		formPanel.add(new JLabel("Fecha:"), ajuste);
+		ajuste.gridx = 1;
+		formPanel.add(txtFecha, ajuste);
 
-        // Añadir componentes
-        viewPanel.add(lblTitulo);
-        viewPanel.add(Box.createRigidArea(new Dimension(0, 20)));
-        viewPanel.add(formPanel);
-        viewPanel.add(Box.createRigidArea(new Dimension(0, 20)));
-        viewPanel.add(pBotones);
+		// Título
+		JLabel lblTitulo = new JLabel("Introduzca los datos para cerrar la venta:");
+		lblTitulo.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        getContentPane().add(viewPanel);
-        pack();
-        setResizable(false);
-        setLocationRelativeTo(null);
-    }
+		// Añadir componentes
+		viewPanel.add(lblTitulo);
+		viewPanel.add(Box.createRigidArea(new Dimension(0, 20)));
+		viewPanel.add(formPanel);
+		viewPanel.add(Box.createRigidArea(new Dimension(0, 20)));
+		viewPanel.add(pBotones);
 
-    // IGUI
-    @Override
-    public void actualizar(int evento, Object datos) {
-    	
-        if (evento == Eventos.RES_CERRAR_VENTA_OK) {
-            JOptionPane.showMessageDialog(this, 
-                "Venta cerrada correctamente con ID: " + (Integer) datos);
-        } 
-        else if (evento == Eventos.RES_CERRAR_VENTA_KO) {
-            JOptionPane.showMessageDialog(this, 
-                "No se ha podido cerrar la venta.");
-        }
-    }
+		getContentPane().add(viewPanel);
+		pack();
+		setResizable(false);
+		setLocationRelativeTo(null);
+	}
+
+	// IGUI
+	@Override
+	public void actualizar(int evento, Object datos) {
+
+		if (evento == Eventos.RES_CERRAR_VENTA_OK) {
+			JOptionPane.showMessageDialog(this, "Venta cerrada correctamente con ID: " + (Integer) datos);
+		} else if (evento == Eventos.RES_CERRAR_VENTA_KO) {
+			JOptionPane.showMessageDialog(this, "No se ha podido cerrar la venta.");
+		}
+	}
 }
