@@ -1,45 +1,66 @@
 package integracion.factura;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import negocio.factura.TLineaFactura;
 
 public class DAOLineaFacturaImp implements DAOLineaFactura {
 
+	private List<TLineaFactura> lineas = new ArrayList<>();
+
 	@Override
 	public void crear(TLineaFactura lineaFactura) {
-		// TODO Auto-generated method stub
-		
+		lineas.add(lineaFactura);
+
 	}
 
 	@Override
 	public List<TLineaFactura> leerPorFactura(int idFactura) {
-		// TODO Auto-generated method stub
-		return null;
+		List<TLineaFactura> res = new ArrayList<>();
+
+		for (TLineaFactura l : lineas) {
+			if (l.getIdFactura() == idFactura) {
+				res.add(l);
+			}
+		}
+		return res;
 	}
 
 	@Override
 	public TLineaFactura leerPorLinea(Integer idFactura, Integer idProducto) {
-		// TODO Auto-generated method stub
+		for (TLineaFactura l : lineas) {
+			if (l.getIdFactura() == idFactura && l.getIdProducto() == idProducto) {
+				return l;
+			}
+		}
 		return null;
 	}
 
 	@Override
 	public void actualizar(TLineaFactura lineaFactura) {
-		// TODO Auto-generated method stub
-		
+		for (int i = 0; i < lineas.size(); i++) {
+			TLineaFactura l = lineas.get(i);
+
+			if (l.getIdFactura() == lineaFactura.getIdFactura() && l.getIdProducto() == lineaFactura.getIdProducto()) {
+
+				lineas.set(i, lineaFactura);
+				return;
+			}
+		}
+
 	}
 
 	@Override
 	public void eliminar(Integer idFactura, Integer idProducto) {
-		// TODO Auto-generated method stub
-		
+		lineas.removeIf(l -> l.getIdFactura() == idFactura && l.getIdProducto() == idProducto);
+
 	}
 
 	@Override
 	public void eliminarPorFactura(Integer idFactura) {
-		// TODO Auto-generated method stub
-		
+		lineas.removeIf(l -> l.getIdFactura() == idFactura);
+
 	}
 
 }
