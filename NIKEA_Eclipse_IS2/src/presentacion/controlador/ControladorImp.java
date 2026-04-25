@@ -2,6 +2,8 @@ package presentacion.controlador;
 
 import java.util.Collection;
 
+import javax.swing.JFrame;
+
 import negocio.cliente.SACliente;
 import negocio.cliente.TCliente;
 import negocio.empleado.SAEmpleado;
@@ -196,11 +198,15 @@ public class ControladorImp extends Controlador {
 			    
 			    IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.BUSCAR_EMPLEADO);
 			    
-			    if (empleado != null) {
+			    // Si el empleado es null O no está activo, mandamos KO (No existe)
+			    if (empleado != null && empleado.isActivo()) {
 			        vista.actualizar(Eventos.RES_BUSCAR_EMPLEADO_OK, empleado);
 			    } else {
+			        // Se trata igual que si no existiera
 			        vista.actualizar(Eventos.RES_BUSCAR_EMPLEADO_KO, id);
 			    }
+			    
+			    ((JFrame)vista).setVisible(true);
 			    break;
 			}
 			

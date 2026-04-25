@@ -6,6 +6,8 @@ import presentacion.GUIEmpleado.*;
 import presentacion.controlador.Eventos;
 
 public class FactoriaPresentacion extends FactoriaAbstractaPresentacion {
+	
+	private VistaBuscarEmpleado vistaBuscar;
 
 	public IGUI createVista(int idEvento) {
 		switch (idEvento) {
@@ -15,8 +17,7 @@ public class FactoriaPresentacion extends FactoriaAbstractaPresentacion {
 				return new VistaBuscarCliente();
 			case Eventos.BAJA_CLIENTE: 
 				return new VistaEliminarCliente();
-			case Eventos.VENTANA_BUSCAR_ID_EMPLEADO:
-			    return new GUIBuscarIdModificar();
+			
 			case Eventos.MODIFICAR_CLIENTE:
 				return new VistaModificarCliente();
 			case Eventos.MOSTRAR_CLIENTES:
@@ -28,9 +29,14 @@ public class FactoriaPresentacion extends FactoriaAbstractaPresentacion {
 			case Eventos.ALTA_EMPLEADO: 
 				return new VistaAnadirEmpleado();
 			case Eventos.BUSCAR_EMPLEADO: 
-				return new VistaBuscarEmpleado();
+				if (vistaBuscar == null) { 
+                    vistaBuscar = new VistaBuscarEmpleado();
+                }
+                return vistaBuscar;
 			case Eventos.BAJA_EMPLEADO: 
 				return new VistaEliminarEmpleado();
+			case Eventos.VENTANA_BUSCAR_ID_EMPLEADO:
+			    return new GUIBuscarIdModificar();
 			case Eventos.MODIFICAR_EMPLEADO:
 				return new VistaModificarEmpleado();
 			case Eventos.MOSTRAR_EMPLEADOS:

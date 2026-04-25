@@ -30,10 +30,13 @@ public class VistaBuscarEmpleado extends JFrame implements IGUI {
     
     private void initGUI() {
     	
-    	// Panel principal
-        JPanel mainPanel = new JPanel();
-        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+    	// PANEL PRINCIPAL con GridBagLayout para centrado total
+        JPanel mainPanel = new JPanel(new GridBagLayout());
         mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.insets = new Insets(5, 5, 5, 5);
 
         // Panel de búsqueda
         JPanel panelBusqueda = new JPanel(new FlowLayout(FlowLayout.CENTER));
@@ -42,62 +45,59 @@ public class VistaBuscarEmpleado extends JFrame implements IGUI {
         panelBusqueda.add(new JLabel("ID Empleado:"));
         panelBusqueda.add(txtId);
         panelBusqueda.add(btnConsultar);
+        gbc.gridy = 0;
+        mainPanel.add(panelBusqueda, gbc);
 
-        // Área de visualización (no editable)
-        areaDetalles = new JTextArea(10, 30);
+        // AREA DETALLES 
+        areaDetalles = new JTextArea();
         areaDetalles.setEditable(false);
         areaDetalles.setBorder(BorderFactory.createTitledBorder("Detalles del Empleado"));
         areaDetalles.setFont(new Font("Monospaced", Font.PLAIN, 13));
-        JScrollPane scroll = new JScrollPane(areaDetalles);
+        areaDetalles.setBackground(new Color(245, 245, 245));
+        areaDetalles.setPreferredSize(new Dimension(363, 200));
+        
+        // Contenedor para el área para que no se estire
+        gbc.gridy = 1;
+        gbc.fill = GridBagConstraints.NONE; 
+        gbc.anchor = GridBagConstraints.CENTER;
+        mainPanel.add(areaDetalles, gbc);
 
-        // Panel de botones inferiores
+        // Panel de botones
         JPanel panelBotones = new JPanel();
         btnLimpiar = new JButton("LIMPIAR");
         btnCancelar = new JButton("CANCELAR");
         panelBotones.add(btnLimpiar);
         panelBotones.add(btnCancelar);
+        gbc.gridy = 2;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        mainPanel.add(panelBotones, gbc);
 
-        // Lógica de Consulta
-        btnConsultar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    String textoId = txtId.getText();
-                    if (textoId.isEmpty()) {
-                        JOptionPane.showMessageDialog(null, "Debe introducir un ID.");
-                    } else {
-                        int id = Integer.parseInt(textoId);
-                        Controlador.getInstance().accion(Eventos.BUSCAR_EMPLEADO, id);
-                    }
-                } catch (NumberFormatException ex) {
-                    JOptionPane.showMessageDialog(null, "El ID debe ser un número entero.");
-                    txtId.requestFocus();
+        // Lógica
+        btnConsultar.addActionListener(e -> {
+            try {
+                String textoId = txtId.getText().trim();
+                if (textoId.isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Debe introducir un ID.");
+                } else {
+                    Controlador.getInstance().accion(Eventos.BUSCAR_EMPLEADO, Integer.parseInt(textoId));
                 }
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(null, "El ID debe ser un número entero.");
             }
         });
 
-        // Botón Limpiar
         btnLimpiar.addActionListener(e -> {
             txtId.setText("");
             areaDetalles.setText("");
+            areaDetalles.setPreferredSize(new Dimension(363, 200));
+            pack(); // Reajusta al vaciar
         });
 
-        // Botón Cancelar
-        btnCancelar.addActionListener(e -> {
-            setVisible(false);
-            dispose();
-        });
-
-        // Añadir componentes al panel principal
-        mainPanel.add(panelBusqueda);
-        mainPanel.add(Box.createRigidArea(new Dimension(0, 10)));
-        mainPanel.add(scroll);
-        mainPanel.add(Box.createRigidArea(new Dimension(0, 10)));
-        mainPanel.add(panelBotones);
+        btnCancelar.addActionListener(e -> dispose());
 
         getContentPane().add(mainPanel);
         pack();
-        setResizable(false); // Evitamos que se deforme el layout
+        setResizable(false);
         setLocationRelativeTo(null);
     }
 
@@ -108,10 +108,12 @@ public class VistaBuscarEmpleado extends JFrame implements IGUI {
             switch (evento) {
                 case Eventos.RES_BUSCAR_EMPLEADO_OK:
                     TEmpleado te = (TEmpleado) datos;
+                    areaDetalles.setPreferredSize(null); 
+                    
                     StringBuilder sb = new StringBuilder();
-                    sb.append("------------------------------------------\n");
-                    sb.append("   DETALLES DEL EMPLEADO\n");
-                    sb.append("------------------------------------------\n");
+                    sb.append(" ------------------------------------------ \n");
+                    sb.append("          DETALLES DEL EMPLEADO             \n");
+                    sb.append(" ------------------------------------------ \n");
                     sb.append("ID:       ").append(te.getId()).append("\n");
                     sb.append("DNI:      ").append(te.getDNI()).append("\n");
                     sb.append("Nombre:   ").append(te.getNombre()).append("\n");
@@ -129,16 +131,16 @@ public class VistaBuscarEmpleado extends JFrame implements IGUI {
                         sb.append("Tipo:     MONTADOR\n");
                     }
                     
-                    sb.append("Estado:   ").append(te.isActivo() ? "ACTIVO" : "INACTIVO (Baja)").append("\n");
-                    sb.append("------------------------------------------");
-                    
+                                       
                     areaDetalles.setText(sb.toString());
                     // Forzamos el scroll hacia arriba
+                    this.pack();
                     areaDetalles.setCaretPosition(0);
                     break;
 
                 case Eventos.RES_BUSCAR_EMPLEADO_KO:
                     areaDetalles.setText("");
+                    areaDetalles.setPreferredSize(new Dimension(400, 150));
                     JOptionPane.showMessageDialog(this, "No existe empleado con ID: " + datos, "Error", JOptionPane.ERROR_MESSAGE);
                     txtId.requestFocus();
                     break;

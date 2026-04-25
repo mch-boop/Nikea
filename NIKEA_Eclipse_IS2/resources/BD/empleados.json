@@ -7,7 +7,7 @@
         "nombre": "pepito",
         "dni": "1",
         "numeroVentas": -1,
-        "activo": true
+        "activo": false
     },
     {
         "tipo": 2,
@@ -16,6 +16,16 @@
         "id": 2,
         "nombre": "lolin",
         "dni": "2",
+        "activo": true
+    },
+    {
+        "tipo": 1,
+        "apellido": "Elegido",
+        "sueldo": 2700,
+        "id": 3,
+        "nombre": "Gumer",
+        "dni": "18",
+        "numeroVentas": 0,
         "activo": true
     }
 ]
