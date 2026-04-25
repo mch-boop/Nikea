@@ -17,6 +17,26 @@ public class TFactura {
 	private Collection<TLineaFactura> lineaFactura;
 	
 	private boolean activo;
+
+	public void setId(int i) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public int getId() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	public Object getIdCliente() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public String getFecha() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 	// MÉTODOS
 	

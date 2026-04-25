@@ -1,51 +1,76 @@
 package integracion.factura;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import negocio.factura.TFactura;
 
 public class DAOFacturaImp implements DAOFactura {
 
+	private List<TFactura> facturas = new ArrayList<>();
+	private int nextId = 1;
+
 	@Override
 	public int crear(TFactura factura) {
-		// TODO Auto-generated method stub
-		return 0;
+		factura.setId(nextId++);
+		facturas.add(factura);
+		return factura.getId();
 	}
 
 	@Override
 	public TFactura leerPorId(int id) {
-		// TODO Auto-generated method stub
+		for (TFactura f : facturas) {
+			if (f.getId() == id) {
+				return f;
+			}
+		}
 		return null;
 	}
 
 	@Override
 	public List<TFactura> leerTodas() {
-		// TODO Auto-generated method stub
-		return null;
+		return new ArrayList<>(facturas);
 	}
 
 	@Override
-	public void actualizar(TFactura factura) {
-		// TODO Auto-generated method stub
-		
+	public boolean actualizar(TFactura factura) {
+		for (int i = 0; i < facturas.size(); i++) {
+			if (facturas.get(i).getId() == factura.getId()) {
+				facturas.set(i, factura);
+				return true;
+			}
+		}
+		return false;
 	}
 
 	@Override
-	public void eliminar(Integer id) {
-		// TODO Auto-generated method stub
-		
+	public void eliminar(int id) {
+		facturas.removeIf(f -> f.getId() == id);
+
 	}
 
 	@Override
-	public List<TFactura> leerPorCliente(String dniCliente) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<TFactura> leerPorCliente(Integer idCliente) {
+		List<TFactura> res = new ArrayList<>();
+
+		for (TFactura f : facturas) {
+			if (f.getIdCliente() == idCliente) {
+				res.add(f);
+			}
+		}
+		return res;
 	}
 
 	@Override
 	public List<TFactura> leerPorRangoFechas(String fechaInicio, String fechaFin) {
-		// TODO Auto-generated method stub
-		return null;
+		List<TFactura> res = new ArrayList<>();
+
+		for (TFactura f : facturas) {
+			if (f.getFecha().compareTo(fechaInicio) >= 0 && f.getFecha().compareTo(fechaFin) <= 0) {
+				res.add(f);
+			}
+		}
+		return res;
 	}
 
 }
