@@ -1,2 +1,10 @@
-[
-]
+[{
+    "tipo": 1,
+    "apellido": "",
+    "sueldo": 1200,
+    "id": 1,
+    "nombre": "kiki",
+    "dni": "12",
+    "numeroVentas": 0,
+    "activo": true
+}]

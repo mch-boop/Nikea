@@ -191,8 +191,8 @@ public class VistaAnadirEmpleado extends JFrame implements IGUI {
 	                case Eventos.RES_ALTA_EMPLEADO_OK:
 	                	VistaAnadirEmpleado.this.limpiarCampos(); // Limpia los campos para el siguiente alta
 	                    JOptionPane.showMessageDialog(VistaAnadirEmpleado.this, "Éxito: Empleado creado con ID: " + datos); 
-	                    VistaAnadirEmpleado.this.setVisible(false);
-	                    VistaAnadirEmpleado.this.dispose();
+	                    //VistaAnadirEmpleado.this.setVisible(false);
+	                    //VistaAnadirEmpleado.this.dispose();
 	                    break;
 	        
 	                case Eventos.RES_ALTA_EMPLEADO_YA_EXISTE_MISMO:

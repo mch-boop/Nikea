@@ -1,6 +1,8 @@
 package presentacion.GUIEmpleado;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+
 import java.awt.*;
 import java.util.Collection;
 import negocio.empleado.TEmpleado;
@@ -13,7 +15,8 @@ public class VistaMostrarEmpleados extends JFrame implements IGUI {
 
 	// ATRIBUTOS
 	
-    private JTextArea areaListado;
+	private JTable tablaEmpleados;
+    private DefaultTableModel modeloTabla;
     private JButton btnCargar, btnLimpiar, btnCancelar;
 
     // CONSTRUCTORA
@@ -32,12 +35,22 @@ public class VistaMostrarEmpleados extends JFrame implements IGUI {
         JPanel mainPanel = new JPanel(new BorderLayout(10, 10));
         mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
-        // Área de texto para el listado
-        areaListado = new JTextArea(20, 50);
-        areaListado.setEditable(false);
-        areaListado.setFont(new Font("Monospaced", Font.PLAIN, 12)); 
-        JScrollPane scroll = new JScrollPane(areaListado);
-        scroll.setBorder(BorderFactory.createTitledBorder("Lista de Empleados en el Sistema"));
+        // Configuración de la Tabla
+        String[] columnas = {"ID", "DNI", "NOMBRE COMPLETO", "TIPO", "SUELDO (€)"};
+        modeloTabla = new DefaultTableModel(columnas, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false; // Tabla no editable
+            }
+        };
+        
+        tablaEmpleados = new JTable(modeloTabla);
+        tablaEmpleados.getTableHeader().setReorderingAllowed(false);
+        
+        JScrollPane scroll = new JScrollPane(tablaEmpleados);
+        scroll.setBorder(BorderFactory.createTitledBorder("Lista de Empleados Activos"));
+        scroll.setPreferredSize(new Dimension(700, 400));
+        scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 
         // Panel superior con el botón de carga
         JPanel panelNorte = new JPanel();
@@ -58,7 +71,7 @@ public class VistaMostrarEmpleados extends JFrame implements IGUI {
         });
 
         // Lógica de Limpiar
-        btnLimpiar.addActionListener(e -> areaListado.setText(""));
+        btnLimpiar.addActionListener(e -> modeloTabla.setRowCount(0));
 
         // Lógica de Cancelar
         btnCancelar.addActionListener(e -> {
@@ -81,32 +94,39 @@ public class VistaMostrarEmpleados extends JFrame implements IGUI {
     public void actualizar(int evento, Object datos) {
         switch (evento) {
 
-            case Eventos.RES_MOSTRAR_EMPLEADOS_OK:
-                Collection<TEmpleado> lista = (Collection<TEmpleado>) datos;
-                
-                if (lista.isEmpty()) {
-                    areaListado.setText("No hay empleados registrados en el sistema.");
-                } else {
-                    StringBuilder sb = new StringBuilder();
-                    // Cabecera
-                    sb.append(String.format("%-5s | %-12s | %-25s | %-10s | %-10s\n", "ID", "DNI", "NOMBRE COMPLETO", "SUELDO", "ESTADO"));
-                    sb.append("--------------------------------------------------------------------------------\n");
-                    
-                    for (TEmpleado te : lista) {
-                        String nombreCompleto = te.getNombre() + " " + te.getApellido();
-                        String estado = te.isActivo() ? "Activo" : "Inactivo";
-                        
-                        sb.append(String.format("%-5d | %-12s | %-25s | %-10.2f | %-10s\n", 
-                                te.getId(), te.getDNI(), nombreCompleto, te.getSueldo(), estado));
+        case Eventos.RES_MOSTRAR_EMPLEADOS_OK:
+            Collection<TEmpleado> lista = (Collection<TEmpleado>) datos;
+            
+            modeloTabla.setRowCount(0); // Limpiar tabla antes de cargar
+            
+            if (lista.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "No hay empleados registrados en el sistema.", "Información", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                boolean hayActivos = false;
+                for (TEmpleado te : lista) {
+                    if (te.isActivo()) { // Solo mostramos si el estado es activo
+                        Object[] fila = {
+                            te.getId(),
+                            te.getDNI(),
+                            te.getNombre() + " " + te.getApellido(),
+                            te.getTipo() == 1 ? "Vendedor" : "Montador",
+                            String.format("%.2f", te.getSueldo())
+                        };
+                        modeloTabla.addRow(fila);
+                        hayActivos = true;
                     }
-                    areaListado.setText(sb.toString());
                 }
-                break;
+                
+                if (!hayActivos) {
+                    JOptionPane.showMessageDialog(this, "No hay empleados activos para mostrar.", "Información", JOptionPane.INFORMATION_MESSAGE);
+                }
+            }
+            break;
 
-            case Eventos.RES_MOSTRAR_EMPLEADOS_KO:
-                areaListado.setText("");
-                JOptionPane.showMessageDialog(this, "Error al recuperar la lista de empleados.", "Error", JOptionPane.ERROR_MESSAGE);
-                break;
+        case Eventos.RES_MOSTRAR_EMPLEADOS_KO:
+            modeloTabla.setRowCount(0);
+            JOptionPane.showMessageDialog(this, "Error al recuperar la lista de empleados.", "Error", JOptionPane.ERROR_MESSAGE);
+            break;
 
             default:
                 break;

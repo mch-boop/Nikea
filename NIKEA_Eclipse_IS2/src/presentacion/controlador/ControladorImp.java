@@ -157,7 +157,8 @@ public class ControladorImp extends Controlador {
 				SAEmpleado saEmp = FactoriaAbstractaNegocio.getInstance().crearSAEmpleado();
 				int res = saEmp.update(tEmpleado);
 				
-				IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(evento);
+				IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.MODIFICAR_EMPLEADO);
+				
 				if (res > 0) {
 					vista.actualizar(Eventos.RES_MODIFICAR_EMPLEADO_OK, res);
 				} else if (res == -1) {
@@ -169,21 +170,28 @@ public class ControladorImp extends Controlador {
 			}
 			
 			case Eventos.BUSCAR_EMPLEADO_PARA_MODIFICAR: {
-				Integer id = (Integer) datos;
-				SAEmpleado sa = FactoriaAbstractaNegocio.getInstance().crearSAEmpleado();
-				TEmpleado emp = sa.read(id);
+			    Integer id = (Integer) datos;
+			    SAEmpleado sa = FactoriaAbstractaNegocio.getInstance().crearSAEmpleado();
+			    TEmpleado emp = sa.read(id);
+			    
+			    IGUI vBuscarId = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.VENTANA_BUSCAR_ID_EMPLEADO);
+			    IGUI vModificar = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.MODIFICAR_EMPLEADO);
 
-				if (emp != null) {
-				    // Decirle a la pequeña (BuscarId) que se cierre
-				    FactoriaAbstractaPresentacion.getInstance()
-				        .createVista(Eventos.VENTANA_BUSCAR_ID_EMPLEADO)
-				        .actualizar(Eventos.RES_BUSCAR_EMPLEADO_PARA_MODIFICAR_OK, emp);
+			    if (emp != null && emp.isActivo()) {
+			        // Ocultamos la ventana pequeña de "Introduce ID"
+			        ((JFrame)vBuscarId).setVisible(false);
 
-				    // Decirle a la grande (Modificar) que se abra con los datos
-				    FactoriaAbstractaPresentacion.getInstance()
-				        .createVista(Eventos.MODIFICAR_EMPLEADO)
-				        .actualizar(Eventos.RES_BUSCAR_EMPLEADO_PARA_MODIFICAR_OK, emp);
-				} 
+			        // Pasamos los datos a la de Modificar
+			        vModificar.actualizar(Eventos.RES_BUSCAR_EMPLEADO_PARA_MODIFICAR_OK, emp);
+			        
+			        
+			        ((JFrame)vModificar).setVisible(true);
+			        ((JFrame)vModificar).toFront(); // La traemos al frente
+			    } else {
+			        // Si no existe o está inactivo, avisamos a la pequeña para que muestre error
+			        vBuscarId.actualizar(Eventos.RES_BUSCAR_EMPLEADO_PARA_MODIFICAR_KO, id);
+			    }
+			    break; 
 			}
 			
 			case Eventos.BUSCAR_EMPLEADO: {
