@@ -172,19 +172,26 @@ public class ControladorImp extends Controlador {
 			}
 			
 			case Eventos.BUSCAR_EMPLEADO_PARA_MODIFICAR: {
-			    Integer id = (Integer) datos;
-			    SAEmpleado saEmp = FactoriaAbstractaNegocio.getInstance().crearSAEmpleado();
-			    TEmpleado empleado = saEmp.read(id);
-			    
-			    // Obtenemos la vista de Modificar (la factoría debería devolver la actual)
-			    IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.MODIFICAR_EMPLEADO);
-			    
-			    if (empleado != null) {
-			        vista.actualizar(Eventos.RES_BUSCAR_EMPLEADO_PARA_MODIFICAR_OK, empleado);
-			    } else {
-			        vista.actualizar(Eventos.RES_BUSCAR_EMPLEADO_PARA_MODIFICAR_KO, id);
-			    }
-			    break;
+				Integer id = (Integer) datos;
+				SAEmpleado sa = FactoriaAbstractaNegocio.getInstance().crearSAEmpleado();
+				TEmpleado emp = sa.read(id);
+
+				if (emp != null) {
+				    // Decirle a la pequeña (BuscarId) que se cierre
+				    FactoriaAbstractaPresentacion.getInstance()
+				        .createVista(Eventos.VENTANA_BUSCAR_ID_EMPLEADO)
+				        .actualizar(Eventos.RES_BUSCAR_EMPLEADO_PARA_MODIFICAR_OK, emp);
+
+				    // Decirle a la grande (Modificar) que se abra con los datos
+				    FactoriaAbstractaPresentacion.getInstance()
+				        .createVista(Eventos.MODIFICAR_EMPLEADO)
+				        .actualizar(Eventos.RES_BUSCAR_EMPLEADO_PARA_MODIFICAR_OK, emp);
+				} else {
+				    // Si no existe, solo avisamos a la pequeña para que muestre el error
+				    FactoriaAbstractaPresentacion.getInstance()
+				        .createVista(Eventos.VENTANA_BUSCAR_ID_EMPLEADO)
+				        .actualizar(Eventos.RES_BUSCAR_EMPLEADO_PARA_MODIFICAR_KO, id);
+				}
 			}
 			
 			case Eventos.BUSCAR_EMPLEADO: {

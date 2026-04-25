@@ -53,7 +53,7 @@ public class GUIEmpleadoDialog extends JDialog {
         });
 
         btnActualizar.addActionListener(e -> {
-            IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.MODIFICAR_EMPLEADO);
+            IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.VENTANA_BUSCAR_ID_EMPLEADO);
             ((JFrame) vista).setVisible(true);
         });
 

@@ -15,6 +15,8 @@ public class FactoriaPresentacion extends FactoriaAbstractaPresentacion {
 				return new VistaBuscarCliente();
 			case Eventos.BAJA_CLIENTE: 
 				return new VistaEliminarCliente();
+			case Eventos.VENTANA_BUSCAR_ID_EMPLEADO:
+			    return new GUIBuscarIdModificar();
 			case Eventos.MODIFICAR_CLIENTE:
 				return new VistaModificarCliente();
 			case Eventos.MOSTRAR_CLIENTES:

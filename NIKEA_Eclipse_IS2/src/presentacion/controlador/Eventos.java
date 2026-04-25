@@ -65,6 +65,7 @@ public class Eventos {
     public static final int RES_MODIFICAR_EMPLEADO_KO_NO_EXISTE = 20301;
     public static final int RES_MODIFICAR_EMPLEADO_KO_DATOS_INVALIDOS = 20302;
     public static final int BUSCAR_EMPLEADO_PARA_MODIFICAR = 20303; 
+    public static final int VENTANA_BUSCAR_ID_EMPLEADO = 203030;
     public static final int RES_BUSCAR_EMPLEADO_PARA_MODIFICAR_OK = 203031;
     public static final int RES_BUSCAR_EMPLEADO_PARA_MODIFICAR_KO = 203032;
     
@@ -150,5 +151,6 @@ public class Eventos {
     
     public static final int ORGANIZAR_MONTAJE = 607;
     public static final int RES_ORGANIZAR_MONTAJE_OK = 6071;
+	
     
 }
