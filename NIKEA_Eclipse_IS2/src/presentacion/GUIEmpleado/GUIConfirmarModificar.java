@@ -1,15 +1,10 @@
 package presentacion.GUIEmpleado;
 
 import javax.swing.*;
-import javax.swing.border.TitledBorder;
 import java.awt.*;
 import negocio.empleado.TEmpleado;
 import negocio.empleado.TMontador;
 import negocio.empleado.TVendedor;
-
-import java.awt.Frame;
-import java.awt.GraphicsConfiguration;
-import java.awt.Window;
 
 import javax.swing.JDialog;
 

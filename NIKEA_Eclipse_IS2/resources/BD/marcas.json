@@ -25,14 +25,17 @@
     },
     {
         "listaArticulos": [],
-        "especialidades": [],
+        "especialidades": ["ELECTRODOMESTICOS"],
         "idMarca": 4,
-        "nombre": "Marca Genérica 1",
+        "nombre": "Modificada",
         "activo": true
     },
     {
         "listaArticulos": [],
-        "especialidades": [],
+        "especialidades": [
+            "ILUMINACION",
+            "DECORACION"
+        ],
         "idMarca": 5,
         "nombre": "Nikea",
         "activo": true

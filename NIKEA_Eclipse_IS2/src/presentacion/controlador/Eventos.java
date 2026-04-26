@@ -142,12 +142,12 @@ public class Eventos {
     public static final int MODIFICAR_MARCA = 503;
     public static final int RES_MODIFICAR_MARCA_OK = 5031;
     public static final int RES_MODIFICAR_MARCA_KO = 5030;
-    public static final int ABRIR_MODIFICAR_MARCA = 5032;
-    public static final int RES_ABRIR_MODIFICAR_MARCA_OK = 50321;
-    public static final int LISTAR_MARCAS_MODIFICAR = 5033;
-    public static final int RES_LISTAR_MARCAS_OK = 50331;
-    public static final int REACTIVAR_MARCA = 5034;
-    public static final int VENTANA_BUSCAR_ID_MARCA = 5035;
+    public static final int RES_MODIFICAR_MARCA_KO_NO_EXISTE = 50301;
+    public static final int RES_MODIFICAR_MARCA_KO_DATOS_INVALIDOS = 50302;
+    public static final int BUSCAR_MARCA_PARA_MODIFICAR = 5032;
+    public static final int RES_BUSCAR_MARCA_PARA_MODIFICAR_OK = 50321;
+    public static final int RES_BUSCAR_MARCA_PARA_MODIFICAR_KO = 50320;
+    public static final int VENTANA_BUSCAR_ID_MARCA = 5033;
     
     public static final int BUSCAR_MARCA = 504;
     public static final int RES_BUSCAR_MARCA_OK = 5041;

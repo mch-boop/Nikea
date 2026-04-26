@@ -56,10 +56,13 @@ public class SAMarcaImp implements SAMarca {
         TMarca otra = dao.readByNombre(tm.getNombre());
         if (otra != null && otra.getId() != tm.getId()) return -3;
 
-        tm.setActivo(true);
-        existente.setNombre(tm.getNombre());
-        existente.setEspecialidades(tm.getEspecialidades());
-        return dao.update(tm);
+        existente.setActivo(true);
+        if (tm.getNombre() != null)
+            existente.setNombre(tm.getNombre());
+        if (tm.getEspecialidades() != null)
+            existente.setEspecialidades(tm.getEspecialidades());
+       
+        return dao.update(existente);
 	}
 	
 	@Override
