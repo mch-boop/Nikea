@@ -81,7 +81,9 @@ public class SAMarcaImp implements SAMarca {
 	@Override
 	public Collection<TMarca> readAll() {
 		DAOMarca dao = FactoriaAbstractaIntegracion.getInstance().crearDAOMarca();
-	    return dao.readAll();
+	    return dao.readAll().stream()
+	            .filter(TMarca::isActivo)
+	            .toList();
 	}
 
 }

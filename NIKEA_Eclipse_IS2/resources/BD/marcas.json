@@ -1,10 +1,13 @@
 [
     {
         "listaArticulos": [],
-        "especialidades": ["JARDIN_EXTERIOR"],
+        "especialidades": [
+            "MUEBLES",
+            "ELECTRODOMESTICOS"
+        ],
         "idMarca": 1,
         "nombre": "Nokia",
-        "activo": true
+        "activo": false
     },
     {
         "listaArticulos": [],
