@@ -52,7 +52,7 @@ public class VistaBuscarCliente extends JFrame implements IGUI {
 		JPanel panelBusqueda = new JPanel(new FlowLayout(FlowLayout.CENTER));
         txtId = new JTextField(10);
         btnConsultar = new JButton("CONSULTAR");
-        panelBusqueda.add(new JLabel("ID Empleado:"));
+        panelBusqueda.add(new JLabel("ID Cliente:"));
         panelBusqueda.add(txtId);
         panelBusqueda.add(btnConsultar);
 		

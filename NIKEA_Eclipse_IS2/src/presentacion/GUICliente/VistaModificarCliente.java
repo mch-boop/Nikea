@@ -163,7 +163,7 @@ public class VistaModificarCliente extends JFrame implements IGUI {
             public void actionPerformed(ActionEvent e) {
                 try {
                 	TCliente tc = new TCliente();
-                    tc.setID(Integer.parseInt(txtId.getText()));
+                    tc.setId(Integer.parseInt(txtId.getText()));
                     
 	                // Solo enviamos datos si el usuario escribió algo
 	                
