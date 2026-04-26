@@ -142,6 +142,7 @@ public class Eventos {
     public static final int LISTAR_MARCAS_MODIFICAR = 5033;
     public static final int RES_LISTAR_MARCAS_OK = 50331;
     public static final int REACTIVAR_MARCA = 5034;
+    public static final int VENTANA_BUSCAR_ID_MARCA = 5035;
     
     public static final int BUSCAR_MARCA = 504;
     public static final int RES_BUSCAR_MARCA_OK = 5041;

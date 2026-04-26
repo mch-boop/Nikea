@@ -66,5 +66,21 @@
         "idMarca": 8,
         "nombre": "UCM",
         "activo": true
+    },
+    {
+        "listaArticulos": [],
+        "especialidades": [
+            "JARDIN_EXTERIOR",
+            "DECORACION",
+            "ELECTRODOMESTICOS",
+            "TECNOLOGIA",
+            "ILUMINACION",
+            "OFICINA",
+            "OTROS",
+            "MUEBLES"
+        ],
+        "idMarca": 9,
+        "nombre": "Polivalente",
+        "activo": true
     }
 ]

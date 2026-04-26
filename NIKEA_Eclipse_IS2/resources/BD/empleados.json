@@ -10,12 +10,13 @@
         "activo": true
     },
     {
-        "tipo": 2,
-        "apellido": "",
-        "sueldo": 1200,
+        "tipo": 1,
+        "apellido": "Empleable",
+        "sueldo": 3141,
         "id": 2,
-        "nombre": "Lolo",
+        "nombre": "Empleado",
         "dni": "123",
+        "numeroVentas": 1,
         "activo": true
     }
 ]

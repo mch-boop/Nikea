@@ -9,20 +9,43 @@ import presentacion.controlador.Eventos;
 
 public class FactoriaPresentacion extends FactoriaAbstractaPresentacion {
 	
+	// ATRIBUTOS PARA SINGLETON (CLIENTE)
+	
+	private static VistaAnadirCliente vistaAnadirCliente;
+	private static VistaEliminarCliente vistaEliminarCliente;
+	private static VistaModificarCliente vistaModificarCliente;
+	private static VistaBuscarCliente vistaBuscarCliente;
+	private static VistaMostrarClientes vistaMostrarClientes;
+	private static VistaMostrarMejorCliente vistaMostrarMejorCliente;
+	
 	// ATRIBUTOS PARA SINGLETON (EMPLEADO)
 	
-	private VistaAnadirEmpleado vistaAnadirEmpleado;
-	private VistaEliminarEmpleado vistaEliminarEmpleado;
-	private GUIBuscarIdModificar vistaBuscarIdModificarEmpleado;
-	private VistaModificarEmpleado vistaModificarEmpleado;
-	private VistaBuscarEmpleado vistaBuscarEmpleado;
-	private VistaMostrarEmpleados vistaMostrarEmpleado;
+	private static VistaAnadirEmpleado vistaAnadirEmpleado;
+	private static VistaEliminarEmpleado vistaEliminarEmpleado;
+	private static GUIBuscarIdModificar vistaBuscarIdModificarEmpleado;
+	private static VistaModificarEmpleado vistaModificarEmpleado;
+	private static VistaBuscarEmpleado vistaBuscarEmpleado;
+	private static VistaMostrarEmpleados vistaMostrarEmpleado;
+
+	// ATRIBUTOS PARA SINGLETON (FACTURA)
 	
-	private VistaIniciarVenta vistaIniciar;
-	private VistaCerrarVenta vistaCerrar;
-	private VistaMostrarFacturas vistaMostrarFacturas;
+	private static VistaIniciarVenta vistaIniciar;
+	private static VistaCerrarVenta vistaCerrar;
+	private static VistaMostrarFacturas vistaMostrarFacturas;
+
+	// ATRIBUTOS PARA SINGLETON (MARCA)
 		
-	private VistaAnadirMarca vistaAnadirMarca;
+	private static VistaAnadirMarca vistaAnadirMarca;
+	private static VistaEliminarMarca vistaEliminarMarca;
+	private static VistaModificarBuscarMarca vistaModificarBuscarMarca;
+	private static VistaModificarMarca vistaModificarMarca;
+	private static VistaBuscarMarca vistaBuscarMarca;
+	private static VistaMostrarMarcas vistaMostrarMarcas;
+	private static VistaMostrarMejorMarca vistaMostrarMejorMarca;
+
+	// ATRIBUTOS PARA SINGLETON (DESCUENTO)
+		
+	// ATRIBUTOS PARA SINGLETON (SERVICIO)
 
 	public IGUI createVista(int idEvento) {
 		switch (idEvento) {
@@ -30,16 +53,34 @@ public class FactoriaPresentacion extends FactoriaAbstractaPresentacion {
 			// VISTAS DE CLIENTE
 		
 			case Eventos.ALTA_CLIENTE: 
+				if (vistaAnadirCliente == null) {
+					vistaAnadirCliente = new VistaAnadirCliente();
+				}
 				return new VistaAnadirCliente();
 			case Eventos.BUSCAR_CLIENTE: 
+				if (vistaBuscarCliente == null) {
+					vistaBuscarCliente = new VistaBuscarCliente();
+				}
 				return new VistaBuscarCliente();
 			case Eventos.BAJA_CLIENTE: 
+				if (vistaEliminarCliente == null) {
+					vistaEliminarCliente = new VistaEliminarCliente();
+				}
 				return new VistaEliminarCliente();
 			case Eventos.MODIFICAR_CLIENTE:
+				if (vistaModificarCliente == null) {
+					vistaModificarCliente = new VistaModificarCliente();
+				}
 				return new VistaModificarCliente();
 			case Eventos.MOSTRAR_CLIENTES:
+				if (vistaMostrarClientes == null) {
+					vistaMostrarClientes = new VistaMostrarClientes();
+				}
 				return new VistaMostrarClientes();
 			case Eventos.MOSTRAR_MEJOR_CLIENTE:
+				if (vistaMostrarMejorCliente == null) {
+					vistaMostrarMejorCliente = new VistaMostrarMejorCliente();
+				}
 				return new VistaMostrarMejorCliente();
 				
 			// VISTAS DE EMPLEADO
@@ -100,8 +141,37 @@ public class FactoriaPresentacion extends FactoriaAbstractaPresentacion {
 					vistaAnadirMarca = new VistaAnadirMarca();
 				}
 				return vistaAnadirMarca;
+			case Eventos.BUSCAR_MARCA: 
+				if (vistaBuscarMarca == null) { 
+                    vistaBuscarMarca = new VistaBuscarMarca();
+                }
+                return vistaBuscarMarca;
+			case Eventos.BAJA_MARCA: 
+				if (vistaEliminarMarca == null) { 
+                    vistaEliminarMarca = new VistaEliminarMarca();
+                }
+                return vistaEliminarMarca;
+			case Eventos.VENTANA_BUSCAR_ID_MARCA:
+				if (vistaModificarBuscarMarca == null) {
+					vistaModificarBuscarMarca = new VistaModificarBuscarMarca();
+				}
+				return vistaModificarBuscarMarca;
+			case Eventos.MODIFICAR_MARCA:
+				if (vistaModificarMarca == null) {
+					vistaModificarMarca = new VistaModificarMarca();
+				}
+				return vistaModificarMarca;
+			case Eventos.MOSTRAR_MARCAS:
+				if (vistaMostrarMarcas == null) {
+					vistaMostrarMarcas = new VistaMostrarMarcas();
+				}
+				return vistaMostrarMarcas;
+
+			// VISTAS DE DESCUENTO
+			
+			// VISTAS DE SERVICIO
+					
 				
-			//... 
 			default:
 				// Error inesperado.
 				return null;

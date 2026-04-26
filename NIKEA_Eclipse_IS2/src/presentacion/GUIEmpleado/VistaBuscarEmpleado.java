@@ -2,8 +2,6 @@ package presentacion.GUIEmpleado;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import negocio.empleado.TEmpleado;
 import presentacion.IGUI;
 import presentacion.controlador.Controlador;
