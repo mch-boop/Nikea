@@ -1,32 +1,70 @@
 [
     {
         "listaArticulos": [],
+        "especialidades": [],
         "idMarca": 1,
         "nombre": "Nokia",
         "activo": true
     },
     {
         "listaArticulos": [],
+        "especialidades": [],
         "idMarca": 2,
         "nombre": "Nivea",
         "activo": true
     },
     {
         "listaArticulos": [],
+        "especialidades": [],
         "idMarca": 3,
         "nombre": "Ikea",
         "activo": true
     },
     {
         "listaArticulos": [],
+        "especialidades": [],
         "idMarca": 4,
         "nombre": "Marca Genérica 1",
         "activo": true
     },
     {
         "listaArticulos": [],
+        "especialidades": [],
         "idMarca": 5,
         "nombre": "Nikea",
+        "activo": true
+    },
+    {
+        "listaArticulos": [],
+        "especialidades": [
+            "MUEBLES",
+            "ILUMINACION",
+            "ELECTRODOMESTICOS"
+        ],
+        "idMarca": 6,
+        "nombre": "Marca interesantísima",
+        "activo": true
+    },
+    {
+        "listaArticulos": [],
+        "especialidades": [
+            "TECNOLOGIA",
+            "MUEBLES",
+            "DECORACION"
+        ],
+        "idMarca": 7,
+        "nombre": "Algo",
+        "activo": true
+    },
+    {
+        "listaArticulos": [],
+        "especialidades": [
+            "ILUMINACION",
+            "OTROS",
+            "MUEBLES"
+        ],
+        "idMarca": 8,
+        "nombre": "UCM",
         "activo": true
     }
 ]

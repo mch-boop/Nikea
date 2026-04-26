@@ -34,6 +34,7 @@ public class Eventos {
     public static final int RES_MODIFICAR_BUSCAR_CLIENTE_OK = 1071;
     public static final int RES_MODIFICAR_BUSCAR_CLIENTE_KO = 1070;
 	
+    
 	// EVENTOS DE EMPLEADO
     
     public static final int ALTA_EMPLEADO = 201;
@@ -77,6 +78,19 @@ public class Eventos {
     public static final int RES_MOSTRAR_EMPLEADOS_OK = 2051;
     public static final int RES_MOSTRAR_EMPLEADOS_KO = 2050;
     
+    // Relación M a N
+    public static final int VINCULAR_MONTADOR_MONTAJE = 206;
+    public static final int RES_VINCULAR_MONTADOR_OK = 2061;
+    public static final int RES_VINCULAR_MONTADOR_KO = 2060;
+    public static final int RES_VINCULAR_MONTADOR_KO_NO_EXISTE_EMPLEADO = 20601;
+    
+    public static final int DESVINCULAR_MONTADOR_MONTAJE = 207;
+    public static final int RES_DESVINCULAR_MONTADOR_OK = 2071;
+    public static final int RES_DESVINCULAR_MONTADOR_KO = 2070;
+    public static final int RES_DESVINCULAR_MONTADOR_KO_RELACION_NO_EXISTE = 20701;
+    public static final int RES_DESVINCULAR_MONTADOR_KO_ID_NO_ENCONTRADO = 20702;
+    
+    
     // EVENTOS DE FACTURA
     
     public static final int INICIAR_VENTA = 301;
@@ -96,6 +110,7 @@ public class Eventos {
 	
     public static final int MOSTRAR_FACTURAS_CLIENTE = 306;
     
+    
     // EVENTOS DE DESCUENTO
     
     public static final int ALTA_DESCUENTO = 401;
@@ -104,6 +119,7 @@ public class Eventos {
     public static final int MOSTRAR_DESCUENTOS = 404;
     public static final int BUSCAR_DESCUENTO = 405;
 	
+    
 	// EVENTOS DE MARCA
 	
     public static final int ALTA_MARCA = 501;
@@ -121,7 +137,12 @@ public class Eventos {
     public static final int MODIFICAR_MARCA = 503;
     public static final int RES_MODIFICAR_MARCA_OK = 5031;
     public static final int RES_MODIFICAR_MARCA_KO = 5030;
-
+    public static final int ABRIR_MODIFICAR_MARCA = 5032;
+    public static final int RES_ABRIR_MODIFICAR_MARCA_OK = 50321;
+    public static final int LISTAR_MARCAS_MODIFICAR = 5033;
+    public static final int RES_LISTAR_MARCAS_OK = 50331;
+    public static final int REACTIVAR_MARCA = 5034;
+    
     public static final int BUSCAR_MARCA = 504;
     public static final int RES_BUSCAR_MARCA_OK = 5041;
     public static final int RES_BUSCAR_MARCA_KO = 5040;
@@ -133,6 +154,7 @@ public class Eventos {
     public static final int MOSTRAR_RANKING_MARCA = 506;
     public static final int RES_MOSTRAR_RANKING_MARCA_OK = 5061;
     public static final int RES_MOSTRAR_RANKING_MARCA_KO = 5060;
+    
     
     // EVENTOS DE SERVICIO
     

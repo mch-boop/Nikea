@@ -19,6 +19,7 @@ public class SAMarcaImp implements SAMarca {
             if (!existente.isActivo()) {
                 // Reactivamos
                 existente.setActivo(true);
+                existente.setEspecialidades(tm.getEspecialidades());
                 return dao.update(existente);
             }
             return -1; // ya existe activa
@@ -49,7 +50,15 @@ public class SAMarcaImp implements SAMarca {
         if (otra != null && otra.getId() != tm.getId()) return -1;
 
         tm.setActivo(true);
+        existente.setNombre(tm.getNombre());
+        existente.setEspecialidades(tm.getEspecialidades());
         return dao.update(tm);
+	}
+	
+	@Override
+	public Collection<TMarca> update_listar() {
+	    DAOMarca dao = FactoriaAbstractaIntegracion.getInstance().crearDAOMarca();
+	    return dao.readAll();
 	}
 
 	@Override

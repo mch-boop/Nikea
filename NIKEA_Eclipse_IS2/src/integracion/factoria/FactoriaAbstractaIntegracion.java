@@ -2,7 +2,9 @@ package integracion.factoria;
 
 import integracion.cliente.DAOCliente;
 import integracion.empleado.DAOEmpleado;
+import integracion.descuento.DAODescuento;
 import integracion.marca.DAOMarca;
+import integracion.factura.DAOFactura;
 import integracion.empleado.DAOMontadorMontaje;
 import integracion.servicio.DAOMontaje;
 
@@ -20,5 +22,7 @@ public abstract class FactoriaAbstractaIntegracion {
     public abstract DAOMontaje crearDAOMontaje();
     public abstract DAOEmpleado crearDAOEmpleado();
     public abstract DAOMarca crearDAOMarca();
+    public abstract DAODescuento crearDAODescuento();
+    public abstract DAOFactura crearDAOFactura();
     public abstract DAOMontadorMontaje crearDAOMontadorMontaje();
 }

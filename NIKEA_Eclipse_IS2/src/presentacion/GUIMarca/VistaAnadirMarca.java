@@ -4,8 +4,13 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.List;
+import java.util.ArrayList;
 
 import negocio.marca.TMarca;
+import negocio.marca.TMarca.Especialidad;
 import presentacion.IGUI;
 import presentacion.controlador.Controlador;
 import presentacion.controlador.Eventos;
@@ -14,10 +19,13 @@ import presentacion.controlador.Eventos;
 public class VistaAnadirMarca extends JFrame implements IGUI {
 
     // ATRIBUTOS
+	
     private JTextField txtNombre;
     private JButton btnAceptar, btnCancelar;
-
+    private Map<Especialidad, JCheckBox> checkBoxesEspecialidades;
+    
     // CONSTRUCTORA
+    
     public VistaAnadirMarca() {
         setTitle("Alta Marca");
         initGUI();
@@ -27,6 +35,9 @@ public class VistaAnadirMarca extends JFrame implements IGUI {
 
     private void limpiarCampos() {
         txtNombre.setText("");
+        for (JCheckBox cb : checkBoxesEspecialidades.values()) {
+            cb.setSelected(false);
+        }
         txtNombre.requestFocus();
         repaint();
         revalidate();
@@ -37,8 +48,25 @@ public class VistaAnadirMarca extends JFrame implements IGUI {
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
         mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-
+        mainPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        
         txtNombre = new JTextField(20);
+
+        // CheckBoxes de especialidad
+        checkBoxesEspecialidades = new HashMap<>();
+
+        JPanel panelEspecialidades = new JPanel();
+        panelEspecialidades.setLayout(new BoxLayout(panelEspecialidades, BoxLayout.Y_AXIS));
+        panelEspecialidades.setAlignmentX(Component.LEFT_ALIGNMENT);
+        panelEspecialidades.setBorder(BorderFactory.createTitledBorder("Especialidades"));
+        panelEspecialidades.setMaximumSize(new Dimension(Integer.MAX_VALUE, panelEspecialidades.getPreferredSize().height));
+        
+        for (Especialidad esp : Especialidad.values()) {
+            JCheckBox cb = new JCheckBox(esp.toString());
+            cb.setAlignmentX(Component.LEFT_ALIGNMENT);
+            checkBoxesEspecialidades.put(esp, cb);
+            panelEspecialidades.add(cb);
+        }
 
         // Panel formulario
         JPanel formPanel = new JPanel(new GridBagLayout());
@@ -51,6 +79,13 @@ public class VistaAnadirMarca extends JFrame implements IGUI {
 
         gbc.gridx = 1;
         formPanel.add(txtNombre, gbc);
+        
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.gridwidth = 2;              // ocupa las dos columnas
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.anchor = GridBagConstraints.WEST;
+        formPanel.add(panelEspecialidades, gbc);
 
         // Panel botones
         JPanel panelBotones = new JPanel();
@@ -59,7 +94,7 @@ public class VistaAnadirMarca extends JFrame implements IGUI {
 
         panelBotones.add(btnAceptar);
         panelBotones.add(btnCancelar);
-
+        
         // Acción ACEPTAR
         btnAceptar.addActionListener(new ActionListener() {
             @Override
@@ -74,9 +109,27 @@ public class VistaAnadirMarca extends JFrame implements IGUI {
                     return;
                 }
 
+                // Escribo el transfer
                 TMarca tm = new TMarca();
                 tm.setNombre(txtNombre.getText());
                 tm.setActivo(true);
+                
+                List<Especialidad> lista = new ArrayList<>();
+                boolean algunaSeleccionada = false;
+                for (Map.Entry<Especialidad, JCheckBox> entry : checkBoxesEspecialidades.entrySet()) {
+                    if (entry.getValue().isSelected()) {
+                        lista.add(entry.getKey());
+                        algunaSeleccionada = true;
+                    }
+                }
+                if (!algunaSeleccionada) {
+                    JOptionPane.showMessageDialog(null,
+                            "Debes seleccionar al menos una especialidad.",
+                            "Error",
+                            JOptionPane.WARNING_MESSAGE);
+                    return;
+                }
+                tm.setEspecialidades(lista);
 
                 Controlador.getInstance().accion(Eventos.ALTA_MARCA, tm);
             }

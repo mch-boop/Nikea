@@ -12,6 +12,7 @@ import org.json.JSONObject;
 import org.json.JSONTokener;
 
 import negocio.marca.TMarca;
+import negocio.marca.TMarca.Especialidad;
 
 public class DAOMarcaImp implements DAOMarca {
 
@@ -96,6 +97,18 @@ public class DAOMarcaImp implements DAOMarca {
 
                 m.setListaArticulos(listaArticulos);
 
+                // especialidades
+                JSONArray arrEsp = obj.optJSONArray("especialidades");
+                List<Especialidad> listaEsp = new ArrayList<>();
+
+                if (arrEsp != null) {
+                    for (int j = 0; j < arrEsp.length(); j++) {
+                        listaEsp.add(Especialidad.valueOf(arrEsp.getString(j)));
+                    }
+                }
+
+                m.setEspecialidades(listaEsp);
+                
                 lista.add(m);
             }
 
@@ -126,6 +139,16 @@ public class DAOMarcaImp implements DAOMarca {
                     arrArt.put(idArt);
                 }
             }
+            
+            JSONArray arrEsp = new JSONArray();
+
+            if (m.getEspecialidades() != null) {
+                for (Especialidad e : m.getEspecialidades()) {
+                    arrEsp.put(e.name());
+                }
+            }
+
+            obj.put("especialidades", arrEsp);
 
             obj.put("listaArticulos", arrArt);
 
