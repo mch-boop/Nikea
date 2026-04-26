@@ -132,7 +132,12 @@ public class Eventos {
     public static final int BAJA_MARCA = 502;
     public static final int RES_BAJA_MARCA_OK = 5021;
     public static final int RES_BAJA_MARCA_KO = 5020;
-    public static final int RES_BAJA_MARCA_KO_NO_EXISTE = 50203;
+    public static final int RES_BAJA_MARCA_KO_ID_VACIO = 50201;
+    public static final int RES_BAJA_MARCA_KO_ID_FORMATO = 50202;
+    public static final int CONFIRMAR_BAJA_MARCA = 512;
+    public static final int RES_BAJA_MARCA_CONFIRMADA = 5121;
+    public static final int RES_BAJA_MARCA_KO_YA_INACTIVO = 51201;
+    public static final int RES_BAJA_MARCA_KO_NO_EXISTE = 51202;
 
     public static final int MODIFICAR_MARCA = 503;
     public static final int RES_MODIFICAR_MARCA_OK = 5031;

@@ -10,4 +10,7 @@ public interface SAMarca {
 	public Collection<TMarca> update_listar();
 	public int delete (int id);
 	public Collection<TMarca> readAll();
+	
+	// auxiliares
+	public boolean isReactivada();
 }

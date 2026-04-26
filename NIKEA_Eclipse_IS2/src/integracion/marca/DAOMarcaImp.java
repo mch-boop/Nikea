@@ -40,7 +40,13 @@ public class DAOMarcaImp implements DAOMarca {
 
 	    for (int i = 0; i < lista.size(); i++) {
 	        if (lista.get(i).getId() == tm.getId()) {
-	            lista.set(i, tm);
+	        	TMarca existente = lista.get(i);
+
+	            existente.setNombre(tm.getNombre());
+	            existente.setActivo(tm.isActivo());
+	            existente.setEspecialidades(tm.getEspecialidades());
+	            existente.setListaArticulos(tm.getListaArticulos());
+	            
 	            guardarEnArchivo(lista);
 	            return 1;
 	        }

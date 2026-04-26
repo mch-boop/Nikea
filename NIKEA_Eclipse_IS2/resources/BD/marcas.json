@@ -1,7 +1,7 @@
 [
     {
         "listaArticulos": [],
-        "especialidades": [],
+        "especialidades": ["JARDIN_EXTERIOR"],
         "idMarca": 1,
         "nombre": "Nokia",
         "activo": true
@@ -11,7 +11,7 @@
         "especialidades": [],
         "idMarca": 2,
         "nombre": "Nivea",
-        "activo": true
+        "activo": false
     },
     {
         "listaArticulos": [],
