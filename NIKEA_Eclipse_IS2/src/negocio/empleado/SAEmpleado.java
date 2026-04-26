@@ -8,7 +8,7 @@ public interface SAEmpleado {
     public int create(TEmpleado te);
     public int delete(int id);
     public int update(TEmpleado te);
-    int reactivate(TEmpleado tEmpleado);
+    public int reactivate(TEmpleado tEmpleado);
     public TEmpleado getUltimoDuplicado();
     public TEmpleado read(int id);
     public Collection<TEmpleado> readAll();

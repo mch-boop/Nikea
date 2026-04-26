@@ -1,0 +1,32 @@
+[
+    {
+        "listaArticulos": [],
+        "idMarca": 1,
+        "nombre": "Nokia",
+        "activo": true
+    },
+    {
+        "listaArticulos": [],
+        "idMarca": 2,
+        "nombre": "Nivea",
+        "activo": true
+    },
+    {
+        "listaArticulos": [],
+        "idMarca": 3,
+        "nombre": "Ikea",
+        "activo": true
+    },
+    {
+        "listaArticulos": [],
+        "idMarca": 4,
+        "nombre": "Marca Genérica 1",
+        "activo": true
+    },
+    {
+        "listaArticulos": [],
+        "idMarca": 5,
+        "nombre": "Nikea",
+        "activo": true
+    }
+]

@@ -14,7 +14,7 @@ public class TEmpleado {
     private Integer tipo; // 1 para Vendedor, 2 para Montador 
 
     // Constructora por defecto
-    public TEmpleado() {}
+    public TEmpleado() { activo = true; }
 
     // Constructora completa (para el DAO al leer del JSON)
     public TEmpleado(Integer id, String dni, String nombre, String apellido, Double sueldo, boolean activo, Integer tipo) {

@@ -108,7 +108,9 @@ public class Eventos {
 	
     public static final int ALTA_MARCA = 501;
     public static final int RES_ALTA_MARCA_OK = 5011;
+    public static final int RES_ALTA_MARCA_REACTIVADA = 50111;
     public static final int RES_ALTA_MARCA_KO = 5010;
+    public static final int RES_ALTA_MARCA_KO_NOMBRE = 50101;
     public static final int RES_ALTA_MARCA_YA_EXISTE = 50105;
 
     public static final int BAJA_MARCA = 502;

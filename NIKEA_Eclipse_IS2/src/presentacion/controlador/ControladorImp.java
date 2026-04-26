@@ -8,6 +8,8 @@ import negocio.cliente.SACliente;
 import negocio.cliente.TCliente;
 import negocio.empleado.SAEmpleado;
 import negocio.empleado.TEmpleado;
+import negocio.marca.SAMarca;
+import negocio.marca.TMarca;
 import negocio.factoria.FactoriaAbstractaNegocio;
 import presentacion.IGUI;
 import presentacion.factoria.FactoriaAbstractaPresentacion;
@@ -227,6 +229,33 @@ public class ControladorImp extends Controlador {
 			}
 			
 			// EVENTOS DE MARCA
+			
+			case Eventos.ALTA_MARCA: {
+			    TMarca tMarca = (TMarca) datos;
+			    SAMarca saMarca = FactoriaAbstractaNegocio.getInstance().crearSAMarca();
+			    int res = saMarca.create(tMarca);
+
+			    IGUI vista = FactoriaAbstractaPresentacion.getInstance()
+			            .createVista(evento);
+
+			    if (res > 0) {
+			        vista.actualizar(Eventos.RES_ALTA_MARCA_OK, res);
+			    }
+			    else if (res == -1) {
+			        vista.actualizar(Eventos.RES_ALTA_MARCA_YA_EXISTE, tMarca);
+			    }
+			    else if (res == -2) {
+			        vista.actualizar(Eventos.RES_ALTA_MARCA_REACTIVADA, tMarca);
+			    }
+			    else if (res == -3) {
+			        vista.actualizar(Eventos.RES_ALTA_MARCA_KO_NOMBRE, tMarca);
+			    }
+			    else {
+			        vista.actualizar(Eventos.RES_ALTA_MARCA_KO, res);
+			    }
+
+			    break;
+			}
 			
 			// EVENTOS DE DESCUENTO
 			

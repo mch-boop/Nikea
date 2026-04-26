@@ -17,11 +17,11 @@ public class SAClienteImp implements SACliente {
 		// Buscamos si ya existe el DNI en el sistema
 		TCliente existente = dao.readByDNI(tc.getDNI());
 		
-		if(existente == null) { // No existe, es un alta nueva
+		if (existente == null) { // No existe, es un alta nueva
 			return dao.create(tc); 
 		}
 		else {
-			if(!existente.isActivo()) { // Existe pero está inactivo (borrado lógico) -> Reactivamos
+			if (!existente.isActivo()) { // Existe pero está inactivo (borrado lógico) -> Reactivamos
 				existente.setActivo(true);
 				existente.setNombre(tc.getNombre());
 				existente.setApellidos(tc.getApellidos());

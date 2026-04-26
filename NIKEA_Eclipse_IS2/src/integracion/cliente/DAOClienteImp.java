@@ -6,7 +6,7 @@ import negocio.cliente.TCliente;
 
 public class DAOClienteImp implements DAOCliente {
 
-	private final String PATH = "resources/BD/clientess.json";
+	private final String PATH = "resources/BD/clientes.json";
 
 	@Override
 	public int create(TCliente tCliente) {
