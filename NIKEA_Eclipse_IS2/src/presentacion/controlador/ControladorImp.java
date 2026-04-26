@@ -23,17 +23,109 @@ public class ControladorImp extends Controlador {
 			// EVENTOS DE CLIENTE
 		
 			case Eventos.ALTA_CLIENTE: {
-				TCliente tCliente = (TCliente) datos;
-				SACliente saCli = FactoriaAbstractaNegocio.getInstance().crearSACliente();
-				int res = saCli.create(tCliente); //saCli usaría el DAO de Clientes
+			    TCliente tCliente = (TCliente) datos;
+			    SACliente saCli = FactoriaAbstractaNegocio.getInstance().crearSACliente();
+			    int res = saCli.create(tCliente);
 	
-				//Según el valor de res, se actualiza la vista de una manera u otra.
-				//Si todo OK el aspecto es este (faltaría el else):
-				FactoriaAbstractaPresentacion.getInstance().createVista(evento).actualizar(Eventos.RES_ALTA_CLIENTE_OK, res);
-				//mostraría una ventana semipreparada informando
-				//...
-				break;
-			} 
+			    IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(evento);
+	
+			    if (res > 0) {
+			        vista.actualizar(Eventos.RES_ALTA_CLIENTE_OK, res);
+			    } else {
+			        vista.actualizar(Eventos.RES_ALTA_CLIENTE_KO, tCliente);
+			    }
+	
+			    break;
+			}
+			
+			case Eventos.BAJA_CLIENTE: {
+			    Integer id = (Integer) datos;
+			    SACliente saCli = FactoriaAbstractaNegocio.getInstance().crearSACliente();
+			    TCliente cli = saCli.read(id);
+
+			    IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.BAJA_CLIENTE);
+
+			    if (cli == null) {
+			        vista.actualizar(Eventos.RES_BAJA_CLIENTE_KO_NO_EXISTE, id);
+			    } else if (!cli.isActivo()) {
+			        vista.actualizar(Eventos.RES_BAJA_CLIENTE_KO_YA_INACTIVO, id);
+			    } else {
+			        vista.actualizar(Eventos.RES_BAJA_CLIENTE_OK, cli);
+			    }
+
+			    break;
+			}
+			
+			case Eventos.MODIFICAR_CLIENTE: {
+			    TCliente tCliente = (TCliente) datos;
+			    SACliente saCli = FactoriaAbstractaNegocio.getInstance().crearSACliente();
+			    int res = saCli.update(tCliente);
+
+			    IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.MODIFICAR_CLIENTE);
+
+			    if (res > 0) {
+			        vista.actualizar(Eventos.RES_MODIFICAR_CLIENTE_OK, res);
+			    } else if (res == -1) {
+			        vista.actualizar(Eventos.RES_MODIFICAR_CLIENTE_KO_NO_EXISTE, tCliente);
+			    } else {
+			        vista.actualizar(Eventos.RES_MODIFICAR_CLIENTE_KO_DATOS_INVALIDOS, tCliente);
+			    }
+
+			    break;
+			}
+			
+			case Eventos.BUSCAR_CLIENTE: {
+			    Integer id = (Integer) datos;
+			    SACliente saCli = FactoriaAbstractaNegocio.getInstance().crearSACliente();
+			    TCliente cli = saCli.read(id);
+
+			    IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.BUSCAR_CLIENTE);
+
+			    if (cli != null && cli.isActivo()) {
+			        vista.actualizar(Eventos.RES_BUSCAR_CLIENTE_OK, cli);
+			    } else {
+			        vista.actualizar(Eventos.RES_BUSCAR_CLIENTE_KO, id);
+			    }
+
+			    ((JFrame) vista).setVisible(true);
+			    break;
+			}
+			
+			case Eventos.MOSTRAR_CLIENTES: {
+			    SACliente saCli = FactoriaAbstractaNegocio.getInstance().crearSACliente();
+			    Collection<TCliente> clientes = saCli.readAll();
+
+			    IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(evento);
+
+			    if (clientes != null && !clientes.isEmpty()) {
+			        vista.actualizar(Eventos.RES_MOSTRAR_CLIENTES_OK, clientes);
+			    } else {
+			        vista.actualizar(Eventos.RES_MOSTRAR_CLIENTES_KO, null);
+			    }
+
+			    break;
+			}
+			
+			case Eventos.MODIFICAR_BUSCAR_CLIENTE: {
+			    Integer id = (Integer) datos;
+			    SACliente saCli = FactoriaAbstractaNegocio.getInstance().crearSACliente();
+			    TCliente cli = saCli.read(id);
+
+			    IGUI vistaBuscar = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.MODIFICAR_BUSCAR_CLIENTE);
+			    IGUI vistaModificar = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.MODIFICAR_CLIENTE);
+
+			    if (cli != null && cli.isActivo()) {
+			        ((JFrame) vistaBuscar).setVisible(false);
+			        vistaModificar.actualizar(Eventos.RES_MODIFICAR_BUSCAR_CLIENTE_OK, cli);
+
+			        ((JFrame) vistaModificar).setVisible(true);
+			        ((JFrame) vistaModificar).toFront();
+			    } else {
+			        vistaBuscar.actualizar(Eventos.RES_MODIFICAR_BUSCAR_CLIENTE_KO, id);
+			    }
+
+			    break;
+			}
 			
 			// EVENTOS DE FACTURA
 			
@@ -230,32 +322,7 @@ public class ControladorImp extends Controlador {
 			
 			// EVENTOS DE MARCA
 			
-			case Eventos.ALTA_MARCA: {
-			    TMarca tMarca = (TMarca) datos;
-			    SAMarca saMarca = FactoriaAbstractaNegocio.getInstance().crearSAMarca();
-			    int res = saMarca.create(tMarca);
-
-			    IGUI vista = FactoriaAbstractaPresentacion.getInstance()
-			            .createVista(evento);
-
-			    if (res > 0) {
-			        vista.actualizar(Eventos.RES_ALTA_MARCA_OK, res);
-			    }
-			    else if (res == -1) {
-			        vista.actualizar(Eventos.RES_ALTA_MARCA_YA_EXISTE, tMarca);
-			    }
-			    else if (res == -2) {
-			        vista.actualizar(Eventos.RES_ALTA_MARCA_REACTIVADA, tMarca);
-			    }
-			    else if (res == -3) {
-			        vista.actualizar(Eventos.RES_ALTA_MARCA_KO_NOMBRE, tMarca);
-			    }
-			    else {
-			        vista.actualizar(Eventos.RES_ALTA_MARCA_KO, res);
-			    }
-
-			    break;
-			}
+			
 			
 			// EVENTOS DE DESCUENTO
 			
