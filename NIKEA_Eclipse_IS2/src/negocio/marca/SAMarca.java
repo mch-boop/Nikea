@@ -1,6 +1,7 @@
 package negocio.marca;
 
 import java.util.Collection;
+import java.util.List;
 
 public interface SAMarca {
 	
@@ -13,4 +14,5 @@ public interface SAMarca {
 	
 	// auxiliares
 	public boolean isReactivada();
+	public List<TMarca> getTop5Marcas();
 }

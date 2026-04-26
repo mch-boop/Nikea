@@ -1,6 +1,8 @@
 package negocio.marca;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import integracion.marca.DAOMarca;
 import integracion.factoria.FactoriaAbstractaIntegracion;
@@ -86,4 +88,16 @@ public class SAMarcaImp implements SAMarca {
 	            .toList();
 	}
 
+	
+	// CASOS DE USO EXTRA
+	
+	@Override
+	public List<TMarca> getTop5Marcas() {
+		List<TMarca> lista = new ArrayList<>();
+		int maximo = 5;
+		List<TMarca> todas = new ArrayList<>(readAll());
+		for (int i = 0; i < Math.min(5, todas.size()); i++)
+			lista.add(todas.get(i));
+		return lista;
+	}
 }

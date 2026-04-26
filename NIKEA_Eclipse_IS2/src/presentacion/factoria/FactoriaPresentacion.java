@@ -166,6 +166,11 @@ public class FactoriaPresentacion extends FactoriaAbstractaPresentacion {
 					vistaMostrarMarcas = new VistaMostrarMarcas();
 				}
 				return vistaMostrarMarcas;
+			case Eventos.MOSTRAR_RANKING_MARCA:
+				if (vistaMostrarMejorMarca == null) {
+					vistaMostrarMejorMarca = new VistaMostrarMejorMarca();
+				}
+				return vistaMostrarMejorMarca;
 
 			// VISTAS DE DESCUENTO
 			
