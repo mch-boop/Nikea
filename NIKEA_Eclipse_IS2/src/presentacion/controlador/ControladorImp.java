@@ -9,6 +9,8 @@ import negocio.cliente.TCliente;
 import negocio.empleado.SAEmpleado;
 import negocio.empleado.TEmpleado;
 import negocio.factoria.FactoriaAbstractaNegocio;
+import negocio.servicio.SAServicio;
+import negocio.servicio.TServicio;
 import presentacion.IGUI;
 import presentacion.factoria.FactoriaAbstractaPresentacion;
 
@@ -131,6 +133,67 @@ public class ControladorImp extends Controlador {
 			// EVENTOS DE FACTURA
 			
 			// EVENTOS DE SERVICIO
+			case Eventos.ALTA_SERVICIO: {
+				TServicio tServicio = (TServicio) datos;
+				SAServicio saServicio = FactoriaAbstractaNegocio.getInstance().crearSAServicio();
+				int res = saServicio.create(tServicio);
+
+				IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(evento);
+
+				if (res > 0) {
+					vista.actualizar(Eventos.RES_ALTA_SERVICIO_OK, res);
+				} else if (res == -1 || res == -100 || res == -2 || res == -3 || res == -300) {
+					vista.actualizar(Eventos.RES_ALTA_SERVICIO_YA_EXISTE, saServicio.getUltimoDuplicado());
+				} else {
+					vista.actualizar(Eventos.RES_ALTA_SERVICIO_KO, tServicio);
+				}
+				break;
+			}
+			case Eventos.BAJA_SERVICIO: {
+				Integer id = (Integer) datos;
+				SAServicio saServicio = FactoriaAbstractaNegocio.getInstance().crearSAServicio();
+				TServicio servicio = saServicio.read(id);
+
+				IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(evento);
+
+				if (servicio == null) {
+					vista.actualizar(Eventos.RES_BAJA_SERVICIO_KO_NO_EXISTE, id);
+				} else if (!servicio.isActivo()) {
+					vista.actualizar(Eventos.RES_BAJA_SERVICIO_KO, id);
+				} else {
+					vista.actualizar(Eventos.RES_BAJA_SERVICIO_OK, servicio);
+				}
+				break;
+			}
+
+			case Eventos.CONFIRMAR_BAJA_SERVICIO: {
+				Integer id = (Integer) datos;
+				SAServicio saServicio = FactoriaAbstractaNegocio.getInstance().crearSAServicio();
+				int res = saServicio.delete(id);
+
+				IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.BAJA_SERVICIO);
+				if (res > 0) {
+					vista.actualizar(Eventos.RES_BAJA_SERVICIO_CONFIRMADA, id);
+				} else {
+					vista.actualizar(Eventos.RES_BAJA_SERVICIO_KO, id);
+				}
+				break;
+			}
+
+			case Eventos.MOSTRAR_SERVICIOS: {
+				SAServicio saServicio = FactoriaAbstractaNegocio.getInstance().crearSAServicio();
+				Collection<TServicio> servicios = saServicio.readAll();
+
+				IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(evento);
+
+				if (servicios != null && !servicios.isEmpty()) {
+					vista.actualizar(Eventos.RES_MOSTRAR_SERVICIOS_OK, servicios);
+				} else {
+					vista.actualizar(Eventos.RES_MOSTRAR_SERVICIOS_KO, null);
+				}
+
+				break;
+			}
 			
 			// EVENTOS DE EMPLEADO
 			

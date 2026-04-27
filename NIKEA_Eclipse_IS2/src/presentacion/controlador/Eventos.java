@@ -188,6 +188,8 @@ public class Eventos {
     public static final int RES_BAJA_SERVICIO_OK = 6021;
     public static final int RES_BAJA_SERVICIO_KO = 6020;
     public static final int RES_BAJA_SERVICIO_KO_NO_EXISTE = 60203;
+    public static final int CONFIRMAR_BAJA_SERVICIO = 6022;
+    public static final int RES_BAJA_SERVICIO_CONFIRMADA = 60221;
 
     public static final int MODIFICAR_SERVICIO = 603;
     public static final int RES_MODIFICAR_SERVICIO_OK = 6031;

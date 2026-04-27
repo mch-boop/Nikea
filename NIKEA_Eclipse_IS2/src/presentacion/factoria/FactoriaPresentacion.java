@@ -6,6 +6,7 @@ import presentacion.GUIDescuento.VistaAltaDescuento;
 import presentacion.GUIEmpleado.*;
 import presentacion.GUIFactura.*;
 import presentacion.GUIMarca.*;
+import presentacion.GUIServicio.*;
 import presentacion.controlador.Eventos;
 
 public class FactoriaPresentacion extends FactoriaAbstractaPresentacion {
@@ -49,6 +50,9 @@ public class FactoriaPresentacion extends FactoriaAbstractaPresentacion {
 	private static VistaAltaDescuento vistaAltaDescuento;
 	
 	// ATRIBUTOS PARA SINGLETON (SERVICIO)
+	private static VistaAltaServicio vistaAltaServicio;
+	private static VistaEliminarServicio vistaEliminarServicio;
+	private static VistaMostrarServicios vistaMostrarServicios;
 
 	public IGUI createVista(int idEvento) {
 		switch (idEvento) {
@@ -188,6 +192,21 @@ public class FactoriaPresentacion extends FactoriaAbstractaPresentacion {
 				return vistaAltaDescuento;
 			
 			// VISTAS DE SERVICIO
+			case Eventos.ALTA_SERVICIO:
+				if (vistaAltaServicio == null) {
+					vistaAltaServicio = new VistaAltaServicio();
+				}
+				return vistaAltaServicio;
+			case Eventos.BAJA_SERVICIO:
+				if (vistaEliminarServicio == null) {
+					vistaEliminarServicio = new VistaEliminarServicio();
+				}
+				return vistaEliminarServicio;
+			case Eventos.MOSTRAR_SERVICIOS:
+				if (vistaMostrarServicios == null) {
+					vistaMostrarServicios = new VistaMostrarServicios();
+				}
+				return vistaMostrarServicios;
 					
 				
 			default:
