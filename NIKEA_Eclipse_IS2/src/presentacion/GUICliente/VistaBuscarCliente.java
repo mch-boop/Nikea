@@ -42,7 +42,7 @@ public class VistaBuscarCliente extends JFrame implements IGUI {
 	
 	// MÉTODOS.
 	
-	void initGUI() {
+	private void initGUI() {
 		// Creo panel de vista principal.
 		JPanel viewPanel = new JPanel();
 		viewPanel.setLayout(new BoxLayout(viewPanel, BoxLayout.Y_AXIS));
@@ -140,7 +140,7 @@ public class VistaBuscarCliente extends JFrame implements IGUI {
                 sb.append("DNI:      ").append(tc.getDNI()).append("\n");
                 sb.append("Nombre:   ").append(tc.getNombre()).append("\n");
                 sb.append("Apellidos: ").append(tc.getApellidos()).append("\n");
-                sb.append("Estado:   ").append(tc.isActivo() ? "ACTIVO" : "INACTIVO (Baja)");
+                sb.append("Teléfono:   ").append(tc.getTelefono()).append("\n");
                 
                 // Muestro el texto.
                 areaDetalles.setText(sb.toString());

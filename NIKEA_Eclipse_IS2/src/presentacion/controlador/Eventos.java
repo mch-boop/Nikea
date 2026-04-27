@@ -7,18 +7,34 @@ public class Eventos {
 	public static final int ALTA_CLIENTE = 101;
 	public static final int RES_ALTA_CLIENTE_OK = 1011;
 	public static final int RES_ALTA_CLIENTE_KO = 1010;
+    public static final int RES_ALTA_CLIENTE_KO_TELEFONO = 10101;
+	public static final int RES_ALTA_CLIENTE_KO_APELLIDO = 10102;
+	public static final int RES_ALTA_CLIENTE_KO_NOMBRE = 10103;
+	public static final int RES_ALTA_CLIENTE_KO_DNI = 10104;
+	public static final int RES_ALTA_CLIENTE_YA_EXISTE_MISMO = 101051;
+	public static final int RES_ALTA_CLIENTE_YA_EXISTE_DISTINTO = 101052;
+	public static final int REACTIVAR_CLIENTE = 10111;
+	public static final int RES_ALTA_CLIENTE_CONFIRMAR_REACTIVACION = 101111;
+
 	
     public static final int BAJA_CLIENTE = 102;
     public static final int RES_BAJA_CLIENTE_OK = 1021;
     public static final int RES_BAJA_CLIENTE_KO = 1020;
-    public static final int RES_BAJA_CLIENTE_KO_NO_EXISTE = 10201;
-    public static final int RES_BAJA_CLIENTE_KO_YA_INACTIVO = 10202;
+    public static final int RES_BAJA_CLIENTE_KO_ID_VACIO = 10201;
+    public static final int RES_BAJA_CLIENTE_KO_ID_FORMATO = 10202;
+	public static final int RES_BAJA_CLIENTE_KO_NO_EXISTE = 10203;
+	public static final int RES_BAJA_CLIENTE_KO_YA_INACTIVO = 10204;
+	public static final int CONFIRMAR_BAJA_CLIENTE = 10211;
+	public static final int RES_BAJA_CLIENTE_CONFIRMADA = 102111;
     
     public static final int MODIFICAR_CLIENTE = 103;
     public static final int RES_MODIFICAR_CLIENTE_OK = 1031;
-    public static final int RES_MODIFICAR_CLIENTE_KO = 1030;
     public static final int RES_MODIFICAR_CLIENTE_KO_NO_EXISTE = 10300;
     public static final int RES_MODIFICAR_CLIENTE_KO_DATOS_INVALIDOS = 10301;
+    public static final int BUSCAR_CLIENTE_PARA_MODIFICAR = 10303; 
+    public static final int VENTANA_BUSCAR_ID_CLIENTE = 103030;
+    public static final int RES_BUSCAR_CLIENTE_PARA_MODIFICAR_OK = 103031;
+    public static final int RES_BUSCAR_CLIENTE_PARA_MODIFICAR_KO = 103032;
     
     public static final int BUSCAR_CLIENTE = 104;
     public static final int RES_BUSCAR_CLIENTE_KO = 1040;
@@ -29,11 +45,8 @@ public class Eventos {
     public static final int RES_MOSTRAR_CLIENTES_KO = 1050;
 
     public static final int MOSTRAR_MEJOR_CLIENTE = 106;
-    
-    public static final int MODIFICAR_BUSCAR_CLIENTE = 107;
-    public static final int RES_MODIFICAR_BUSCAR_CLIENTE_OK = 1071;
-    public static final int RES_MODIFICAR_BUSCAR_CLIENTE_KO = 1070;
-	
+    public static final int RES_MOSTRAR_MEJOR_CLIENTE_OK = 1061;
+    public static final int RES_MOSTRAR_MEJOR_CLIENTE_KO = 1050;
     
 	// EVENTOS DE EMPLEADO
     

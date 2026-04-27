@@ -190,6 +190,32 @@ public class VistaModificarEmpleado extends JFrame implements IGUI {
 		setResizable(false);
 		setLocationRelativeTo(null);
 	}
+	
+	public void configurarPlaceholder(JTextField textField, String texto) {
+	    // Configuramos el estado inicial
+	    textField.setText(texto);
+	    textField.setForeground(Color.GRAY);
+
+	    textField.addFocusListener(new java.awt.event.FocusAdapter() {
+	        @Override
+	        public void focusGained(java.awt.event.FocusEvent e) {
+	            // Si al entrar el texto es el del placeholder, lo limpiamos para escribir
+	            if (textField.getText().equals(texto)) {
+	                textField.setText("");
+	                textField.setForeground(Color.BLACK);
+	            }
+	        }
+
+	        @Override
+	        public void focusLost(java.awt.event.FocusEvent e) {
+	            // Si al salir el usuario no ha escrito nada, restauramos el placeholder
+	            if (textField.getText().isEmpty()) {
+	                textField.setText(texto);
+	                textField.setForeground(Color.GRAY);
+	            }
+	        }
+	    });
+	}
 
 	@Override
 	public void actualizar(int evento, Object datos) {
@@ -207,6 +233,7 @@ public class VistaModificarEmpleado extends JFrame implements IGUI {
                 // Recordamos: Índice 0 = Montador, Índice 1 = Vendedor
                 if (empleadoEncontrado.getTipo() == 1) { // Caso Vendedor
                     comboTipo.setSelectedIndex(1);
+                    configurarPlaceholder(txtVentas, ((TVendedor)empleadoEncontrado).getNumeroVentas().toString()); 
                     lblVentas.setVisible(true);
                     txtVentas.setVisible(true);
                 } 
@@ -215,6 +242,10 @@ public class VistaModificarEmpleado extends JFrame implements IGUI {
                     lblVentas.setVisible(false);
                     txtVentas.setVisible(false);
                 }
+                
+                configurarPlaceholder(txtNombre, empleadoEncontrado.getNombre());
+                configurarPlaceholder(txtApellido, empleadoEncontrado.getApellido()); 
+                configurarPlaceholder(txtSueldo, empleadoEncontrado.getSueldo().toString()); 
 
                 // Mostramos la ventana y ajustamos tamaño
                 this.pack();

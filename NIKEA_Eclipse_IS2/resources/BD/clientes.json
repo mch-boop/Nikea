@@ -1,26 +1,26 @@
 [
     {
-        "apellidos": "Chochon",
-        "teléfono": 666,
-        "id": 0,
-        "nombre": "Garci",
-        "DNI": "holapepe",
-        "activo": true
-    },
-    {
         "apellidos": "Clientable",
-        "teléfono": 314159265,
+        "teléfono": 6767,
         "id": 1,
         "nombre": "Cliente",
-        "DNI": "31415926P",
+        "DNI": "pi",
         "activo": true
     },
     {
-        "apellidos": "Apellidos",
-        "teléfono": 123456789,
+        "apellidos": "Clientón",
+        "teléfono": 76,
         "id": 2,
-        "nombre": "Nombre",
-        "DNI": "12345678A",
+        "nombre": "Cliente",
+        "DNI": "jeje",
+        "activo": true
+    },
+    {
+        "apellidos": "Clientísimo",
+        "teléfono": 11,
+        "id": 3,
+        "nombre": "Cliente",
+        "DNI": "jiji",
         "activo": true
     }
 ]

@@ -97,15 +97,14 @@ public class VistaMostrarClientes extends JFrame implements IGUI {
                 } else {
                     StringBuilder sb = new StringBuilder();
                     // Cabecera
-                    sb.append(String.format("%-5s | %-12s | %-25s | %-10s | %-10s\n", "ID", "DNI", "NOMBRE COMPLETO", "TELÉFONO", "ESTADO"));
+                    sb.append(String.format("%-5s | %-12s | %-25s | %-10s | %-10s\n", "ID", "DNI", "NOMBRE COMPLETO", "TELÉFONO"));
                     sb.append("--------------------------------------------------------------------------------\n");
                     
                     for (TCliente tc : lista) {
                         String nombreCompleto = tc.getNombre() + " " + tc.getApellidos();
-                        String estado = tc.isActivo() ? "Activo" : "Inactivo";
                         
-                        sb.append(String.format("%-5d | %-12s | %-25s | %-10.2f | %-10s\n", 
-                        		tc.getId(), tc.getDNI(), nombreCompleto, tc.getTelefono(), estado));
+                        sb.append(String.format("%-5d | %-12s | %-25s | %-10d n", 
+                        		tc.getId(), tc.getDNI(), nombreCompleto, tc.getTelefono()));
                     }
                     areaListado.setText(sb.toString());
                 }
