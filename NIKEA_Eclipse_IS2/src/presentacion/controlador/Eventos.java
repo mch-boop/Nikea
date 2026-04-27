@@ -118,6 +118,7 @@ public class Eventos {
     public static final int MODIFICAR_DESCUENTO = 403;
     public static final int MOSTRAR_DESCUENTOS = 404;
     public static final int BUSCAR_DESCUENTO = 405;
+    public static final int ANADIR_DESCUENTO = 406;
 	
     
 	// EVENTOS DE MARCA

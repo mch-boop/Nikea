@@ -20,7 +20,7 @@ public class GUIDescuentoDialog extends JDialog {
 	public GUIDescuentoDialog(JFrame owner) {
 	    super(owner, "Gestión de Descuento", false);
 	    setResizable(false);
-	    setSize(850, 120);
+	    setSize(850, 150);
 	    setLocationRelativeTo(owner);
 	    
 	    initGUI();
@@ -30,16 +30,17 @@ public class GUIDescuentoDialog extends JDialog {
     
     private void initGUI() {
     	
-    	JPanel panel = new JPanel(new GridLayout(1, 5, 10, 10));
-        panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+    	JPanel panel = new JPanel(new GridLayout(2, 3, 10, 10));
+	    panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
         
         JButton btnAlta      = new JButton("Alta descuento");
         JButton btnBaja      = new JButton("Baja descuento");
         JButton btnModificar = new JButton("Modificar descuento");
         JButton btnListar    = new JButton("Listar descuentos");
         JButton btnBuscar    = new JButton("Buscar descuento");
+        JButton btnAnadir    = new JButton("Añadir descuento a factura");
 
-        JButton[] botones = {btnAlta, btnBaja, btnModificar, btnListar, btnBuscar};
+        JButton[] botones = {btnAlta, btnBaja, btnModificar, btnListar, btnBuscar, btnAnadir};
         for (JButton b : botones) {
             b.setFocusPainted(false);
             panel.add(b);
@@ -74,5 +75,9 @@ public class GUIDescuentoDialog extends JDialog {
             ((JFrame) vista).setVisible(true);
         });
                
+        btnAnadir.addActionListener(e->{
+        	IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.ANADIR_DESCUENTO);
+        	((JFrame) vista).setVisible(true);
+        });
     }
 }

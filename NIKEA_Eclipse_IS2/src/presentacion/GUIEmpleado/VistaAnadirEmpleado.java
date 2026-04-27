@@ -62,7 +62,7 @@ public class VistaAnadirEmpleado extends JFrame implements IGUI {
         txtDNI = new JTextField(20); 
         
      // Configuración del Spinner para el sueldo (mínimo 1200, sin máximo, pasos de 500)
-        SpinnerNumberModel sueldoModel = new SpinnerNumberModel(1200.0, 1000.0, null, 500.0);
+        SpinnerNumberModel sueldoModel = new SpinnerNumberModel(1200.0, 1200.0, null, 500.0);
         spSueldo = new JSpinner(sueldoModel);
         
         // Selección de tipo (Vendedor/Montador)
