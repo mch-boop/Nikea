@@ -1,22 +1,55 @@
 package negocio.factura;
 
 public class TLineaFactura {
-	
-	// ATRIBUTOS
-	
-	private int idServicio;
-	private int cantidad;
-	private int precioEnVenta;
-	public int getIdFactura() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-	public Integer getIdProducto() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-	// MÉTODOS
-	
-	// getters, setters y toString opcional
+
+    private int idFactura;
+    private int idProducto;
+
+    private int cantidad;
+    private double precioUnitario;
+
+    //Constructor por defecto
+    public TLineaFactura() {}
+
+    // GETTERS Y SETTERS
+
+    public int getIdFactura() {
+        return idFactura;
+    }
+
+    public void setIdFactura(int idFactura) {
+        this.idFactura = idFactura;
+    }
+
+    public int getIdProducto() {
+        return idProducto;
+    }
+
+    public void setIdProducto(int idProducto) {
+        this.idProducto = idProducto;
+    }
+
+    public int getCantidad() {
+        return cantidad;
+    }
+
+    public void setCantidad(int cantidad) {
+        if (cantidad < 0) {
+            this.cantidad = 0;
+        } else {
+            this.cantidad = cantidad;
+        }
+    }
+
+    public double getPrecioUnitario() {
+        return precioUnitario;
+    }
+
+    public void setPrecioUnitario(double precioUnitario) {
+        if (precioUnitario < 0) {
+            this.precioUnitario = 0.0;
+        } else {
+            this.precioUnitario = precioUnitario;
+        }
+    }
 }
