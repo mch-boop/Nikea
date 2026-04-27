@@ -1,5 +1,6 @@
 package negocio.factura;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class TFactura {
@@ -15,7 +16,12 @@ public class TFactura {
 
     private List<TLineaFactura> lineas;
 
-    public TFactura() {}
+    //Constructora por defecto
+    public TFactura() {
+        this.lineas = new ArrayList<>();
+        this.total = 0.0;
+        this.cerrada = false;
+    }
 
     // GETTERS Y SETTERS
 
@@ -81,5 +87,14 @@ public class TFactura {
 
     public void setLineas(List<TLineaFactura> lineas) {
         this.lineas = lineas;
+    }
+    
+    // Métodos 
+    
+    public void addLinea(TLineaFactura linea) {
+        if (this.lineas == null) {
+            this.lineas = new ArrayList<>();
+        }
+        this.lineas.add(linea);
     }
 }
