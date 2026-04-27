@@ -3,6 +3,7 @@ package presentacion.GUICliente;
 import javax.swing.*;
 
 import negocio.cliente.TCliente;
+import negocio.empleado.TEmpleado;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -99,36 +100,51 @@ public class VistaEliminarCliente extends JFrame implements IGUI {
 
     // Datos es el id del cliente.
     @Override public void actualizar(int evento, Object datos) {
-    	// El controlador llama a este método tras la ejecución en el SA
-        switch (evento) {
-            
-            case Eventos.RES_BAJA_CLIENTE_OK:
-            	TCliente tc = (TCliente) datos;
-                String info = "ID: " + tc.getId() + "\nNombre: " + tc.getNombre() + " " + tc.getApellidos() + "\nDNI: " + tc.getDNI();
-                
-                int respuesta = JOptionPane.showConfirmDialog(this, 
-                    "Se ha encontrado el siguiente cliente:\n\n" + info + "\n\n¿Está seguro de que desea darlo de baja?",
-                    "Confirmar Eliminación", 
-                    JOptionPane.YES_NO_OPTION, 
-                    JOptionPane.WARNING_MESSAGE);
+    	// Usamos invokeLater para evitar conflictos de hilos en Singleton
+        SwingUtilities.invokeLater(() -> {
+            switch (evento) {
+                case Eventos.RES_BAJA_CLIENTE_OK:
+                    TCliente tc = (TCliente) datos; 
+                    String info = "ID: " + tc.getId() + "\nNombre: " + tc.getNombre() + 
+                                  " " + tc.getApellidos() + "\nDNI: " + tc.getDNI();
+                    
+                    int respuesta = JOptionPane.showConfirmDialog(this, 
+                        "Se ha encontrado el siguiente cliente activo:\n\n" + info + 
+                        "\n\n¿Está seguro de que desea darlo de baja?",
+                        "Confirmar Baja", 
+                        JOptionPane.YES_NO_OPTION, 
+                        JOptionPane.WARNING_MESSAGE);
 
-                if (respuesta == JOptionPane.YES_OPTION) {
-                    Controlador.getInstance().accion(Eventos.CONFIRMAR_BAJA_CLIENTE, tc.getId());
-                }
-                break;
+                    if (respuesta == JOptionPane.YES_OPTION) {
+                        Controlador.getInstance().accion(Eventos.CONFIRMAR_BAJA_CLIENTE, tc.getId());
+                    }
+                    break;
 
-            case Eventos.RES_BAJA_CLIENTE_KO_NO_EXISTE:
-                JOptionPane.showMessageDialog(this, "No existe ningún cliente con el ID: " + datos, "Error", JOptionPane.ERROR_MESSAGE);
-                txtId.requestFocus();
-                break;
+                case Eventos.RES_BAJA_CLIENTE_CONFIRMADA:
+                    JOptionPane.showMessageDialog(this, "El cliente con ID " + datos + " se ha dado de baja correctamente.");
+                    txtId.setText("");
+                    break;
 
-            case Eventos.RES_BAJA_CLIENTE_KO_YA_INACTIVO:
-                JOptionPane.showMessageDialog(this, "El cliente ya se encuentra en estado inactivo.", "Aviso", JOptionPane.WARNING_MESSAGE);
-                break;
+                case Eventos.RES_BAJA_CLIENTE_KO_NO_EXISTE:
+                    JOptionPane.showMessageDialog(this, "Error: No existe ningún cliente con el ID: " + datos, "Error", JOptionPane.ERROR_MESSAGE);
+                    txtId.requestFocus();
+                    break;
 
-            default:
-                JOptionPane.showMessageDialog(this, "Error al procesar la baja.", "Error", JOptionPane.ERROR_MESSAGE);
-                break;
-        }
+                case Eventos.RES_BAJA_CLIENTE_KO_YA_INACTIVO:
+                    JOptionPane.showMessageDialog(this, "El cliente ya se encuentra en estado inactivo.", "Aviso", JOptionPane.WARNING_MESSAGE);
+                    break;
+
+                case Eventos.RES_BAJA_CLIENTE_KO_ID_FORMATO:
+                    JOptionPane.showMessageDialog(this, "El ID debe ser un número entero válido.", "Error de Formato", JOptionPane.ERROR_MESSAGE);
+                    txtId.requestFocus();
+                    break;
+
+                case Eventos.RES_BAJA_CLIENTE_KO_ID_VACIO:
+                    JOptionPane.showMessageDialog(this, "El campo ID no puede estar vacío.", "Error", JOptionPane.WARNING_MESSAGE);
+                    txtId.requestFocus();
+                    break;
+
+            }
+        });
     }
 }

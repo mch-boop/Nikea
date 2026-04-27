@@ -1,11 +1,17 @@
 package negocio.cliente;
 
 import java.util.Collection;
+import java.util.List;
 
 import integracion.cliente.DAOCliente;
 import integracion.factoria.FactoriaAbstractaIntegracion;
+import integracion.factura.DAOFactura;
+import negocio.factura.TFactura;
 
 public class SAClienteImp implements SACliente {
+
+	// Atributo.
+	private TCliente ultimoDuplicado;
 
 	// MÉTODOS DE LA INTERFAZ
 	
@@ -29,23 +35,55 @@ public class SAClienteImp implements SACliente {
 		if (existente == null) { 
 			return dao.create(tc); 
 		}
-		else {
-			if (!existente.isActivo()) { // Existe pero está inactivo (borrado lógico) -> Reactivamos
-				existente.setActivo(true);
-				existente.setNombre(tc.getNombre());
-				existente.setApellidos(tc.getApellidos());
-				existente.setTelefono(tc.getTelefono());
-				// No cambiamos el ID original
-				// Llamada al DAO (integración).
-				dao.update(existente); 
-				return existente.getId();
-			}
-			else { // Existe y ya está activo
-				return -1; 
-			}
-		}
+		
+		// Si existe (activo o inactivo), lo guardamos para que el Controlador/Vista lo consulten
+	    this.ultimoDuplicado = existente;
+
+	    // --- LÓGICA DE COMPARACIÓN DE DATOS ---
+	    boolean mismoNombre = existente.getNombre() != null &&
+	                          existente.getNombre().trim().equalsIgnoreCase(tc.getNombre().trim());
+
+	    boolean mismoApellido = ((existente.getApellidos() == null && tc.getApellidos() == null) ||
+	                            (existente.getApellidos() != null && tc.getApellidos() != null &&
+	                             existente.getApellidos().trim().equalsIgnoreCase(tc.getApellidos().trim())));
+
+	    boolean mismosDatosPersonales = mismoNombre && mismoApellido;
+	    
+
+	    // --- CASO 2: EL CLIENTE EXISTE PERO ESTÁ INACTIVO (BORRADO LÓGICO) ---
+	    if (!existente.isActivo()) {
+
+	        // Mismos datos -> Reactivación automática
+	        if (mismosDatosPersonales) {
+	            existente.setActivo(true);
+	            existente.setTelefono(tc.getTelefono()); // Actualizamos el teléfono al nuevo valor
+	            
+	            dao.update(existente);
+	            return existente.getId();
+	        }
+
+	        // Existe inactivo pero con datos distintos (Nombre/Apellido no coinciden)
+	        // Devolvemos -2 para que la vista pida confirmación para "pisar" los datos antiguos
+	        return -2;
+	    }
+
+	    // --- CASO 3: EL CLIENTE YA EXISTE Y ESTÁ ACTIVO ---
+	    if (existente.isActivo()) {
+	    	if (mismosDatosPersonales) {
+	            return -1;   // Es el mismo cliente (Aviso: "Este cliente ya existe")
+	        } else {
+	            return -100; // Es otro cliente (Aviso: "DNI registrado a nombre de...")
+	        }
+	    }
+
+	    return -1; // Fallback de seguridad
 	}
 
+	@Override
+    public TCliente getUltimoDuplicado() {
+        return this.ultimoDuplicado;
+    }
+	
 	@Override
 	public TCliente read(int id) {
 		DAOCliente dao = FactoriaAbstractaIntegracion.getInstance().crearDAOCliente();
@@ -58,16 +96,14 @@ public class SAClienteImp implements SACliente {
 		TCliente existente = dao.read(tc.getId());
 		
 		if (existente != null && existente.isActivo()) {
-			// Campos opcionales
             if (tc.getNombre() != null) existente.setNombre(tc.getNombre());
             if (tc.getApellidos() != null) existente.setApellidos(tc.getApellidos());
-            if (tc.getTelefono() != -1) existente.setTelefono(tc.getTelefono());
+            if (tc.getTelefono() != -1.0) existente.setTelefono(tc.getTelefono());
             if (tc.getDNI() != null) existente.setDNI(tc.getDNI());
-
+            
             return dao.update(existente);
-        }
-		
-		return -1;
+	    }
+	    return -1;
 	}
 
 	@Override
@@ -87,6 +123,13 @@ public class SAClienteImp implements SACliente {
 	public Collection<TCliente> readAll() {
 		DAOCliente dao = FactoriaAbstractaIntegracion.getInstance().crearDAOCliente();
 		return dao.readAll();
+	}
+
+	@Override
+	public TCliente getMejorCliente() {
+		// TOAFactura fact = FactoriaAbstractaIntegracion.getInstance().crearTOAFactura();
+		// return fact.getMejorCliente();
+		return null;
 	}
 
 }

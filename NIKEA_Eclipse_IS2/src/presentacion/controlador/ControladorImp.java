@@ -124,6 +124,9 @@ public class ControladorImp extends Controlador {
 
 			    break;
 			}
+			case Eventos.MOSTRAR_MEJOR_CLIENTE: {
+				
+			}
 			
 			// EVENTOS DE FACTURA
 			

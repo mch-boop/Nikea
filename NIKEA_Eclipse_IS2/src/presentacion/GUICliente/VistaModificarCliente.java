@@ -18,7 +18,7 @@ public class VistaModificarCliente extends JFrame implements IGUI {
     private JTextField txtId, txtNombre, txtApellido, txtTelefono, txtDNI;
     private JTextField txtNombreAct, txtApellidoAct, txtTelefonoAct, txtDNIAct;
     private JButton btnBuscar, btnModificar, btnCancelar, btnCancelarModif;
-    private JPanel panelEdicion;
+    private JPanel panelEdicion, pBotones;
     private TCliente clienteEncontrado;
 
     // CONSTRUCTORA
@@ -65,6 +65,7 @@ public class VistaModificarCliente extends JFrame implements IGUI {
                 }
                 else {
 	                int id = (Integer.parseInt(txtId.getText()));
+	                pBotones.setVisible(false);
 	                Controlador.getInstance().accion(Eventos.BUSCAR_CLIENTE_PARA_MODIFICAR, id);
 	            }
             } catch (NumberFormatException ex) {
@@ -77,7 +78,7 @@ public class VistaModificarCliente extends JFrame implements IGUI {
         lblTitulo.setAlignmentX(Component.CENTER_ALIGNMENT);
         
         // Panel de botones
-        JPanel pBotones = new JPanel();
+        pBotones = new JPanel();
         pBotones.add(btnBuscar); pBotones.add(btnCancelar);
         
         // Creo panel de Edición.
@@ -158,7 +159,7 @@ public class VistaModificarCliente extends JFrame implements IGUI {
         
         
         // Panel de botones
-        JPanel pBotones = new JPanel();
+        JPanel panelBotones = new JPanel();
         btnModificar = new JButton("GUARDAR CAMBIOS");
         btnCancelarModif = new JButton("CANCELAR");
              
@@ -231,15 +232,16 @@ public class VistaModificarCliente extends JFrame implements IGUI {
         	txtId.setText("");
         	limpiarCampos();
         	panelEdicion.setVisible(false);
+        	pBotones.setVisible(true);
             pack();
         });
         
-        pBotones.add(btnModificar); 
-        pBotones.add(btnCancelarModif);
+        panelBotones.add(btnModificar); 
+        panelBotones.add(btnCancelarModif);
         
         
         panelEdicion.add(panelDatos);
-        panelEdicion.add(pBotones);  
+        panelEdicion.add(panelBotones);  
     }
     
     // Datos es la id del cliente.
@@ -282,9 +284,6 @@ public class VistaModificarCliente extends JFrame implements IGUI {
                 JOptionPane.showMessageDialog(this, "Error: Los datos introducidos no son válidos para la modificación.", "Validación Fallida", JOptionPane.ERROR_MESSAGE);
                 break;
 
-            default:
-                JOptionPane.showMessageDialog(this, "Error al intentar modificar.", "Error", JOptionPane.ERROR_MESSAGE);
-                break;
         }
     }
 

@@ -10,4 +10,6 @@ public interface SACliente {
 	public int update(TCliente cl);
 	public int delete (int id);
 	public Collection<TCliente> readAll();
+    public TCliente getUltimoDuplicado();
+    public TCliente getMejorCliente();
 }

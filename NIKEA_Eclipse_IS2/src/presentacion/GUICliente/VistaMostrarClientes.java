@@ -1,6 +1,8 @@
 package presentacion.GUICliente;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+
 import java.awt.*;
 import java.util.Collection;
 import negocio.cliente.TCliente;
@@ -13,7 +15,8 @@ public class VistaMostrarClientes extends JFrame implements IGUI {
 
 	// ATRIBUTOS
 	
-    private JTextArea areaListado;
+    private JTable tablaClientes;
+    private DefaultTableModel modeloTabla;
     private JButton btnCargar, btnLimpiar, btnCancelar;
 
     // CONSTRUCTORA
@@ -21,6 +24,13 @@ public class VistaMostrarClientes extends JFrame implements IGUI {
     public VistaMostrarClientes() {
         setTitle("Listado General de Clientes");
         initGUI();
+        this.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent e) {
+                modeloTabla.setRowCount(0);
+            }
+        });
+        setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
     }
     
 
@@ -32,23 +42,27 @@ public class VistaMostrarClientes extends JFrame implements IGUI {
         JPanel mainPanel = new JPanel(new BorderLayout(10, 10));
         mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
-        // Área de texto para el listado
-        areaListado = new JTextArea(20, 50);
-        areaListado.setEditable(false);
-        areaListado.setFont(new Font("Monospaced", Font.PLAIN, 12)); 
-        JScrollPane scroll = new JScrollPane(areaListado);
-        scroll.setBorder(BorderFactory.createTitledBorder("Lista de Clientes en el Sistema"));
-
-        // Label de título.
-        JLabel lblTitulo = new JLabel("Mostrar todos los clientes del sistema.");
-        lblTitulo.setHorizontalAlignment(JLabel.CENTER);  
+        // Configuración de la Tabla
+        String[] columnas = {"ID", "DNI", "NOMBRE COMPLETO", "TELÉFONO"};
+        modeloTabla = new DefaultTableModel(columnas, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false; // Tabla no editable
+            }
+        };
         
+        tablaClientes = new JTable(modeloTabla);
+        tablaClientes.getTableHeader().setReorderingAllowed(false);
+        
+        JScrollPane scroll = new JScrollPane(tablaClientes);
+        scroll.setBorder(BorderFactory.createTitledBorder("Lista de Clientes Activos"));
+        scroll.setPreferredSize(new Dimension(700, 400));
+        scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+
         // Panel superior con el botón de carga
-        JPanel panelNorte = new JPanel(new BorderLayout());
-        btnCargar = new JButton("MOSTRAR");
-        panelNorte.add(lblTitulo, BorderLayout.NORTH);
-        panelNorte.add(Box.createRigidArea(new Dimension(0, 10)));
-        panelNorte.add(btnCargar, BorderLayout.SOUTH);
+        JPanel panelNorte = new JPanel();
+        btnCargar = new JButton("MOSTRAR TODOS LOS CLIENTES");
+        panelNorte.add(btnCargar);
 
         // Panel inferior con botones 
         JPanel panelSur = new JPanel();
@@ -57,22 +71,21 @@ public class VistaMostrarClientes extends JFrame implements IGUI {
         panelSur.add(btnLimpiar);
         panelSur.add(btnCancelar);
 
-        // Listener de botón Carga
+        // Lógica de Carga
         btnCargar.addActionListener(e -> {
             // No necesitamos enviar datos para listar, el SA ya sabe qué hacer
             Controlador.getInstance().accion(Eventos.MOSTRAR_CLIENTES, null);
         });
 
-        // Lógica de Limpiar (limpiamos texto del área).
-        btnLimpiar.addActionListener(e -> areaListado.setText(""));
+        // Lógica de Limpiar
+        btnLimpiar.addActionListener(e -> modeloTabla.setRowCount(0));
 
         // Lógica de Cancelar
         btnCancelar.addActionListener(e -> {
-        	// Cerramos ventana.
             setVisible(false);
             dispose();
         });
-        
+
         // Añadir componentes al panel principal
         mainPanel.add(panelNorte, BorderLayout.NORTH);
         mainPanel.add(scroll, BorderLayout.CENTER);
@@ -82,38 +95,45 @@ public class VistaMostrarClientes extends JFrame implements IGUI {
         pack();
         setLocationRelativeTo(null);
     }
-
+    
     // Datos es una lista de TClientes.
     @Override
     @SuppressWarnings("unchecked")
     public void actualizar(int evento, Object datos) {
         switch (evento) {
 
-            case Eventos.RES_MOSTRAR_CLIENTES_OK:
-                Collection<TCliente> lista = (Collection<TCliente>) datos;
-                
-                if (lista.isEmpty()) {
-                    areaListado.setText("No hay empleados registrados en el sistema.");
-                } else {
-                    StringBuilder sb = new StringBuilder();
-                    // Cabecera
-                    sb.append(String.format("%-5s | %-12s | %-25s | %-10s | %-10s\n", "ID", "DNI", "NOMBRE COMPLETO", "TELÉFONO"));
-                    sb.append("--------------------------------------------------------------------------------\n");
-                    
-                    for (TCliente tc : lista) {
-                        String nombreCompleto = tc.getNombre() + " " + tc.getApellidos();
-                        
-                        sb.append(String.format("%-5d | %-12s | %-25s | %-10d n", 
-                        		tc.getId(), tc.getDNI(), nombreCompleto, tc.getTelefono()));
+        case Eventos.RES_MOSTRAR_CLIENTES_OK:
+            Collection<TCliente> lista = (Collection<TCliente>) datos;
+            
+            modeloTabla.setRowCount(0); // Limpiar tabla antes de cargar
+            
+            if (lista.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "No hay clientes registrados en el sistema.", "Información", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                boolean hayActivos = false;
+                for (TCliente tc : lista) {
+                    if (tc.isActivo()) { // Solo mostramos si el estado es activo
+                        Object[] fila = {
+                            tc.getId(),
+                            tc.getDNI(),
+                            tc.getNombre() + " " + tc.getApellidos(),
+                            tc.getTelefono(),
+                        };
+                        modeloTabla.addRow(fila);
+                        hayActivos = true;
                     }
-                    areaListado.setText(sb.toString());
                 }
-                break;
+                
+                if (!hayActivos) {
+                    JOptionPane.showMessageDialog(this, "No hay clientes activos para mostrar.", "Información", JOptionPane.INFORMATION_MESSAGE);
+                } 
+            }
+            break;
 
-            case Eventos.RES_MOSTRAR_CLIENTES_KO:
-                areaListado.setText("");
-                JOptionPane.showMessageDialog(this, "Error al recuperar la lista de clientes.", "Error", JOptionPane.ERROR_MESSAGE);
-                break;
+        case Eventos.RES_MOSTRAR_CLIENTES_KO:
+            modeloTabla.setRowCount(0);
+            JOptionPane.showMessageDialog(this, "Error al recuperar la lista de clientes.", "Error", JOptionPane.ERROR_MESSAGE);
+            break;
 
             default:
                 break;

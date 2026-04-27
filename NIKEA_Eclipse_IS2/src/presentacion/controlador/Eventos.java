@@ -46,7 +46,8 @@ public class Eventos {
 
     public static final int MOSTRAR_MEJOR_CLIENTE = 106;
     public static final int RES_MOSTRAR_MEJOR_CLIENTE_OK = 1061;
-    public static final int RES_MOSTRAR_MEJOR_CLIENTE_KO = 1050;
+    public static final int RES_BUSCAR_MEJOR_CLIENTE_PARA_MOSTRAR_OK = 1062;
+    public static final int RES_MOSTRAR_MEJOR_CLIENTE_KO = 1060;
     
 	// EVENTOS DE EMPLEADO
     
