@@ -18,5 +18,24 @@
         "dni": "123",
         "numeroVentas": 1,
         "activo": true
+    },
+    {
+        "tipo": 1,
+        "apellido": "verstappen",
+        "sueldo": 65000,
+        "id": 3,
+        "nombre": "max",
+        "dni": "33",
+        "numeroVentas": 0,
+        "activo": true
+    },
+    {
+        "tipo": 2,
+        "apellido": "leclerc",
+        "sueldo": 1700,
+        "id": 4,
+        "nombre": "leo",
+        "dni": "314",
+        "activo": true
     }
 ]
