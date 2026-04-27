@@ -1,69 +1,85 @@
 package negocio.factura;
 
-import java.util.Collection;
+import java.util.List;
 
 public class TFactura {
 
-	// ATRIBUTOS
+    private int id; 
+    private int idVendedor;
+    private int idCliente;
+    private int idDescuento;
+    private String fecha;
 
-	private int idFactura;
-	// private Fecha fecha;
-	private int importe;
-	
-	private int idCliente;
-	private int idEmpleado;
-	private int idDescuento;
-	
-	private Collection<TLineaFactura> lineaFactura;
-	
-	private boolean activo;
+    private double total;
+    private boolean cerrada;
 
-	public void setId(int i) {
-		// TODO Auto-generated method stub
-		
-	}
+    private List<TLineaFactura> lineas;
 
-	public int getId() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+    public TFactura() {}
 
-	public Object getIdCliente() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    // GETTERS Y SETTERS
 
-	public String getFecha() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    public int getId() {
+        return id;
+    }
 
-	public void setIdCliente(int int1) {
-		// TODO Auto-generated method stub
-		
-	}
+    public void setId(int id) {
+        this.id = id;
+    }
 
-	public void setIdDescuento(int int1) {
-		// TODO Auto-generated method stub
-		
-	}
+    public int getIdVendedor() {
+        return idVendedor;
+    }
 
-	public void setFecha(String text) {
-		// TODO Auto-generated method stub
-		
-	}
+    public void setIdVendedor(int idVendedor) {
+        this.idVendedor = idVendedor;
+    }
 
-	public void setIdVendedor(int int1) {
-		// TODO Auto-generated method stub
-		
-	}
+    public int getIdCliente() {
+        return idCliente;
+    }
 
-	public Object getIdVendedor() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-	// MÉTODOS
-	
-	// getters, setters y toString opcional
+    public void setIdCliente(int idCliente) {
+        this.idCliente = idCliente;
+    }
+
+    public int getIdDescuento() {
+        return idDescuento;
+    }
+
+    public void setIdDescuento(int idDescuento) {
+        this.idDescuento = idDescuento;
+    }
+
+    public String getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(String fecha) {
+        this.fecha = fecha;
+    }
+
+    public double getTotal() {
+        return total;
+    }
+
+    public void setTotal(double total) {
+        this.total = total;
+    }
+
+    public boolean isCerrada() {
+        return cerrada;
+    }
+
+    public void setCerrada(boolean cerrada) {
+        this.cerrada = cerrada;
+    }
+
+    public List<TLineaFactura> getLineas() {
+        return lineas;
+    }
+
+    public void setLineas(List<TLineaFactura> lineas) {
+        this.lineas = lineas;
+    }
 }

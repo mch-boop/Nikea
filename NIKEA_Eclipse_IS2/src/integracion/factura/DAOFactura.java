@@ -15,7 +15,7 @@ public interface DAOFactura {
 
 	public void eliminar(int id);
 
-	public List<TFactura> leerPorCliente(Integer dniCliente); //Buscar facturas de un cliente concreto
+	public List<TFactura> leerPorCliente(int idCliente); //Buscar facturas de un cliente concreto
 
 	public List<TFactura> leerPorRangoFechas(String fechaInicio, String fechaFin); //Buscar facturas entre dos fechas
 }

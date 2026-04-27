@@ -4,6 +4,8 @@ import integracion.cliente.DAOCliente;
 import integracion.cliente.DAOClienteImp;
 import integracion.marca.DAOMarca;
 import integracion.factura.DAOFacturaImp;
+import integracion.factura.DAOLineaFactura;
+import integracion.factura.DAOLineaFacturaImp;
 import integracion.factura.DAOFactura;
 import integracion.descuento.DAODescuentoImp;
 import integracion.descuento.DAODescuento;
@@ -50,5 +52,10 @@ public class FactoriaIntegracion extends FactoriaAbstractaIntegracion {
 	@Override
 	public DAOFactura crearDAOFactura() {
 		return new DAOFacturaImp();
+	}
+	
+	@Override
+	public DAOLineaFactura crearDAOLineaFactura() {
+	    return new DAOLineaFacturaImp();
 	}
 }
