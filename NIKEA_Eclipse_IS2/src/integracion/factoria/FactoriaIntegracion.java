@@ -14,6 +14,8 @@ import integracion.empleado.DAOMontadorMontaje;
 import integracion.empleado.DAOMontadorMontajeImp;
 import integracion.servicio.DAOMontaje;
 import integracion.servicio.DAOMontajeImp;
+import integracion.servicio.DAOServicio;
+import integracion.servicio.DAOServicioImp;
 
 public class FactoriaIntegracion extends FactoriaAbstractaIntegracion {
 	
@@ -50,5 +52,11 @@ public class FactoriaIntegracion extends FactoriaAbstractaIntegracion {
 	@Override
 	public DAOFactura crearDAOFactura() {
 		return new DAOFacturaImp();
+	}
+
+	@Override
+	public DAOServicio crearDAOServicio() {
+		// TODO Auto-generated method stub
+		return new DAOServicioImp();
 	}
 }
