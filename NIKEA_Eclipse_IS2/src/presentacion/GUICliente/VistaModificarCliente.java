@@ -61,7 +61,7 @@ public class VistaModificarCliente extends JFrame implements IGUI {
                 }
                 else {
 	                int id = (Integer.parseInt(txtId.getText()));
-	                Controlador.getInstance().accion(Eventos.MODIFICAR_BUSCAR_CLIENTE, id);
+	                Controlador.getInstance().accion(Eventos.BUSCAR_CLIENTE_PARA_MODIFICAR, id);
 	            }
             } catch (NumberFormatException ex) {
                 JOptionPane.showMessageDialog(null, "Asegúrese de que el ID sea un número válido.");
@@ -234,7 +234,7 @@ public class VistaModificarCliente extends JFrame implements IGUI {
     public void actualizar(int evento, Object datos) {
         switch (evento) {
 
-            case Eventos.RES_MODIFICAR_BUSCAR_CLIENTE_OK:
+            case Eventos.RES_BUSCAR_CLIENTE_PARA_MODIFICAR_OK:
             	clienteEncontrado = (TCliente) datos;
             	limpiarCampos();
             	

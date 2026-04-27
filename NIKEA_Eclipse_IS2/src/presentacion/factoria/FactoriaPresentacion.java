@@ -56,32 +56,37 @@ public class FactoriaPresentacion extends FactoriaAbstractaPresentacion {
 				if (vistaAnadirCliente == null) {
 					vistaAnadirCliente = new VistaAnadirCliente();
 				}
-				return new VistaAnadirCliente();
+				return vistaAnadirCliente;
 			case Eventos.BUSCAR_CLIENTE: 
 				if (vistaBuscarCliente == null) {
 					vistaBuscarCliente = new VistaBuscarCliente();
 				}
-				return new VistaBuscarCliente();
+				return vistaBuscarCliente;
 			case Eventos.BAJA_CLIENTE: 
 				if (vistaEliminarCliente == null) {
 					vistaEliminarCliente = new VistaEliminarCliente();
 				}
-				return new VistaEliminarCliente();
+				return vistaEliminarCliente;
 			case Eventos.MODIFICAR_CLIENTE:
 				if (vistaModificarCliente == null) {
 					vistaModificarCliente = new VistaModificarCliente();
 				}
-				return new VistaModificarCliente();
+				return vistaModificarCliente;
 			case Eventos.MOSTRAR_CLIENTES:
 				if (vistaMostrarClientes == null) {
 					vistaMostrarClientes = new VistaMostrarClientes();
 				}
-				return new VistaMostrarClientes();
+				return vistaMostrarClientes;
 			case Eventos.MOSTRAR_MEJOR_CLIENTE:
 				if (vistaMostrarMejorCliente == null) {
 					vistaMostrarMejorCliente = new VistaMostrarMejorCliente();
 				}
-				return new VistaMostrarMejorCliente();
+				return vistaMostrarMejorCliente;
+			case Eventos.BUSCAR_CLIENTE_PARA_MODIFICAR:
+				if (vistaModificarCliente == null) {
+					vistaModificarCliente = new VistaModificarCliente();
+				}
+				return vistaModificarCliente;
 				
 			// VISTAS DE EMPLEADO
 				

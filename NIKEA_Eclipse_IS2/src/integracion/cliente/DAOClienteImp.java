@@ -71,7 +71,7 @@ public class DAOClienteImp implements DAOCliente {
                 TCliente c = new TCliente();
                 
                 // Datos del cliente.
-                c.setId(i);
+                c.setId(obj.getInt("id"));
                 c.setNombre(obj.getString("nombre"));
                 c.setApellidos(obj.getString("apellidos"));
                 c.setDNI(obj.getString("DNI"));

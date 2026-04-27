@@ -7,7 +7,7 @@
         "nombre": "kiki",
         "dni": "12",
         "numeroVentas": 0,
-        "activo": true
+        "activo": false
     },
     {
         "tipo": 1,
@@ -17,6 +17,7 @@
         "nombre": "Empleado",
         "dni": "123",
         "numeroVentas": 1,
+<<<<<<< Updated upstream
         "activo": true
     },
     {
@@ -37,5 +38,8 @@
         "nombre": "leo",
         "dni": "314",
         "activo": true
+=======
+        "activo": false
+>>>>>>> Stashed changes
     }
 ]

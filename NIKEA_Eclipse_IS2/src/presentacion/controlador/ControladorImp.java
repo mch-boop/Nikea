@@ -8,8 +8,6 @@ import negocio.cliente.SACliente;
 import negocio.cliente.TCliente;
 import negocio.empleado.SAEmpleado;
 import negocio.empleado.TEmpleado;
-import negocio.marca.SAMarca;
-import negocio.marca.TMarca;
 import negocio.factoria.FactoriaAbstractaNegocio;
 import presentacion.IGUI;
 import presentacion.factoria.FactoriaAbstractaPresentacion;
@@ -106,22 +104,22 @@ public class ControladorImp extends Controlador {
 			    break;
 			}
 			
-			case Eventos.MODIFICAR_BUSCAR_CLIENTE: {
+			case Eventos.BUSCAR_CLIENTE_PARA_MODIFICAR: {
 			    Integer id = (Integer) datos;
 			    SACliente saCli = FactoriaAbstractaNegocio.getInstance().crearSACliente();
 			    TCliente cli = saCli.read(id);
 
-			    IGUI vistaBuscar = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.MODIFICAR_BUSCAR_CLIENTE);
+			    IGUI vistaBuscar = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.BUSCAR_CLIENTE_PARA_MODIFICAR);
 			    IGUI vistaModificar = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.MODIFICAR_CLIENTE);
 
 			    if (cli != null && cli.isActivo()) {
 			        ((JFrame) vistaBuscar).setVisible(false);
-			        vistaModificar.actualizar(Eventos.RES_MODIFICAR_BUSCAR_CLIENTE_OK, cli);
+			        vistaModificar.actualizar(Eventos.RES_BUSCAR_CLIENTE_PARA_MODIFICAR_OK, cli);
 
 			        ((JFrame) vistaModificar).setVisible(true);
 			        ((JFrame) vistaModificar).toFront();
 			    } else {
-			        vistaBuscar.actualizar(Eventos.RES_MODIFICAR_BUSCAR_CLIENTE_KO, id);
+			        vistaBuscar.actualizar(Eventos.RES_BUSCAR_CLIENTE_PARA_MODIFICAR_KO, id);
 			    }
 
 			    break;
