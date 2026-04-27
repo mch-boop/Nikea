@@ -23,6 +23,14 @@ public class TDescuento {
 		// TODO Auto-generated method stub
 		
 	}
+	public void setImporteMin(Double value) {
+		// TODO Auto-generated method stub
+		
+	}
+	public void setProductosMin(Integer value) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 	// MÉTODOS
 	

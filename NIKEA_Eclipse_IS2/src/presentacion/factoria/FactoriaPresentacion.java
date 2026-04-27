@@ -2,6 +2,7 @@ package presentacion.factoria;
 
 import presentacion.IGUI;
 import presentacion.GUICliente.*;
+import presentacion.GUIDescuento.VistaAltaDescuento;
 import presentacion.GUIEmpleado.*;
 import presentacion.GUIFactura.*;
 import presentacion.GUIMarca.*;
@@ -45,6 +46,8 @@ public class FactoriaPresentacion extends FactoriaAbstractaPresentacion {
 
 	// ATRIBUTOS PARA SINGLETON (DESCUENTO)
 		
+	private static VistaAltaDescuento vistaAltaDescuento;
+	
 	// ATRIBUTOS PARA SINGLETON (SERVICIO)
 
 	public IGUI createVista(int idEvento) {
@@ -173,6 +176,11 @@ public class FactoriaPresentacion extends FactoriaAbstractaPresentacion {
 				return vistaMostrarMejorMarca;
 
 			// VISTAS DE DESCUENTO
+			case Eventos.ALTA_DESCUENTO:
+				if(vistaAltaDescuento == null) {
+					vistaAltaDescuento = new VistaAltaDescuento();
+				}
+				return vistaAltaDescuento;
 			
 			// VISTAS DE SERVICIO
 					
