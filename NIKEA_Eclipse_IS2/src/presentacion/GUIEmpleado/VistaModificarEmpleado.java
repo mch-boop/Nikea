@@ -117,6 +117,7 @@ public class VistaModificarEmpleado extends JFrame implements IGUI {
 
 		// Lógica de Cancelar
 		btnCancelar.addActionListener(e -> {
+        	limpiarCampos();
 			setVisible(false);
 			dispose();
 		});

@@ -50,7 +50,11 @@ public class VistaModificarCliente extends JFrame implements IGUI {
         // Listener de botón Cancelar
         btnCancelar.addActionListener(e -> {
         	// Cerrar ventana.
+        	panelEdicion.setVisible(false);
+        	txtId.setText("");
+            txtId.setEditable(true);  
             setVisible(false);
+            pack();
             dispose();
         });
         
@@ -96,9 +100,12 @@ public class VistaModificarCliente extends JFrame implements IGUI {
     // Método auxiliar
     void crearPanelEdicion() {
     	// Panel de edición.
-        panelEdicion = new JPanel(new GridBagLayout());
+        panelEdicion = new JPanel();
+        panelEdicion.setLayout(new BoxLayout(panelEdicion, BoxLayout.Y_AXIS));
         panelEdicion.setBorder(BorderFactory.createTitledBorder("Información del Cliente"));
         panelEdicion.setVisible(false); // Se activará al buscar con éxito
+        
+        JPanel panelDatos = new JPanel(new GridBagLayout());
         
         // Campos de cambio.
         txtNombre = new JTextField(20);
@@ -125,29 +132,29 @@ public class VistaModificarCliente extends JFrame implements IGUI {
 
         // Cabeceras de columna
         ajuste.gridy = 0; ajuste.gridx = 1; 
-        panelEdicion.add(new JLabel("Dato actual"), ajuste);
+        panelDatos.add(new JLabel("Dato actual"), ajuste);
         ajuste.gridx = 2; 
-        panelEdicion.add(new JLabel("Dato nuevo"), ajuste);
+        panelDatos.add(new JLabel("Dato nuevo"), ajuste);
 
         // Fila 1: Nombre
         ajuste.gridy = 1; ajuste.gridx = 0; panelEdicion.add(new JLabel("Nombre:"), ajuste);
-        ajuste.gridx = 1; panelEdicion.add(txtNombreAct, ajuste);
-        ajuste.gridx = 2; panelEdicion.add(txtNombre, ajuste);
+        ajuste.gridx = 1; panelDatos.add(txtNombreAct, ajuste);
+        ajuste.gridx = 2; panelDatos.add(txtNombre, ajuste);
 
         // Fila 2: Apellido
-        ajuste.gridy = 2; ajuste.gridx = 0; panelEdicion.add(new JLabel("Apellidos:"), ajuste);
-        ajuste.gridx = 1; panelEdicion.add(txtApellidoAct, ajuste);
-        ajuste.gridx = 2; panelEdicion.add(txtApellido, ajuste);
+        ajuste.gridy = 2; ajuste.gridx = 0; panelDatos.add(new JLabel("Apellidos:"), ajuste);
+        ajuste.gridx = 1; panelDatos.add(txtApellidoAct, ajuste);
+        ajuste.gridx = 2; panelDatos.add(txtApellido, ajuste);
 
         // Fila 3: Teléfono
-        ajuste.gridy = 3; ajuste.gridx = 0; panelEdicion.add(new JLabel("Teléfono:"), ajuste);
-        ajuste.gridx = 1; panelEdicion.add(txtTelefonoAct, ajuste);
-        ajuste.gridx = 2; panelEdicion.add(txtTelefono, ajuste);
+        ajuste.gridy = 3; ajuste.gridx = 0; panelDatos.add(new JLabel("Teléfono:"), ajuste);
+        ajuste.gridx = 1; panelDatos.add(txtTelefonoAct, ajuste);
+        ajuste.gridx = 2; panelDatos.add(txtTelefono, ajuste);
 
         // Fila 4: DNI
-        ajuste.gridy = 4; ajuste.gridx = 0; panelEdicion.add(new JLabel("DNI:"), ajuste);
-        ajuste.gridx = 1; panelEdicion.add(txtDNIAct, ajuste);
-        ajuste.gridx = 2; panelEdicion.add(txtDNI, ajuste);
+        ajuste.gridy = 4; ajuste.gridx = 0; panelDatos.add(new JLabel("DNI:"), ajuste);
+        ajuste.gridx = 1; panelDatos.add(txtDNIAct, ajuste);
+        ajuste.gridx = 2; panelDatos.add(txtDNI, ajuste);
         
         
         // Panel de botones
@@ -219,13 +226,19 @@ public class VistaModificarCliente extends JFrame implements IGUI {
         
         // Listener de botón CancelarModif
         btnCancelarModif.addActionListener(e -> {
-        	// Cerrar ventana.
-            setVisible(false);
-            dispose();
+        	// Cierro el panel de edición.
+            txtId.setEditable(true);  
+        	txtId.setText("");
+        	limpiarCampos();
+        	panelEdicion.setVisible(false);
+            pack();
         });
         
         pBotones.add(btnModificar); 
         pBotones.add(btnCancelarModif);
+        
+        
+        panelEdicion.add(panelDatos);
         panelEdicion.add(pBotones);  
     }
     

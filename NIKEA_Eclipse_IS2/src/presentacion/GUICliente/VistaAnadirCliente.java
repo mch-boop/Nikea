@@ -17,6 +17,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 
 import negocio.cliente.TCliente;
 import presentacion.IGUI;
@@ -155,14 +156,85 @@ public class VistaAnadirCliente extends JFrame implements IGUI {
 	
 	// MÉTODO DE IGUI
 	
-	// Datos es el id del cliente.
-	@Override public void actualizar(int evento, Object datos) {	
-    	// El controlador llama a este método tras la ejecución en el SA
-		if (evento == Eventos.RES_ALTA_CLIENTE_OK)
-			JOptionPane.showMessageDialog(this, "Se ha creado correctamente el cliente con id " + (Integer) datos + ".");
+	// Datos es el id del cliente
+	@Override public void actualizar(int evento, Object datos) {
+        // El controlador llama a este método tras la ejecución en el SA
+		SwingUtilities.invokeLater(new Runnable() {
+	        @Override
+	        public void run() {
+	            switch (evento) {
 
-		else if(evento == Eventos.RES_ALTA_CLIENTE_KO)
-			JOptionPane.showMessageDialog(this, "No se ha podido crear el cliente.");
+	                case Eventos.RES_ALTA_CLIENTE_OK:
+	                	VistaAnadirCliente.this.limpiarCampos(); // Limpia los campos para el siguiente alta
+	                    JOptionPane.showMessageDialog(VistaAnadirCliente.this, "Éxito: Cliente creado con ID: " + datos); 
+	                    break;
+	        
+	                case Eventos.RES_ALTA_CLIENTE_YA_EXISTE_MISMO:
+	                    // El SA ya nos confirmó que nombre y apellido coinciden
+	                    JOptionPane.showMessageDialog(VistaAnadirCliente.this, 
+	                        "Este cliente ya existe en el sistema.", 
+	                        "Aviso", JOptionPane.WARNING_MESSAGE);
+	                    VistaAnadirCliente.this.txtDNI.requestFocus();
+	                    break;
+
+	                case Eventos.RES_ALTA_CLIENTE_YA_EXISTE_DISTINTO:
+	                    // El SA nos confirmó que el DNI es de otra persona
+	                    TCliente dup = (TCliente) datos;
+	                    JOptionPane.showMessageDialog(VistaAnadirCliente.this, 
+	                        "El DNI introducido ya pertenece a: " + dup.getNombre() + " " + dup.getApellidos(), 
+	                        "Conflicto de Identidad", JOptionPane.ERROR_MESSAGE);
+	                    VistaAnadirCliente.this.txtDNI.requestFocus();
+	                    break;
+	                    
+	                case Eventos.RES_ALTA_CLIENTE_CONFIRMAR_REACTIVACION:
+	                    // El cliente existe inactivo con datos distintos (Caso -2)
+	                    TCliente cliReac = (TCliente) datos;
+	                    
+	                    int respReac = JOptionPane.showConfirmDialog(VistaAnadirCliente.this, 
+	                        "Existe un cliente inactivo con DNI " + cliReac.getDNI() + ".\n" +
+	                        "¿Desea reactivarlo y actualizarlo con los nuevos datos introducidos?", 
+	                        "Confirmar Reactivación y Modificación", 
+	                        JOptionPane.YES_NO_OPTION, 
+	                        JOptionPane.QUESTION_MESSAGE);
+	                    
+	                    if (respReac == JOptionPane.YES_OPTION) {
+	                        // Al darle a SÍ, enviamos el Transfer con los datos nuevos al controlador
+	                        Controlador.getInstance().accion(Eventos.REACTIVAR_CLIENTE, cliReac);
+	                        VistaAnadirCliente.this.setVisible(false);
+	                        VistaAnadirCliente.this.dispose();
+	                    }
+	                    break;
+	                    
+	                case Eventos.RES_ALTA_CLIENTE_KO:
+	                    JOptionPane.showMessageDialog(VistaAnadirCliente.this, "Error en el sistema de persistencia.", "Error Grave", JOptionPane.ERROR_MESSAGE);
+	                    break;
+	        
+	                case Eventos.RES_ALTA_CLIENTE_KO_DNI:
+	                    JOptionPane.showMessageDialog(VistaAnadirCliente.this, "El DNI introducido no es válido.", "Error de Validación", JOptionPane.ERROR_MESSAGE);
+	                    txtDNI.requestFocus();
+	                    break;
+	        
+	                case Eventos.RES_ALTA_CLIENTE_KO_NOMBRE:
+	                    JOptionPane.showMessageDialog(VistaAnadirCliente.this, "El nombre es obligatorio.", "Error de Validación", JOptionPane.ERROR_MESSAGE);
+	                    txtNombre.requestFocus();
+	                    break;
+	        
+	                case Eventos.RES_ALTA_CLIENTE_KO_APELLIDO:
+	                    JOptionPane.showMessageDialog(VistaAnadirCliente.this, "El apellido es obligatorio para evitar duplicados.", "Error de Validación", JOptionPane.ERROR_MESSAGE);
+	                    txtApellido.requestFocus();
+	                    break;
+	        
+	                case Eventos.RES_ALTA_CLIENTE_KO_TELEFONO:
+	                    JOptionPane.showMessageDialog(VistaAnadirCliente.this, "El teléfono debe ser un número válido.", "Error de Validación", JOptionPane.ERROR_MESSAGE);
+	                    break;
+	        
+	                default:
+	                    JOptionPane.showMessageDialog(VistaAnadirCliente.this, "Error no identificado.");
+	                    break;
+	            }
+	        }
+	    });
 	}
+
 	
 }
