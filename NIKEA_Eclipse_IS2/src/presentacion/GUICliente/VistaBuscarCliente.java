@@ -134,16 +134,23 @@ public class VistaBuscarCliente extends JFrame implements IGUI {
             case Eventos.RES_BUSCAR_CLIENTE_OK:
             	// Recibo el transfer de cliente para leer los datos.
                 TCliente tc = (TCliente) datos;
+                areaDetalles.setPreferredSize(null); 
+
                 // Formateo los datos en un StringBuilder.
                 StringBuilder sb = new StringBuilder();
+                sb.append(" ------------------------------------------ \n");
+                sb.append("          DETALLES DEL CLIENTE              \n");
+                sb.append(" ------------------------------------------ \n");
                 sb.append("ID:       ").append(tc.getId()).append("\n");
                 sb.append("DNI:      ").append(tc.getDNI()).append("\n");
                 sb.append("Nombre:   ").append(tc.getNombre()).append("\n");
                 sb.append("Apellidos: ").append(tc.getApellidos()).append("\n");
                 sb.append("Teléfono:   ").append(tc.getTelefono()).append("\n");
                 
-                // Muestro el texto.
                 areaDetalles.setText(sb.toString());
+                // Forzamos el scroll hacia arriba
+                this.pack();
+                areaDetalles.setCaretPosition(0);
                 break;
 
             case Eventos.RES_BUSCAR_CLIENTE_KO:

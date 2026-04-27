@@ -28,7 +28,7 @@ public class GUIEmpleadoDialog extends JDialog {
 
         JButton btnAlta       = new JButton("Alta Empleado");
         JButton btnBaja       = new JButton("Baja Empleado");
-        JButton btnActualizar = new JButton("Actualizar Empleado");
+        JButton btnActualizar = new JButton("Modificar Empleado");
         JButton btnBuscar     = new JButton("Buscar Empleado");
         JButton btnListar     = new JButton("Listar Empleados");
 
