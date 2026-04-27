@@ -1,18 +1,9 @@
 [{
-    "tipo": 1,
-<<<<<<< Updated upstream
-    "apellido": "Lang",
+    "tipo": 2,
+    "apellido": "b",
     "sueldo": 1200,
     "id": 1,
-    "nombre": "Lang",
-    "dni": "12345",
-=======
-    "apellido": "jiji",
-    "sueldo": 1200,
-    "id": 1,
-    "nombre": "jeje",
-    "dni": "9",
->>>>>>> Stashed changes
-    "numeroVentas": 0,
+    "nombre": "a",
+    "dni": "c",
     "activo": true
 }]

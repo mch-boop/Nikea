@@ -35,8 +35,7 @@ public class VistaAltaDescuento extends JFrame implements IGUI {
 
 	// ATRIBUTOS
 	
-	private JTextField txtCodigo, txtPorcentaje;
-	private JTextArea txtDescripcion;
+	private JTextField txtCodigo, txtPorcentaje, txtNombre;
 	private JSpinner importeMin, productosMin;
 	private JRadioButton rbImporte, rbProductos;
 	private JButton btnAceptar, btnCancelar; 
@@ -52,9 +51,10 @@ public class VistaAltaDescuento extends JFrame implements IGUI {
 	// MÉTODOS
 	
 	private void limpiarCampos() {
+		
 		txtCodigo.setText("");
 		txtPorcentaje.setText("");
-		txtDescripcion.setText("");
+		txtNombre.setText("");
 
 	    if (importeMin != null) {
 	        importeMin.setValue(100.0);
@@ -87,7 +87,7 @@ public class VistaAltaDescuento extends JFrame implements IGUI {
 	    // Campos
 	    txtCodigo = new JTextField(20);
 	    txtPorcentaje = new JTextField(20);
-	    txtDescripcion = new JTextArea(3, 20);
+	    txtNombre = new JTextField(20);
 
 	    // Spinners
 	    SpinnerNumberModel importeModel = new SpinnerNumberModel(100.0, 0.0, null, 10.0);
@@ -147,24 +147,18 @@ public class VistaAltaDescuento extends JFrame implements IGUI {
 	    GridBagConstraints gbc = new GridBagConstraints();
 	    gbc.fill = GridBagConstraints.HORIZONTAL;
 	    gbc.insets = new Insets(5, 5, 5, 5);
-
-	    // Código
-	    gbc.gridx = 0; gbc.gridy = 0;
-	    formPanel.add(new JLabel("Código:"), gbc);
+	    
+	    // Nombre
+	    gbc.gridx = 0; gbc.gridy = 1;
+	    formPanel.add(new JLabel("Nombre:"), gbc);
 	    gbc.gridx = 1;
-	    formPanel.add(txtCodigo, gbc);
+	    formPanel.add(txtNombre, gbc);
 
 	    // Porcentaje
-	    gbc.gridx = 0; gbc.gridy = 1;
+	    gbc.gridx = 0; gbc.gridy = 2;
 	    formPanel.add(new JLabel("Porcentaje:"), gbc);
 	    gbc.gridx = 1;
 	    formPanel.add(txtPorcentaje, gbc);
-
-	    // Descripción
-	    gbc.gridx = 0; gbc.gridy = 2;
-	    formPanel.add(new JLabel("Descripción:"), gbc);
-	    gbc.gridx = 1;
-	    formPanel.add(txtDescripcion, gbc);
 
 	    // Condición (única fila)
 	    gbc.gridx = 0; gbc.gridy = 3;
@@ -183,11 +177,7 @@ public class VistaAltaDescuento extends JFrame implements IGUI {
 	    // Acción aceptar
 	    btnAceptar.addActionListener(e -> {
 	        try {
-	            if (txtCodigo.getText().trim().isEmpty()) {
-	                JOptionPane.showMessageDialog(null, "Código obligatorio");
-	                return;
-	            }
-
+	            
 	            if (txtPorcentaje.getText().trim().isEmpty()) {
 	                JOptionPane.showMessageDialog(null, "Porcentaje obligatorio");
 	                return;
@@ -198,7 +188,7 @@ public class VistaAltaDescuento extends JFrame implements IGUI {
 
 	            td.setCodigo(txtCodigo.getText());
 	            td.setPorcentaje(txtPorcentaje.getText());
-	            td.setDescripcion(txtDescripcion.getText());
+	            td.setNombre(txtNombre.getText());
 
 	            if (esImporte) {
 	                td.setImporteMin((Double) importeMin.getValue());

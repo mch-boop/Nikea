@@ -8,18 +8,19 @@ public class TDescuento {
 		// TODO Auto-generated constructor stub
 	}
 	private int idDescuento;
+	private int porcentaje;
 	private String nombre;
-	private String porcentaje;
+	
 	private boolean activo;
-	public void setCodigo(String text) {
-		// TODO Auto-generated method stub
-		
+	
+	public void setCodigo(String id) {
+		this.idDescuento = Integer.parseInt(id);
 	}
 	public void setPorcentaje(String text) {
-		// TODO Auto-generated method stub
+		this.porcentaje = Integer.parseInt(text);
 		
 	}
-	public void setDescripcion(String text) {
+	public void setNombre(String text) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -31,6 +32,26 @@ public class TDescuento {
 		// TODO Auto-generated method stub
 		
 	}
+	public int getCodigo(String text) {
+		return idDescuento;
+	}
+	public void getPorcentaje(String text) {
+		// TODO Auto-generated method stub
+		
+	}
+	public void getNombre(String text) {
+		// TODO Auto-generated method stub
+		
+	}
+	public void getImporteMin(Double value) {
+		// TODO Auto-generated method stub
+		
+	}
+	public void getProductosMin(Integer value) {
+		// TODO Auto-generated method stub
+		
+	}
+	
 	
 	// MÉTODOS
 	
