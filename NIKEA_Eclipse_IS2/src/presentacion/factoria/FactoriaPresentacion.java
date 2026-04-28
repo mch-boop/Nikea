@@ -50,6 +50,8 @@ public class FactoriaPresentacion extends FactoriaAbstractaPresentacion {
 		
 	private static VistaAltaDescuento vistaAltaDescuento;
 	private static VistaMostrarDescuentos VistaMostrarDescuentos;
+	private static VistaBajaDescuento vistaBajaDescuento;
+
 	
 	// ATRIBUTOS PARA SINGLETON (SERVICIO)
 	/*
@@ -200,6 +202,11 @@ public class FactoriaPresentacion extends FactoriaAbstractaPresentacion {
 			        VistaMostrarDescuentos = new VistaMostrarDescuentos();
 			    }
 			    return VistaMostrarDescuentos;
+			case Eventos.BAJA_DESCUENTO:
+				if(vistaBajaDescuento == null) {
+					vistaBajaDescuento = new VistaBajaDescuento();
+				}
+				return vistaBajaDescuento;
 			// VISTAS DE SERVICIO
 				/*
 			case Eventos.ALTA_SERVICIO:

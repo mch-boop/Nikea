@@ -141,9 +141,12 @@ public class Eventos {
     public static final int RES_MOSTRAR_DESCUENTOS_KO = 4020;
     
     public static final int BAJA_DESCUENTO = 404;
+    public static final int RES_BAJA_DESCUENTO_OK = 4041;
+    public static final int RES_BAJA_DESCUENTO_KO = 4040;
     public static final int MODIFICAR_DESCUENTO = 403;
-        public static final int BUSCAR_DESCUENTO = 405;
+    public static final int BUSCAR_DESCUENTO = 405;
     public static final int ANADIR_DESCUENTO = 406;
+    
     
     
 	

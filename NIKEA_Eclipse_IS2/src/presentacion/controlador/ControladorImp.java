@@ -457,7 +457,18 @@ public class ControladorImp extends Controlador {
 			    break;
 			}
 			
-			
+			case Eventos.BAJA_DESCUENTO: {			    
+			    int id = (int) datos;
+			    SADescuento saDescuento = FactoriaAbstractaNegocio.getInstance().crearSADescuento();
+			    int res = saDescuento.delete(id);			  
+			    IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(evento);
+			    if (res >= 0) {
+			        vista.actualizar(Eventos.RES_BAJA_DESCUENTO_OK, res);
+			    } else {
+			        vista.actualizar(Eventos.RES_BAJA_DESCUENTO_KO, res);
+			    }
+			    break;
+			}
 			
 						
 			
