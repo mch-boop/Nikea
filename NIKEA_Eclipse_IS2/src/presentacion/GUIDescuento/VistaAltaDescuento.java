@@ -5,8 +5,6 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -18,208 +16,192 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 
 import negocio.descuento.TDescuento;
-import negocio.empleado.TEmpleado;
-import negocio.empleado.TMontador;
-import negocio.empleado.TVendedor;
 import presentacion.IGUI;
 import presentacion.controlador.Controlador;
 import presentacion.controlador.Eventos;
 
+@SuppressWarnings("serial")
 public class VistaAltaDescuento extends JFrame implements IGUI {
 
-	// ATRIBUTOS
-	
-	private JTextField txtCodigo, txtPorcentaje, txtNombre;
-	private JSpinner importeMin, productosMin;
-	private JRadioButton rbImporte, rbProductos;
-	private JButton btnAceptar, btnCancelar; 
-	
-	// CONSTRUCTORA
-	
-	public VistaAltaDescuento() {
-		setTitle("Alta descuento");
-		initGUI();	
-	}
+    // ATRIBUTOS
+    private JTextField txtCodigo, txtDescuento;
+    private JTextArea areaDescripcion;
+    private JSpinner importeMin, productosMin;
+    private JRadioButton rbImporte, rbProductos;
+    private JButton btnAceptar, btnCancelar; 
 
-
-	// MÉTODOS
-	
-	private void limpiarCampos() {
-		
-		txtCodigo.setText("");
-		txtPorcentaje.setText("");
-		txtNombre.setText("");
-
-	    if (importeMin != null) {
-	        importeMin.setValue(100.0);
-	    }
-
-	    if (productosMin != null) {
-	    	productosMin.setValue(10);
-	    }
-	    
-	    if (rbImporte != null) {
-	    	rbImporte.setSelected(true);
-	    }
-	    
-	    if (rbProductos != null) {
-	    	rbProductos.setSelected(false);
-	    }
-
-	    txtCodigo.requestFocus();
-	    repaint();
-	    revalidate();
+    // CONSTRUCTORA
+    public VistaAltaDescuento() {
+        setTitle("Alta Descuento");
+        initGUI();    
     }
-	
-	
-	private void initGUI() {
 
-	    JPanel mainPanel = new JPanel();
-	    mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
-	    mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+    // MÉTODOS
+    private void limpiarCampos() {
+        txtCodigo.setText("");
+        areaDescripcion.setText("");
+        txtDescuento.setText("");
 
-	    // Campos
-	    txtCodigo = new JTextField(20);
-	    txtPorcentaje = new JTextField(20);
-	    txtNombre = new JTextField(20);
+        if (importeMin != null) importeMin.setValue(100.0);
+        if (productosMin != null) productosMin.setValue(10);
+        if (rbImporte != null) rbImporte.setSelected(true);
+        
+        txtCodigo.requestFocus();
+    }
 
-	    // Spinners
-	    SpinnerNumberModel importeModel = new SpinnerNumberModel(100.0, 0.0, null, 10.0);
-	    importeMin = new JSpinner(importeModel);
-	    importeMin.setPreferredSize(new Dimension(120, 25));
+    private void initGUI() {
+        JPanel mainPanel = new JPanel();
+        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+        mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
-	    SpinnerNumberModel productosModel = new SpinnerNumberModel(10, 0, null, 1);
-	    productosMin = new JSpinner(productosModel);
-	    productosMin.setPreferredSize(new Dimension(120, 25));
+        //CODIGO
+        txtCodigo = new JTextField(20);
 
-	    // RadioButtons
-	    rbImporte = new JRadioButton("Por importe", true);
-	    rbProductos = new JRadioButton("Por número de productos");
+        //DESCRIPCION
+        areaDescripcion = new JTextArea(3, 20);
+        areaDescripcion.setLineWrap(true);
+        areaDescripcion.setWrapStyleWord(true);
+        JScrollPane scrollDesc = new JScrollPane(areaDescripcion);
 
-	    ButtonGroup group = new ButtonGroup();
-	    group.add(rbImporte);
-	    group.add(rbProductos);
+        //DESCUENTO
+        txtDescuento = new JTextField(20);
 
-	    JPanel panelRadio = new JPanel();
-	    panelRadio.add(new JLabel("Tipo de Descuento: "));
-	    panelRadio.add(rbImporte);
-	    panelRadio.add(rbProductos);
+        //DINAMICO (Cantidad/Importe)
+        SpinnerNumberModel importeModel = new SpinnerNumberModel(100.0, 0.0, null, 10.0);
+        importeMin = new JSpinner(importeModel);
+        ((JSpinner.NumberEditor)importeMin.getEditor()).getTextField().setColumns(10);
+        
+        SpinnerNumberModel productosModel = new SpinnerNumberModel(10, 0, null, 1);
+        productosMin = new JSpinner(productosModel);
+        ((JSpinner.NumberEditor)productosMin.getEditor()).getTextField().setColumns(10);
 
-	    // Card Layout
-	    JPanel panelDinamico = new JPanel(new CardLayout());
+        JPanel panelDinamico = new JPanel(new CardLayout());
+        
+        JPanel cardImporte = new JPanel();
+        cardImporte.add(new JLabel("Importe mínimo (€):"));
+        cardImporte.add(importeMin);
 
-	    JPanel cardImporte = new JPanel();
-	    cardImporte.add(new JLabel("Importe mínimo:"));
-	    cardImporte.add(importeMin);
+        JPanel cardProductos = new JPanel();
+        cardProductos.add(new JLabel("Productos mínimos (uds):"));
+        cardProductos.add(productosMin);
 
-	    JPanel cardProductos = new JPanel();
-	    cardProductos.add(new JLabel("Productos mínimos:"));
-	    cardProductos.add(productosMin);
+        panelDinamico.add(cardImporte, "IMPORTE");
+        panelDinamico.add(cardProductos, "PRODUCTOS");
 
-	    panelDinamico.add(cardImporte, "IMPORTE");
-	    panelDinamico.add(cardProductos, "PRODUCTOS");
+        //TIPO
+        rbImporte = new JRadioButton("Por importe", true);
+        rbProductos = new JRadioButton("Por cantidad");
+        ButtonGroup group = new ButtonGroup();
+        group.add(rbImporte);
+        group.add(rbProductos);
 
-	    // Fijar tamaño
-	    Dimension d1 = cardImporte.getPreferredSize();
-	    Dimension d2 = cardProductos.getPreferredSize();
-	    int width = Math.max(d1.width, d2.width);
-	    int height = Math.max(d1.height, d2.height);
+        CardLayout cl = (CardLayout) panelDinamico.getLayout();
+        rbImporte.addActionListener(e -> cl.show(panelDinamico, "IMPORTE"));
+        rbProductos.addActionListener(e -> cl.show(panelDinamico, "PRODUCTOS"));
 
-	    Dimension fixed = new Dimension(width, height);
-	    panelDinamico.setPreferredSize(fixed);
-	    panelDinamico.setMinimumSize(fixed);
-	    panelDinamico.setMaximumSize(fixed);
+        // --- ORDEN ---
+        JPanel formPanel = new JPanel(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.insets = new Insets(5, 5, 5, 5);
+        gbc.anchor = GridBagConstraints.NORTHWEST;
 
-	    // Listener radios
-	    CardLayout cl = (CardLayout) panelDinamico.getLayout();
+        // Codigo
+        gbc.gridx = 0; gbc.gridy = 0;
+        formPanel.add(new JLabel("Código:"), gbc);
+        gbc.gridx = 1;
+        formPanel.add(txtCodigo, gbc);
 
-	    rbImporte.addActionListener(e -> cl.show(panelDinamico, "IMPORTE"));
-	    rbProductos.addActionListener(e -> cl.show(panelDinamico, "PRODUCTOS"));
+        // escripción
+        gbc.gridx = 0; gbc.gridy = 1;
+        formPanel.add(new JLabel("Descripción:"), gbc);
+        gbc.gridx = 1;
+        formPanel.add(scrollDesc, gbc);
 
-	    // ALINEACIÓN
-	    JPanel formPanel = new JPanel(new GridBagLayout());
-	    GridBagConstraints gbc = new GridBagConstraints();
-	    gbc.fill = GridBagConstraints.HORIZONTAL;
-	    gbc.insets = new Insets(5, 5, 5, 5);
-	    
-	    // Nombre
-	    gbc.gridx = 0; gbc.gridy = 1;
-	    formPanel.add(new JLabel("Nombre:"), gbc);
-	    gbc.gridx = 1;
-	    formPanel.add(txtNombre, gbc);
+        // Descuento
+        gbc.gridx = 0; gbc.gridy = 2;
+        formPanel.add(new JLabel("Descuento (%):"), gbc);
+        gbc.gridx = 1;
+        formPanel.add(txtDescuento, gbc);
 
-	    // Porcentaje
-	    gbc.gridx = 0; gbc.gridy = 2;
-	    formPanel.add(new JLabel("Porcentaje:"), gbc);
-	    gbc.gridx = 1;
-	    formPanel.add(txtPorcentaje, gbc);
+        // Tipo
+        JPanel panelRadioCheck = new JPanel();
+        panelRadioCheck.add(rbImporte);
+        panelRadioCheck.add(rbProductos);
+        
+        gbc.gridx = 0; gbc.gridy = 3;
+        formPanel.add(new JLabel("Tipo:"), gbc);
+        gbc.gridx = 1;
+        formPanel.add(panelRadioCheck, gbc);
 
-	    // Condición (única fila)
-	    gbc.gridx = 0; gbc.gridy = 3;
-	    formPanel.add(new JLabel("Tipo:"), gbc);
-	    gbc.gridx = 1;
-	    formPanel.add(panelDinamico, gbc);
+        // Cambia
+        gbc.gridx = 0; gbc.gridy = 4;
+        formPanel.add(new JLabel("Condición:"), gbc);
+        gbc.gridx = 1;
+        formPanel.add(panelDinamico, gbc);
 
-	    // Botones
-	    JPanel panelBotones = new JPanel();
-	    btnAceptar = new JButton("ACEPTAR");
-	    btnCancelar = new JButton("CANCELAR");
+        // BOTONES
+        JPanel panelBotones = new JPanel();
+        btnAceptar = new JButton("ACEPTAR");
+        btnCancelar = new JButton("CANCELAR");
+        panelBotones.add(btnAceptar);
+        panelBotones.add(btnCancelar);
 
-	    panelBotones.add(btnAceptar);
-	    panelBotones.add(btnCancelar);
+        btnCancelar.addActionListener(e -> {
+            limpiarCampos();
+            setVisible(false);
+        });
 
-	    // Acción aceptar
-	    btnAceptar.addActionListener(e -> {
-	        try {
-	            
-	            if (txtPorcentaje.getText().trim().isEmpty()) {
-	                JOptionPane.showMessageDialog(null, "Porcentaje obligatorio");
-	                return;
-	            }
+        btnAceptar.addActionListener(e -> {
+            try {
+                if (txtCodigo.getText().isEmpty() || txtDescuento.getText().isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Código y Descuento son obligatorios");
+                    return;
+                }
 
-	            boolean esImporte = rbImporte.isSelected();
-	            TDescuento td = new TDescuento(esImporte);
+                boolean esImporte = rbImporte.isSelected();
+                TDescuento td = new TDescuento(esImporte);
 
-	            td.setCodigo(txtCodigo.getText());
-	            td.setPorcentaje(txtPorcentaje.getText());
-	            td.setNombre(txtNombre.getText());
+                td.setCodigo(txtCodigo.getText());
+                td.setNombre(areaDescripcion.getText()); // Usamos descripción aquí
+                td.setPorcentaje(Integer.parseInt(txtDescuento.getText())); // Parseo a Int
 
-	            if (esImporte) {
-	                td.setImporteMin((Double) importeMin.getValue());
-	            } else {
-	                td.setProductosMin((Integer) productosMin.getValue());
-	            }
+                if (esImporte) {
+                    td.setImporteMin((Double) importeMin.getValue());
+                } else {
+                    td.setProductosMin((Integer) productosMin.getValue());
+                }
 
-	            Controlador.getInstance().accion(Eventos.ALTA_DESCUENTO, td);
+                Controlador.getInstance().accion(Eventos.ALTA_DESCUENTO, td);
+                limpiarCampos();
 
-	        } catch (Exception ex) {
-	            JOptionPane.showMessageDialog(null, "Error en los datos");
-	        }
-	    });
+            } catch (NumberFormatException nfe) {
+                JOptionPane.showMessageDialog(null, "El descuento debe ser un número entero");
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, "Error en los datos: " + ex.getMessage());
+            }
+        });
 
-	    // Añadir elementos
-	    mainPanel.add(formPanel);
-	    mainPanel.add(Box.createRigidArea(new Dimension(0, 10)));
-	    mainPanel.add(panelRadio);
-	    mainPanel.add(Box.createRigidArea(new Dimension(0, 10)));
-	    mainPanel.add(panelBotones);
+        // Ensamblar todo
+        mainPanel.add(formPanel);
+        mainPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+        mainPanel.add(panelBotones);
 
-	    setContentPane(mainPanel);
-	    pack();
-	    setResizable(false);
-	    setLocationRelativeTo(null);
-	}
-	
-	@Override
-	public void actualizar(int evento, Object datos) {
-		// TODO Auto-generated method stub
-		
-	}
+        setContentPane(mainPanel);
+        pack();
+        setResizable(false);
+        setLocationRelativeTo(null);
+    }
 
+    @Override
+    public void actualizar(int evento, Object datos) {
+        // Lógica de respuesta tras el evento
+    }
 }
