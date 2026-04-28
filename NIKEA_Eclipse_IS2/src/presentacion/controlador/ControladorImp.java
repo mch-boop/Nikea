@@ -6,6 +6,8 @@ import javax.swing.JFrame;
 
 import negocio.cliente.SACliente;
 import negocio.cliente.TCliente;
+import negocio.descuento.SADescuento;
+import negocio.descuento.TDescuento;
 import negocio.empleado.SAEmpleado;
 import negocio.empleado.TEmpleado;
 import negocio.factoria.FactoriaAbstractaNegocio;
@@ -389,7 +391,63 @@ public class ControladorImp extends Controlador {
 			
 			
 			// EVENTOS DE DESCUENTO
+
+			case Eventos.ALTA_DESCUENTO: {
+			    TDescuento tDescuento = (TDescuento) datos;
+			    SADescuento saDescuento = FactoriaAbstractaNegocio.getInstance().crearSADescuento();
+
+			    int res = saDescuento.create(tDescuento);
+
+			    IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(evento);
+
+			    if (res > 0) {
+			        vista.actualizar(Eventos.RES_ALTA_DESCUENTO_OK, res);
+			    } else {
+			        switch (res) {
+			            case -1: // Ya existe y está activo
+			                vista.actualizar(Eventos.RES_ALTA_DESCUENTO_YA_EXISTE, saDescuento.getUltimoDuplicado());
+			                break;
+
+			            case -2: // Existe inactivo con datos distintos → pedir confirmación
+			                vista.actualizar(Eventos.RES_ALTA_DESCUENTO_CONFIRMAR_REACTIVACION, saDescuento.getUltimoDuplicado());
+			                break;
+
+			            case -3: // Código inválido
+			                vista.actualizar(Eventos.RES_ALTA_DESCUENTO_KO_CODIGO, tDescuento);
+			                break;
+
+			            case -4: // Porcentaje inválido
+			                vista.actualizar(Eventos.RES_ALTA_DESCUENTO_KO_PORCENTAJE, tDescuento);
+			                break;
+
+			            default: // Error genérico
+			                vista.actualizar(Eventos.RES_ALTA_DESCUENTO_KO, res);
+			                break;
+			        }
+			    }
+			    break;
+			}
+
+			case Eventos.REACTIVAR_DESCUENTO: {
+			    TDescuento tDescuento = (TDescuento) datos;
+			    SADescuento saDescuento = FactoriaAbstractaNegocio.getInstance().crearSADescuento();
+
+			    int res = saDescuento.reactivate(tDescuento);
+
+			    IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.ALTA_DESCUENTO);
+			    if (res > 0) {
+			        vista.actualizar(Eventos.RES_ALTA_DESCUENTO_OK, res);
+			    } else {
+			        vista.actualizar(Eventos.RES_ALTA_DESCUENTO_KO, res);
+			    }
+			    break;
+			}
 			
+			
+			
+						
+			
+			//DEFAULT			
 			default:
 				System.err.println("Evento no reconocido: " + evento);
 				break;

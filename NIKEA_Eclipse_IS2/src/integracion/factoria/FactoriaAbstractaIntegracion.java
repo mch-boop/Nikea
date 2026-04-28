@@ -27,10 +27,10 @@ public abstract class FactoriaAbstractaIntegracion {
     public abstract DAODescuento crearDAODescuento();
     public abstract DAOFactura crearDAOFactura();
     public abstract DAOMontadorMontaje crearDAOMontadorMontaje();
-<<<<<<< HEAD
+
 
 	public abstract DAOServicio crearDAOServicio();
-=======
+
     public abstract DAOLineaFactura crearDAOLineaFactura();
->>>>>>> 302309857f4aca9c9ac3e3afa91bfbab26e8d6ea
+
 }

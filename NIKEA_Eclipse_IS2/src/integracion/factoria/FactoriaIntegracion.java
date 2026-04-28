@@ -55,17 +55,15 @@ public class FactoriaIntegracion extends FactoriaAbstractaIntegracion {
 	public DAOFactura crearDAOFactura() {
 		return new DAOFacturaImp();
 	}
-<<<<<<< HEAD
 
 	@Override
 	public DAOServicio crearDAOServicio() {
 		// TODO Auto-generated method stub
 		return new DAOServicioImp();
-=======
+	}
 	
 	@Override
 	public DAOLineaFactura crearDAOLineaFactura() {
 	    return new DAOLineaFacturaImp();
->>>>>>> 302309857f4aca9c9ac3e3afa91bfbab26e8d6ea
 	}
 }
