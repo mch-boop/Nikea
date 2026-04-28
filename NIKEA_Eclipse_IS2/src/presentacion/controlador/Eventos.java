@@ -140,11 +140,24 @@ public class Eventos {
     public static final int RES_MOSTRAR_DESCUENTOS = 4021;
     public static final int RES_MOSTRAR_DESCUENTOS_KO = 4020;
     
+    public static final int MODIFICAR_DESCUENTO = 403;
+    public static final int CARGAR_DESCUENTO_MODIFICAR = 4032;
+    public static final int RES_CARGAR_DESCUENTO_MOD_OK = 40321;
+    public static final int RES_CARGAR_DESCUENTO_MOD_KO = 40320;
+    public static final int RES_MODIFICAR_DESCUENTO_OK = 4031;
+    public static final int RES_MODIFICAR_DESCUENTO_KO = 4030;
+    public static final int RES_MODIFICAR_DESCUENTO_NO_ENCONTRADO = 40301;
+    public static final int RES_MODIFICAR_DESCUENTO_KO_CODIGO = 40302;
+    public static final int RES_MODIFICAR_DESCUENTO_KO_PORCENTAJE = 40303;
+    
     public static final int BAJA_DESCUENTO = 404;
     public static final int RES_BAJA_DESCUENTO_OK = 4041;
     public static final int RES_BAJA_DESCUENTO_KO = 4040;
-    public static final int MODIFICAR_DESCUENTO = 403;
+            
     public static final int BUSCAR_DESCUENTO = 405;
+    public static final int RES_BUSCAR_DESCUENTO_OK = 4051;
+    public static final int RES_BUSCAR_DESCUENTO_KO = 4050;
+    
     public static final int ANADIR_DESCUENTO = 406;
     
     
