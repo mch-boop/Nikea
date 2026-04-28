@@ -1,0 +1,92 @@
+[
+    {
+        "listaArticulos": [],
+        "especialidades": [
+            "MUEBLES",
+            "ELECTRODOMESTICOS"
+        ],
+        "idMarca": 1,
+        "nombre": "Nokia",
+        "activo": false
+    },
+    {
+        "listaArticulos": [],
+        "especialidades": [],
+        "idMarca": 2,
+        "nombre": "Nivea",
+        "activo": false
+    },
+    {
+        "listaArticulos": [],
+        "especialidades": [],
+        "idMarca": 3,
+        "nombre": "Ikea",
+        "activo": true
+    },
+    {
+        "listaArticulos": [],
+        "especialidades": ["ELECTRODOMESTICOS"],
+        "idMarca": 4,
+        "nombre": "Modificada",
+        "activo": true
+    },
+    {
+        "listaArticulos": [],
+        "especialidades": [
+            "ILUMINACION",
+            "DECORACION"
+        ],
+        "idMarca": 5,
+        "nombre": "Nikea",
+        "activo": true
+    },
+    {
+        "listaArticulos": [],
+        "especialidades": [
+            "MUEBLES",
+            "ILUMINACION",
+            "ELECTRODOMESTICOS"
+        ],
+        "idMarca": 6,
+        "nombre": "Marca interesantísima",
+        "activo": true
+    },
+    {
+        "listaArticulos": [],
+        "especialidades": [
+            "TECNOLOGIA",
+            "MUEBLES",
+            "DECORACION"
+        ],
+        "idMarca": 7,
+        "nombre": "Algo",
+        "activo": true
+    },
+    {
+        "listaArticulos": [],
+        "especialidades": [
+            "ILUMINACION",
+            "OTROS",
+            "MUEBLES"
+        ],
+        "idMarca": 8,
+        "nombre": "UCM",
+        "activo": true
+    },
+    {
+        "listaArticulos": [],
+        "especialidades": [
+            "JARDIN_EXTERIOR",
+            "DECORACION",
+            "ELECTRODOMESTICOS",
+            "TECNOLOGIA",
+            "ILUMINACION",
+            "OFICINA",
+            "OTROS",
+            "MUEBLES"
+        ],
+        "idMarca": 9,
+        "nombre": "Polivalente",
+        "activo": true
+    }
+]

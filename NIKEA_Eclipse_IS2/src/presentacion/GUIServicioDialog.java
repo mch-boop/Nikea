@@ -12,7 +12,6 @@ public class GUIServicioDialog extends JDialog {
 
     public GUIServicioDialog(JFrame owner) {
         super(owner, "Gestión de Servicios", false);
-        // Evita que el usuario pueda cambiar el tamaño del diálogo
         setResizable(false); 
         initGUI();
         pack();
@@ -79,37 +78,37 @@ public class GUIServicioDialog extends JDialog {
         // Listeners
         
         btnAlta.addActionListener(e -> {
-            IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.ALTA_EMPLEADO);
+            IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.ALTA_SERVICIO);
             ((JFrame) vista).setVisible(true);
         });
 
         btnBaja.addActionListener(e -> {
-            IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.BAJA_EMPLEADO);
+            IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.BAJA_SERVICIO);
             ((JFrame) vista).setVisible(true);
         });
 
         btnMostrar.addActionListener(e -> {
-            IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.MODIFICAR_EMPLEADO);
+            IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.MOSTRAR_SERVICIOS);
             ((JFrame) vista).setVisible(true);
         });
 
         btnBuscar.addActionListener(e -> {
-            IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.BUSCAR_EMPLEADO);
+            IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.BUSCAR_SERVICIO);
             ((JFrame) vista).setVisible(true);
         });
 
         btnMejor.addActionListener(e -> { 
-            IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.MOSTRAR_EMPLEADOS);
+            IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.MOSTRAR_MEJOR_ARTICULO);
             ((JFrame) vista).setVisible(true);
         });
         
         btnModificar.addActionListener(e -> { 
-            IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.MOSTRAR_EMPLEADOS);
+            IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.MODIFICAR_SERVICIO);
             ((JFrame) vista).setVisible(true);
         });
         
         btnOrganizar.addActionListener(e -> { 
-            IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.MOSTRAR_EMPLEADOS);
+            IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.ORGANIZAR_MONTAJE);
             ((JFrame) vista).setVisible(true);
         });
     }

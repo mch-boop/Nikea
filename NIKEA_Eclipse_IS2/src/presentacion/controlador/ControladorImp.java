@@ -2,11 +2,17 @@ package presentacion.controlador;
 
 import java.util.Collection;
 
+import javax.swing.JFrame;
+
 import negocio.cliente.SACliente;
 import negocio.cliente.TCliente;
+import negocio.descuento.SADescuento;
+import negocio.descuento.TDescuento;
 import negocio.empleado.SAEmpleado;
 import negocio.empleado.TEmpleado;
 import negocio.factoria.FactoriaAbstractaNegocio;
+import negocio.servicio.SAServicio;
+import negocio.servicio.TServicio;
 import presentacion.IGUI;
 import presentacion.factoria.FactoriaAbstractaPresentacion;
 
@@ -19,85 +25,291 @@ public class ControladorImp extends Controlador {
 			// EVENTOS DE CLIENTE
 		
 			case Eventos.ALTA_CLIENTE: {
-				TCliente tCliente = (TCliente) datos;
-				SACliente saCli = FactoriaAbstractaNegocio.getInstance().crearSACliente();
-				int res = saCli.create(tCliente); //saCli usaría el DAO de Clientes
+			    TCliente tCliente = (TCliente) datos;
+			    SACliente saCli = FactoriaAbstractaNegocio.getInstance().crearSACliente();
+			    int res = saCli.create(tCliente);
 	
-				//Según el valor de res, se actualiza la vista de una manera u otra.
-				//Si todo OK el aspecto es este (faltaría el else):
-				FactoriaAbstractaPresentacion.getInstance().createVista(evento).actualizar(Eventos.RES_ALTA_CLIENTE_OK, res);
-				//mostraría una ventana semipreparada informando
-				//...
-				break;
-			} 
+			    IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(evento);
+	
+			    if (res > 0) {
+			        vista.actualizar(Eventos.RES_ALTA_CLIENTE_OK, res);
+			    } else {
+			        vista.actualizar(Eventos.RES_ALTA_CLIENTE_KO, tCliente);
+			    }
+	
+			    break;
+			}
+			
+			case Eventos.BAJA_CLIENTE: {
+			    Integer id = (Integer) datos;
+			    SACliente saCli = FactoriaAbstractaNegocio.getInstance().crearSACliente();
+			    TCliente cli = saCli.read(id);
+
+			    IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.BAJA_CLIENTE);
+
+			    if (cli == null) {
+			        vista.actualizar(Eventos.RES_BAJA_CLIENTE_KO_NO_EXISTE, id);
+			    } else if (!cli.isActivo()) {
+			        vista.actualizar(Eventos.RES_BAJA_CLIENTE_KO_YA_INACTIVO, id);
+			    } else {
+			        vista.actualizar(Eventos.RES_BAJA_CLIENTE_OK, cli);
+			    }
+
+			    break;
+			}
+			
+			case Eventos.MODIFICAR_CLIENTE: {
+			    TCliente tCliente = (TCliente) datos;
+			    SACliente saCli = FactoriaAbstractaNegocio.getInstance().crearSACliente();
+			    int res = saCli.update(tCliente);
+
+			    IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.MODIFICAR_CLIENTE);
+
+			    if (res > 0) {
+			        vista.actualizar(Eventos.RES_MODIFICAR_CLIENTE_OK, res);
+			    } else if (res == -1) {
+			        vista.actualizar(Eventos.RES_MODIFICAR_CLIENTE_KO_NO_EXISTE, tCliente);
+			    } else {
+			        vista.actualizar(Eventos.RES_MODIFICAR_CLIENTE_KO_DATOS_INVALIDOS, tCliente);
+			    }
+
+			    break;
+			}
+			
+			case Eventos.BUSCAR_CLIENTE: {
+			    Integer id = (Integer) datos;
+			    SACliente saCli = FactoriaAbstractaNegocio.getInstance().crearSACliente();
+			    TCliente cli = saCli.read(id);
+
+			    IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.BUSCAR_CLIENTE);
+
+			    if (cli != null && cli.isActivo()) {
+			        vista.actualizar(Eventos.RES_BUSCAR_CLIENTE_OK, cli);
+			    } else {
+			        vista.actualizar(Eventos.RES_BUSCAR_CLIENTE_KO, id);
+			    }
+
+			    ((JFrame) vista).setVisible(true);
+			    break;
+			}
+			
+			case Eventos.MOSTRAR_CLIENTES: {
+			    SACliente saCli = FactoriaAbstractaNegocio.getInstance().crearSACliente();
+			    Collection<TCliente> clientes = saCli.readAll();
+
+			    IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(evento);
+
+			    if (clientes != null && !clientes.isEmpty()) {
+			        vista.actualizar(Eventos.RES_MOSTRAR_CLIENTES_OK, clientes);
+			    } else {
+			        vista.actualizar(Eventos.RES_MOSTRAR_CLIENTES_KO, null);
+			    }
+
+			    break;
+			}
+			
+			case Eventos.BUSCAR_CLIENTE_PARA_MODIFICAR: {
+			    Integer id = (Integer) datos;
+			    SACliente saCli = FactoriaAbstractaNegocio.getInstance().crearSACliente();
+			    TCliente cli = saCli.read(id);
+
+			    IGUI vistaBuscar = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.BUSCAR_CLIENTE_PARA_MODIFICAR);
+			    IGUI vistaModificar = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.MODIFICAR_CLIENTE);
+
+			    if (cli != null && cli.isActivo()) {
+			        ((JFrame) vistaBuscar).setVisible(false);
+			        vistaModificar.actualizar(Eventos.RES_BUSCAR_CLIENTE_PARA_MODIFICAR_OK, cli);
+
+			        ((JFrame) vistaModificar).setVisible(true);
+			        ((JFrame) vistaModificar).toFront();
+			    } else {
+			        vistaBuscar.actualizar(Eventos.RES_BUSCAR_CLIENTE_PARA_MODIFICAR_KO, id);
+			    }
+
+			    break;
+			}
+			case Eventos.MOSTRAR_MEJOR_CLIENTE: {
+				
+			}
 			
 			// EVENTOS DE FACTURA
 			
 			// EVENTOS DE SERVICIO
+			case Eventos.ALTA_SERVICIO: {
+				TServicio tServicio = (TServicio) datos;
+				SAServicio saServicio = FactoriaAbstractaNegocio.getInstance().crearSAServicio();
+				int res = saServicio.create(tServicio);
+
+				IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(evento);
+
+				if (res > 0) {
+					vista.actualizar(Eventos.RES_ALTA_SERVICIO_OK, res);
+				} else if (res == -1 || res == -100 || res == -2 || res == -3 || res == -300) {
+					vista.actualizar(Eventos.RES_ALTA_SERVICIO_YA_EXISTE, saServicio.getUltimoDuplicado());
+				} else {
+					vista.actualizar(Eventos.RES_ALTA_SERVICIO_KO, tServicio);
+				}
+				break;
+			}
+			case Eventos.BAJA_SERVICIO: {
+				Integer id = (Integer) datos;
+				SAServicio saServicio = FactoriaAbstractaNegocio.getInstance().crearSAServicio();
+				TServicio servicio = saServicio.read(id);
+
+				IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(evento);
+
+				if (servicio == null) {
+					vista.actualizar(Eventos.RES_BAJA_SERVICIO_KO_NO_EXISTE, id);
+				} else if (!servicio.isActivo()) {
+					vista.actualizar(Eventos.RES_BAJA_SERVICIO_KO, id);
+				} else {
+					vista.actualizar(Eventos.RES_BAJA_SERVICIO_OK, servicio);
+				}
+				break;
+			}
+
+			case Eventos.CONFIRMAR_BAJA_SERVICIO: {
+				Integer id = (Integer) datos;
+				SAServicio saServicio = FactoriaAbstractaNegocio.getInstance().crearSAServicio();
+				int res = saServicio.delete(id);
+
+				IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.BAJA_SERVICIO);
+				if (res > 0) {
+					vista.actualizar(Eventos.RES_BAJA_SERVICIO_CONFIRMADA, id);
+				} else {
+					vista.actualizar(Eventos.RES_BAJA_SERVICIO_KO, id);
+				}
+				break;
+			}
+
+			case Eventos.MOSTRAR_SERVICIOS: {
+				SAServicio saServicio = FactoriaAbstractaNegocio.getInstance().crearSAServicio();
+				Collection<TServicio> servicios = saServicio.readAll();
+
+				IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(evento);
+
+				if (servicios != null && !servicios.isEmpty()) {
+					vista.actualizar(Eventos.RES_MOSTRAR_SERVICIOS_OK, servicios);
+				} else {
+					vista.actualizar(Eventos.RES_MOSTRAR_SERVICIOS_KO, null);
+				}
+
+				break;
+			}
 			
 			// EVENTOS DE EMPLEADO
 			
 			case Eventos.ALTA_EMPLEADO: {
 				TEmpleado tEmpleado = (TEmpleado) datos;
-				SAEmpleado saEmpleado = FactoriaAbstractaNegocio.getInstance().crearSAEmpleado();
-				int res = saEmpleado.create(tEmpleado); 
-	
-				IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(evento);
-				
-				// Mapeo de códigos de error del SA a eventos de presentación
-				switch (res) {
-					case 1: // Éxito
-						vista.actualizar(Eventos.RES_ALTA_EMPLEADO_OK, res);
-						break;
-					case -1: // DNI inválido
-						vista.actualizar(Eventos.RES_ALTA_EMPLEADO_KO_DNI, tEmpleado);
-						break;
-					case -2: // Nombre obligatorio
-						vista.actualizar(Eventos.RES_ALTA_EMPLEADO_KO_NOMBRE, tEmpleado);
-						break;
-					case -3: // Apellido obligatorio
-						vista.actualizar(Eventos.RES_ALTA_EMPLEADO_KO_APELLIDO, tEmpleado);
-						break;
-					case -4: // Sueldo inválido
-						vista.actualizar(Eventos.RES_ALTA_EMPLEADO_KO_SUELDO, tEmpleado);
-						break;
-					case -5: // Ya existe
-						vista.actualizar(Eventos.RES_ALTA_EMPLEADO_YA_EXISTE, tEmpleado);
-						break;
-					default: // Error inesperado
-						vista.actualizar(Eventos.RES_ALTA_EMPLEADO_KO, res);
-						break;
-				}
-				break;
+			    SAEmpleado saEmpleado = FactoriaAbstractaNegocio.getInstance().crearSAEmpleado();
+
+			    // El create devuelve el ID (>0) o un código de error (<0)
+			    int res = saEmpleado.create(tEmpleado);
+
+			    IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(evento);
+
+			    if (res > 0) {
+			        // Alta o reactivación exitosa
+			        vista.actualizar(Eventos.RES_ALTA_EMPLEADO_OK, res);
+			    } 
+			    else {
+			        switch (res) {
+			            case -1: // Ya existe y está activo
+			            	vista.actualizar(Eventos.RES_ALTA_EMPLEADO_YA_EXISTE_MISMO, saEmpleado.getUltimoDuplicado());
+			                break;
+			                
+			            case -100: // Existe activo pero es OTRA persona (DNI ocupado)
+			                vista.actualizar(Eventos.RES_ALTA_EMPLEADO_YA_EXISTE_DISTINTO, saEmpleado.getUltimoDuplicado());
+			                break;
+
+			            case -2: // Existe inactivo con datos distintos
+			                vista.actualizar(Eventos.RES_ALTA_EMPLEADO_CONFIRMAR_REACTIVACION, saEmpleado.getUltimoDuplicado());
+			                break;
+
+			            case -3: // Existe inactivo, mismos datos pero distinto tipo
+			                vista.actualizar(Eventos.RES_ALTA_EMPLEADO_CAMBIO_TIPO_REQUERIDO_INACTIVO, saEmpleado.getUltimoDuplicado());
+			                break;
+			                
+			            case -300: // Activo, mismo nombre, distinto tipo
+			                vista.actualizar(Eventos.RES_ALTA_EMPLEADO_CAMBIO_TIPO_REQUERIDO_ACTIVO, saEmpleado.getUltimoDuplicado());
+			                break;
+
+			            case -4: // DNI inválido
+			                vista.actualizar(Eventos.RES_ALTA_EMPLEADO_KO_DNI, tEmpleado);
+			                break;
+
+			            case -5: // Nombre inválido
+			                vista.actualizar(Eventos.RES_ALTA_EMPLEADO_KO_NOMBRE, tEmpleado);
+			                break;
+
+			            case -6: // Apellido inválido
+			                vista.actualizar(Eventos.RES_ALTA_EMPLEADO_KO_APELLIDO, tEmpleado);
+			                break;
+
+			            case -7: // Sueldo inválido
+			                vista.actualizar(Eventos.RES_ALTA_EMPLEADO_KO_SUELDO, tEmpleado);
+			                break;
+
+			            default: // Error genérico o fallo de persistencia
+			                vista.actualizar(Eventos.RES_ALTA_EMPLEADO_KO, res);
+			                break;
+			        }
+			    }
+			    break;
+			}
+			
+			case Eventos.REACTIVAR_EMPLEADO: {
+			    TEmpleado t = (TEmpleado) datos;
+			    SAEmpleado sa = FactoriaAbstractaNegocio.getInstance().crearSAEmpleado();
+			    
+			    // El SA hace un update de los datos y cambiar activo a true
+			    int res = sa.reactivate(t);  
+
+			    IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.ALTA_EMPLEADO);
+			    if (res > 0) {
+			        vista.actualizar(Eventos.RES_ALTA_EMPLEADO_OK, res);
+			    } else {
+			        vista.actualizar(Eventos.RES_ALTA_EMPLEADO_KO, res);
+			    }
+			    break;
 			}
 			
 			case Eventos.BAJA_EMPLEADO: {
-				Integer id = (Integer) datos;
-				SAEmpleado saEmp = FactoriaAbstractaNegocio.getInstance().crearSAEmpleado();
-				int res = saEmp.delete(id);
-				
-				IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(evento);
-				switch (res) {
-					case 1:
-						vista.actualizar(Eventos.RES_BAJA_EMPLEADO_OK, id);
-						break;
-					case -1:
-						vista.actualizar(Eventos.RES_BAJA_EMPLEADO_KO_ID_VACIO, id);
-						break;
-					case -2:
-						vista.actualizar(Eventos.RES_BAJA_EMPLEADO_KO_ID_FORMATO, id);
-						break;
-					case -3:
-						vista.actualizar(Eventos.RES_BAJA_EMPLEADO_KO_NO_EXISTE, id);
-						break;
-					case -4:
-						vista.actualizar(Eventos.RES_BAJA_EMPLEADO_KO_YA_INACTIVO, id);
-						break;
-					default:
-						vista.actualizar(Eventos.RES_BAJA_EMPLEADO_KO, res);
-						break;
-				}
-				break;			
+			    Integer id = (Integer) datos;
+			    SAEmpleado saEmp = FactoriaAbstractaNegocio.getInstance().crearSAEmpleado();
+			    
+			    TEmpleado emp = saEmp.read(id); 
+			    
+			    IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.BAJA_EMPLEADO);
+			    
+			    if (emp == null) {
+			        // El empleado no existe en el sistema
+			        vista.actualizar(Eventos.RES_BAJA_EMPLEADO_KO_NO_EXISTE, id);
+			    } else if (!emp.isActivo()) {
+			        // El empleado existe pero ya está de baja
+			        vista.actualizar(Eventos.RES_BAJA_EMPLEADO_KO_YA_INACTIVO, id);
+			    } else {
+			        // El empleado existe y está activo: mandamos una vista para confirmar la baja
+			        vista.actualizar(Eventos.RES_BAJA_EMPLEADO_OK, emp);
+			    }
+			    break;			
+			}
+
+			case Eventos.CONFIRMAR_BAJA_EMPLEADO: {
+			    Integer id = (Integer) datos;
+			    SAEmpleado saEmp = FactoriaAbstractaNegocio.getInstance().crearSAEmpleado();
+			    
+			    int res = saEmp.delete(id); 
+			    
+			    IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.BAJA_EMPLEADO);
+			    if (res > 0) {
+			        // Avisamos a la vista de que el borrado lógico se completó
+			        vista.actualizar(Eventos.RES_BAJA_EMPLEADO_CONFIRMADA, id);
+			    } else {
+			        // Por si acaso hubiera un error de escritura en el último momento
+			        vista.actualizar(Eventos.RES_BAJA_EMPLEADO_KO, id);
+			    }
+			    break;
 			}
 			
 			case Eventos.MODIFICAR_EMPLEADO: {
@@ -105,7 +317,8 @@ public class ControladorImp extends Controlador {
 				SAEmpleado saEmp = FactoriaAbstractaNegocio.getInstance().crearSAEmpleado();
 				int res = saEmp.update(tEmpleado);
 				
-				IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(evento);
+				IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.MODIFICAR_EMPLEADO);
+				
 				if (res > 0) {
 					vista.actualizar(Eventos.RES_MODIFICAR_EMPLEADO_OK, res);
 				} else if (res == -1) {
@@ -116,18 +329,48 @@ public class ControladorImp extends Controlador {
 				break;
 			}
 			
+			case Eventos.BUSCAR_EMPLEADO_PARA_MODIFICAR: {
+			    Integer id = (Integer) datos;
+			    SAEmpleado sa = FactoriaAbstractaNegocio.getInstance().crearSAEmpleado();
+			    TEmpleado emp = sa.read(id);
+			    
+			    IGUI vBuscarId = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.VENTANA_BUSCAR_ID_EMPLEADO);
+			    IGUI vModificar = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.MODIFICAR_EMPLEADO);
+
+			    if (emp != null && emp.isActivo()) {
+			        // Ocultamos la ventana pequeña de "Introduce ID"
+			        ((JFrame)vBuscarId).setVisible(false);
+
+			        // Pasamos los datos a la de Modificar
+			        vModificar.actualizar(Eventos.RES_BUSCAR_EMPLEADO_PARA_MODIFICAR_OK, emp);
+			        
+			        
+			        ((JFrame)vModificar).setVisible(true);
+			        ((JFrame)vModificar).toFront(); // La traemos al frente
+			    } else {
+			        // Si no existe o está inactivo, avisamos a la pequeña para que muestre error
+			        vBuscarId.actualizar(Eventos.RES_BUSCAR_EMPLEADO_PARA_MODIFICAR_KO, id);
+			    }
+			    break; 
+			}
+			
 			case Eventos.BUSCAR_EMPLEADO: {
-				Integer id = (Integer) datos;
-				SAEmpleado saEmp = FactoriaAbstractaNegocio.getInstance().crearSAEmpleado();
-				TEmpleado empleado = saEmp.read(id);
-				
-				IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(evento);
-				if (empleado != null) {
-					vista.actualizar(Eventos.RES_BUSCAR_EMPLEADO_OK, empleado);
-				} else {
-					vista.actualizar(Eventos.RES_BUSCAR_EMPLEADO_KO, id);
-				}
-				break;
+			    Integer id = (Integer) datos;
+			    SAEmpleado saEmp = FactoriaAbstractaNegocio.getInstance().crearSAEmpleado();
+			    TEmpleado empleado = saEmp.read(id);
+			    
+			    IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.BUSCAR_EMPLEADO);
+			    
+			    // Si el empleado es null O no está activo, mandamos KO (No existe)
+			    if (empleado != null && empleado.isActivo()) {
+			        vista.actualizar(Eventos.RES_BUSCAR_EMPLEADO_OK, empleado);
+			    } else {
+			        // Se trata igual que si no existiera
+			        vista.actualizar(Eventos.RES_BUSCAR_EMPLEADO_KO, id);
+			    }
+			    
+			    ((JFrame)vista).setVisible(true);
+			    break;
 			}
 			
 			case Eventos.MOSTRAR_EMPLEADOS: {
@@ -145,8 +388,80 @@ public class ControladorImp extends Controlador {
 			
 			// EVENTOS DE MARCA
 			
-			// EVENTOS DE DESCUENTO
 			
+			
+			// EVENTOS DE DESCUENTO
+
+			case Eventos.ALTA_DESCUENTO: {
+			    TDescuento tDescuento = (TDescuento) datos;
+			    SADescuento saDescuento = FactoriaAbstractaNegocio.getInstance().crearSADescuento();
+
+			    int res = saDescuento.create(tDescuento);
+
+			    IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(evento);
+
+			    if (res > 0) {
+			        vista.actualizar(Eventos.RES_ALTA_DESCUENTO_OK, res);
+			    } else {
+			        switch (res) {
+			            case -1: // Ya existe y está activo
+			                vista.actualizar(Eventos.RES_ALTA_DESCUENTO_YA_EXISTE, saDescuento.getUltimoDuplicado());
+			                break;
+
+			            case -2: // Existe inactivo con datos distintos → pedir confirmación
+			                vista.actualizar(Eventos.RES_ALTA_DESCUENTO_CONFIRMAR_REACTIVACION, tDescuento);
+			                break;
+
+			            case -3: // Código inválido
+			                vista.actualizar(Eventos.RES_ALTA_DESCUENTO_KO_CODIGO, tDescuento);
+			                break;
+
+			            case -4: // Porcentaje inválido
+			                vista.actualizar(Eventos.RES_ALTA_DESCUENTO_KO_PORCENTAJE, tDescuento);
+			                break;
+
+			            default: // Error genérico
+			                vista.actualizar(Eventos.RES_ALTA_DESCUENTO_KO, res);
+			                break;
+			        }
+			    }
+			    break;
+			}
+
+			case Eventos.REACTIVAR_DESCUENTO: {
+			    TDescuento tDescuento = (TDescuento) datos;
+			    SADescuento saDescuento = FactoriaAbstractaNegocio.getInstance().crearSADescuento();
+
+			    int res = saDescuento.reactivate(tDescuento);
+
+			    IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.ALTA_DESCUENTO);
+			    if (res >= 0) {
+			        vista.actualizar(Eventos.RES_ALTA_DESCUENTO_OK, res);
+			    } else {
+			        vista.actualizar(Eventos.RES_ALTA_DESCUENTO_KO, res);
+			    }
+			    break;
+			}
+			
+			case Eventos.MOSTRAR_DESCUENTOS: {
+			    SADescuento saDescuento = FactoriaAbstractaNegocio.getInstance().crearSADescuento();
+			    Collection<TDescuento> lista = saDescuento.readAll();
+
+			    IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(evento);
+
+			    if (lista != null && !lista.isEmpty()) {
+			        vista.actualizar(Eventos.RES_MOSTRAR_DESCUENTOS, lista);
+			    } else {
+			        vista.actualizar(Eventos.RES_MOSTRAR_DESCUENTOS_KO, null);
+			    }
+			    break;
+			}
+			
+			
+			
+						
+			
+			//DEFAULT			
 			default:
 				System.err.println("Evento no reconocido: " + evento);
 				break;

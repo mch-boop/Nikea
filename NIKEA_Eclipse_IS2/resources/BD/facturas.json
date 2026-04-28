@@ -1,0 +1,26 @@
+[
+    {
+        "apellidos": "Chochon",
+        "teléfono": 666,
+        "id": 0,
+        "nombre": "Garci",
+        "DNI": "holapepe",
+        "activo": true
+    },
+    {
+        "apellidos": "Clientable",
+        "teléfono": 314159265,
+        "id": 1,
+        "nombre": "Cliente",
+        "DNI": "31415926P",
+        "activo": true
+    },
+    {
+        "apellidos": "Apellidos",
+        "teléfono": 123456789,
+        "id": 2,
+        "nombre": "Nombre",
+        "DNI": "12345678A",
+        "activo": true
+    }
+]

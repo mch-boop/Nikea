@@ -8,5 +8,7 @@ public interface SAServicio {
 	public int delete(int id);
 	public TServicio read(int id);
 	public Collection<TServicio> readAll();
+	int update(TServicio ts);
+	TServicio getUltimoDuplicado();
 	
 }

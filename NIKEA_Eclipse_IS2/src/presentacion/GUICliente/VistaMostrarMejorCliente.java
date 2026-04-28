@@ -91,7 +91,7 @@ public class VistaMostrarMejorCliente extends JFrame implements IGUI {
     	// El controlador llama a este método tras la ejecución en el SA
         switch (evento) {
 
-            case Eventos.RES_BUSCAR_EMPLEADO_OK:
+            case Eventos.RES_BUSCAR_MEJOR_CLIENTE_PARA_MOSTRAR_OK:
             	// Recibo el transfer de cliente para leer los datos.
                 TCliente tc = (TCliente) datos;
                 // Formateo los datos en un StringBuilder.
@@ -100,21 +100,18 @@ public class VistaMostrarMejorCliente extends JFrame implements IGUI {
                 sb.append("DNI:      ").append(tc.getDNI()).append("\n");
                 sb.append("Nombre:   ").append(tc.getNombre()).append("\n");
                 sb.append("Apellidos: ").append(tc.getApellidos()).append("\n");
-                sb.append("Estado:   ").append(tc.isActivo() ? "ACTIVO" : "INACTIVO (Baja)");
+                sb.append("Teléfono:   ").append(tc.getTelefono()).append("\n");
                 
                 // Muestro el texto.
                 areaDetalles.setText(sb.toString());
                 break;
 
-            case Eventos.RES_BUSCAR_EMPLEADO_KO:
+            case Eventos.RES_MOSTRAR_MEJOR_CLIENTE_KO:
                 areaDetalles.setText("");
-                JOptionPane.showMessageDialog(this, "No se ha encontrado ningún cliente con el ID: " + ((TCliente)datos).getId(), "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "No se ha podido encontrar un mejor cliente", "Error", JOptionPane.ERROR_MESSAGE);
                 txtId.requestFocus();
                 break;
 
-            default:
-                JOptionPane.showMessageDialog(this, "Error inesperado al consultar.", "Error", JOptionPane.ERROR_MESSAGE);
-                break;
         }
     }
 }

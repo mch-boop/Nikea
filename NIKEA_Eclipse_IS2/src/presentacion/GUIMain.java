@@ -47,7 +47,7 @@ public class GUIMain extends JFrame {
 		JButton btnDescuentos = crearBotonNikea("DESCUENTO");
 
 		// Logo central 
-		ImagePanel logoPanel = new ImagePanel("resources/logo.png");
+		ImagePanel logoPanel = new ImagePanel("resources/Icons/logo.png");
 
 		// LISTENERS (FUNCIONALIDAD)
 

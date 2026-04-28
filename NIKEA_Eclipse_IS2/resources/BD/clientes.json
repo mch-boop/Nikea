@@ -1,0 +1,26 @@
+[
+    {
+        "apellidos": "Test",
+        "teléfono": 1,
+        "id": 1,
+        "nombre": "Cliente",
+        "DNI": "pi",
+        "activo": true
+    },
+    {
+        "apellidos": "Clientón",
+        "teléfono": 76,
+        "id": 2,
+        "nombre": "Cliente",
+        "DNI": "jeje",
+        "activo": true
+    },
+    {
+        "apellidos": "Clientísimo",
+        "teléfono": 11,
+        "id": 3,
+        "nombre": "Cliente",
+        "DNI": "jiji",
+        "activo": true
+    }
+]

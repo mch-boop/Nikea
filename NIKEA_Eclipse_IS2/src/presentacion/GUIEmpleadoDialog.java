@@ -10,26 +10,25 @@ public class GUIEmpleadoDialog extends JDialog {
 	
 	// CONSTRUCTORA
 
-    public GUIEmpleadoDialog(JFrame owner) {
-        super(owner, "Gestión de Empleados", false);
-        // Evita que el usuario pueda cambiar el tamaño del diálogo
-        setResizable(false); 
-        setSize(850, 120); 
-        setLocationRelativeTo(owner);
-        
-        initGUI();
-    }
+	public GUIEmpleadoDialog(JFrame owner) {
+	    super(owner, "Gestión de Empleados", false);
+	    setResizable(false); 
+	    setSize(850, 120); 
+	    setLocationRelativeTo(owner);
+	    
+	    initGUI();
+	}
     
     // MÉTODOS
     
     private void initGUI() {
     	
-        JPanel panel = new JPanel(new GridLayout(1, 5, 10, 0));
+    	JPanel panel = new JPanel(new GridLayout(1, 5, 10, 10));
         panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
         JButton btnAlta       = new JButton("Alta Empleado");
         JButton btnBaja       = new JButton("Baja Empleado");
-        JButton btnActualizar = new JButton("Actualizar Empleado");
+        JButton btnActualizar = new JButton("Modificar Empleado");
         JButton btnBuscar     = new JButton("Buscar Empleado");
         JButton btnListar     = new JButton("Listar Empleados");
 
@@ -54,7 +53,7 @@ public class GUIEmpleadoDialog extends JDialog {
         });
 
         btnActualizar.addActionListener(e -> {
-            IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.MODIFICAR_EMPLEADO);
+            IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.VENTANA_BUSCAR_ID_EMPLEADO);
             ((JFrame) vista).setVisible(true);
         });
 
