@@ -1,4 +1,4 @@
-package negocio.empleado;
+    Rpackage negocio.empleado;
 
 public class TVendedor extends TEmpleado {
 	

@@ -1,4 +1,4 @@
-package negocio.empleado;
+    <szpackage negocio.empleado;
 
 public class TEmpleado {
 
