@@ -128,6 +128,14 @@ public class Eventos {
     // EVENTOS DE DESCUENTO
     
     public static final int ALTA_DESCUENTO = 401;
+    public static final int RES_ALTA_DESCUENTO_OK = 4011;
+    public static final int RES_ALTA_DESCUENTO_KO = 4010;
+    public static final int RES_ALTA_DESCUENTO_KO_CODIGO = 40101;
+    public static final int RES_ALTA_DESCUENTO_KO_PORCENTAJE = 40102;
+    public static final int RES_ALTA_DESCUENTO_YA_EXISTE = 40105;
+    public static final int RES_ALTA_DESCUENTO_CONFIRMAR_REACTIVACION = 40111;
+    public static final int REACTIVAR_DESCUENTO = 40112;    
+    
     public static final int BAJA_DESCUENTO = 402;
     public static final int MODIFICAR_DESCUENTO = 403;
     public static final int MOSTRAR_DESCUENTOS = 404;

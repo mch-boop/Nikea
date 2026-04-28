@@ -21,6 +21,7 @@ import javax.swing.JSpinner;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.SwingUtilities;
 
 import negocio.descuento.TDescuento;
 import presentacion.IGUI;
@@ -161,17 +162,29 @@ public class VistaAltaDescuento extends JFrame implements IGUI {
 
         btnAceptar.addActionListener(e -> {
             try {
-                if (txtCodigo.getText().isEmpty() || txtDescuento.getText().isEmpty()) {
-                    JOptionPane.showMessageDialog(null, "Código y Descuento son obligatorios");
+                //Valido
+                if (txtCodigo.getText().trim().isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "El código es obligatorio.", "Faltan datos", JOptionPane.WARNING_MESSAGE);
+                    txtCodigo.requestFocusInWindow();
                     return;
                 }
 
+                if (txtDescuento.getText().trim().isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "Debe indicar un porcentaje.", "Faltan datos", JOptionPane.WARNING_MESSAGE);
+                    txtDescuento.requestFocusInWindow();
+                    return;
+                }
+
+                //Transfer
                 boolean esImporte = rbImporte.isSelected();
                 TDescuento td = new TDescuento(esImporte);
 
-                td.setCodigo(txtCodigo.getText());
-                td.setNombre(areaDescripcion.getText()); // Usamos descripción aquí
-                td.setPorcentaje(Integer.parseInt(txtDescuento.getText())); // Parseo a Int
+                td.setCodigo(txtCodigo.getText().trim());
+                td.setNombre(areaDescripcion.getText().trim());
+                
+                //El porcentaje es un int
+                int porc = Integer.parseInt(txtDescuento.getText().trim());
+                td.setPorcentaje(porc);
 
                 if (esImporte) {
                     td.setImporteMin((Double) importeMin.getValue());
@@ -179,13 +192,14 @@ public class VistaAltaDescuento extends JFrame implements IGUI {
                     td.setProductosMin((Integer) productosMin.getValue());
                 }
 
+                //Controlador
                 Controlador.getInstance().accion(Eventos.ALTA_DESCUENTO, td);
-                limpiarCampos();
 
             } catch (NumberFormatException nfe) {
-                JOptionPane.showMessageDialog(null, "El descuento debe ser un número entero");
+                JOptionPane.showMessageDialog(this, "El descuento debe ser un número entero (ej: 15).", "Error de formato", JOptionPane.ERROR_MESSAGE);
+                txtDescuento.requestFocusInWindow();
             } catch (Exception ex) {
-                JOptionPane.showMessageDialog(null, "Error en los datos: " + ex.getMessage());
+                JOptionPane.showMessageDialog(this, "Error inesperado: " + ex.getMessage());
             }
         });
 
@@ -202,6 +216,47 @@ public class VistaAltaDescuento extends JFrame implements IGUI {
 
     @Override
     public void actualizar(int evento, Object datos) {
-        // Lógica de respuesta tras el evento
+        SwingUtilities.invokeLater(() -> {
+            switch (evento) {
+                case Eventos.RES_ALTA_DESCUENTO_OK:
+                    limpiarCampos();
+                    JOptionPane.showMessageDialog(this, "Descuento creado con éxito. ID: " + datos);
+                    break;
+
+                case Eventos.RES_ALTA_DESCUENTO_YA_EXISTE:
+                    JOptionPane.showMessageDialog(this, "El código de descuento ya está en uso.", "Aviso", JOptionPane.WARNING_MESSAGE);
+                    txtCodigo.requestFocus();
+                    break;
+
+                case Eventos.RES_ALTA_DESCUENTO_CONFIRMAR_REACTIVACION:
+                    TDescuento tdReac = (TDescuento) datos;
+                    int resp = JOptionPane.showConfirmDialog(this, 
+                        "Existe un descuento inactivo con este código.\n¿Desea reactivarlo con los nuevos datos?", 
+                        "Confirmar Reactivación", JOptionPane.YES_NO_OPTION);
+                    
+                    if (resp == JOptionPane.YES_OPTION) {
+                        Controlador.getInstance().accion(Eventos.REACTIVAR_DESCUENTO, tdReac);
+                    }
+                    break;
+
+                case Eventos.RES_ALTA_DESCUENTO_KO_CODIGO:
+                    JOptionPane.showMessageDialog(this, "El código no es válido o está vacío.", "Error", JOptionPane.ERROR_MESSAGE);
+                    txtCodigo.requestFocus();
+                    break;
+
+                case Eventos.RES_ALTA_DESCUENTO_KO_PORCENTAJE:
+                    JOptionPane.showMessageDialog(this, "El porcentaje debe estar entre 1 y 100.", "Error", JOptionPane.ERROR_MESSAGE);
+                    txtDescuento.requestFocus();
+                    break;
+
+                case Eventos.RES_ALTA_DESCUENTO_KO:
+                    JOptionPane.showMessageDialog(this, "Error crítico en el sistema.", "Error Grave", JOptionPane.ERROR_MESSAGE);
+                    break;
+
+                default:
+                    JOptionPane.showMessageDialog(this, "Error desconocido / descontrolado", "Error Grave", JOptionPane.ERROR_MESSAGE);
+                    break;
+            }
+        });
     }
 }
