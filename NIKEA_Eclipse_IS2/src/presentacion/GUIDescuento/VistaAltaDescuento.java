@@ -250,7 +250,7 @@ public class VistaAltaDescuento extends JFrame implements IGUI {
                     break;
 
                 case Eventos.RES_ALTA_DESCUENTO_KO:
-                    JOptionPane.showMessageDialog(this, "Error crítico en el sistema.", "Error Grave", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "Error al reactivar usuario.", "Error Grave", JOptionPane.ERROR_MESSAGE);
                     break;
 
                 default:

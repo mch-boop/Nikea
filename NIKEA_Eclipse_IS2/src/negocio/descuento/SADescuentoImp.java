@@ -46,6 +46,7 @@ public class SADescuentoImp implements SADescuento {
             }
             
             // Si algo ha cambiado llamamos para confirmar
+            this.ultimoDuplicado = td;
             return -2;
         }
 
@@ -61,7 +62,8 @@ public class SADescuentoImp implements SADescuento {
 
     @Override
     public int reactivate(TDescuento td) {
-        return -1;
+        DAODescuento dao = FactoriaIntegracion.getInstance().crearDAODescuento();
+        return dao.update(td);
     }
 
     @Override

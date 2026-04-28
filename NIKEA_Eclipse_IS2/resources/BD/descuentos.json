@@ -1,10 +1,10 @@
 [
     {
         "codigo": "DESC1",
-        "tipo": true,
+        "tipo": false,
         "id": 1,
-        "porcentaje": 33,
-        "nombre": "Primer desc",
+        "porcentaje": 12,
+        "nombre": "adawdawd",
         "activo": true
     },
     {
@@ -21,6 +21,14 @@
         "id": 3,
         "porcentaje": 15,
         "nombre": "Pruebaaa",
+        "activo": true
+    },
+    {
+        "codigo": "JHA9S6H",
+        "tipo": false,
+        "id": 4,
+        "porcentaje": 35,
+        "nombre": "Descuento guay",
         "activo": true
     }
 ]

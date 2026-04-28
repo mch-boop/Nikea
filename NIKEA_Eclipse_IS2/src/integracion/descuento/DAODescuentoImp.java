@@ -19,7 +19,7 @@ public class DAODescuentoImp implements DAODescuento {
     public int create(TDescuento td) {
         List<TDescuento> lista = (List<TDescuento>) readAll();
         
-        if (td.getId() <= 0 || td.getId() <= 0) {
+        if (td.getId() <= 0) {
             // Lógica de ALTA (Generación de ID)
             int maxId = 0;
             for (TDescuento d : lista) {
@@ -43,7 +43,18 @@ public class DAODescuentoImp implements DAODescuento {
     
     @Override
     public int update(TDescuento td) {
-        return this.create(td);
+        List<TDescuento> lista = (List<TDescuento>) readAll();
+
+        for (int i = 0; i < lista.size(); i++) {
+            if (lista.get(i).getCodigo().equals(td.getCodigo())) {
+            	td.setId(lista.get(i).getId());
+                lista.set(i, td); // Cambia viejo x nuevo
+                guardarEnArchivo(lista);
+                return td.getId();
+            }
+        }
+        
+        return -1; // No encontrado
     }
 
     @Override

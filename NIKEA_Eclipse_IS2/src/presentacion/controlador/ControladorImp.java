@@ -409,7 +409,7 @@ public class ControladorImp extends Controlador {
 			                break;
 
 			            case -2: // Existe inactivo con datos distintos → pedir confirmación
-			                vista.actualizar(Eventos.RES_ALTA_DESCUENTO_CONFIRMAR_REACTIVACION, saDescuento.getUltimoDuplicado());
+			                vista.actualizar(Eventos.RES_ALTA_DESCUENTO_CONFIRMAR_REACTIVACION, tDescuento);
 			                break;
 
 			            case -3: // Código inválido
@@ -435,7 +435,7 @@ public class ControladorImp extends Controlador {
 			    int res = saDescuento.reactivate(tDescuento);
 
 			    IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.ALTA_DESCUENTO);
-			    if (res > 0) {
+			    if (res >= 0) {
 			        vista.actualizar(Eventos.RES_ALTA_DESCUENTO_OK, res);
 			    } else {
 			        vista.actualizar(Eventos.RES_ALTA_DESCUENTO_KO, res);
