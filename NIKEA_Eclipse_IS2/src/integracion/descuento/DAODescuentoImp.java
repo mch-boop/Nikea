@@ -64,6 +64,9 @@ public class DAODescuentoImp implements DAODescuento {
 
     @Override
     public Collection<TDescuento> readAll() {
+    	
+    	System.out.println("Buscando en: " + new File(PATH).getAbsolutePath());
+    	
         List<TDescuento> lista = new ArrayList<>();
         File file = new File(PATH);
         
@@ -75,9 +78,6 @@ public class DAODescuentoImp implements DAODescuento {
 
             for (int i = 0; i < array.length(); i++) {
                 JSONObject obj = array.getJSONObject(i);
-                
-                // Aquí instanciamos el Transfer. 
-                // Si tienes herencia (fijo/porcentaje), haz el check del tipo aquí como en Empleado.
                 TDescuento td = new TDescuento(); 
                 
                 td.setId(obj.getInt("id"));

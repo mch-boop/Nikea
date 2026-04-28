@@ -81,6 +81,7 @@ public class SADescuentoImp implements SADescuento {
 
     @Override
     public Collection<TDescuento> readAll() {
-        return null;
+        DAODescuento dao = FactoriaIntegracion.getInstance().crearDAODescuento();
+        return dao.readAll();
     }
 }

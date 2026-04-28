@@ -443,6 +443,20 @@ public class ControladorImp extends Controlador {
 			    break;
 			}
 			
+			case Eventos.MOSTRAR_DESCUENTOS: {
+			    SADescuento saDescuento = FactoriaAbstractaNegocio.getInstance().crearSADescuento();
+			    Collection<TDescuento> lista = saDescuento.readAll();
+
+			    IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(evento);
+
+			    if (lista != null && !lista.isEmpty()) {
+			        vista.actualizar(Eventos.RES_MOSTRAR_DESCUENTOS, lista);
+			    } else {
+			        vista.actualizar(Eventos.RES_MOSTRAR_DESCUENTOS_KO, null);
+			    }
+			    break;
+			}
+			
 			
 			
 						
