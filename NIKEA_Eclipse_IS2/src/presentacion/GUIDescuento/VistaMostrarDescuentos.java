@@ -15,6 +15,7 @@ import javax.swing.table.DefaultTableModel;
 
 import negocio.descuento.TDescuento;
 import presentacion.IGUI;
+import presentacion.controlador.Controlador;
 import presentacion.controlador.Eventos;
 
 @SuppressWarnings("serial")
@@ -24,15 +25,15 @@ public class VistaMostrarDescuentos extends JFrame implements IGUI {
     private DefaultTableModel modelo;
 
     public VistaMostrarDescuentos() {
-        setTitle("Lista de Descuentos");
+        setTitle("Lista de Descuentos Activos");
         initGUI();
     }
 
     private void initGUI() {
         setLayout(new BorderLayout(10, 10));
 
-        // Columnas
-        String[] columnas = {"ID", "Código", "Nombre/Desc.", "Porcentaje (%)", "Tipo", "Activo"};
+        String[] columnas = {"ID", "Código", "Nombre/Desc.", "Porcentaje (%)", "Tipo", "Mínimo/Cant."};
+        
         modelo = new DefaultTableModel(columnas, 0) {
             @Override
             public boolean isCellEditable(int row, int col) { return false; }
@@ -44,7 +45,6 @@ public class VistaMostrarDescuentos extends JFrame implements IGUI {
 
         add(new JScrollPane(tabla), BorderLayout.CENTER);
 
-        // Botón cerrar
         JButton btnCerrar = new JButton("Cerrar");
         btnCerrar.addActionListener(e -> setVisible(false));
 
@@ -52,22 +52,28 @@ public class VistaMostrarDescuentos extends JFrame implements IGUI {
         panelBoton.add(btnCerrar);
         add(panelBoton, BorderLayout.SOUTH);
 
-        setSize(600, 350);
+        setSize(700, 350); 
         setResizable(false);
         setLocationRelativeTo(null);
     }
 
     private void cargarTabla(Collection<TDescuento> lista) {
-        modelo.setRowCount(0); // Limpia antes de cargar
+        modelo.setRowCount(0); 
         for (TDescuento td : lista) {
-            modelo.addRow(new Object[]{
-                td.getId(),
-                td.getCodigo(),
-                td.getNombre(),
-                td.getPorcentaje() + "%",
-                td.isTipo() ? "Por importe" : "Por cantidad",
-                td.isActivo() ? "Sí" : "No"
-            });
+            if (td.isActivo()) {
+                String condicion = td.isTipo() 
+                    ? td.getCantidad() + "€" 
+                    : (int)td.getCantidad() + " uds";
+
+                modelo.addRow(new Object[]{
+                    td.getId(),
+                    td.getCodigo(),
+                    td.getNombre(),
+                    td.getPorcentaje() + "%",
+                    td.isTipo() ? "Por importe" : "Por cantidad",
+                    condicion 
+                });
+            }
         }
     }
 
@@ -80,15 +86,10 @@ public class VistaMostrarDescuentos extends JFrame implements IGUI {
                     cargarTabla((Collection<TDescuento>) datos);
                     setVisible(true);
                     break;
-
                 case Eventos.RES_MOSTRAR_DESCUENTOS_KO:
-                    JOptionPane.showMessageDialog(this,
-                        "No se pudieron cargar los descuentos.",
-                        "Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "No se pudieron cargar los descuentos.", "Error", JOptionPane.ERROR_MESSAGE);
                     break;
-
                 default:
-                    JOptionPane.showMessageDialog(this, "Error desconocido.", "Error", JOptionPane.ERROR_MESSAGE);
                     break;
             }
         });

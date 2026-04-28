@@ -11,6 +11,10 @@ public abstract class TServicio {
 	private int stock;
 	private int precioActual;
 	private boolean activo;
+	public boolean isActivo() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 	
 	// MÉTODOS
 	

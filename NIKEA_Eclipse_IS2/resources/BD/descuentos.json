@@ -1,34 +1,29 @@
 [
     {
-        "codigo": "DESC1",
+        "codigo": "uno",
         "tipo": false,
         "id": 1,
-        "porcentaje": 12,
-        "nombre": "adawdawd",
+        "porcentaje": 1,
+        "cantidad": 1,
+        "nombre": "1",
         "activo": true
     },
     {
-        "codigo": "BF25-50E",
+        "codigo": "dos",
         "tipo": true,
         "id": 2,
-        "porcentaje": 25,
-        "nombre": "Codigo black friday 25% por 50 euros de compra",
+        "porcentaje": 2,
+        "cantidad": 200,
+        "nombre": "2",
         "activo": true
     },
     {
-        "codigo": "DESC2",
+        "codigo": "tres",
         "tipo": false,
         "id": 3,
-        "porcentaje": 15,
-        "nombre": "Pruebaaa",
-        "activo": true
-    },
-    {
-        "codigo": "JHA9S6H",
-        "tipo": false,
-        "id": 4,
-        "porcentaje": 35,
-        "nombre": "Descuento guay",
+        "porcentaje": 3,
+        "cantidad": 30,
+        "nombre": "3",
         "activo": true
     }
 ]

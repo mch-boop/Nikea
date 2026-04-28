@@ -20,7 +20,6 @@ public class DAODescuentoImp implements DAODescuento {
         List<TDescuento> lista = (List<TDescuento>) readAll();
         
         if (td.getId() <= 0) {
-            // Lógica de ALTA (Generación de ID)
             int maxId = 0;
             for (TDescuento d : lista) {
                 if (d.getId() > maxId) maxId = d.getId();
@@ -28,9 +27,8 @@ public class DAODescuentoImp implements DAODescuento {
             td.setId(maxId + 1);
             lista.add(td);
         } else {
-            // Lógica de MODIFICACIÓN
             for (int i = 0; i < lista.size(); i++) {
-                if (lista.get(i).getId() == (td.getId())) {
+                if (lista.get(i).getId() == td.getId()) {
                     lista.set(i, td); 
                     break;
                 }
@@ -44,17 +42,14 @@ public class DAODescuentoImp implements DAODescuento {
     @Override
     public int update(TDescuento td) {
         List<TDescuento> lista = (List<TDescuento>) readAll();
-
         for (int i = 0; i < lista.size(); i++) {
-            if (lista.get(i).getCodigo().equals(td.getCodigo())) {
-            	td.setId(lista.get(i).getId());
-                lista.set(i, td); // Cambia viejo x nuevo
+            if (lista.get(i).getId() == td.getId()) {
+                lista.set(i, td);
                 guardarEnArchivo(lista);
                 return td.getId();
             }
         }
-        
-        return -1; // No encontrado
+        return -1;
     }
 
     @Override
@@ -74,10 +69,7 @@ public class DAODescuentoImp implements DAODescuento {
     }
 
     @Override
-    public Collection<TDescuento> readAll() {
-    	
-    	System.out.println("Buscando en: " + new File(PATH).getAbsolutePath());
-    	
+    public Collection<TDescuento> readAll() {        
         List<TDescuento> lista = new ArrayList<>();
         File file = new File(PATH);
         
@@ -97,6 +89,7 @@ public class DAODescuentoImp implements DAODescuento {
                 td.setPorcentaje(obj.getInt("porcentaje"));
                 td.setActivo(obj.getBoolean("activo"));
                 td.setTipo(obj.getBoolean("tipo"));
+                td.setCantidad(obj.getDouble("cantidad"));
                 
                 lista.add(td);
             }
@@ -116,6 +109,7 @@ public class DAODescuentoImp implements DAODescuento {
             obj.put("porcentaje", d.getPorcentaje());
             obj.put("activo", d.isActivo());
             obj.put("tipo", d.isTipo());
+            obj.put("cantidad", d.getCantidad());
             
             array.put(obj);
         }

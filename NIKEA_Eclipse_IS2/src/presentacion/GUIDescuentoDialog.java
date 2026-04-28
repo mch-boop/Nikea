@@ -9,6 +9,7 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import presentacion.controlador.Controlador;
 import presentacion.controlador.Eventos;
 import presentacion.factoria.FactoriaAbstractaPresentacion;
 
@@ -66,8 +67,7 @@ public class GUIDescuentoDialog extends JDialog {
         });
 
         btnListar.addActionListener(e -> {
-            IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.MOSTRAR_DESCUENTOS);
-            ((JFrame) vista).setVisible(true);
+            Controlador.getInstance().accion(Eventos.MOSTRAR_DESCUENTOS, null);
         });
 
         btnBuscar.addActionListener(e -> { 
