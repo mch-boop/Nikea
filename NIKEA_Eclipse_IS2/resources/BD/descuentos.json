@@ -25,5 +25,14 @@
         "cantidad": 30,
         "nombre": "3",
         "activo": true
+    },
+    {
+        "codigo": "4",
+        "tipo": true,
+        "id": 4,
+        "porcentaje": 4,
+        "cantidad": 4,
+        "nombre": "4",
+        "activo": true
     }
 ]
