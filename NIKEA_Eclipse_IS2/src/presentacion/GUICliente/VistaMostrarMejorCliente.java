@@ -38,7 +38,7 @@ public class VistaMostrarMejorCliente extends JFrame implements IGUI {
 	
 	// MÉTODOS.
 	
-	void initGUI() {
+	private void initGUI() {
 		// Creo panel de vista principal.
 		JPanel viewPanel = new JPanel();
 		viewPanel.setLayout(new BoxLayout(viewPanel, BoxLayout.Y_AXIS));

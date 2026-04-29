@@ -3,7 +3,6 @@ package presentacion.GUICliente;
 import javax.swing.*;
 
 import negocio.cliente.TCliente;
-import negocio.empleado.TEmpleado;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;

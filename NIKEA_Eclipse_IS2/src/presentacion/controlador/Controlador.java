@@ -2,7 +2,7 @@ package presentacion.controlador;
 
 public abstract class Controlador {
 
-	static Controlador instancia = null;
+	private static Controlador instancia = null;
 	
 	static public Controlador getInstance() {
 		if (instancia == null)
