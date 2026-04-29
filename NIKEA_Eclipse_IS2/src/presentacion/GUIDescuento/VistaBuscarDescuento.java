@@ -86,7 +86,7 @@ public class VistaBuscarDescuento extends JFrame implements IGUI {
         btnCancelar.addActionListener(e -> {
             txtId.setText("");
             areaDetalles.setText("");
-            setVisible(false);
+            dispose();
             dispose();
         });
 

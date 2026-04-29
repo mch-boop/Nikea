@@ -63,7 +63,7 @@ public class VistaModificarDescuento extends JFrame implements IGUI {
 
 		btnCancelarBusqueda.addActionListener(e -> {
 			txtIdBuscar.setText("");
-			setVisible(false);
+			dispose();
 		});
 
 		btnBuscar.addActionListener(e -> {

@@ -157,7 +157,7 @@ public class VistaAltaDescuento extends JFrame implements IGUI {
 
         btnCancelar.addActionListener(e -> {
             limpiarCampos();
-            setVisible(false);
+            dispose();
         });
 
         btnAceptar.addActionListener(e -> {

@@ -46,7 +46,7 @@ public class VistaMostrarDescuentos extends JFrame implements IGUI {
         add(new JScrollPane(tabla), BorderLayout.CENTER);
 
         JButton btnCerrar = new JButton("Cerrar");
-        btnCerrar.addActionListener(e -> setVisible(false));
+        btnCerrar.addActionListener(e -> dispose());
 
         JPanel panelBoton = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         panelBoton.add(btnCerrar);
