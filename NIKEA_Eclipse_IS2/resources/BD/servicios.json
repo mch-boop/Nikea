@@ -1,0 +1,38 @@
+[
+    {
+        "descripcion": "LOL",
+        "precioActual": 1,
+        "tipo": 1,
+        "id": 1,
+        "stock": 1,
+        "nombre": "LOL",
+        "activo": false
+    },
+    {
+        "descripcion": "a",
+        "precioActual": 23,
+        "tipo": 2,
+        "id": 2,
+        "stock": 2,
+        "nombre": "a",
+        "activo": true
+    },
+    {
+        "descripcion": "pata de palo madera",
+        "precioActual": 9,
+        "tipo": 1,
+        "id": 3,
+        "stock": 3,
+        "nombre": "patapalo",
+        "activo": true
+    },
+    {
+        "descripcion": "casi sillas metal vintage",
+        "precioActual": 27,
+        "tipo": 2,
+        "id": 4,
+        "stock": 17,
+        "nombre": "casillas",
+        "activo": true
+    }
+]

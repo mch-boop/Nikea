@@ -224,6 +224,10 @@ public class Eventos {
     public static final int RES_MODIFICAR_SERVICIO_OK = 6031;
     public static final int RES_MODIFICAR_SERVICIO_KO = 6030;
 
+    public static final int BUSCAR_SERVICIO_PARA_MODIFICAR = 6032;
+    public static final int RES_BUSCAR_SERVICIO_PARA_MODIFICAR_OK = 60321;
+    public static final int RES_BUSCAR_SERVICIO_PARA_MODIFICAR_KO = 60320;
+
     public static final int BUSCAR_SERVICIO = 604;
     public static final int RES_BUSCAR_SERVICIO_OK = 6041;
     public static final int RES_BUSCAR_SERVICIO_KO = 6040;

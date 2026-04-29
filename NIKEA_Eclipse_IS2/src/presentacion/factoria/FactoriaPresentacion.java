@@ -58,6 +58,7 @@ public class FactoriaPresentacion extends FactoriaAbstractaPresentacion {
 	
 	private static VistaAltaServicio vistaAltaServicio;
 	private static VistaEliminarServicio vistaEliminarServicio;
+	private static VistaModificarServicio vistaModificarServicio;
 	private static VistaMostrarServicios vistaMostrarServicios;
 	
 
@@ -231,6 +232,16 @@ public class FactoriaPresentacion extends FactoriaAbstractaPresentacion {
 					vistaEliminarServicio = new VistaEliminarServicio();
 				}
 				return vistaEliminarServicio;
+			case Eventos.MODIFICAR_SERVICIO:
+				if (vistaModificarServicio == null) {
+					vistaModificarServicio = new VistaModificarServicio();
+				}
+				return vistaModificarServicio;
+			case Eventos.BUSCAR_SERVICIO_PARA_MODIFICAR:
+				if (vistaModificarServicio == null) {
+					vistaModificarServicio = new VistaModificarServicio();
+				}
+				return vistaModificarServicio;
 				
 			case Eventos.MOSTRAR_SERVICIOS:
 				if (vistaMostrarServicios == null) {
