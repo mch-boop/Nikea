@@ -11,7 +11,7 @@ public class GUIServicioDialog extends JDialog {
 	// CONSTRUCTORA
 
     public GUIServicioDialog(JFrame owner) {
-        super(owner, "Gestión de Servicios", true);
+        super(owner, "Gestión de Servicios", false);
         setResizable(false); 
         initGUI();
         pack();

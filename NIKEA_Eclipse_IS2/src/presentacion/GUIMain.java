@@ -50,13 +50,14 @@ public class GUIMain extends JFrame {
 		ImagePanel logoPanel = new ImagePanel("resources/Icons/logo.png");
 
 		// LISTENERS (FUNCIONALIDAD)
-
-		btnClientes.addActionListener(e -> new GUIClienteDialog(this).setVisible(true));
-		btnEmpleados.addActionListener(e -> new GUIEmpleadoDialog(this).setVisible(true));
-		btnFacturas.addActionListener(e -> new GUIFacturaDialog(this).setVisible(true));
-		btnServicios.addActionListener(e -> new GUIServicioDialog(this).setVisible(true));
-		btnMarcas.addActionListener(e -> new GUIMarcaDialog(this).setVisible(true));
-		btnDescuentos.addActionListener(e -> new GUIDescuentoDialog(this).setVisible(true));
+		
+		// TODO Revisar si vale hacer esto
+		btnClientes.addActionListener(e -> abrirVentanaBloqueante(new GUIClienteDialog(this)));
+		btnEmpleados.addActionListener(e -> abrirVentanaBloqueante(new GUIEmpleadoDialog(this)));
+		btnFacturas.addActionListener(e -> abrirVentanaBloqueante(new GUIFacturaDialog(this)));
+		btnServicios.addActionListener(e -> abrirVentanaBloqueante(new GUIServicioDialog(this)));
+		btnMarcas.addActionListener(e -> abrirVentanaBloqueante(new GUIMarcaDialog(this)));
+		btnDescuentos.addActionListener(e -> abrirVentanaBloqueante(new GUIDescuentoDialog(this)));
 
 		// ORGANIZACIÓN DEL LAYOUT
 
@@ -99,6 +100,25 @@ public class GUIMain extends JFrame {
 		gbc.gridy = 3;
 		gbc.weighty = 0.1;
 		add(footer, gbc);
+	}
+	
+	// TODO Este es el nuevo
+	private void abrirVentanaBloqueante(Window ventanaSecundaria) {
+		this.setEnabled(false);
+
+		ventanaSecundaria.addWindowListener(new java.awt.event.WindowAdapter() {
+			@Override
+			public void windowClosed(java.awt.event.WindowEvent e) {
+				GUIMain.this.setEnabled(true);
+				GUIMain.this.toFront();
+			}
+			
+			@Override
+			public void windowClosing(java.awt.event.WindowEvent e) {
+				GUIMain.this.setEnabled(true);
+			}
+		});
+		ventanaSecundaria.setVisible(true);
 	}
 
 	// MÉTODOS AUXILIARES DE ESTILO

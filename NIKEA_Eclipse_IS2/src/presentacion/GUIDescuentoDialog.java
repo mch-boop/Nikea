@@ -19,7 +19,7 @@ public class GUIDescuentoDialog extends JDialog {
 	//CONSTRUCTORA
 	
 	public GUIDescuentoDialog(JFrame owner) {
-	    super(owner, "Gestión de Descuento", true);
+	    super(owner, "Gestión de Descuento", false);
 	    setResizable(false);
 	    setSize(850, 150);
 	    setLocationRelativeTo(owner);

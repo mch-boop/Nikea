@@ -11,7 +11,7 @@ public class GUIEmpleadoDialog extends JDialog {
 	// CONSTRUCTORA
 
 	public GUIEmpleadoDialog(JFrame owner) {
-	    super(owner, "Gestión de Empleados", true);
+	    super(owner, "Gestión de Empleados", false);
 	    setResizable(false); 
 	    setSize(850, 120); 
 	    setLocationRelativeTo(owner);
