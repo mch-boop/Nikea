@@ -2,6 +2,8 @@ package presentacion;
 
 import javax.swing.*;
 import java.awt.*;
+
+import presentacion.controlador.Controlador;
 import presentacion.controlador.Eventos;
 import presentacion.factoria.FactoriaAbstractaPresentacion;
 
@@ -64,8 +66,7 @@ public class GUIEmpleadoDialog extends JDialog {
         });
 
         btnListar.addActionListener(e -> { 
-            IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.MOSTRAR_EMPLEADOS);
-            abrirVistaBloqueante((JFrame) vista);
+        	Controlador.getInstance().accion(Eventos.MOSTRAR_EMPLEADOS, null);
         });
     }
 
