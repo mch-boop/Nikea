@@ -233,6 +233,7 @@ public class FactoriaPresentacion extends FactoriaAbstractaPresentacion {
 					vistaEliminarServicio = new VistaEliminarServicio();
 				}
 				return vistaEliminarServicio;
+				
 			case Eventos.MOSTRAR_SERVICIOS:
 				if (vistaMostrarServicios == null) {
 					vistaMostrarServicios = new VistaMostrarServicios();
