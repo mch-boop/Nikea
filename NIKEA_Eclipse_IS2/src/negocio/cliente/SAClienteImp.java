@@ -1,11 +1,9 @@
 package negocio.cliente;
 
 import java.util.Collection;
-import java.util.List;
 
 import integracion.cliente.DAOCliente;
 import integracion.factoria.FactoriaAbstractaIntegracion;
-import integracion.factura.DAOFactura;
 import negocio.factura.TFactura;
 
 public class SAClienteImp implements SACliente {

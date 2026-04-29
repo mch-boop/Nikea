@@ -3,7 +3,7 @@
         "apellidos": "Test",
         "teléfono": 1,
         "id": 1,
-        "nombre": "Cliente",
+        "nombre": "Clientín",
         "DNI": "pi",
         "activo": true
     },
@@ -21,7 +21,7 @@
         "id": 3,
         "nombre": "Cliente",
         "DNI": "jiji",
-        "activo": true
+        "activo": false
     },
     {
         "apellidos": "Comprador",
@@ -53,6 +53,14 @@
         "id": 7,
         "nombre": "C1",
         "DNI": "12344B",
+        "activo": true
+    },
+    {
+        "apellidos": "clientino",
+        "teléfono": 0,
+        "id": 8,
+        "nombre": "client",
+        "DNI": "denei",
         "activo": true
     }
 ]
