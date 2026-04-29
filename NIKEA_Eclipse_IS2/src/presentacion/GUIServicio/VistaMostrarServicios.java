@@ -12,6 +12,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.SwingUtilities;
 
 import negocio.servicio.TServicio;
 import presentacion.IGUI;
@@ -86,43 +87,46 @@ public class VistaMostrarServicios extends JFrame implements IGUI {
     @Override
     @SuppressWarnings("unchecked")
     public void actualizar(int evento, Object datos) {
-        switch (evento) {
-            case Eventos.RES_MOSTRAR_SERVICIOS_OK:
-                Collection<TServicio> lista = (Collection<TServicio>) datos;
-                modeloTabla.setRowCount(0);
+        SwingUtilities.invokeLater(() -> {
+            switch (evento) {
+                case Eventos.RES_MOSTRAR_SERVICIOS_OK:
+                    Collection<TServicio> lista = (Collection<TServicio>) datos;
+                    modeloTabla.setRowCount(0);
 
-                if (lista.isEmpty()) {
-                    JOptionPane.showMessageDialog(this, "No hay servicios registrados en el sistema.", "Información", JOptionPane.INFORMATION_MESSAGE);
-                } else {
-                    boolean hayActivos = false;
-                    for (TServicio ts : lista) {
-                        if (ts.isActivo()) {
-                            Object[] fila = {
-                                ts.getId(),
-                                ts.getNombre(),
-                                ts.getDescripcion(),
-                                ts.getStock(),
-                                ts.getPrecioActual(),
-                                ts.getTipo() != null && ts.getTipo() == 1 ? "Artículo" : "Montaje"
-                            };
-                            modeloTabla.addRow(fila);
-                            hayActivos = true;
+                    if (lista.isEmpty()) {
+                        JOptionPane.showMessageDialog(this, "No hay servicios registrados en el sistema.", "Información", JOptionPane.INFORMATION_MESSAGE);
+                    } else {
+                        setVisible(true);
+                        boolean hayActivos = false;
+                        for (TServicio ts : lista) {
+                            if (ts.isActivo()) {
+                                Object[] fila = {
+                                    ts.getId(),
+                                    ts.getNombre(),
+                                    ts.getDescripcion(),
+                                    ts.getStock(),
+                                    ts.getPrecioActual(),
+                                    ts.getTipo() != null && ts.getTipo() == 1 ? "Artículo" : "Montaje"
+                                };
+                                modeloTabla.addRow(fila);
+                                hayActivos = true;
+                            }
+                        }
+
+                        if (!hayActivos) {
+                            JOptionPane.showMessageDialog(this, "No hay servicios activos para mostrar.", "Información", JOptionPane.INFORMATION_MESSAGE);
                         }
                     }
+                    break;
 
-                    if (!hayActivos) {
-                        JOptionPane.showMessageDialog(this, "No hay servicios activos para mostrar.", "Información", JOptionPane.INFORMATION_MESSAGE);
-                    }
-                }
-                break;
+                case Eventos.RES_MOSTRAR_SERVICIOS_KO:
+                    modeloTabla.setRowCount(0);
+                    JOptionPane.showMessageDialog(this, "Error al recuperar la lista de servicios.", "Error", JOptionPane.ERROR_MESSAGE);
+                    break;
 
-            case Eventos.RES_MOSTRAR_SERVICIOS_KO:
-                modeloTabla.setRowCount(0);
-                JOptionPane.showMessageDialog(this, "Error al recuperar la lista de servicios.", "Error", JOptionPane.ERROR_MESSAGE);
-                break;
-
-            default:
-                break;
-        }
+                default:
+                    break;
+            }
+        });
     }
 }
