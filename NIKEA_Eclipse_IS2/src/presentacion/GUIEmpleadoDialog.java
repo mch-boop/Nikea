@@ -45,27 +45,43 @@ public class GUIEmpleadoDialog extends JDialog {
         
         btnAlta.addActionListener(e -> {
             IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.ALTA_EMPLEADO);
-            ((JFrame) vista).setVisible(true);
+            abrirVistaBloqueante((JFrame) vista);
         });
 
         btnBaja.addActionListener(e -> {
             IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.BAJA_EMPLEADO);
-            ((JFrame) vista).setVisible(true);
+            abrirVistaBloqueante((JFrame) vista);
         });
 
         btnActualizar.addActionListener(e -> {
             IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.VENTANA_BUSCAR_ID_EMPLEADO);
-            ((JFrame) vista).setVisible(true);
+            abrirVistaBloqueante((JFrame) vista);
         });
 
         btnBuscar.addActionListener(e -> {
             IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.BUSCAR_EMPLEADO);
-            ((JFrame) vista).setVisible(true);
+            abrirVistaBloqueante((JFrame) vista);
         });
 
         btnListar.addActionListener(e -> { 
             IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.MOSTRAR_EMPLEADOS);
-            ((JFrame) vista).setVisible(true);
+            abrirVistaBloqueante((JFrame) vista);
         });
+    }
+
+    private void abrirVistaBloqueante(Window ventanaSecundaria) {
+        this.setEnabled(false);
+        ventanaSecundaria.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosed(java.awt.event.WindowEvent e) {
+                GUIEmpleadoDialog.this.setEnabled(true);
+                GUIEmpleadoDialog.this.toFront();
+            }
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent e) {
+                GUIEmpleadoDialog.this.setEnabled(true);
+            }
+        });
+        ventanaSecundaria.setVisible(true);
     }
 }

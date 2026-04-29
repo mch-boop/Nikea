@@ -80,37 +80,53 @@ public class GUIServicioDialog extends JDialog {
         
         btnAlta.addActionListener(e -> {
             IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.ALTA_SERVICIO);
-            ((JFrame) vista).setVisible(true);
+            abrirVistaBloqueante((JFrame) vista);
         });
 
         btnBaja.addActionListener(e -> {
             IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.BAJA_SERVICIO);
-            ((JFrame) vista).setVisible(true);
+            abrirVistaBloqueante((JFrame) vista);
         });
 
         btnMostrar.addActionListener(e -> {
             IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.MOSTRAR_SERVICIOS);
-            ((JFrame) vista).setVisible(true);
+            abrirVistaBloqueante((JFrame) vista);
         });
 
         btnBuscar.addActionListener(e -> {
             IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.BUSCAR_SERVICIO);
-            ((JFrame) vista).setVisible(true);
+            abrirVistaBloqueante((JFrame) vista);
         });
 
         btnMejor.addActionListener(e -> { 
             IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.MOSTRAR_MEJOR_ARTICULO);
-            ((JFrame) vista).setVisible(true);
+            abrirVistaBloqueante((JFrame) vista);
         });
         
         btnModificar.addActionListener(e -> { 
             IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.MODIFICAR_SERVICIO);
-            ((JFrame) vista).setVisible(true);
+            abrirVistaBloqueante((JFrame) vista);
         });
         
         btnOrganizar.addActionListener(e -> { 
             IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.ORGANIZAR_MONTAJE);
-            ((JFrame) vista).setVisible(true);
+            abrirVistaBloqueante((JFrame) vista);
         });
+    }
+
+    private void abrirVistaBloqueante(Window ventanaSecundaria) {
+        this.setEnabled(false);
+        ventanaSecundaria.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosed(java.awt.event.WindowEvent e) {
+                GUIServicioDialog.this.setEnabled(true);
+                GUIServicioDialog.this.toFront();
+            }
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent e) {
+                GUIServicioDialog.this.setEnabled(true);
+            }
+        });
+        ventanaSecundaria.setVisible(true);
     }
 }

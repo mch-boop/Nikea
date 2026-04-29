@@ -2,6 +2,7 @@ package presentacion;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.awt.Window;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -52,32 +53,48 @@ public class GUIFacturaDialog  extends JDialog  {
         
         btnIniciar.addActionListener(e -> {
             IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.INICIAR_VENTA);
-            ((JFrame) vista).setVisible(true);
+            abrirVistaBloqueante((JFrame) vista);
         });
 
         btnAnnadir.addActionListener(e -> {
             IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.ANNADIR_SERVICIO);
-            ((JFrame) vista).setVisible(true);
+            abrirVistaBloqueante((JFrame) vista);
         });
 
         btnCerrar.addActionListener(e -> {
             IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.CERRAR_VENTA);
-            ((JFrame) vista).setVisible(true);
+            abrirVistaBloqueante((JFrame) vista);
         });
 
         btnBuscar.addActionListener(e -> {
             IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.BUSCAR_FACTURA);
-            ((JFrame) vista).setVisible(true);
+            abrirVistaBloqueante((JFrame) vista);
         });
 
         btnListar.addActionListener(e -> { 
             IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.MOSTRAR_FACTURAS);
-            ((JFrame) vista).setVisible(true);
+            abrirVistaBloqueante((JFrame) vista);
         });
         
         btnListarCliente.addActionListener(e -> { 
             IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.MOSTRAR_FACTURAS_CLIENTE);
-            ((JFrame) vista).setVisible(true);
+            abrirVistaBloqueante((JFrame) vista);
         });
+    }
+
+    private void abrirVistaBloqueante(Window ventanaSecundaria) {
+        this.setEnabled(false);
+        ventanaSecundaria.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosed(java.awt.event.WindowEvent e) {
+                GUIFacturaDialog.this.setEnabled(true);
+                GUIFacturaDialog.this.toFront();
+            }
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent e) {
+                GUIFacturaDialog.this.setEnabled(true);
+            }
+        });
+        ventanaSecundaria.setVisible(true);
     }
 }
