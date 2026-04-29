@@ -470,7 +470,50 @@ public class ControladorImp extends Controlador {
 			    break;
 			}
 			
-						
+			case Eventos.BUSCAR_DESCUENTO: {
+			    int id = (int) datos;
+			    SADescuento saDescuento = FactoriaAbstractaNegocio.getInstance().crearSADescuento();
+			    TDescuento td = saDescuento.read(id);
+			    IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(evento);
+			    if (td != null) {
+			        vista.actualizar(Eventos.RES_BUSCAR_DESCUENTO_OK, td);
+			    } else {
+			        vista.actualizar(Eventos.RES_BUSCAR_DESCUENTO_KO, null);
+			    }
+			    break;
+			}	
+			
+			case Eventos.MODIFICAR_DESCUENTO: {
+			    TDescuento td = (TDescuento) datos;
+			    SADescuento saDescuento = FactoriaAbstractaNegocio.getInstance().crearSADescuento();
+			    int res = saDescuento.update(td);
+			    IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(evento);
+			    if (res >= 0) {
+			        vista.actualizar(Eventos.RES_MODIFICAR_DESCUENTO_OK, res);
+			    } else if (res == -3) {
+			        vista.actualizar(Eventos.RES_MODIFICAR_DESCUENTO_KO_CODIGO, null);
+			    } else if (res == -4) {
+			        vista.actualizar(Eventos.RES_MODIFICAR_DESCUENTO_KO_PORCENTAJE, null);
+			    } else if (res == -1) {
+			        vista.actualizar(Eventos.RES_MODIFICAR_DESCUENTO_NO_ENCONTRADO, null);
+			    } else {
+			        vista.actualizar(Eventos.RES_MODIFICAR_DESCUENTO_KO, null);
+			    }
+			    break;
+			}
+			
+			case Eventos.CARGAR_DESCUENTO_MODIFICAR: {
+			    int id = (int) datos;
+			    SADescuento sa = FactoriaAbstractaNegocio.getInstance().crearSADescuento();
+			    TDescuento td = sa.read(id);
+			    IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.MODIFICAR_DESCUENTO);
+			    if (td != null && td.isActivo()) {
+			        vista.actualizar(Eventos.RES_CARGAR_DESCUENTO_MOD_OK, td);
+			    } else {
+			        vista.actualizar(Eventos.RES_CARGAR_DESCUENTO_MOD_KO, null);
+			    }
+			    break;
+			}
 			
 			//DEFAULT			
 			default:
