@@ -55,7 +55,7 @@ public class VistaBajaDescuento extends JFrame implements IGUI {
         // Acción Cancelar
         btnCancelar.addActionListener(e -> {
             txtId.setText("");
-            setVisible(false);
+            dispose();
         });
 
         // Acción Aceptar
@@ -96,7 +96,7 @@ public class VistaBajaDescuento extends JFrame implements IGUI {
                 case Eventos.RES_BAJA_DESCUENTO_OK:
                     JOptionPane.showMessageDialog(this, "Descuento con ID " + datos + " dado de baja correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
                     txtId.setText("");
-                    setVisible(false); // Cerramos tras éxito
+                    dispose(); // Cerramos tras éxito
                     break;
 
                 case Eventos.RES_BAJA_DESCUENTO_KO:
