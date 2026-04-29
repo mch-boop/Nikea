@@ -10,143 +10,90 @@ import negocio.descuento.TDescuento;
 @SuppressWarnings("serial")
 public class VistaBuscarDescuento extends JFrame implements IGUI {
 
-    private JPanel panelBusqueda;
+    // ATRIBUTOS
     private JTextField txtId;
-    private JButton btnBuscar, btnCancelar;
+    private JTextArea areaDetalles;
+    private JButton btnConsultar, btnLimpiar, btnCancelar;
 
-    private JPanel panelResultado;
-    private JLabel lblNombreVal, lblCodigoVal, lblPorcentajeVal,
-                   lblTipoVal, lblCantidadVal, lblActivoVal;
-    private JButton btnVolver;
-
-    private JPanel cardPanel;
-    private CardLayout cardLayout;
-
-    private static final String CARD_BUSQUEDA  = "busqueda";
-    private static final String CARD_RESULTADO = "resultado";
-
+    // CONSTRUCTORA
     public VistaBuscarDescuento() {
-        setTitle("Buscar Descuento");
+        setTitle("Consultar Descuento por ID");
         initGUI();
     }
 
+    // MÉTODOS
     private void initGUI() {
-        cardLayout = new CardLayout();
-        cardPanel  = new JPanel(cardLayout);
+        JPanel mainPanel = new JPanel(new GridBagLayout());
+        mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.insets = new Insets(5, 5, 5, 5);
 
-        cardPanel.add(buildPanelBusqueda(),  CARD_BUSQUEDA);
-        cardPanel.add(buildPanelResultado(), CARD_RESULTADO);
-
-        add(cardPanel);
-        pack();
-        setResizable(false);
-        setLocationRelativeTo(null);
-    }
-
-    //Introducir id
-    private JPanel buildPanelBusqueda() {
-        panelBusqueda = new JPanel();
-        panelBusqueda.setLayout(new BoxLayout(panelBusqueda, BoxLayout.Y_AXIS));
-        panelBusqueda.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-
-        JLabel lblInfo = new JLabel("Introduce el ID del descuento a consultar:");
-        lblInfo.setAlignmentX(CENTER_ALIGNMENT);
-
+        JPanel panelBusqueda = new JPanel(new FlowLayout(FlowLayout.CENTER));
         txtId = new JTextField(10);
-        txtId.setMaximumSize(new Dimension(200, 30));
-        txtId.setAlignmentX(CENTER_ALIGNMENT);
+        btnConsultar = new JButton("CONSULTAR");
+        panelBusqueda.add(new JLabel("ID Descuento:"));
+        panelBusqueda.add(txtId);
+        panelBusqueda.add(btnConsultar);
+        
+        gbc.gridy = 0;
+        mainPanel.add(panelBusqueda, gbc);
 
-        btnBuscar  = new JButton("BUSCAR");
+        areaDetalles = new JTextArea();
+        areaDetalles.setEditable(false);
+        areaDetalles.setBorder(BorderFactory.createTitledBorder("Detalles del Descuento"));
+        areaDetalles.setFont(new Font("Monospaced", Font.PLAIN, 13));
+        areaDetalles.setBackground(new Color(245, 245, 245));
+        areaDetalles.setPreferredSize(new Dimension(363, 200));
+        
+        gbc.gridy = 1;
+        gbc.fill = GridBagConstraints.NONE; 
+        gbc.anchor = GridBagConstraints.CENTER;
+        mainPanel.add(areaDetalles, gbc);
+
+        JPanel panelBotones = new JPanel();
+        btnLimpiar = new JButton("LIMPIAR");
         btnCancelar = new JButton("CANCELAR");
+        panelBotones.add(btnLimpiar);
+        panelBotones.add(btnCancelar);
+        
+        gbc.gridy = 2;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        mainPanel.add(panelBotones, gbc);
+
+        // LOGICA DE BOTONES
+        btnConsultar.addActionListener(e -> {
+            try {
+                String textoId = txtId.getText().trim();
+                if (textoId.isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "Debe introducir un ID.");
+                } else {
+                    Controlador.getInstance().accion(Eventos.BUSCAR_DESCUENTO, Integer.parseInt(textoId));
+                }
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(this, "El ID debe ser un número entero.");
+            }
+        });
+
+        btnLimpiar.addActionListener(e -> {
+            txtId.setText("");
+            areaDetalles.setText("");
+            areaDetalles.setPreferredSize(new Dimension(363, 200));
+            pack(); 
+        });
 
         btnCancelar.addActionListener(e -> {
             txtId.setText("");
+            areaDetalles.setText("");
             setVisible(false);
+            dispose();
         });
 
-        btnBuscar.addActionListener(e -> {
-            String idStr = txtId.getText().trim();
-            if (idStr.isEmpty()) {
-                JOptionPane.showMessageDialog(this,
-                    "Por favor, introduce un ID válido.", "Aviso",
-                    JOptionPane.WARNING_MESSAGE);
-                return;
-            }
-            try {
-                int id = Integer.parseInt(idStr);
-                Controlador.getInstance().accion(Eventos.BUSCAR_DESCUENTO, id);
-            } catch (NumberFormatException nfe) {
-                JOptionPane.showMessageDialog(this,
-                    "El ID debe ser un número entero.", "Error de formato",
-                    JOptionPane.ERROR_MESSAGE);
-            }
-        });
-
-        JPanel panelBotones = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        panelBotones.add(btnBuscar);
-        panelBotones.add(btnCancelar);
-
-        panelBusqueda.add(lblInfo);
-        panelBusqueda.add(Box.createRigidArea(new Dimension(0, 15)));
-        panelBusqueda.add(txtId);
-        panelBusqueda.add(Box.createRigidArea(new Dimension(0, 15)));
-        panelBusqueda.add(panelBotones);
-
-        return panelBusqueda;
-    }
-
-    //Mostrar datos
-    private JPanel buildPanelResultado() {
-        panelResultado = new JPanel();
-        panelResultado.setLayout(new BoxLayout(panelResultado, BoxLayout.Y_AXIS));
-        panelResultado.setBorder(BorderFactory.createEmptyBorder(20, 30, 20, 30));
-
-        JLabel lblTitulo = new JLabel("Datos del Descuento");
-        lblTitulo.setFont(lblTitulo.getFont().deriveFont(Font.BOLD, 14f));
-        lblTitulo.setAlignmentX(CENTER_ALIGNMENT);
-
-        JPanel grid = new JPanel(new GridLayout(0, 2, 10, 8));
-        grid.setBorder(BorderFactory.createEmptyBorder(15, 0, 15, 0));
-
-        lblNombreVal    = new JLabel();
-        lblCodigoVal    = new JLabel();
-        lblPorcentajeVal = new JLabel();
-        lblTipoVal      = new JLabel();
-        lblCantidadVal  = new JLabel();
-        lblActivoVal    = new JLabel();
-
-        grid.add(new JLabel("Nombre:"));      grid.add(lblNombreVal);
-        grid.add(new JLabel("Código:"));      grid.add(lblCodigoVal);
-        grid.add(new JLabel("Porcentaje:"));  grid.add(lblPorcentajeVal);
-        grid.add(new JLabel("Tipo:"));        grid.add(lblTipoVal);
-        grid.add(new JLabel("Cantidad mín:")); grid.add(lblCantidadVal);
-        grid.add(new JLabel("Activo:"));      grid.add(lblActivoVal);
-
-        btnVolver = new JButton("VOLVER");
-        btnVolver.setAlignmentX(CENTER_ALIGNMENT);
-        btnVolver.addActionListener(e -> {
-            txtId.setText("");
-            cardLayout.show(cardPanel, CARD_BUSQUEDA);
-            pack();
-        });
-
-        panelResultado.add(lblTitulo);
-        panelResultado.add(grid);
-        panelResultado.add(btnVolver);
-
-        return panelResultado;
-    }
-
-    private void mostrarDescuento(TDescuento td) {
-        lblNombreVal.setText(td.getNombre());
-        lblCodigoVal.setText(td.getCodigo());
-        lblPorcentajeVal.setText(td.getPorcentaje() + " %");
-        lblTipoVal.setText(td.isTipo() ? "Por importe" : "Por cantidad");
-        lblCantidadVal.setText(String.valueOf(td.getCantidad()));
-        lblActivoVal.setText(td.isActivo() ? "Sí" : "No");
-
-        cardLayout.show(cardPanel, CARD_RESULTADO);
+        getContentPane().add(mainPanel);
         pack();
+        setResizable(false);
+        setLocationRelativeTo(null);
     }
 
     @Override
@@ -154,16 +101,41 @@ public class VistaBuscarDescuento extends JFrame implements IGUI {
         SwingUtilities.invokeLater(() -> {
             switch (evento) {
                 case Eventos.RES_BUSCAR_DESCUENTO_OK:
-                    mostrarDescuento((TDescuento) datos);
+                    TDescuento td = (TDescuento) datos;
+                    areaDetalles.setPreferredSize(null);
+                    
+                    StringBuilder sb = new StringBuilder();
+                    sb.append(" ------------------------------------------ \n");
+                    sb.append("         DETALLES DEL DESCUENTO             \n");
+                    sb.append(" ------------------------------------------ \n");
+                    sb.append("ID:          ").append(td.getId()).append("\n");
+                    sb.append("Código:      ").append(td.getCodigo()).append("\n");
+                    sb.append("Nombre:      ").append(td.getNombre()).append("\n");
+                    sb.append("Porcentaje:  ").append(td.getPorcentaje()).append(" %\n");
+                    
+                    if (td.isTipo()) {
+                        sb.append("Tipo:        POR IMPORTE\n");
+                        sb.append("Imp. Mín:    ").append(td.getImporteMin()).append(" €\n");
+                    } else {
+                        sb.append("Tipo:        POR CANTIDAD\n");
+                        sb.append("Prod. Mín:   ").append(td.getProductosMin()).append(" uds\n");
+                    }
+                    
+                    sb.append("Activo:      ").append(td.isActivo() ? "SÍ" : "NO").append("\n");
+                    sb.append(" ------------------------------------------ \n");
+
+                    areaDetalles.setText(sb.toString());
+                    this.pack();
+                    areaDetalles.setCaretPosition(0);
                     break;
 
                 case Eventos.RES_BUSCAR_DESCUENTO_KO:
-                    JOptionPane.showMessageDialog(this,
-                        "No se encontró ningún descuento con ese ID.",
-                        "No encontrado", JOptionPane.WARNING_MESSAGE);
-                    break;
-
-                default:
+                    txtId.setText("");
+                    areaDetalles.setText("");
+                    areaDetalles.setPreferredSize(new Dimension(363, 200));
+                    pack();
+                    JOptionPane.showMessageDialog(this, "No existe descuento con ese ID", "Error", JOptionPane.ERROR_MESSAGE);
+                    txtId.requestFocus();
                     break;
             }
         });
