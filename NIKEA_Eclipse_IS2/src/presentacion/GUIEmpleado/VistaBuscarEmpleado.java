@@ -91,7 +91,13 @@ public class VistaBuscarEmpleado extends JFrame implements IGUI {
             pack(); // Reajusta al vaciar
         });
 
-        btnCancelar.addActionListener(e -> dispose());
+        btnCancelar.addActionListener(e -> {
+        	txtId.setText("");
+            areaDetalles.setText("");
+            areaDetalles.setPreferredSize(new Dimension(363, 200));
+            pack();
+            dispose(); 
+        });
 
         getContentPane().add(mainPanel);
         pack();

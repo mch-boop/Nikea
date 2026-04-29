@@ -71,18 +71,26 @@ public class GUIEmpleadoDialog extends JDialog {
     }
 
     private void abrirVistaBloqueante(Window ventanaSecundaria) {
-        this.setEnabled(false);
-        ventanaSecundaria.addWindowListener(new java.awt.event.WindowAdapter() {
+        this.setEnabled(false); // Bloqueamos el menú de empleados
+
+        // Listener para detectar tanto el cierre físico como el ocultarse (Singleton)
+        ventanaSecundaria.addComponentListener(new java.awt.event.ComponentAdapter() {
             @Override
-            public void windowClosed(java.awt.event.WindowEvent e) {
+            public void componentHidden(java.awt.event.ComponentEvent e) {
                 GUIEmpleadoDialog.this.setEnabled(true);
                 GUIEmpleadoDialog.this.toFront();
             }
+        });
+
+        // Por si acaso se hace un dispose() real en alguna
+        ventanaSecundaria.addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
             public void windowClosing(java.awt.event.WindowEvent e) {
                 GUIEmpleadoDialog.this.setEnabled(true);
+                GUIEmpleadoDialog.this.toFront();
             }
         });
+
         ventanaSecundaria.setVisible(true);
     }
 }
