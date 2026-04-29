@@ -1,6 +1,7 @@
 package negocio.factura;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -45,15 +46,15 @@ public class SAFacturaImp implements SAFactura {
 
 	    //if (esMontaje(servicio)) {
 
-            Integer idMontador = obtenerMontadorDisponible();
+            Integer idMontador1 = obtenerMontadorDisponible();
 
-            if (idMontador == null)
+            if (idMontador1 == null)
                 return false;
 
-            servicioAMontador.put(servicio.getId(), idMontador);
+            servicioAMontador.put(servicio.getId(), idMontador1);
 
             TMontadorMontaje tm = new TMontadorMontaje(
-                idMontador,
+                idMontador1,
                 servicio.getId()
             );
 
