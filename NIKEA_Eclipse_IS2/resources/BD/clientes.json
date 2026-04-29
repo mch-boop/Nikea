@@ -46,5 +46,13 @@
         "nombre": "Cliente",
         "DNI": "55",
         "activo": true
+    },
+    {
+        "apellidos": "C1",
+        "teléfono": 123456789,
+        "id": 7,
+        "nombre": "C1",
+        "DNI": "12344B",
+        "activo": true
     }
 ]

@@ -18,10 +18,11 @@ public class GUIFacturaDialog  extends JDialog  {
 	//CONSTRUCTORA
 	
 	public GUIFacturaDialog(JFrame owner) {
-        super(owner, "Gestión de Factura", false);
+        super(owner, "Gestión de Factura", true);
         setResizable(false);
     	setSize(800, 150);
         setLocationRelativeTo(owner);
+        setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         
         initGUI();
 	}

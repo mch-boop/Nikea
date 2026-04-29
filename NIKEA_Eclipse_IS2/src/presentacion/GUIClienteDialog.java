@@ -18,10 +18,11 @@ public class GUIClienteDialog extends JDialog {
 	// CONSTRUCTORA
 	
 	public GUIClienteDialog(JFrame owner) {
-	    super(owner, "Gestión de Cliente", false);
+	    super(owner, "Gestión de Cliente", true);
 	    setResizable(false); 
 	    setSize(800, 150); 
 	    setLocationRelativeTo(owner);
+	    setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 	    
 	    initGUI();
 	}

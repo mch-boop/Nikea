@@ -27,5 +27,14 @@
         "dni": "a",
         "numeroVentas": 0,
         "activo": true
+    },
+    {
+        "tipo": 2,
+        "apellido": "em1",
+        "sueldo": 1700,
+        "id": 4,
+        "nombre": "em1",
+        "dni": "1234A",
+        "activo": true
     }
 ]

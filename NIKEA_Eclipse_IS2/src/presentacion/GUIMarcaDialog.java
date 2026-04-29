@@ -11,10 +11,11 @@ public class GUIMarcaDialog extends JDialog {
     // CONSTRUCTORA
 
     public GUIMarcaDialog(JFrame owner) {
-    	super(owner, "Gestión de Marca", false);
+    	super(owner, "Gestión de Marca", true);
         setResizable(false);
         setSize(800, 150);
         setLocationRelativeTo(owner);
+        setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         
         initGUI();
     }
