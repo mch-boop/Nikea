@@ -60,7 +60,10 @@ public class GUIBuscarIdModificar extends JFrame implements IGUI {
         });
 
         // Lógica Cancelar
-        btnCancelar.addActionListener(e -> dispose());
+        btnCancelar.addActionListener(e ->{
+        	setVisible(false);
+        	//dispose(); 
+        });
 
         mainPanel.add(lblTitulo);
         mainPanel.add(Box.createRigidArea(new Dimension(0, 10)));
@@ -78,7 +81,8 @@ public class GUIBuscarIdModificar extends JFrame implements IGUI {
         switch (evento) {
             case Eventos.RES_BUSCAR_EMPLEADO_PARA_MODIFICAR_OK:
                 // Si lo encuentra, cerramos esta ventana
-                this.dispose();
+            	setVisible(false);
+                //this.dispose();
                 break;
             case Eventos.RES_BUSCAR_EMPLEADO_PARA_MODIFICAR_KO:
                 JOptionPane.showMessageDialog(this, "No existe el empleado con ID: " + datos, "Error", JOptionPane.ERROR_MESSAGE);

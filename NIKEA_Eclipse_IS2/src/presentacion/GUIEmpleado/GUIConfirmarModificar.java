@@ -40,8 +40,8 @@ public class GUIConfirmarModificar extends JDialog {
         JButton btnSi = new JButton("CONFIRMAR CAMBIO");
         JButton btnNo = new JButton("CANCELAR");
         
-        btnSi.addActionListener(e -> { confirmado = true; dispose(); });
-        btnNo.addActionListener(e -> { confirmado = false; dispose(); });
+        btnSi.addActionListener(e -> { confirmado = true; setVisible(false); /*dispose();*/ });
+        btnNo.addActionListener(e -> { confirmado = false; setVisible(false); /*dispose();*/ });
         
         pBotones.add(btnSi);
         pBotones.add(btnNo);

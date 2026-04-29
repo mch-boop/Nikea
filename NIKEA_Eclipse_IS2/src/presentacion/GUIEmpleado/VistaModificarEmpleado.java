@@ -119,7 +119,7 @@ public class VistaModificarEmpleado extends JFrame implements IGUI {
 		btnCancelar.addActionListener(e -> {
         	limpiarCampos();
 			setVisible(false);
-			dispose();
+			//dispose();
 		});
 
 		// ALINEACIÓN
@@ -256,7 +256,8 @@ public class VistaModificarEmpleado extends JFrame implements IGUI {
 
 			case Eventos.RES_MODIFICAR_EMPLEADO_OK:
 				JOptionPane.showMessageDialog(this, "Empleado actualizado correctamente.");
-				this.dispose(); // Cerramos al terminar
+				setVisible(false);
+				//this.dispose(); // Cerramos al terminar
 				break;
 
 			case Eventos.RES_MODIFICAR_EMPLEADO_KO_NO_EXISTE:

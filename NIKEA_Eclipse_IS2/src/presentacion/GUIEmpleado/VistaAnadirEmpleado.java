@@ -26,6 +26,7 @@ public class VistaAnadirEmpleado extends JFrame implements IGUI {
 	public VistaAnadirEmpleado() {
 		setTitle("Alta Empleado"); 
 		initGUI(); 
+		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 	}
 	
 	
@@ -134,7 +135,7 @@ public class VistaAnadirEmpleado extends JFrame implements IGUI {
             limpiarCampos();
             // Cerrar la ventana
             setVisible(false);
-            dispose();
+            //dispose();
         });
         
         // ALINEACIÓN 
@@ -191,7 +192,7 @@ public class VistaAnadirEmpleado extends JFrame implements IGUI {
 	                case Eventos.RES_ALTA_EMPLEADO_OK:
 	                	VistaAnadirEmpleado.this.limpiarCampos(); // Limpia los campos para el siguiente alta
 	                    JOptionPane.showMessageDialog(VistaAnadirEmpleado.this, "Éxito: Empleado creado con ID: " + datos); 
-	                    //VistaAnadirEmpleado.this.setVisible(false);
+	                    VistaAnadirEmpleado.this.setVisible(false);
 	                    //VistaAnadirEmpleado.this.dispose();
 	                    break;
 	        
@@ -227,7 +228,7 @@ public class VistaAnadirEmpleado extends JFrame implements IGUI {
 	                        // Al darle a SÍ, enviamos el Transfer con los datos nuevos al controlador
 	                        Controlador.getInstance().accion(Eventos.REACTIVAR_EMPLEADO, empReac);
 	                        VistaAnadirEmpleado.this.setVisible(false);
-	                        VistaAnadirEmpleado.this.dispose();
+		                    //VistaAnadirEmpleado.this.dispose();
 	                    }
 	                    break;
 
@@ -253,7 +254,8 @@ public class VistaAnadirEmpleado extends JFrame implements IGUI {
 	                        "2. Una vez reactivado, use el botón 'Actualizar Empleado' para cambiar su cargo actual.", 
 	                        "Reactivación Requerida", 
 	                        JOptionPane.WARNING_MESSAGE);
-	                    VistaAnadirEmpleado.this.dispose();
+	                    VistaAnadirEmpleado.this.setVisible(false);
+	                    //VistaAnadirEmpleado.this.dispose();
 	                    break;
 	                    
 	                case Eventos.RES_ALTA_EMPLEADO_KO:
