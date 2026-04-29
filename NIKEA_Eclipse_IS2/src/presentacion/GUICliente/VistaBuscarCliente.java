@@ -57,10 +57,11 @@ public class VistaBuscarCliente extends JFrame implements IGUI {
         panelBusqueda.add(btnConsultar);
 		
         // Área de visualización (no editable)
-        areaDetalles = new JTextArea(10, 30);
+        areaDetalles = new JTextArea();
         areaDetalles.setEditable(false);	
         areaDetalles.setBorder(BorderFactory.createTitledBorder("Detalles del Cliente"));
         areaDetalles.setFont(new Font("Monospaced", Font.PLAIN, 13));
+        areaDetalles.setPreferredSize(new Dimension(363, 200));
         // Lo meto en un JScrollPane para que se pueda ir scrolleando la información mostrada.
         JScrollPane scroll = new JScrollPane(areaDetalles);
         
@@ -126,11 +127,12 @@ public class VistaBuscarCliente extends JFrame implements IGUI {
 	
 	// MÉTODO DE IGUI
 	
-	// Datos es el TCliente del cliente.
+	
 	@Override public void actualizar(int evento, Object datos) {
     	// El controlador llama a este método tras la ejecución en el SA
         switch (evento) {
-
+        	
+        	// Datos es el TCliente del cliente.
             case Eventos.RES_BUSCAR_CLIENTE_OK:
             	// Recibo el transfer de cliente para leer los datos.
                 TCliente tc = (TCliente) datos;
@@ -148,14 +150,14 @@ public class VistaBuscarCliente extends JFrame implements IGUI {
                 sb.append("Teléfono:   ").append(tc.getTelefono()).append("\n");
                 
                 areaDetalles.setText(sb.toString());
-                // Forzamos el scroll hacia arriba
                 this.pack();
                 areaDetalles.setCaretPosition(0);
                 break;
-
+                
+            // Datos es la id del cliente.
             case Eventos.RES_BUSCAR_CLIENTE_KO:
                 areaDetalles.setText("");
-                JOptionPane.showMessageDialog(this, "No se ha encontrado ningún cliente con el ID: " + ((TCliente)datos).getId(), "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "No se ha encontrado ningún cliente con el ID: " + datos, "Error", JOptionPane.ERROR_MESSAGE);
                 txtId.requestFocus();
                 break;
 

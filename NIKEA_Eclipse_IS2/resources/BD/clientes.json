@@ -22,5 +22,29 @@
         "nombre": "Cliente",
         "DNI": "jiji",
         "activo": true
+    },
+    {
+        "apellidos": "Comprador",
+        "teléfono": -1,
+        "id": 4,
+        "nombre": "Cliente",
+        "DNI": "5114",
+        "activo": true
+    },
+    {
+        "apellidos": "Clientable",
+        "teléfono": 8181,
+        "id": 5,
+        "nombre": "Cliente",
+        "DNI": "8181",
+        "activo": true
+    },
+    {
+        "apellidos": "Clientable",
+        "teléfono": 55,
+        "id": 6,
+        "nombre": "Cliente",
+        "DNI": "55",
+        "activo": true
     }
 ]
