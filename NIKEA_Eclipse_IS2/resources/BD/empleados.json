@@ -1,9 +1,31 @@
-[{
-    "tipo": 2,
-    "apellido": "b",
-    "sueldo": 1200,
-    "id": 1,
-    "nombre": "a",
-    "dni": "c",
-    "activo": true
-}]
+[
+    {
+        "tipo": 2,
+        "apellido": "b",
+        "sueldo": 1200,
+        "id": 1,
+        "nombre": "a",
+        "dni": "c",
+        "activo": true
+    },
+    {
+        "tipo": 1,
+        "apellido": "ap",
+        "sueldo": 1200,
+        "id": 2,
+        "nombre": "nom",
+        "dni": "no",
+        "numeroVentas": 0,
+        "activo": true
+    },
+    {
+        "tipo": 1,
+        "apellido": "b",
+        "sueldo": 1200,
+        "id": 3,
+        "nombre": "a",
+        "dni": "a",
+        "numeroVentas": 0,
+        "activo": true
+    }
+]

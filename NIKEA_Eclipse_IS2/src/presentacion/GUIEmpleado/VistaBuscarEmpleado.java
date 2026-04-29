@@ -131,7 +131,6 @@ public class VistaBuscarEmpleado extends JFrame implements IGUI {
                     
                                        
                     areaDetalles.setText(sb.toString());
-                    // Forzamos el scroll hacia arriba
                     this.pack();
                     areaDetalles.setCaretPosition(0);
                     break;
