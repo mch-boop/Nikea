@@ -1,4 +1,4 @@
-    Rpackage negocio.empleado;
+package negocio.empleado;
 
 import org.json.JSONObject;
 

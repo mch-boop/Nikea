@@ -1,4 +1,4 @@
-    <szpackage negocio.empleado;
+package negocio.empleado;
 
 import org.json.JSONObject;
 
