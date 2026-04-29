@@ -7,7 +7,7 @@ import presentacion.GUIDescuento.*;
 import presentacion.GUIEmpleado.*;
 import presentacion.GUIFactura.*;
 import presentacion.GUIMarca.*;
-//import presentacion.GUIServicio.*;
+import presentacion.GUIServicio.*;
 import presentacion.controlador.Eventos;
 
 public class FactoriaPresentacion extends FactoriaAbstractaPresentacion {
@@ -49,18 +49,19 @@ public class FactoriaPresentacion extends FactoriaAbstractaPresentacion {
 	// ATRIBUTOS PARA SINGLETON (DESCUENTO)
 		
 	private static VistaAltaDescuento vistaAltaDescuento;
-	private static VistaMostrarDescuentos VistaMostrarDescuentos;
+	/*private static VistaMostrarDescuentos VistaMostrarDescuentos;
 	private static VistaBajaDescuento vistaBajaDescuento;
 	private static VistaBuscarDescuento vistaBuscarDescuento;
 	private static VistaModificarDescuento vistaModificarDescuento;
+	*/
 
 	
 	// ATRIBUTOS PARA SINGLETON (SERVICIO)
-	/*
+	
 	private static VistaAltaServicio vistaAltaServicio;
 	private static VistaEliminarServicio vistaEliminarServicio;
 	private static VistaMostrarServicios vistaMostrarServicios;
-	*/
+	
 
 	public IGUI createVista(int idEvento) {
 		switch (idEvento) {
@@ -199,7 +200,7 @@ public class FactoriaPresentacion extends FactoriaAbstractaPresentacion {
 				}
 				return vistaAltaDescuento;
 				
-			case Eventos.MOSTRAR_DESCUENTOS:
+			/*case Eventos.MOSTRAR_DESCUENTOS:
 			    if (VistaMostrarDescuentos == null) {
 			        VistaMostrarDescuentos = new VistaMostrarDescuentos();
 			    }
@@ -219,8 +220,9 @@ public class FactoriaPresentacion extends FactoriaAbstractaPresentacion {
 					vistaModificarDescuento = new VistaModificarDescuento();
 				}
 				return vistaModificarDescuento;
+				*/
 			// VISTAS DE SERVICIO
-				/*
+				
 			case Eventos.ALTA_SERVICIO:
 				if (vistaAltaServicio == null) {
 					vistaAltaServicio = new VistaAltaServicio();
@@ -231,12 +233,13 @@ public class FactoriaPresentacion extends FactoriaAbstractaPresentacion {
 					vistaEliminarServicio = new VistaEliminarServicio();
 				}
 				return vistaEliminarServicio;
+				
 			case Eventos.MOSTRAR_SERVICIOS:
 				if (vistaMostrarServicios == null) {
 					vistaMostrarServicios = new VistaMostrarServicios();
 				}
 				return vistaMostrarServicios;
-				*/
+				
 				
 			default:
 				// Error inesperado.
