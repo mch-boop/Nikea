@@ -17,7 +17,7 @@ public class VistaMostrarEmpleados extends JFrame implements IGUI {
 	
 	private JTable tablaEmpleados;
     private DefaultTableModel modeloTabla;
-    private JButton btnCargar, btnLimpiar, btnCancelar;
+    private JButton btnSalir;
 
     // CONSTRUCTORA
     
@@ -59,35 +59,15 @@ public class VistaMostrarEmpleados extends JFrame implements IGUI {
         scroll.setPreferredSize(new Dimension(700, 400));
         scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 
-        // Panel superior con el botón de carga
-        JPanel panelNorte = new JPanel();
-        btnCargar = new JButton("MOSTRAR TODOS LOS EMPLEADOS");
-        panelNorte.add(btnCargar);
-
-        // Panel inferior con botones 
+     // Panel inferior con el botón de salida. 
         JPanel panelSur = new JPanel();
-        btnLimpiar = new JButton("LIMPIAR");
-        btnCancelar = new JButton("CANCELAR");
-        panelSur.add(btnLimpiar);
-        panelSur.add(btnCancelar);
-
-        // Lógica de Carga
-        btnCargar.addActionListener(e -> {
-            // No necesitamos enviar datos para listar, el SA ya sabe qué hacer
-            Controlador.getInstance().accion(Eventos.MOSTRAR_EMPLEADOS, null);
-        });
-
-        // Lógica de Limpiar
-        btnLimpiar.addActionListener(e -> modeloTabla.setRowCount(0));
+        btnSalir = new JButton("SALIR");
+        panelSur.add(btnSalir);
 
         // Lógica de Cancelar
-        btnCancelar.addActionListener(e -> {
-            setVisible(false);
-            dispose();
-        });
+        btnSalir.addActionListener(e -> { setVisible(false); });
 
         // Añadir componentes al panel principal
-        mainPanel.add(panelNorte, BorderLayout.NORTH);
         mainPanel.add(scroll, BorderLayout.CENTER);
         mainPanel.add(panelSur, BorderLayout.SOUTH);
 

@@ -386,6 +386,8 @@ public class ControladorImp extends Controlador {
 				} else {
 					vista.actualizar(Eventos.RES_MOSTRAR_EMPLEADOS_KO, null);
 				}
+				((JFrame)vista).setVisible(true);
+			    ((JFrame)vista).toFront();
 				break;
 			}
 			
