@@ -1,6 +1,7 @@
 package presentacion.controlador;
 
 import java.util.Collection;
+import java.util.List;
 
 import javax.swing.JFrame;
 
@@ -11,6 +12,8 @@ import negocio.descuento.TDescuento;
 import negocio.empleado.SAEmpleado;
 import negocio.empleado.TEmpleado;
 import negocio.factoria.FactoriaAbstractaNegocio;
+import negocio.marca.SAMarca;
+import negocio.marca.TMarca;
 import negocio.servicio.SAServicio;
 import negocio.servicio.TServicio;
 import presentacion.IGUI;
@@ -388,6 +391,143 @@ public class ControladorImp extends Controlador {
 			
 			// EVENTOS DE MARCA
 			
+			case Eventos.ALTA_MARCA: {
+			    TMarca tMarca = (TMarca) datos;
+			    SAMarca saMarca = FactoriaAbstractaNegocio.getInstance().crearSAMarca();
+
+			    int res = saMarca.create(tMarca);
+			    IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(evento);
+
+			    if (res > 0) {
+			        vista.actualizar(Eventos.RES_ALTA_MARCA_OK, res);
+			    } else {
+			        switch (res) {
+			            case -1:
+			                vista.actualizar(Eventos.RES_ALTA_MARCA_YA_EXISTE, tMarca);
+			                break;
+			            case -2: 
+			                vista.actualizar(Eventos.RES_ALTA_MARCA_REACTIVADA, tMarca);
+			                break;
+			            case -3:
+			                vista.actualizar(Eventos.RES_ALTA_MARCA_KO_NOMBRE, tMarca);
+			                break;
+			            default:
+			                vista.actualizar(Eventos.RES_ALTA_MARCA_KO, res);
+			                break;
+			        }
+			    }
+			    break;
+			}
+
+			case Eventos.BUSCAR_MARCA: {
+			    int id = (int) datos;
+			    SAMarca saMarca = FactoriaAbstractaNegocio.getInstance().crearSAMarca();
+			    
+			    TMarca tm = saMarca.read(id);
+			    IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(evento);
+			    
+			    if (tm != null) {
+			        vista.actualizar(Eventos.RES_BUSCAR_MARCA_OK, tm);
+			    } else {
+			        vista.actualizar(Eventos.RES_BUSCAR_MARCA_KO, null);
+			    }
+			    break;
+			}
+
+			case Eventos.BAJA_MARCA: {
+			    int id = (int) datos;
+			    SAMarca saMarca = FactoriaAbstractaNegocio.getInstance().crearSAMarca();
+			    
+			    TMarca tm = saMarca.read(id);
+			    IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(evento);
+			    
+			    if (tm != null) {
+			        if (tm.isActivo()) {
+			            vista.actualizar(Eventos.RES_BAJA_MARCA_OK, tm); 
+			        } else {
+			            vista.actualizar(Eventos.RES_BAJA_MARCA_KO_YA_INACTIVO, id);
+			        }
+			    } else {
+			        vista.actualizar(Eventos.RES_BAJA_MARCA_KO_NO_EXISTE, id);
+			    }
+			    break;
+			}
+
+			case Eventos.CONFIRMAR_BAJA_MARCA: {
+			    int id = (int) datos;
+			    SAMarca saMarca = FactoriaAbstractaNegocio.getInstance().crearSAMarca();
+			    
+			    int res = saMarca.delete(id);
+			    
+			    IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.BAJA_MARCA);
+			    
+			    if (res >= 0) {
+			        vista.actualizar(Eventos.RES_BAJA_MARCA_CONFIRMADA, res);
+			    } else {
+			        vista.actualizar(Eventos.RES_BAJA_MARCA_KO_NO_EXISTE, id);
+			    }
+			    break;
+			}
+
+			case Eventos.BUSCAR_MARCA_PARA_MODIFICAR: {
+			    int id = (int) datos;
+			    SAMarca saMarca = FactoriaAbstractaNegocio.getInstance().crearSAMarca();
+			    
+			    TMarca tm = saMarca.read(id);
+			    IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(evento);
+			    
+			    if (tm != null && tm.isActivo()) {
+			        vista.actualizar(Eventos.RES_BUSCAR_MARCA_PARA_MODIFICAR_OK, tm);
+			    } else {
+			        vista.actualizar(Eventos.RES_BUSCAR_MARCA_PARA_MODIFICAR_KO, null);
+			    }
+			    break;
+			}
+
+			case Eventos.MODIFICAR_MARCA: {
+			    TMarca tm = (TMarca) datos;
+			    SAMarca saMarca = FactoriaAbstractaNegocio.getInstance().crearSAMarca();
+			    
+			    int res = saMarca.update(tm);
+			    IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.MODIFICAR_MARCA); 
+			    
+			    if (res >= 0) {
+			        vista.actualizar(Eventos.RES_MODIFICAR_MARCA_OK, res);
+			    } else if (res == -1) {
+			        vista.actualizar(Eventos.RES_MODIFICAR_MARCA_KO_NO_EXISTE, null);
+			    } else {
+			        vista.actualizar(Eventos.RES_MODIFICAR_MARCA_KO_DATOS_INVALIDOS, null);
+			    }
+			    break;
+			}
+
+			case Eventos.MOSTRAR_MARCAS: {
+			    SAMarca saMarca = FactoriaAbstractaNegocio.getInstance().crearSAMarca();
+			    Collection<TMarca> lista = saMarca.readAll();
+
+			    IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(evento);
+
+			    if (lista != null) {
+			        vista.actualizar(Eventos.RES_MOSTRAR_MARCAS_OK, lista);
+			    } else {
+			        vista.actualizar(Eventos.RES_MOSTRAR_MARCAS_KO, null);
+			    }
+			    break;
+			}
+
+			case Eventos.MOSTRAR_RANKING_MARCA: {
+			    SAMarca saMarca = FactoriaAbstractaNegocio.getInstance().crearSAMarca();
+			    List<TMarca> lista = saMarca.getTop5Marcas();
+
+			    IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(evento);
+
+			    if (lista != null) {
+			        vista.actualizar(Eventos.RES_MOSTRAR_RANKING_MARCA_OK, lista);
+			    } else {
+			        vista.actualizar(Eventos.RES_MOSTRAR_RANKING_MARCA_KO, null);
+			    }
+			    break;
+			}			
 			
 			
 			// EVENTOS DE DESCUENTO

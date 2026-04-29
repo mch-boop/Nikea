@@ -88,5 +88,15 @@
         "idMarca": 9,
         "nombre": "Polivalente",
         "activo": true
+    },
+    {
+        "listaArticulos": [],
+        "especialidades": [
+            "TECNOLOGIA",
+            "MUEBLES"
+        ],
+        "idMarca": 10,
+        "nombre": "Mesita de noche",
+        "activo": false
     }
 ]
