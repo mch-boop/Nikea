@@ -299,6 +299,9 @@ public class ControladorImp extends Controlador {
 				}
 				break;
 			}
+			case Eventos.MOSTRAR_MEJOR_ARTICULO:{
+				break;
+			}
 
 			case Eventos.MOSTRAR_SERVICIOS: {
 				SAServicio saServicio = FactoriaAbstractaNegocio.getInstance().crearSAServicio();
