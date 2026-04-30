@@ -21,32 +21,31 @@ public class DAOEmpleadoImp implements DAOEmpleado {
 	
     @Override
     public int create(TEmpleado te) {
-        List<TEmpleado> lista = (List<TEmpleado>) readAll();
+    	List<TEmpleado> lista = (List<TEmpleado>) readAll();
         
-        if (te.getId() == null || te.getId() <= 0) {
-            // Lógica de ALTA
-            te.setId(lista.size()+1);
-            lista.add(te);
-        } else {
-            // Lógica de MODIFICACIÓN
-            for (int i = 0; i < lista.size(); i++) {
-                if (lista.get(i).getId().equals(te.getId())) {
-                    // Reemplazamos la instancia antigua por la nueva 'te'.
-                    // 'te' ya es de la clase correcta porque la creamos en la Vista.
-                    lista.set(i, te); 
-                    break;
-                }
-            }
+        int maxId = 0;
+        for (TEmpleado e : lista) {
+            if (e.getId() > maxId) maxId = e.getId();
         }
+        te.setId(maxId + 1);
         
-        guardarEnArchivo(lista); // Esto recorrerá la lista y llamará a asJSON() de cada uno
+        lista.add(te);
+        guardarEnArchivo(lista);
         return te.getId();
     }
     
     @Override
     public int update(TEmpleado te) {
-        // Si tiene ID, busca en la lista y reemplaza
-        return this.create(te);
+    	List<TEmpleado> lista = (List<TEmpleado>) readAll();
+        
+        for (int i = 0; i < lista.size(); i++) {
+            if (lista.get(i).getId().equals(te.getId())) {
+                lista.set(i, te); // Reemplaza la instancia antigua por la nueva
+                guardarEnArchivo(lista);
+                return te.getId();
+            }
+        }
+        return -1; // No se encontró el ID
     }
 
     @Override

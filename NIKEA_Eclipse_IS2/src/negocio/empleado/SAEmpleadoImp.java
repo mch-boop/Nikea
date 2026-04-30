@@ -15,13 +15,12 @@ public class SAEmpleadoImp implements SAEmpleado {
 	
 	@Override
 	public int create(TEmpleado te) {
-	    // 1. Obtenemos el DAO
+		
 	    DAOEmpleado dao = FactoriaIntegracion.getInstance().crearDAOEmpleado(); 
 	    
-	    // 2. Buscamos si ya existe el DNI en el sistema
+	    // Buscamos si ya existe el DNI en el sistema
 	    TEmpleado existente = dao.readByDNI(te.getDNI());
 	    
-	    // Reseteamos el rastro del duplicado para esta nueva operación
 	    this.ultimoDuplicado = null;
 
 	    /*
@@ -30,18 +29,19 @@ public class SAEmpleadoImp implements SAEmpleado {
 	     * -1   -> Ya existe activo con los MISMOS datos (mismo nombre/apellido)
 	     * -100 -> Ya existe activo pero con DISTINTOS datos (DNI de otra persona)
 	     * -2   -> Existe inactivo pero los datos no coinciden (pedir confirmación de reactivación)
-	     * -3   -> Existe inactivo, mismos datos pero distinto TIPO (vendedor/montador)
+	     * -3  -> Existe inactivo, mismos datos pero distinto TIPO (vendedor/montador)
+	     * -300 -> Existe activo, mismos datos pero distinto TIPO (vendedor/montador)
 	     */
 
-	    // --- CASO 1: NO EXISTE EN EL SISTEMA ---
+	    // CASO 1: NO EXISTE EN EL SISTEMA 
 	    if (existente == null) {
 	        return dao.create(te);
 	    }
 	    
-	    // Si existe (activo o inactivo), lo guardamos para que el Controlador/Vista lo consulten
+	    // Si existe (activo o inactivo), lo guardamos para que el Controlador y Vista lo consulten
 	    this.ultimoDuplicado = existente;
 
-	    // --- LÓGICA DE COMPARACIÓN DE DATOS ---
+	    // COMPARACIÓN DE DATOS
 	    boolean mismoNombre = existente.getNombre() != null &&
 	                          existente.getNombre().trim().equalsIgnoreCase(te.getNombre().trim());
 
@@ -52,7 +52,7 @@ public class SAEmpleadoImp implements SAEmpleado {
 	    boolean mismosDatosPersonales = mismoNombre && mismoApellido;
 	    
 
-	    // --- CASO 2: EL EMPLEADO EXISTE PERO ESTÁ INACTIVO (BORRADO LÓGICO) ---
+	    // CASO 2: EL EMPLEADO EXISTE PERO ESTÁ INACTIVO
 	    if (!existente.isActivo()) {
 	        
 	        // A) Mismos datos pero distinto tipo (No se puede reactivar cambiando el rol directamente)
@@ -65,8 +65,8 @@ public class SAEmpleadoImp implements SAEmpleado {
 	            existente.setActivo(true);
 	            existente.setSueldo(te.getSueldo()); // Actualizamos el sueldo al nuevo valor
 	            
-	            dao.update(existente);
-	            return existente.getId();
+	            // Usamos el método update del DAO para persistir los cambios del objeto recuperado
+	            return dao.update(existente);
 	        }
 
 	        // C) Existe inactivo pero con datos distintos (Nombre/Apellido no coinciden)
@@ -74,18 +74,18 @@ public class SAEmpleadoImp implements SAEmpleado {
 	        return -2;
 	    }
 
-	    // --- CASO 3: EL EMPLEADO YA EXISTE Y ESTÁ ACTIVO ---
+	    // CASO 3: EL EMPLEADO YA EXISTE Y ESTÁ ACTIVO
 	    if (existente.isActivo()) {
 	    	// Mismos datos pero distinto tipo (No se puede reactivar cambiando el rol directamente)
-		    if (mismosDatosPersonales && existente.getTipo() != te.getTipo()) {
-	            return -300;
-	        } 
-		    
-	        if (mismosDatosPersonales) {
-	            return -1;   // Es el mismo empleado (Aviso: "Este empleado ya existe")
-	        } else {
-	            return -100; // Es otro empleado (Aviso: "DNI registrado a nombre de...")
-	        }
+			    if (mismosDatosPersonales && existente.getTipo() != te.getTipo()) {
+		            return -300;
+		        } 
+			    
+		        if (mismosDatosPersonales) {
+		            return -1;   // Es el mismo empleado 
+		        } else {
+		            return -100; // Es otro empleado (Aviso: "DNI registrado a nombre de...")
+		        }
 	    }
 
 	    return -1; // Fallback de seguridad

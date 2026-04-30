@@ -46,5 +46,15 @@
         "dni": "ado",
         "numeroVentas": 0,
         "activo": true
+    },
+    {
+        "tipo": 1,
+        "apellido": "Lolo",
+        "sueldo": 1200,
+        "id": 6,
+        "nombre": "Manolo",
+        "dni": "9090",
+        "numeroVentas": 0,
+        "activo": false
     }
 ]
