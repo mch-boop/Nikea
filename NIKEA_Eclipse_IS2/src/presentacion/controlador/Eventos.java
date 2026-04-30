@@ -113,7 +113,15 @@ public class Eventos {
     
     public static final int CERRAR_VENTA = 302;
     public static final int RES_CERRAR_VENTA_OK = 3021;
-	public static final int RES_CERRAR_VENTA_KO = 3020;
+	public static final int RES_CERRAR_VENTA_KO = -3020;
+	public static final int RES_CERRAR_VENTA_KO_NO_INICIADA = -30201;
+	public static final int RES_CERRAR_VENTA_KO_SIN_LINEAS = -30202;
+	public static final int RES_CERRAR_VENTA_KO_CLIENTE_NO_EXISTE = -30203;
+	public static final int RES_CERRAR_VENTA_KO_CLIENTE_INACTIVO = -30204;
+	public static final int RES_CERRAR_VENTA_KO_DESCUENTO_NO_EXISTE = -30205;
+	public static final int RES_CERRAR_VENTA_KO_DESCUENTO_INACTIVO = -30206;
+	public static final int RES_CERRAR_VENTA_KO_FECHA_INVALIDA = -30207;
+	public static final int RES_CERRAR_VENTA_KO_GENERAL = -30208;
 	
     public static final int ANNADIR_SERVICIO = 303;
     public static final int RES_ANNADIR_SERVICIO_OK = 3031;
