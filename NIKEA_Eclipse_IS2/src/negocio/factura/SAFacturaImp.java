@@ -176,19 +176,39 @@ public class SAFacturaImp implements SAFactura {
 	@Override
 	public TFactura mostrarPorId(int idFactura) {
 
-		return FactoriaAbstractaIntegracion.getInstance().crearDAOFactura().leerPorId(idFactura);
+		TFactura factura = FactoriaAbstractaIntegracion.getInstance().crearDAOFactura().leerPorId(idFactura);
+
+		if (factura == null) {
+			return null;
+		}
+
+		factura.setLineas(FactoriaAbstractaIntegracion.getInstance().crearDAOLineaFactura().leerPorFactura(idFactura));
+
+		return factura;
 	}
 
 	@Override
 	public List<TFactura> mostrarTodas() {
 
-		return FactoriaAbstractaIntegracion.getInstance().crearDAOFactura().leerTodas();
+		List<TFactura> facturas = FactoriaAbstractaIntegracion.getInstance().crearDAOFactura().leerTodas();
+		DAOLineaFactura linea = FactoriaAbstractaIntegracion.getInstance().crearDAOLineaFactura();
+		for (TFactura f : facturas) {
+			f.setLineas(linea.leerPorFactura(f.getId()));
+		}
+		return facturas;
 	}
 
 	@Override
 	public List<TFactura> mostrarPorCliente(int idCliente) {
 
-		return FactoriaAbstractaIntegracion.getInstance().crearDAOFactura().leerPorCliente(idCliente);
+		List<TFactura> facturas = FactoriaAbstractaIntegracion.getInstance().crearDAOFactura()
+				.leerPorCliente(idCliente);
+
+		DAOLineaFactura linea = FactoriaAbstractaIntegracion.getInstance().crearDAOLineaFactura();
+		for (TFactura f : facturas) {
+			f.setLineas(linea.leerPorFactura(f.getId()));
+		}
+		return facturas;
 	}
 
 	// Funciones Auxiliares
