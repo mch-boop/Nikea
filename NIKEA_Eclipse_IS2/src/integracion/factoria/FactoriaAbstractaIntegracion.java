@@ -12,7 +12,7 @@ import integracion.servicio.DAOServicio;
 import negocio.TOAResumenMensual;
 
 public abstract class FactoriaAbstractaIntegracion {
-	private static FactoriaAbstractaIntegracion instancia;
+    private static FactoriaAbstractaIntegracion instancia;
 
     public static FactoriaAbstractaIntegracion getInstance() {
         if (instancia == null) {
@@ -22,16 +22,27 @@ public abstract class FactoriaAbstractaIntegracion {
     }
 
     public abstract DAOCliente crearDAOCliente();
+
     public abstract DAOMontaje crearDAOMontaje();
+
     public abstract DAOEmpleado crearDAOEmpleado();
+
     public abstract DAOMarca crearDAOMarca();
+
     public abstract DAODescuento crearDAODescuento();
+
     public abstract DAOFactura crearDAOFactura();
+
     public abstract DAOMontadorMontaje crearDAOMontadorMontaje();
 
+<<<<<<< Updated upstream
 
 	public abstract DAOServicio crearDAOServicio();
 	public abstract TOAResumenMensual crearTOAResumenMensual();
+=======
+    public abstract DAOServicio crearDAOServicio();
+
+>>>>>>> Stashed changes
     public abstract DAOLineaFactura crearDAOLineaFactura();
 
 }

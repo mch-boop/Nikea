@@ -8,8 +8,9 @@ public class TLineaFactura {
     private int cantidad;
     private double precioUnitario;
 
-    //Constructor por defecto
-    public TLineaFactura() {}
+    // Constructor por defecto
+    public TLineaFactura() {
+    }
 
     // GETTERS Y SETTERS
 
@@ -34,8 +35,8 @@ public class TLineaFactura {
     }
 
     public void setCantidad(int cantidad) {
-        if (cantidad < 0) {
-            this.cantidad = 0;
+        if (cantidad < 1) {
+            this.cantidad = 1;
         } else {
             this.cantidad = cantidad;
         }

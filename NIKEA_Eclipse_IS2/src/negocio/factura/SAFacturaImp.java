@@ -92,6 +92,54 @@ public class SAFacturaImp implements SAFactura {
         return true;
     }
 	@Override
+	public boolean añadirServicioAVenta(TLineaFactura linea) {
+
+		if (facturaActual == null || linea == null) {
+			return false;
+		}
+
+		TLineaFactura existente = facturaActual.buscarLinea(linea.getIdProducto());
+
+		// Si el producto ya está añadido, aumentamos la cantidad
+		if (existente != null) {
+			existente.setCantidad(existente.getCantidad() + linea.getCantidad());
+		}
+		// De lo contrario, añadimos la nueva linea de factura
+		else {
+			facturaActual.addLinea(linea);
+		}
+		return true;
+	}
+
+	@Override
+	public ResultadoEliminarLinea eliminarServicioDeVenta(TLineaFactura linea) {
+
+		if (facturaActual == null || linea == null) {
+			return ResultadoEliminarLinea.ERROR;
+		}
+
+		TLineaFactura existente = facturaActual.buscarLinea(linea.getIdProducto());
+
+		// Si el producto no existe, delvolvemos false
+		if (existente == null) {
+			return ResultadoEliminarLinea.NO_EXISTE;
+		}
+		// Calculamos la nueva cantidad tras restar
+		int nuevaCantidad = existente.getCantidad() - linea.getCantidad();
+
+		// si necesario se borra la linea devolviendo el resultado correspondiente
+		if (nuevaCantidad < 0) {
+			facturaActual.removeLinea(existente);
+			return ResultadoEliminarLinea.BORRADO_DE_MAS;
+		} else if (nuevaCantidad == 0) {
+			facturaActual.removeLinea(existente);
+		} else {
+			existente.setCantidad(nuevaCantidad);
+		}
+		return ResultadoEliminarLinea.OK;
+	}
+
+	@Override
 	public int cerrarVenta(TFactura factura) {
 
 		if (facturaActual == null)
@@ -127,10 +175,17 @@ public class SAFacturaImp implements SAFactura {
 	}
 
 	@Override
+	public TFactura mostrarPorId(int idFactura) {
+
+		return FactoriaAbstractaIntegracion.getInstance().crearDAOFactura().leerPorId(idFactura);
+	}
+
+	@Override
 	public List<TFactura> mostrarTodas() {
 
 		return FactoriaAbstractaIntegracion.getInstance().crearDAOFactura().leerTodas();
 	}
+<<<<<<< Updated upstream
 	
 	// Funciones Auxiliares
 	
@@ -149,4 +204,12 @@ public class SAFacturaImp implements SAFactura {
 
         return null;
     }
+=======
+
+	@Override
+	public List<TFactura> mostrarPorCliente(int idCliente) {
+
+		return FactoriaAbstractaIntegracion.getInstance().crearDAOFactura().leerPorCliente(idCliente);
+	}
+>>>>>>> Stashed changes
 }
