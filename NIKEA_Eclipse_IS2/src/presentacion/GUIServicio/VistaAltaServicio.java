@@ -78,7 +78,6 @@ public class VistaAltaServicio extends JFrame implements IGUI {
         grupoTipo.add(rbMontaje);
 
         JPanel panelTipo = new JPanel();
-        panelTipo.add(new JLabel("Tipo:"));
         panelTipo.add(rbArticulo);
         panelTipo.add(rbMontaje);
 
@@ -86,37 +85,48 @@ public class VistaAltaServicio extends JFrame implements IGUI {
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.insets = new Insets(5, 5, 5, 5);
+        gbc.weightx = 1.0;
 
         gbc.gridx = 0;
         gbc.gridy = 0;
+        gbc.weightx = 0;
         formPanel.add(new JLabel("Nombre:"), gbc);
         gbc.gridx = 1;
+        gbc.weightx = 1.0;
         formPanel.add(txtNombre, gbc);
 
         gbc.gridx = 0;
         gbc.gridy = 1;
+        gbc.weightx = 0;
         formPanel.add(new JLabel("Descripción:"), gbc);
         gbc.gridx = 1;
+        gbc.weightx = 1.0;
         JScrollPane scrollDescripcion = new JScrollPane(txtDescripcion);
         scrollDescripcion.setPreferredSize(new Dimension(220, 90));
         formPanel.add(scrollDescripcion, gbc);
 
         gbc.gridx = 0;
         gbc.gridy = 2;
+        gbc.weightx = 0;
         formPanel.add(new JLabel("Stock:"), gbc);
         gbc.gridx = 1;
+        gbc.weightx = 1.0;
         formPanel.add(txtStock, gbc);
 
         gbc.gridx = 0;
         gbc.gridy = 3;
+        gbc.weightx = 0;
         formPanel.add(new JLabel("Precio actual:"), gbc);
         gbc.gridx = 1;
+        gbc.weightx = 1.0;
         formPanel.add(txtPrecio, gbc);
 
         gbc.gridx = 0;
         gbc.gridy = 4;
+        gbc.weightx = 0;
         formPanel.add(new JLabel("Tipo de servicio:"), gbc);
         gbc.gridx = 1;
+        gbc.weightx = 1.0;
         formPanel.add(panelTipo, gbc);
 
         JPanel panelBotones = new JPanel();
@@ -183,8 +193,6 @@ public class VistaAltaServicio extends JFrame implements IGUI {
         });
 
         mainPanel.add(formPanel);
-        mainPanel.add(Box.createRigidArea(new Dimension(0, 10)));
-        mainPanel.add(panelTipo);
         mainPanel.add(Box.createRigidArea(new Dimension(0, 20)));
         mainPanel.add(panelBotones);
 
