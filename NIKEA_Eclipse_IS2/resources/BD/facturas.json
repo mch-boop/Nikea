@@ -1,65 +1,74 @@
 [
-  {
-    "id": 1,
-    "idVendedor": 10,
-    "idCliente": 100,
-    "idDescuento": 0,
-    "fecha": "2026-04-05",
-    "total": 120.50,
-    "cerrada": true
-  },
-  {
-    "id": 2,
-    "idVendedor": 11,
-    "idCliente": 101,
-    "idDescuento": 1,
-    "fecha": "2026-04-10",
-    "total": 89.99,
-    "cerrada": true
-  },
-  {
-    "id": 3,
-    "idVendedor": 10,
-    "idCliente": 100,
-    "idDescuento": 0,
-    "fecha": "2026-04-15",
-    "total": 45.00,
-    "cerrada": true
-  },
-  {
-    "id": 4,
-    "idVendedor": 12,
-    "idCliente": 102,
-    "idDescuento": 2,
-    "fecha": "2026-03-20",
-    "total": 300.00,
-    "cerrada": true
-  },
-  {
-    "id": 5,
-    "idVendedor": 11,
-    "idCliente": 103,
-    "idDescuento": 0,
-    "fecha": "2026-04-25",
-    "total": 199.90,
-    "cerrada": false
-  },
-  {
-    "id": 6,
-    "idVendedor": 13,
-    "idCliente": 104,
-    "idDescuento": 1,
-    "fecha": "2026-02-12",
-    "total": 75.25,
-    "cerrada": true
-  },
-  {
-    "id": 7,
-    "idVendedor": 10,
-    "idCliente": 101,
-    "idDescuento": 0,
-    "fecha": "2026-04-28",
-    "total": 60.00,
-    "cerrada": true
-  }
+    {
+        "fecha": "2026-04-05",
+        "total": 120.5,
+        "cerrada": true,
+        "idDescuento": 0,
+        "idCliente": 100,
+        "idVendedor": 10,
+        "id": 1
+    },
+    {
+        "fecha": "2026-04-10",
+        "total": 89.99,
+        "cerrada": true,
+        "idDescuento": 1,
+        "idCliente": 101,
+        "idVendedor": 11,
+        "id": 2
+    },
+    {
+        "fecha": "2026-04-15",
+        "total": 45,
+        "cerrada": true,
+        "idDescuento": 0,
+        "idCliente": 100,
+        "idVendedor": 10,
+        "id": 3
+    },
+    {
+        "fecha": "2026-03-20",
+        "total": 300,
+        "cerrada": true,
+        "idDescuento": 2,
+        "idCliente": 102,
+        "idVendedor": 12,
+        "id": 4
+    },
+    {
+        "fecha": "2026-04-25",
+        "total": 199.9,
+        "cerrada": false,
+        "idDescuento": 0,
+        "idCliente": 103,
+        "idVendedor": 11,
+        "id": 5
+    },
+    {
+        "fecha": "2026-02-12",
+        "total": 75.25,
+        "cerrada": true,
+        "idDescuento": 1,
+        "idCliente": 104,
+        "idVendedor": 13,
+        "id": 6
+    },
+    {
+        "fecha": "2026-04-28",
+        "total": 60,
+        "cerrada": true,
+        "idDescuento": 0,
+        "idCliente": 101,
+        "idVendedor": 10,
+        "id": 7
+    },
+    {
+        "fecha": "2134-03-13",
+        "total": 0,
+        "cerrada": true,
+        "idDescuento": 4,
+        "idCliente": 7,
+        "idVendedor": 4,
+        "id": 8
+    }
 ]

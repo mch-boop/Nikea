@@ -17,7 +17,7 @@ import negocio.servicio.TServicio;
 
 public class SAFacturaImp implements SAFactura {
 	private DAOMontadorMontaje daoMontaje = FactoriaAbstractaIntegracion.getInstance().crearDAOMontadorMontaje();
-	private TFactura facturaActual;
+	private static TFactura facturaActual;
 	private Map<Integer, Integer> servicioAMontador = new HashMap<>();
 	private DAOEmpleado daoEmpleado = FactoriaAbstractaIntegracion.getInstance().crearDAOEmpleado();
 
