@@ -74,6 +74,29 @@ public class VistaAnadirCliente extends JFrame implements IGUI {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
+					
+					// Validación previa de los campos.
+                    if (txtNombre.getText().trim().isEmpty()) {
+                        JOptionPane.showMessageDialog(null, "Error: El nombre es un campo obligatorio.", "Faltan datos", JOptionPane.WARNING_MESSAGE);
+                        txtNombre.requestFocus();
+                        return;
+                    }
+                    if (txtApellido.getText().trim().isEmpty()) {
+                        JOptionPane.showMessageDialog(null, "Error: Los apellidos son un campo obligatorio.", "Faltan datos", JOptionPane.WARNING_MESSAGE);
+                        txtApellido.requestFocus();
+                        return;
+                    }
+                    if (txtDNI.getText().trim().isEmpty()) {
+                        JOptionPane.showMessageDialog(null, "Error: El DNI es un campo obligatorio.", "Faltan datos", JOptionPane.WARNING_MESSAGE);
+                        txtDNI.requestFocus();
+                        return;
+                    }
+                    if (txtTelefono.getText().trim().isEmpty()) {
+                        JOptionPane.showMessageDialog(null, "Error: El teléfono es un campo obligatorio.", "Faltan datos", JOptionPane.WARNING_MESSAGE);
+                        txtTelefono.requestFocus();
+                        return;
+                    }
+                    
 					//Forma el transfer con los datos introducidos en la vista: tCliente.
 					TCliente tCliente = new TCliente();
 					
@@ -81,8 +104,16 @@ public class VistaAnadirCliente extends JFrame implements IGUI {
 	                tCliente.setNombre(txtNombre.getText());
 	                tCliente.setApellidos(txtApellido.getText());
 	                tCliente.setDNI(txtDNI.getText());
-	                tCliente.setTelefono(Integer.valueOf(txtTelefono.getText()));
-	                tCliente.setActivo(true); // Se da de alta siempre como activo
+	                
+	                int tfno = Integer.valueOf(txtTelefono.getText().trim());
+                	if (tfno <= 0) {
+                		JOptionPane.showMessageDialog(null, "El teléfono debe ser un número positivo.", "Error", JOptionPane.ERROR_MESSAGE);
+                        txtTelefono.requestFocus();
+                        return;
+                	}
+                	else tCliente.setTelefono(tfno);
+
+                	tCliente.setActivo(true); // Se da de alta siempre como activo
 	
 					//El Controlador también es singleton.
 					Controlador.getInstance().accion(Eventos.ALTA_CLIENTE, tCliente);

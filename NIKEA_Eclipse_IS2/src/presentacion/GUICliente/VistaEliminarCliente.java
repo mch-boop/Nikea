@@ -63,7 +63,7 @@ public class VistaEliminarCliente extends JFrame implements IGUI {
                     	// Leemos la entrada.
                         int id = Integer.parseInt(textoId);
                         // Enviamos el ID al controlador, primero lo buscamos para pedir confirmación y luego eliminamos.
-                        Controlador.getInstance().accion(Eventos.BAJA_CLIENTE, id);
+                        Controlador.getInstance().accion(Eventos.CONFIRMAR_BAJA_CLIENTE, id);
                     }
                 } catch (NumberFormatException ex) {
                     // Si el ID no es numérico, enviamos evento de error de formato

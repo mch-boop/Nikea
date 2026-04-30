@@ -80,10 +80,18 @@ public class VistaBuscarCliente extends JFrame implements IGUI {
                 try {
                     String textoId = txtId.getText();
                     // Comprobamos que se ha rellenado el campo.
-                    if (textoId.isEmpty()) {
-    					JOptionPane.showMessageDialog(null, "Error: debe introducir un id.", "Error", JOptionPane.ERROR_MESSAGE);
-                    } else {
+                    if (textoId.trim().isEmpty()) {
+                        JOptionPane.showMessageDialog(null, "Error: debe introducir un id.", "Faltan datos", JOptionPane.WARNING_MESSAGE);
+                        txtId.requestFocus();
+                        return;
+                    }
+                    else {
                         int id = Integer.parseInt(textoId);
+                        if (id <= 0) {
+                        	JOptionPane.showMessageDialog(null, "El id debe ser un número positivo.", "Error", JOptionPane.ERROR_MESSAGE);
+                            txtId.requestFocus();
+                            return;
+                        }
                         Controlador.getInstance().accion(Eventos.BUSCAR_CLIENTE, id);
                     }
                 } catch (NumberFormatException ex) { 	// Lanzo error si no se ha podido parsear el número.

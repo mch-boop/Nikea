@@ -60,7 +60,9 @@ public class ControladorImp extends Controlador {
 
 			    break;
 			}
-			
+			case Eventos.CONFIRMAR_BAJA_CLIENTE:
+				break;
+				
 			case Eventos.MODIFICAR_CLIENTE: {
 			    TCliente tCliente = (TCliente) datos;
 			    SACliente saCli = FactoriaAbstractaNegocio.getInstance().crearSACliente();

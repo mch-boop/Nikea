@@ -1,11 +1,10 @@
 package negocio.cliente;
 
 import java.util.Collection;
-import java.util.List;
 
 import integracion.cliente.DAOCliente;
 import integracion.factoria.FactoriaAbstractaIntegracion;
-import integracion.factura.DAOFactura;
+import negocio.TOAResumenMensual;
 import negocio.factura.TFactura;
 
 public class SAClienteImp implements SACliente {
@@ -127,9 +126,8 @@ public class SAClienteImp implements SACliente {
 
 	@Override
 	public TCliente getMejorCliente() {
-		// TOAFactura fact = FactoriaAbstractaIntegracion.getInstance().crearTOAFactura();
-		// return fact.getMejorCliente();
-		return null;
+		TOAResumenMensual toa = FactoriaAbstractaIntegracion.getInstance().crearTOAResumenMensual();
+		return toa.getMejorCliente();
 	}
 
 }

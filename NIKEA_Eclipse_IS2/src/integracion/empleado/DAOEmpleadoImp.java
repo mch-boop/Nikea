@@ -25,11 +25,7 @@ public class DAOEmpleadoImp implements DAOEmpleado {
         
         if (te.getId() == null || te.getId() <= 0) {
             // Lógica de ALTA
-            int maxId = 0;
-            for (TEmpleado e : lista) {
-                if (e.getId() > maxId) maxId = e.getId();
-            }
-            te.setId(maxId + 1);
+            te.setId(lista.size()+1);
             lista.add(te);
         } else {
             // Lógica de MODIFICACIÓN

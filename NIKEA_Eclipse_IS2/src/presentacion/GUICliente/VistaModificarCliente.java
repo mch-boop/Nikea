@@ -191,7 +191,13 @@ public class VistaModificarCliente extends JFrame implements IGUI {
 	
 	                // Telefono 
 	                if (!txtTelefono.getText().trim().isEmpty()) {
-	                	tc.setTelefono(Integer.valueOf(txtTelefono.getText().trim()));
+	                	int tfno = Integer.valueOf(txtTelefono.getText().trim());
+	                	if (tfno <= 0) {
+	                		JOptionPane.showMessageDialog(null, "El teléfono debe ser un número positivo.", "Error", JOptionPane.ERROR_MESSAGE);
+	                        txtTelefono.requestFocus();
+	                        return;
+	                	}
+	                	else tc.setTelefono(tfno);
 	                } else {
 	                	tc.setTelefono(-1); // Valor centinela: "No modificar teléfono"
 	                }
@@ -220,8 +226,9 @@ public class VistaModificarCliente extends JFrame implements IGUI {
                     }
 	            }
                  catch (NumberFormatException ex) {
-                    JOptionPane.showMessageDialog(null, "Asegúrese de que el Teléfono sea un número válido.", "Error", JOptionPane.ERROR_MESSAGE);
-                }
+                    JOptionPane.showMessageDialog(null, "Asegúrese de que el teléfono sea un número válido.", "Error", JOptionPane.ERROR_MESSAGE);
+                    txtTelefono.requestFocus();
+                 }
             }
         });
         

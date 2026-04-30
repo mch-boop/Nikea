@@ -23,11 +23,7 @@ public class DAOClienteImp implements DAOCliente {
         
         if (tc.getId() == null || tc.getId() <= 0) {
             // Lógica de ALTA
-            int maxId = 0;
-            for (TCliente c : lista) {
-                if (c.getId() > maxId) maxId = c.getId();
-            }
-            tc.setId(maxId + 1);
+            tc.setId(lista.size()+1);
             lista.add(tc);
         } else {
             // Lógica de MODIFICACIÓN

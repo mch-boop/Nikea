@@ -9,6 +9,7 @@ import integracion.factura.DAOLineaFactura;
 import integracion.empleado.DAOMontadorMontaje;
 import integracion.servicio.DAOMontaje;
 import integracion.servicio.DAOServicio;
+import negocio.TOAResumenMensual;
 
 public abstract class FactoriaAbstractaIntegracion {
 	private static FactoriaAbstractaIntegracion instancia;
@@ -30,7 +31,7 @@ public abstract class FactoriaAbstractaIntegracion {
 
 
 	public abstract DAOServicio crearDAOServicio();
-
+	public abstract TOAResumenMensual crearTOAResumenMensual();
     public abstract DAOLineaFactura crearDAOLineaFactura();
 
 }
