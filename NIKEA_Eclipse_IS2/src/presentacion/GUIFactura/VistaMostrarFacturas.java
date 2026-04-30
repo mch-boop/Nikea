@@ -22,7 +22,7 @@ public class VistaMostrarFacturas extends JFrame implements IGUI {
     // ATRIBUTOS
     private JTable tabla;
     private DefaultTableModel modelo;
-    private JButton btnActualizar, btnCerrar;
+    private JButton btnCerrar;
 
     // CONSTRUCTOR
     public VistaMostrarFacturas() {
@@ -44,16 +44,11 @@ public class VistaMostrarFacturas extends JFrame implements IGUI {
 
         // BOTONES
         JPanel panelBotones = new JPanel();
-        btnActualizar = new JButton("ACTUALIZAR");
         btnCerrar = new JButton("CERRAR");
 
-        panelBotones.add(btnActualizar);
         panelBotones.add(btnCerrar);
 
-        // ACCIÓN ACTUALIZAR
-        btnActualizar.addActionListener(e -> {
-            Controlador.getInstance().accion(Eventos.MOSTRAR_FACTURAS, null);
-        });
+        //Controlador.getInstance().accion(Eventos.MOSTRAR_FACTURAS, null);
 
         // ACCIÓN CERRAR
         btnCerrar.addActionListener(e -> {
@@ -88,6 +83,7 @@ public class VistaMostrarFacturas extends JFrame implements IGUI {
 
         if (evento == Eventos.RES_MOSTRAR_FACTURAS_OK) {
             cargarTabla((List<TFactura>) datos);
+            setVisible(true);
         }
         else if (evento == Eventos.RES_MOSTRAR_FACTURAS_KO) {
             JOptionPane.showMessageDialog(this,

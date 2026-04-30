@@ -1,26 +1,65 @@
 [
-    {
-        "apellidos": "Chochon",
-        "teléfono": 666,
-        "id": 0,
-        "nombre": "Garci",
-        "DNI": "holapepe",
-        "activo": true
-    },
-    {
-        "apellidos": "Clientable",
-        "teléfono": 314159265,
-        "id": 1,
-        "nombre": "Cliente",
-        "DNI": "31415926P",
-        "activo": true
-    },
-    {
-        "apellidos": "Apellidos",
-        "teléfono": 123456789,
-        "id": 2,
-        "nombre": "Nombre",
-        "DNI": "12345678A",
-        "activo": true
-    }
+  {
+    "id": 1,
+    "idVendedor": 10,
+    "idCliente": 100,
+    "idDescuento": 0,
+    "fecha": "2026-04-05",
+    "total": 120.50,
+    "cerrada": true
+  },
+  {
+    "id": 2,
+    "idVendedor": 11,
+    "idCliente": 101,
+    "idDescuento": 1,
+    "fecha": "2026-04-10",
+    "total": 89.99,
+    "cerrada": true
+  },
+  {
+    "id": 3,
+    "idVendedor": 10,
+    "idCliente": 100,
+    "idDescuento": 0,
+    "fecha": "2026-04-15",
+    "total": 45.00,
+    "cerrada": true
+  },
+  {
+    "id": 4,
+    "idVendedor": 12,
+    "idCliente": 102,
+    "idDescuento": 2,
+    "fecha": "2026-03-20",
+    "total": 300.00,
+    "cerrada": true
+  },
+  {
+    "id": 5,
+    "idVendedor": 11,
+    "idCliente": 103,
+    "idDescuento": 0,
+    "fecha": "2026-04-25",
+    "total": 199.90,
+    "cerrada": false
+  },
+  {
+    "id": 6,
+    "idVendedor": 13,
+    "idCliente": 104,
+    "idDescuento": 1,
+    "fecha": "2026-02-12",
+    "total": 75.25,
+    "cerrada": true
+  },
+  {
+    "id": 7,
+    "idVendedor": 10,
+    "idCliente": 101,
+    "idDescuento": 0,
+    "fecha": "2026-04-28",
+    "total": 60.00,
+    "cerrada": true
+  }
 ]
