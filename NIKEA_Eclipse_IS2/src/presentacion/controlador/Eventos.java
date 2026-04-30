@@ -116,13 +116,23 @@ public class Eventos {
 	public static final int RES_CERRAR_VENTA_KO = 3020;
 	
     public static final int ANNADIR_SERVICIO = 303;
+    public static final int RES_ANNADIR_SERVICIO_OK = 3031;
+    public static final int RES_ANNADIR_SERVICIO_KO = 3030;
+
+    
     public static final int BUSCAR_FACTURA = 304;
+    public static final int RES_BUSCAR_FACTURA_OK = 3041;
+    public static final int RES_BUSCAR_FACTURA_KO = 3040;
+
     
     public static final int MOSTRAR_FACTURAS = 305;
     public static final int RES_MOSTRAR_FACTURAS_OK = 3051;
 	public static final int RES_MOSTRAR_FACTURAS_KO = 3050;
 	
     public static final int MOSTRAR_FACTURAS_CLIENTE = 306;
+    public static final int RES_MOSTRAR_FACTURAS_CLIENTE_OK = 3061;
+    public static final int RES_MOSTRAR_FACTURAS_CLIENTE_KO = 3060;
+
     
     
     // EVENTOS DE DESCUENTO
@@ -238,6 +248,10 @@ public class Eventos {
 
     public static final int MOSTRAR_MEJOR_ARTICULO = 606;
     public static final int RES_MOSTRAR_MEJOR_ARTICULO_OK = 6061;
+    public static final int RES_MOSTRAR_MEJOR_ARTICULO_KO = 6062;
+   // public static final int RES_BUSCAR_MEJOR_ARTICULO_PARA_MOSTRAR_OK= 6062;
+    //public static final int RES_BUSCAR_MEJOR_ARTICULO_PARA_MOSTRAR_KO= 6063;
+
     
     public static final int ORGANIZAR_MONTAJE = 607;
     public static final int RES_ORGANIZAR_MONTAJE_OK = 6071;

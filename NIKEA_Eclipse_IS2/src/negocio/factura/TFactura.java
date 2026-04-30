@@ -5,7 +5,7 @@ import java.util.List;
 
 public class TFactura {
 
-    private int id; 
+    private int id;
     private int idVendedor;
     private int idCliente;
     private int idDescuento;
@@ -16,7 +16,7 @@ public class TFactura {
 
     private List<TLineaFactura> lineas;
 
-    //Constructora por defecto
+    // Constructora por defecto
     public TFactura() {
         this.lineas = new ArrayList<>();
         this.total = 0.0;
@@ -88,13 +88,50 @@ public class TFactura {
     public void setLineas(List<TLineaFactura> lineas) {
         this.lineas = lineas;
     }
-    
-    // Métodos 
-    
+
+    // Métodos
+
+    public TLineaFactura buscarLinea(int idProducto) {
+
+        if (this.lineas == null) {
+            return null;
+        }
+
+        TLineaFactura existente = null;
+        int i = 0;
+        while (i < lineas.size() && existente == null) {
+            if (lineas.get(i).getIdProducto() == idProducto) {
+                existente = lineas.get(i);
+            }
+            i++;
+        }
+        return existente;
+    }
+
     public void addLinea(TLineaFactura linea) {
+
         if (this.lineas == null) {
             this.lineas = new ArrayList<>();
         }
         this.lineas.add(linea);
     }
+
+    public void removeLinea(TLineaFactura linea) {
+
+        if (this.lineas == null) {
+            return;
+        }
+        this.lineas.remove(linea);
+    }
+
+    public double getImporte() {
+        double suma = 0.0;
+
+        for (TLineaFactura l : lineas) {
+            suma += l.getSubtotal();
+        }
+
+        return suma;
+    }
+
 }

@@ -91,7 +91,7 @@ public class VistaIniciarVenta extends JFrame implements IGUI {
         formPanel.add(txtIdVendedor, ajuste);
 
         // TÍTULO
-        JLabel lblTitulo = new JLabel("Introduzca vendedor y descuento:");
+        JLabel lblTitulo = new JLabel("Introduzca vendedor:");
         lblTitulo.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         viewPanel.add(lblTitulo);
@@ -111,7 +111,7 @@ public class VistaIniciarVenta extends JFrame implements IGUI {
 
         if (evento == Eventos.RES_INICIAR_VENTA_OK) {
             JOptionPane.showMessageDialog(this,
-                "Venta iniciada correctamente con ID: " + (Integer) datos);
+                "Venta iniciada correctamente con ID: " + txtIdVendedor.getText());
         }
         else if (evento == Eventos.RES_INICIAR_VENTA_KO) {
             JOptionPane.showMessageDialog(this,

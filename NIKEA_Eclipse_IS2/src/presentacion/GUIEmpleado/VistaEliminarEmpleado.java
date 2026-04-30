@@ -75,7 +75,7 @@ public class VistaEliminarEmpleado extends JFrame implements IGUI {
         	// Limpiar campos
             txtId.setText("");
             // Cerrar la ventana
-            setVisible(false);
+            dispose();
         });
 
         // Añadir componentes al panel principal

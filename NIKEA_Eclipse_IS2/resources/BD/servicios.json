@@ -34,5 +34,14 @@
         "stock": 17,
         "nombre": "casillas",
         "activo": true
+    },
+    {
+        "descripcion": "pata",
+        "precioActual": 12,
+        "tipo": 1,
+        "id": 5,
+        "stock": 23,
+        "nombre": "pata",
+        "activo": false
     }
 ]
