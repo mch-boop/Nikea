@@ -70,5 +70,13 @@
         "nombre": "Cli",
         "DNI": "te",
         "activo": true
+    },
+    {
+        "apellidos": "veinti",
+        "teléfono": 232323232,
+        "id": 10,
+        "nombre": "cliente23",
+        "DNI": "23232323",
+        "activo": true
     }
 ]

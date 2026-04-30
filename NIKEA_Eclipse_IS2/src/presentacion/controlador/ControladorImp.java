@@ -268,6 +268,22 @@ public class ControladorImp extends Controlador {
 				}
 				break;
 			}
+			case Eventos.BUSCAR_SERVICIO:{
+				Integer id = (Integer) datos;
+				SAServicio saServicio = FactoriaAbstractaNegocio.getInstance().crearSAServicio();
+				TServicio servicio = saServicio.read(id);
+
+				IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.BUSCAR_SERVICIO);
+
+				if (servicio != null && servicio.isActivo()) {
+					vista.actualizar(Eventos.RES_BUSCAR_SERVICIO_OK, servicio);
+				} else {
+					vista.actualizar(Eventos.RES_BUSCAR_SERVICIO_KO, id);
+				}
+
+				((JFrame) vista).setVisible(true);
+				break;
+			}
 
 			case Eventos.BUSCAR_SERVICIO_PARA_MODIFICAR: {
 				Integer id = (Integer) datos;

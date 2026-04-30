@@ -79,7 +79,7 @@ public class VistaMostrarServicios extends JFrame implements IGUI {
         setLocationRelativeTo(null);
     }
 
-    private void cargarServicios() {
+    public void cargarServicios() {
         Controlador.getInstance().accion(Eventos.MOSTRAR_SERVICIOS, null);
     }
 

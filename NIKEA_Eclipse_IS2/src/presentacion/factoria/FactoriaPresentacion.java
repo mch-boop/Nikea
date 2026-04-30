@@ -58,8 +58,11 @@ public class FactoriaPresentacion extends FactoriaAbstractaPresentacion {
 	
 	private static VistaAltaServicio vistaAltaServicio;
 	private static VistaEliminarServicio vistaEliminarServicio;
+	private static VistaBuscarServicio vistaBuscarServicio;
 	private static VistaModificarServicio vistaModificarServicio;
 	private static VistaMostrarServicios vistaMostrarServicios;
+	private static VistaMostrarMejorArticulo vistaMostrarMejorArticulo;
+
 	
 
 	public IGUI createVista(int idEvento) {
@@ -232,11 +235,21 @@ public class FactoriaPresentacion extends FactoriaAbstractaPresentacion {
 					vistaEliminarServicio = new VistaEliminarServicio();
 				}
 				return vistaEliminarServicio;
+			case Eventos.BUSCAR_SERVICIO:
+				if (vistaBuscarServicio == null) {
+					vistaBuscarServicio = new VistaBuscarServicio();
+				}
+				return vistaBuscarServicio;
 			case Eventos.MODIFICAR_SERVICIO:
 				if (vistaModificarServicio == null) {
 					vistaModificarServicio = new VistaModificarServicio();
 				}
 				return vistaModificarServicio;
+			case Eventos.MOSTRAR_MEJOR_ARTICULO:
+				if (vistaMostrarMejorArticulo == null) {
+					vistaMostrarMejorArticulo = new VistaMostrarMejorArticulo();
+				}
+				return vistaMostrarMejorArticulo;
 			case Eventos.BUSCAR_SERVICIO_PARA_MODIFICAR:
 				if (vistaModificarServicio == null) {
 					vistaModificarServicio = new VistaModificarServicio();

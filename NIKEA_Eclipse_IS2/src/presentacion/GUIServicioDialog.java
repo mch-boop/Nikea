@@ -29,7 +29,7 @@ public class GUIServicioDialog extends JDialog {
 
         // --- SERVICIO GENERAL ---
         JPanel Servicios = new JPanel(new GridLayout(1, 4, 10, 10));
-        Servicios.setBorder(BorderFactory.createTitledBorder("Servicios"));
+       // Servicios.setBorder(BorderFactory.createTitledBorder("Servicios"));
 
         JButton btnAlta = new JButton("Alta Servicio");
         JButton btnBaja = new JButton("Baja Servicio");
@@ -42,11 +42,11 @@ public class GUIServicioDialog extends JDialog {
         Servicios.add(btnBuscar);
 
         // --- CONCRETOS ---
-        JPanel Abajo = new JPanel(new GridLayout(1, 3, 10, 10));
+        JPanel Abajo = new JPanel(new GridLayout(1, 4, 10, 10));
 
         // Producto
-        JPanel Producto = new JPanel(new GridLayout(1, 1, 10, 10));
-        Producto.setBorder(BorderFactory.createTitledBorder("Articulo"));
+        JPanel Producto = new JPanel(new GridLayout(1, 4, 10, 10));
+       // Producto.setBorder(BorderFactory.createTitledBorder("Articulo"));
         
         JButton btnMejor = new JButton("Mejor Articulo");
         
@@ -54,7 +54,7 @@ public class GUIServicioDialog extends JDialog {
 
         // Modificación de servicio
         JPanel ModificacionServicio = new JPanel(new GridLayout(1, 1, 10, 10));
-        ModificacionServicio.setBorder(BorderFactory.createTitledBorder("Servicio"));
+       // ModificacionServicio.setBorder(BorderFactory.createTitledBorder("Servicio"));
         JButton btnModificar = new JButton("Modificar Servicio");
         ModificacionServicio.add(btnModificar);
 
@@ -63,11 +63,11 @@ public class GUIServicioDialog extends JDialog {
         Montaje.setBorder(BorderFactory.createTitledBorder("Montaje"));
         
         JButton btnOrganizar = new JButton("Organizar Montaje");
-        Montaje.add(btnOrganizar);
+        //Montaje.add(btnOrganizar);
 
         Abajo.add(Producto);
         Abajo.add(ModificacionServicio);
-        Abajo.add(Montaje);
+       // Abajo.add(Montaje);
 
         JButton[] todosLosBotones = {btnAlta, btnBaja, btnMostrar, btnBuscar, btnMejor, btnModificar, btnOrganizar};
         for (JButton b : todosLosBotones) {
@@ -95,6 +95,9 @@ public class GUIServicioDialog extends JDialog {
 
         btnMostrar.addActionListener(e -> {
             IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.MOSTRAR_SERVICIOS);
+            if (vista instanceof VistaMostrarServicios) {
+                ((VistaMostrarServicios) vista).cargarServicios();
+            }
             abrirVistaBloqueante((JFrame) vista);
         });
 
@@ -120,6 +123,14 @@ public class GUIServicioDialog extends JDialog {
     }
 
     private void abrirVistaBloqueante(Window ventanaSecundaria) {
+        if (ventanaSecundaria == null) {
+            JOptionPane.showMessageDialog(this,
+                    "No se pudo abrir la ventana solicitada.",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
         this.setEnabled(false);
         ventanaSecundaria.addWindowListener(new java.awt.event.WindowAdapter() {
             @Override

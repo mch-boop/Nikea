@@ -249,8 +249,7 @@ public class Eventos {
     public static final int MOSTRAR_MEJOR_ARTICULO = 606;
     public static final int RES_MOSTRAR_MEJOR_ARTICULO_OK = 6061;
     public static final int RES_MOSTRAR_MEJOR_ARTICULO_KO = 6062;
-   // public static final int RES_BUSCAR_MEJOR_ARTICULO_PARA_MOSTRAR_OK= 6062;
-    //public static final int RES_BUSCAR_MEJOR_ARTICULO_PARA_MOSTRAR_KO= 6063;
+  
 
     
     public static final int ORGANIZAR_MONTAJE = 607;

@@ -15,7 +15,7 @@
         "id": 2,
         "stock": 2,
         "nombre": "a",
-        "activo": true
+        "activo": false
     },
     {
         "descripcion": "pata de palo madera",
@@ -42,6 +42,24 @@
         "id": 5,
         "stock": 23,
         "nombre": "pata",
+        "activo": false
+    },
+    {
+        "descripcion": "metaliccas1",
+        "precioActual": 34,
+        "tipo": 1,
+        "id": 6,
+        "stock": 2,
+        "nombre": "canastas",
+        "activo": false
+    },
+    {
+        "descripcion": "madera y pelo de cabello natural",
+        "precioActual": 7,
+        "tipo": 1,
+        "id": 7,
+        "stock": 100,
+        "nombre": "cepillo",
         "activo": false
     }
 ]
