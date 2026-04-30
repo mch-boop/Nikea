@@ -19,8 +19,8 @@ public class SAFacturaImp implements SAFactura {
 	private DAOMontadorMontaje daoMontaje = FactoriaAbstractaIntegracion.getInstance().crearDAOMontadorMontaje();
 	private TFactura facturaActual;
 	private Map<Integer, Integer> servicioAMontador = new HashMap<>();
-    private DAOEmpleado daoEmpleado =
-        FactoriaAbstractaIntegracion.getInstance().crearDAOEmpleado();
+	private DAOEmpleado daoEmpleado = FactoriaAbstractaIntegracion.getInstance().crearDAOEmpleado();
+
 	@Override
 	public boolean iniciarVenta(TFactura factura) {
 
@@ -35,62 +35,61 @@ public class SAFacturaImp implements SAFactura {
 		servicioAMontador.clear();
 		return true;
 	}
-	
-	//Está hecha la lógica para vincular y desvincular montadores, queda el resto.
+
+	// Está hecha la lógica para vincular y desvincular montadores, queda el resto.
 	@Override
 	public boolean añadirLinea(TLineaFactura linea, TServicio servicio, int idMontador) {
 		if (facturaActual == null || linea == null || servicio == null)
-	        return false;
+			return false;
 
-	    facturaActual.getLineas().add(linea);
+		facturaActual.getLineas().add(linea);
 
-	    //if (esMontaje(servicio)) {
+		// if (esMontaje(servicio)) {
 
-            Integer idMontador1 = obtenerMontadorDisponible();
+		Integer idMontador1 = obtenerMontadorDisponible();
 
-            if (idMontador1 == null)
-                return false;
+		if (idMontador1 == null)
+			return false;
 
-            servicioAMontador.put(servicio.getId(), idMontador1);
+		servicioAMontador.put(servicio.getId(), idMontador1);
 
-            TMontadorMontaje tm = new TMontadorMontaje(
-                idMontador1,
-                servicio.getId()
-            );
+		TMontadorMontaje tm = new TMontadorMontaje(
+				idMontador1,
+				servicio.getId());
 
-            if (!daoMontaje.existeVinculacion(tm)) {
-                daoMontaje.vincular(tm);
-            }
-        //}
+		if (!daoMontaje.existeVinculacion(tm)) {
+			daoMontaje.vincular(tm);
+		}
+		// }
 		return true;
-		
+
 	}
 
 	public boolean eliminarLinea(TLineaFactura linea, TServicio servicio) {
 
-        if (facturaActual == null || linea == null || servicio == null)
-            return false;
+		if (facturaActual == null || linea == null || servicio == null)
+			return false;
 
-        facturaActual.getLineas().remove(linea);
+		facturaActual.getLineas().remove(linea);
 
-        if (esMontaje(servicio)) {
+		if (esMontaje(servicio)) {
 
-            Integer idMontador = servicioAMontador.get(servicio.getId());
+			Integer idMontador = servicioAMontador.get(servicio.getId());
 
-            if (idMontador != null) {
+			if (idMontador != null) {
 
-                TMontadorMontaje tm = new TMontadorMontaje(
-                    idMontador,
-                    servicio.getId()
-                );
+				TMontadorMontaje tm = new TMontadorMontaje(
+						idMontador,
+						servicio.getId());
 
-                daoMontaje.desvincular(tm);
-                servicioAMontador.remove(servicio.getId());
-            }
-        }
+				daoMontaje.desvincular(tm);
+				servicioAMontador.remove(servicio.getId());
+			}
+		}
 
-        return true;
-    }
+		return true;
+	}
+
 	@Override
 	public boolean añadirServicioAVenta(TLineaFactura linea) {
 
@@ -170,7 +169,7 @@ public class SAFacturaImp implements SAFactura {
 
 		facturaActual = null;
 		servicioAMontador.clear();
-		
+
 		return id;
 	}
 
@@ -185,31 +184,28 @@ public class SAFacturaImp implements SAFactura {
 
 		return FactoriaAbstractaIntegracion.getInstance().crearDAOFactura().leerTodas();
 	}
-<<<<<<< Updated upstream
-	
-	// Funciones Auxiliares
-	
-	private boolean esMontaje(TServicio servicio) {
-        return servicio.getTipo() != null && servicio.getTipo() == 2;
-    }
-
-    private Integer obtenerMontadorDisponible() {
-
-        for (TEmpleado e : daoEmpleado.readAll()) {
-
-            if (e.getTipo()== 2 && e.isActivo()) {
-                return e.getId();
-            }
-        }
-
-        return null;
-    }
-=======
 
 	@Override
 	public List<TFactura> mostrarPorCliente(int idCliente) {
 
 		return FactoriaAbstractaIntegracion.getInstance().crearDAOFactura().leerPorCliente(idCliente);
 	}
->>>>>>> Stashed changes
+
+	// Funciones Auxiliares
+
+	private boolean esMontaje(TServicio servicio) {
+		return servicio.getTipo() != null && servicio.getTipo() == 2;
+	}
+
+	private Integer obtenerMontadorDisponible() {
+
+		for (TEmpleado e : daoEmpleado.readAll()) {
+
+			if (e.getTipo() == 2 && e.isActivo()) {
+				return e.getId();
+			}
+		}
+
+		return null;
+	}
 }

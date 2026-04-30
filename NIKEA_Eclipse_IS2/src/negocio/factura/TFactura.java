@@ -116,19 +116,6 @@ public class TFactura {
         this.lineas.add(linea);
     }
 
-<<<<<<< Updated upstream
-    public double getImporte() {
-        double suma = 0.0;
-
-        for (TLineaFactura l : lineas) {
-            suma += l.getSubtotal(); 
-        }
-
-        return suma;
-    }
-
-
-=======
     public void removeLinea(TLineaFactura linea) {
 
         if (this.lineas == null) {
@@ -137,5 +124,14 @@ public class TFactura {
         this.lineas.remove(linea);
     }
 
->>>>>>> Stashed changes
+    public double getImporte() {
+        double suma = 0.0;
+
+        for (TLineaFactura l : lineas) {
+            suma += l.getSubtotal();
+        }
+
+        return suma;
+    }
+
 }

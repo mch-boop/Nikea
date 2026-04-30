@@ -35,14 +35,10 @@ public abstract class FactoriaAbstractaIntegracion {
 
     public abstract DAOMontadorMontaje crearDAOMontadorMontaje();
 
-<<<<<<< Updated upstream
-
-	public abstract DAOServicio crearDAOServicio();
-	public abstract TOAResumenMensual crearTOAResumenMensual();
-=======
     public abstract DAOServicio crearDAOServicio();
 
->>>>>>> Stashed changes
+    public abstract TOAResumenMensual crearTOAResumenMensual();
+
     public abstract DAOLineaFactura crearDAOLineaFactura();
 
 }
