@@ -1,5 +1,7 @@
 package negocio;
 
-public class TOAResumenMensual {
+import negocio.cliente.TCliente;
 
+public interface TOAResumenMensual {
+	public TCliente getMejorCliente();
 }
