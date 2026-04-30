@@ -64,7 +64,7 @@ public class VistaMostrarServicios extends JFrame implements IGUI {
         scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 
         JPanel panelSur = new JPanel();
-        btnCancelar = new JButton("CANCELAR");
+        btnCancelar = new JButton("CERRAR");
         panelSur.add(btnCancelar);
 
         btnCancelar.addActionListener(e -> {
