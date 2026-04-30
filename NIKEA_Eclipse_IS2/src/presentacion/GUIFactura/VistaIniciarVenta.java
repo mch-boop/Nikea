@@ -129,7 +129,6 @@ public class VistaIniciarVenta extends JFrame implements IGUI {
 			case Eventos.RES_INICIAR_VENTA_OK:
 				JOptionPane.showMessageDialog(this, "Venta iniciada correctamente con ID: " + (Integer) datos);
 				limpiarCampos();
-				setVisible(false);
 				break;
 
 			case Eventos.RES_INICIAR_VENTA_KO:

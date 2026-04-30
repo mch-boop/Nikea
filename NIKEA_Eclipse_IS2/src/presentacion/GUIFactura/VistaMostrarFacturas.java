@@ -19,75 +19,81 @@ import presentacion.controlador.Eventos;
 @SuppressWarnings("serial")
 public class VistaMostrarFacturas extends JFrame implements IGUI {
 
-    // ATRIBUTOS
-    private JTable tabla;
-    private DefaultTableModel modelo;
-    private JButton btnCerrar;
+	// ATRIBUTOS
+	private JTable tabla;
+	private DefaultTableModel modelo;
+	private JButton btnCerrar;
 
-    // CONSTRUCTOR
-    public VistaMostrarFacturas() {
-        setTitle("Mostrar Facturas");
-        initGUI();
-    }
+	// CONSTRUCTOR
+	public VistaMostrarFacturas() {
+		setTitle("Mostrar Facturas");
+		initGUI();
+	}
 
-    private void initGUI() {
+	private void initGUI() {
 
-        setLayout(new BorderLayout());
+		setLayout(new BorderLayout());
 
-        // MODELO TABLA
-        modelo = new DefaultTableModel(
-            new Object[] { "ID Factura", "ID Cliente", "ID Vendedor", "Fecha" }, 0
-        );
+		// MODELO TABLA
+		modelo = new DefaultTableModel(new Object[] { "ID Factura", "ID Cliente", "ID Vendedor", "Fecha" }, 0);
 
-        tabla = new JTable(modelo);
-        JScrollPane scroll = new JScrollPane(tabla);
+		tabla = new JTable(modelo);
+		JScrollPane scroll = new JScrollPane(tabla);
 
-        // BOTONES
-        JPanel panelBotones = new JPanel();
-        btnCerrar = new JButton("CERRAR");
+		// BOTONES
+		JPanel panelBotones = new JPanel();
+		btnCerrar = new JButton("CERRAR");
 
-        panelBotones.add(btnCerrar);
+		panelBotones.add(btnCerrar);
 
-        //Controlador.getInstance().accion(Eventos.MOSTRAR_FACTURAS, null);
+		// ACCIÓN CERRAR
+		btnCerrar.addActionListener(e -> {
+			setVisible(false);
+			dispose();
+		});
 
-        // ACCIÓN CERRAR
-        btnCerrar.addActionListener(e -> {
-            setVisible(false);
-            dispose(); 
-        });
+		add(scroll, BorderLayout.CENTER);
+		add(panelBotones, BorderLayout.SOUTH);
 
-        add(scroll, BorderLayout.CENTER);
-        add(panelBotones, BorderLayout.SOUTH);
+		setSize(600, 300);
+		setLocationRelativeTo(null);
+	}
 
-        setSize(600, 300);
-        setLocationRelativeTo(null);
-    }
+	// CARGAR DATOS
+	private void cargarTabla(List<TFactura> facturas) {
+		modelo.setRowCount(0);
 
-    // CARGAR DATOS
-    private void cargarTabla(List<TFactura> facturas) {
-        modelo.setRowCount(0);
-
-        for (TFactura f : facturas) {
-            modelo.addRow(new Object[] {
-                f.getId(),
-                f.getIdCliente(),
-                f.getIdVendedor(),
-                f.getFecha()
-            });
-        }
-    }
-
-    // IGUI
-    @Override
-    public void actualizar(int evento, Object datos) {
-
-        if (evento == Eventos.RES_MOSTRAR_FACTURAS_OK) {
-            cargarTabla((List<TFactura>) datos);
-            setVisible(true);
-        }
-        else if (evento == Eventos.RES_MOSTRAR_FACTURAS_KO) {
+		if (facturas == null || facturas.isEmpty()) {
             JOptionPane.showMessageDialog(this,
-                "No se pudieron cargar las facturas.");
+                "No existen facturas registradas.",
+                "Información",
+                JOptionPane.INFORMATION_MESSAGE);
+            return;
         }
-    }
+		
+		for (TFactura f : facturas) {
+			modelo.addRow(new Object[] { f.getId(), f.getIdCliente(), f.getIdVendedor(), f.getFecha() });
+		}
+	}
+
+	// IGUI
+	@Override
+	public void actualizar(int evento, Object datos) {
+
+		javax.swing.SwingUtilities.invokeLater(() -> {
+
+			switch (evento) {
+
+			case Eventos.RES_MOSTRAR_FACTURAS_OK:
+				cargarTabla((List<TFactura>) datos);
+				setVisible(true);
+				break;
+
+			case Eventos.RES_MOSTRAR_FACTURAS_KO:
+				JOptionPane.showMessageDialog(this, "No se pudieron cargar las facturas.", "Error",
+						JOptionPane.ERROR_MESSAGE);
+				break;
+			}
+		});
+	}
 }
