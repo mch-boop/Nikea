@@ -8,12 +8,17 @@ import java.util.Map;
 import integracion.factoria.FactoriaAbstractaIntegracion;
 import integracion.factura.DAOFactura;
 import integracion.factura.DAOLineaFactura;
+import integracion.cliente.DAOCliente;
+import integracion.descuento.DAODescuento;
 import integracion.empleado.DAOEmpleado;
 import integracion.empleado.DAOMontadorMontaje;
+import negocio.cliente.TCliente;
+import negocio.descuento.TDescuento;
 import negocio.empleado.TEmpleado;
 import negocio.empleado.TMontador;
 import negocio.empleado.TMontadorMontaje;
 import negocio.servicio.TServicio;
+import presentacion.controlador.Eventos;
 
 public class SAFacturaImp implements SAFactura {
 	private DAOMontadorMontaje daoMontaje = FactoriaAbstractaIntegracion.getInstance().crearDAOMontadorMontaje();
@@ -53,9 +58,7 @@ public class SAFacturaImp implements SAFactura {
 
 		servicioAMontador.put(servicio.getId(), idMontador1);
 
-		TMontadorMontaje tm = new TMontadorMontaje(
-				idMontador1,
-				servicio.getId());
+		TMontadorMontaje tm = new TMontadorMontaje(idMontador1, servicio.getId());
 
 		if (!daoMontaje.existeVinculacion(tm)) {
 			daoMontaje.vincular(tm);
@@ -78,9 +81,7 @@ public class SAFacturaImp implements SAFactura {
 
 			if (idMontador != null) {
 
-				TMontadorMontaje tm = new TMontadorMontaje(
-						idMontador,
-						servicio.getId());
+				TMontadorMontaje tm = new TMontadorMontaje(idMontador, servicio.getId());
 
 				daoMontaje.desvincular(tm);
 				servicioAMontador.remove(servicio.getId());
@@ -142,10 +143,36 @@ public class SAFacturaImp implements SAFactura {
 	public int cerrarVenta(TFactura factura) {
 
 		if (facturaActual == null)
-			return -1;
+			return Eventos.RES_CERRAR_VENTA_KO_NO_INICIADA; // venta no iniciada
 
-		DAOFactura dao = FactoriaAbstractaIntegracion.getInstance().crearDAOFactura();
-		DAOLineaFactura daoLinea = FactoriaAbstractaIntegracion.getInstance().crearDAOLineaFactura();
+		if (facturaActual.getLineas() == null || facturaActual.getLineas().isEmpty())
+			return Eventos.RES_CERRAR_VENTA_KO_SIN_LINEAS;
+
+		if (factura.getFecha() == null || factura.getFecha().isEmpty())
+			return Eventos.RES_CERRAR_VENTA_KO_FECHA_INVALIDA;
+
+		DAOCliente daoCliente = FactoriaAbstractaIntegracion.getInstance().crearDAOCliente();
+		DAODescuento daoDescuento = FactoriaAbstractaIntegracion.getInstance().crearDAODescuento();
+
+		TCliente cliente = daoCliente.read(factura.getIdCliente());
+		if (cliente == null)
+			return Eventos.RES_CERRAR_VENTA_KO_CLIENTE_NO_EXISTE;
+
+		if (!cliente.isActivo())
+			return Eventos.RES_CERRAR_VENTA_KO_CLIENTE_INACTIVO;
+
+		int idDesc = factura.getIdDescuento();
+		if (idDesc != 0) {
+
+			TDescuento descuento = daoDescuento.read(idDesc);
+
+			if (descuento == null)
+				return Eventos.RES_CERRAR_VENTA_KO_DESCUENTO_NO_EXISTE;
+
+			if (!descuento.isActivo())
+				return Eventos.RES_CERRAR_VENTA_KO_DESCUENTO_INACTIVO;
+		}
+
 		facturaActual.setIdCliente(factura.getIdCliente());
 		facturaActual.setIdDescuento(factura.getIdDescuento());
 		facturaActual.setFecha(factura.getFecha());
@@ -158,6 +185,9 @@ public class SAFacturaImp implements SAFactura {
 
 		facturaActual.setTotal(total);
 		facturaActual.setCerrada(true);
+
+		DAOFactura dao = FactoriaAbstractaIntegracion.getInstance().crearDAOFactura();
+		DAOLineaFactura daoLinea = FactoriaAbstractaIntegracion.getInstance().crearDAOLineaFactura();
 
 		int id = dao.crear(facturaActual);
 		facturaActual.setId(id);

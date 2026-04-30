@@ -70,5 +70,14 @@
         "idCliente": 7,
         "idVendedor": 4,
         "id": 8
+    },
+    {
+        "fecha": "25/04/2026",
+        "total": 0,
+        "cerrada": true,
+        "idDescuento": 1,
+        "idCliente": 7,
+        "idVendedor": 1,
+        "id": 9
     }
 ]
