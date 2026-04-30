@@ -36,5 +36,15 @@
         "nombre": "em1",
         "dni": "1234A",
         "activo": true
+    },
+    {
+        "tipo": 1,
+        "apellido": "ple",
+        "sueldo": 1200,
+        "id": 5,
+        "nombre": "Em",
+        "dni": "ado",
+        "numeroVentas": 0,
+        "activo": true
     }
 ]
