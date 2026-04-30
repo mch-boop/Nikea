@@ -146,11 +146,11 @@ public class ControladorImp extends Controlador {
 			    TFactura tFactura = (TFactura) datos;
 			    SAFactura saFactura = FactoriaAbstractaNegocio.getInstance().crearSAFactura();
 			    
-			    boolean res = saFactura.iniciarVenta(tFactura);
+			    int res = saFactura.iniciarVenta(tFactura);
 
 			    IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(evento);
 
-			    if (res) {
+			    if (res>0) {
 			        vista.actualizar(Eventos.RES_INICIAR_VENTA_OK, res);
 			    } else {
 			        vista.actualizar(Eventos.RES_INICIAR_VENTA_KO, res);
