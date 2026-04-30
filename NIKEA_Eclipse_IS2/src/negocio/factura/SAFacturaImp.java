@@ -27,18 +27,36 @@ public class SAFacturaImp implements SAFactura {
 	private DAOEmpleado daoEmpleado = FactoriaAbstractaIntegracion.getInstance().crearDAOEmpleado();
 
 	@Override
-	public boolean iniciarVenta(TFactura factura) {
+	public int iniciarVenta(TFactura factura) {
 
-		if (factura == null || factura.getIdVendedor() <= 0)
-			return false;
+		if (factura == null)
+	        return Eventos.RES_INICIAR_VENTA_KO_GENERAL;
 
-		facturaActual = new TFactura();
-		facturaActual.setIdVendedor(factura.getIdVendedor());
-		facturaActual.setLineas(new ArrayList<>());
-		facturaActual.setCerrada(false);
+	    if (factura.getIdVendedor() <= 0)
+	        return Eventos.RES_INICIAR_VENTA_KO_VENDEDOR_NO_EXISTE;
 
-		servicioAMontador.clear();
-		return true;
+	    DAOEmpleado daoEmpleado = FactoriaAbstractaIntegracion.getInstance().crearDAOEmpleado();
+
+	    TEmpleado emp = daoEmpleado.read(factura.getIdVendedor());
+
+	    if (emp == null)
+	        return Eventos.RES_INICIAR_VENTA_KO_VENDEDOR_NO_EXISTE;
+
+	    if (!emp.isActivo())
+	        return Eventos.RES_INICIAR_VENTA_KO_VENDEDOR_INACTIVO;
+
+	    if (facturaActual != null)
+	        return Eventos.RES_INICIAR_VENTA_KO_YA_EN_CURSO; 
+
+	    facturaActual = new TFactura();
+	    facturaActual.setIdVendedor(factura.getIdVendedor());
+	    facturaActual.setLineas(new ArrayList<>());
+	    facturaActual.setCerrada(false);
+
+	    servicioAMontador.clear();
+	    
+	    return facturaActual.getId()+1;
+
 	}
 
 	// Está hecha la lógica para vincular y desvincular montadores, queda el resto.
@@ -148,7 +166,7 @@ public class SAFacturaImp implements SAFactura {
 		if (facturaActual.getLineas() == null || facturaActual.getLineas().isEmpty())
 			return Eventos.RES_CERRAR_VENTA_KO_SIN_LINEAS;
 
-		if (factura.getFecha() == null || factura.getFecha().isEmpty())
+		if (factura.getFecha() == null)
 			return Eventos.RES_CERRAR_VENTA_KO_FECHA_INVALIDA;
 
 		DAOCliente daoCliente = FactoriaAbstractaIntegracion.getInstance().crearDAOCliente();
