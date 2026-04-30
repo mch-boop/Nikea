@@ -23,12 +23,17 @@ public class VistaMostrarServicios extends JFrame implements IGUI {
 
     private JTable tablaServicios;
     private DefaultTableModel modeloTabla;
-    private JButton btnCargar, btnLimpiar, btnCancelar;
+    private JButton btnCancelar;
 
     public VistaMostrarServicios() {
         setTitle("Listado General de Servicios");
         initGUI();
         addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowOpened(java.awt.event.WindowEvent e) {
+                cargarServicios();
+            }
+
             @Override
             public void windowClosing(java.awt.event.WindowEvent e) {
                 modeloTabla.setRowCount(0);
@@ -57,30 +62,25 @@ public class VistaMostrarServicios extends JFrame implements IGUI {
         scroll.setPreferredSize(new Dimension(750, 400));
         scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 
-        JPanel panelNorte = new JPanel();
-        btnCargar = new JButton("MOSTRAR TODOS LOS SERVICIOS");
-        panelNorte.add(btnCargar);
-
         JPanel panelSur = new JPanel();
-        btnLimpiar = new JButton("LIMPIAR");
         btnCancelar = new JButton("CANCELAR");
-        panelSur.add(btnLimpiar);
         panelSur.add(btnCancelar);
 
-        btnCargar.addActionListener(e -> Controlador.getInstance().accion(Eventos.MOSTRAR_SERVICIOS, null));
-        btnLimpiar.addActionListener(e -> modeloTabla.setRowCount(0));
         btnCancelar.addActionListener(e -> {
             setVisible(false);
             dispose();
         });
 
-        mainPanel.add(panelNorte, BorderLayout.NORTH);
         mainPanel.add(scroll, BorderLayout.CENTER);
         mainPanel.add(panelSur, BorderLayout.SOUTH);
 
         getContentPane().add(mainPanel);
         pack();
         setLocationRelativeTo(null);
+    }
+
+    private void cargarServicios() {
+        Controlador.getInstance().accion(Eventos.MOSTRAR_SERVICIOS, null);
     }
 
     @Override
