@@ -52,4 +52,13 @@ public class TLineaFactura {
             this.precioUnitario = precioUnitario;
         }
     }
+
+	public double getSubtotal() {
+		return cantidad*precioUnitario;
+	}
+
+	public Integer getIdServicio() {
+		// TODO Auto-generated method stub
+		return idProducto;
+	}
 }

@@ -18,4 +18,6 @@ public interface DAOFactura {
 	public List<TFactura> leerPorCliente(int idCliente); //Buscar facturas de un cliente concreto
 
 	public List<TFactura> leerPorRangoFechas(String fechaInicio, String fechaFin); //Buscar facturas entre dos fechas
+
+	public List<TFactura> readByMes(int mes, int anio); //Lee las facturas de un mes concreto
 }

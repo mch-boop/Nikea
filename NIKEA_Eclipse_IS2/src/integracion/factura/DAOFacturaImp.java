@@ -159,4 +159,14 @@ public class DAOFacturaImp implements DAOFactura {
 		}
 	}
 
+	@Override
+	public List<TFactura> readByMes(int mes, int anio) {
+
+	    String mesStr = (mes < 10 ? "0" : "") + mes;
+
+	    String inicio = anio + "-" + mesStr + "-01";
+	    String fin = anio + "-" + mesStr + "-31";
+
+	    return leerPorRangoFechas(inicio, fin);
+	}
 }

@@ -97,4 +97,16 @@ public class TFactura {
         }
         this.lineas.add(linea);
     }
+
+    public double getImporte() {
+        double suma = 0.0;
+
+        for (TLineaFactura l : lineas) {
+            suma += l.getSubtotal(); 
+        }
+
+        return suma;
+    }
+
+
 }
