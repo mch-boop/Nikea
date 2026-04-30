@@ -12,6 +12,9 @@ import negocio.descuento.TDescuento;
 import negocio.empleado.SAEmpleado;
 import negocio.empleado.TEmpleado;
 import negocio.factoria.FactoriaAbstractaNegocio;
+import negocio.factura.SAFactura;
+import negocio.factura.TFactura;
+import negocio.factura.TLineaFactura;
 import negocio.marca.SAMarca;
 import negocio.marca.TMarca;
 import negocio.servicio.SAServicio;
@@ -138,6 +141,99 @@ public class ControladorImp extends Controlador {
 			}
 			
 			// EVENTOS DE FACTURA
+			
+			case Eventos.INICIAR_VENTA: {
+			    TFactura tFactura = (TFactura) datos;
+			    SAFactura saFactura = FactoriaAbstractaNegocio.getInstance().crearSAFactura();
+			    
+			    boolean res = saFactura.iniciarVenta(tFactura);
+
+			    IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(evento);
+
+			    if (res) {
+			        vista.actualizar(Eventos.RES_INICIAR_VENTA_OK, res);
+			    } else {
+			        vista.actualizar(Eventos.RES_INICIAR_VENTA_KO, res);
+			    }
+			    break;
+			}
+			
+			case Eventos.CERRAR_VENTA: {
+			    TFactura tFactura = (TFactura) datos; 
+			    SAFactura saFactura = FactoriaAbstractaNegocio.getInstance().crearSAFactura();
+			    
+			    int res = saFactura.cerrarVenta(tFactura);
+
+			    IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(evento);
+
+			    if (res > 0) {
+			        vista.actualizar(Eventos.RES_CERRAR_VENTA_OK, res);
+			    } else {
+			        vista.actualizar(Eventos.RES_CERRAR_VENTA_KO, res);
+			    }
+			    break;
+			}
+			
+			case Eventos.ANNADIR_SERVICIO: {
+			    TLineaFactura tLinea = (TLineaFactura) datos;
+			    SAFactura saFactura = FactoriaAbstractaNegocio.getInstance().crearSAFactura();
+			    
+			    //Asumo algo asi pero ns, dejo KO por defecto
+			    //int res = saFactura.annadirServicio(tLinea);
+			    
+			    int res = -1;
+
+			    IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(evento);
+			    
+			    if (res > 0) {
+			        vista.actualizar(Eventos.RES_ANNADIR_SERVICIO_OK, res);
+			    } else {
+			        vista.actualizar(Eventos.RES_ANNADIR_SERVICIO_KO, res);
+			    }
+			    break;
+			}
+			
+			case Eventos.BUSCAR_FACTURA: {
+			    Integer id = (Integer) datos;
+			    SAFactura saFactura = FactoriaAbstractaNegocio.getInstance().crearSAFactura();
+			   
+			    
+			    IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(evento);
+			    //Hasta completar
+			    if (false) {
+			        //vista.actualizar(Eventos.RES_BUSCAR_FACTURA_OK, factura);
+			    } else {
+			        vista.actualizar(Eventos.RES_BUSCAR_FACTURA_KO, id);
+			    }			  
+			}
+			
+			case Eventos.MOSTRAR_FACTURAS: {
+			    SAFactura saFactura = FactoriaAbstractaNegocio.getInstance().crearSAFactura();
+			    Collection<TFactura> facturas = saFactura.mostrarTodas();
+			    
+			    IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(evento);
+			    
+			    if (facturas != null) {
+			        vista.actualizar(Eventos.RES_MOSTRAR_FACTURAS_OK, facturas);
+			    } else {
+			        vista.actualizar(Eventos.RES_MOSTRAR_FACTURAS_KO, null);
+			    }
+			}
+			
+			case Eventos.MOSTRAR_FACTURAS_CLIENTE: {
+			    Integer idCliente = (Integer) datos;
+			    SAFactura saFactura = FactoriaAbstractaNegocio.getInstance().crearSAFactura();
+			    //Collection<TFactura> facturasCliente = saFactura.readPorCliente(idCliente);
+			    
+			    IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(evento);
+			    
+			    //Temporal
+			    if (false) {
+			        //vista.actualizar(Eventos.RES_MOSTRAR_FACTURAS_CLIENTE_OK, facturasCliente);
+			    } else {
+			        vista.actualizar(Eventos.RES_MOSTRAR_FACTURAS_CLIENTE_KO, null);
+			    }
+			}
 			
 			// EVENTOS DE SERVICIO
 			case Eventos.ALTA_SERVICIO: {
