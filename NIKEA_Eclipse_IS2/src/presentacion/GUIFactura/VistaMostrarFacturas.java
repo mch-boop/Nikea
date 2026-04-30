@@ -1,6 +1,7 @@
 package presentacion.GUIFactura;
 
 import java.awt.BorderLayout;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -70,9 +71,12 @@ public class VistaMostrarFacturas extends JFrame implements IGUI {
                 JOptionPane.INFORMATION_MESSAGE);
             return;
         }
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		
 		for (TFactura f : facturas) {
-			modelo.addRow(new Object[] { f.getId(), f.getIdCliente(), f.getIdVendedor(), f.getFecha() });
+			String fechaFormateada = sdf.format(f.getFecha());
+			
+			modelo.addRow(new Object[] { f.getId(), f.getIdCliente(), f.getIdVendedor(), fechaFormateada });
 		}
 	}
 

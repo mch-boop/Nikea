@@ -1,6 +1,7 @@
 package negocio.factura;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class TFactura {
@@ -9,7 +10,7 @@ public class TFactura {
     private int idVendedor;
     private int idCliente;
     private int idDescuento;
-    private String fecha;
+    private Date fecha;
 
     private double total;
     private boolean cerrada;
@@ -57,12 +58,12 @@ public class TFactura {
         this.idDescuento = idDescuento;
     }
 
-    public String getFecha() {
+    public Date getFecha() {
         return fecha;
     }
 
-    public void setFecha(String fecha) {
-        this.fecha = fecha;
+    public void setFecha(Date date) {
+        this.fecha = date;
     }
 
     public double getTotal() {

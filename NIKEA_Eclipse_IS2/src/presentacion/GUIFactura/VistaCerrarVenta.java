@@ -127,10 +127,37 @@ public class VistaCerrarVenta extends JFrame implements IGUI {
 				int mes = (Integer) spinnerMes.getValue();
 				int anio = (Integer) spinnerAnyo.getValue();
 
-				// Formato string
-				String fecha = String.format("%02d/%02d/%04d", dia, mes, anio);
+				Calendar fechaSeleccionada = Calendar.getInstance();
+				fechaSeleccionada.setLenient(false); 
+				fechaSeleccionada.set(anio, mes - 1, dia);
 
-				tFactura.setFecha(fecha);
+				try {
+				    fechaSeleccionada.getTime();
+				} catch (Exception ex) {
+				    JOptionPane.showMessageDialog(this, "La fecha introducida no es válida.", "Error",
+				            JOptionPane.ERROR_MESSAGE);
+				    return;
+				}
+
+				Calendar hoy = Calendar.getInstance();
+
+				hoy.set(Calendar.HOUR_OF_DAY, 0);
+				hoy.set(Calendar.MINUTE, 0);
+				hoy.set(Calendar.SECOND, 0);
+				hoy.set(Calendar.MILLISECOND, 0);
+				
+				fechaSeleccionada.set(Calendar.HOUR_OF_DAY, 0);
+				fechaSeleccionada.set(Calendar.MINUTE, 0);
+				fechaSeleccionada.set(Calendar.SECOND, 0);
+				fechaSeleccionada.set(Calendar.MILLISECOND, 0);
+
+				if (fechaSeleccionada.after(hoy)) {
+				    JOptionPane.showMessageDialog(this, "La fecha no puede ser futura.", "Error",
+				            JOptionPane.ERROR_MESSAGE);
+				    return;
+				}
+
+				tFactura.setFecha(fechaSeleccionada.getTime());
 
 				btnAceptar.setEnabled(false);
 				Controlador.getInstance().accion(Eventos.CERRAR_VENTA, tFactura);

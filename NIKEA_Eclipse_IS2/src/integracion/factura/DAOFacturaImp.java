@@ -3,7 +3,9 @@ package integracion.factura;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.json.JSONArray;
@@ -68,7 +70,12 @@ public class DAOFacturaImp implements DAOFactura {
 				f.setIdVendedor(obj.getInt("idVendedor"));
 				f.setIdCliente(obj.optInt("idCliente", 0));
 				f.setIdDescuento(obj.optInt("idDescuento", 0));
-				f.setFecha(obj.getString("fecha"));
+				try {
+				    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+				    f.setFecha(sdf.parse(obj.getString("fecha")));
+				} catch (Exception e) {
+				    e.printStackTrace();
+				}
 				f.setTotal(obj.getDouble("total"));
 				f.setCerrada(obj.getBoolean("cerrada"));
 
@@ -123,14 +130,27 @@ public class DAOFacturaImp implements DAOFactura {
 
 	@Override
 	public List<TFactura> leerPorRangoFechas(String fechaInicio, String fechaFin) {
-		List<TFactura> res = new ArrayList<>();
+	    List<TFactura> res = new ArrayList<>();
 
-		for (TFactura f : leerTodas()) {
-			if (f.getFecha().compareTo(fechaInicio) >= 0 && f.getFecha().compareTo(fechaFin) <= 0) {
-				res.add(f);
-			}
-		}
-		return res;
+	    try {
+	        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
+	        Date inicio = sdf.parse(fechaInicio);
+	        Date fin = sdf.parse(fechaFin);
+
+	        for (TFactura f : leerTodas()) {
+	            Date fecha = f.getFecha();
+
+	            if (!fecha.before(inicio) && !fecha.after(fin)) {
+	                res.add(f);
+	            }
+	        }
+
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+
+	    return res;
 	}
 
 	private void guardarEnArchivo(List<TFactura> lista) {
@@ -145,7 +165,8 @@ public class DAOFacturaImp implements DAOFactura {
 			obj.put("idVendedor", f.getIdVendedor());
 			obj.put("idCliente", f.getIdCliente());
 			obj.put("idDescuento", f.getIdDescuento());
-			obj.put("fecha", f.getFecha());
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			obj.put("fecha", sdf.format(f.getFecha()));
 			obj.put("total", f.getTotal());
 			obj.put("cerrada", f.isCerrada());
 

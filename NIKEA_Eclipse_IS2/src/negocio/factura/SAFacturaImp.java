@@ -166,7 +166,7 @@ public class SAFacturaImp implements SAFactura {
 		if (facturaActual.getLineas() == null || facturaActual.getLineas().isEmpty())
 			return Eventos.RES_CERRAR_VENTA_KO_SIN_LINEAS;
 
-		if (factura.getFecha() == null || factura.getFecha().isEmpty())
+		if (factura.getFecha() == null)
 			return Eventos.RES_CERRAR_VENTA_KO_FECHA_INVALIDA;
 
 		DAOCliente daoCliente = FactoriaAbstractaIntegracion.getInstance().crearDAOCliente();
