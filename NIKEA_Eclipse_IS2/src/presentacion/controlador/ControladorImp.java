@@ -415,6 +415,7 @@ public class ControladorImp extends Controlador {
 			    SAEmpleado sa = FactoriaAbstractaNegocio.getInstance().crearSAEmpleado();
 			    
 			    // El SA hace un update de los datos y cambiar activo a true
+			    t.setActivo(true);
 			    int res = sa.reactivate(t);  
 
 			    IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.ALTA_EMPLEADO);
