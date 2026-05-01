@@ -30,32 +30,32 @@ public class SAFacturaImp implements SAFactura {
 	public int iniciarVenta(TFactura factura) {
 
 		if (factura == null)
-	        return Eventos.RES_INICIAR_VENTA_KO_GENERAL;
+			return Eventos.RES_INICIAR_VENTA_KO_GENERAL;
 
-	    if (factura.getIdVendedor() <= 0)
-	        return Eventos.RES_INICIAR_VENTA_KO_VENDEDOR_NO_EXISTE;
+		if (factura.getIdVendedor() <= 0)
+			return Eventos.RES_INICIAR_VENTA_KO_VENDEDOR_NO_EXISTE;
 
-	    DAOEmpleado daoEmpleado = FactoriaAbstractaIntegracion.getInstance().crearDAOEmpleado();
+		DAOEmpleado daoEmpleado = FactoriaAbstractaIntegracion.getInstance().crearDAOEmpleado();
 
-	    TEmpleado emp = daoEmpleado.read(factura.getIdVendedor());
+		TEmpleado emp = daoEmpleado.read(factura.getIdVendedor());
 
-	    if (emp == null)
-	        return Eventos.RES_INICIAR_VENTA_KO_VENDEDOR_NO_EXISTE;
+		if (emp == null)
+			return Eventos.RES_INICIAR_VENTA_KO_VENDEDOR_NO_EXISTE;
 
-	    if (!emp.isActivo())
-	        return Eventos.RES_INICIAR_VENTA_KO_VENDEDOR_INACTIVO;
+		if (!emp.isActivo())
+			return Eventos.RES_INICIAR_VENTA_KO_VENDEDOR_INACTIVO;
 
-	    if (facturaActual != null)
-	        return Eventos.RES_INICIAR_VENTA_KO_YA_EN_CURSO; 
+		if (facturaActual != null)
+			return Eventos.RES_INICIAR_VENTA_KO_YA_EN_CURSO;
 
-	    facturaActual = new TFactura();
-	    facturaActual.setIdVendedor(factura.getIdVendedor());
-	    facturaActual.setLineas(new ArrayList<>());
-	    facturaActual.setCerrada(false);
+		facturaActual = new TFactura();
+		facturaActual.setIdVendedor(factura.getIdVendedor());
+		facturaActual.setLineas(new ArrayList<>());
+		facturaActual.setCerrada(false);
 
-	    servicioAMontador.clear();
-	    
-	    return facturaActual.getId()+1;
+		servicioAMontador.clear();
+
+		return facturaActual.getId() + 1;
 
 	}
 
@@ -238,12 +238,7 @@ public class SAFacturaImp implements SAFactura {
 	@Override
 	public List<TFactura> mostrarTodas() {
 
-		List<TFactura> facturas = FactoriaAbstractaIntegracion.getInstance().crearDAOFactura().leerTodas();
-		DAOLineaFactura linea = FactoriaAbstractaIntegracion.getInstance().crearDAOLineaFactura();
-		for (TFactura f : facturas) {
-			f.setLineas(linea.leerPorFactura(f.getId()));
-		}
-		return facturas;
+		return FactoriaAbstractaIntegracion.getInstance().crearDAOFactura().leerTodas();
 	}
 
 	@Override
