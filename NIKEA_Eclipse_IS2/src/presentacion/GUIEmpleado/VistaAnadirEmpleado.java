@@ -67,10 +67,11 @@ public class VistaAnadirEmpleado extends JFrame implements IGUI {
 		txtApellido = new JTextField(20);
 		txtDNI = new JTextField(20);
 
-		// Configuración del Spinner para el sueldo (mínimo 1200, sin máximo, pasos de
-		// 500)
-		SpinnerNumberModel sueldoModel = new SpinnerNumberModel(1200.0, 1200.0, null, 500.0);
+		// Configuración del Spinner para el sueldo (mínimo 1200, máximo 1000000, pasos de 500)
+		SpinnerNumberModel sueldoModel = new SpinnerNumberModel(1200.0, 1200.0, 1000000.0, 500.0);
 		spSueldo = new JSpinner(sueldoModel);
+		JSpinner.NumberEditor editor = new JSpinner.NumberEditor(spSueldo, "0.00");
+		spSueldo.setEditor(editor);
 
 		// Selección de tipo (Vendedor/Montador)
 		rbVendedor = new JRadioButton("Vendedor", true);
@@ -269,30 +270,6 @@ public class VistaAnadirEmpleado extends JFrame implements IGUI {
 				case Eventos.RES_ALTA_EMPLEADO_KO:
 					JOptionPane.showMessageDialog(VistaAnadirEmpleado.this, "Error en el sistema de persistencia.",
 							"Error Grave", JOptionPane.ERROR_MESSAGE);
-					break;
-
-				case Eventos.RES_ALTA_EMPLEADO_KO_DNI:
-					JOptionPane.showMessageDialog(VistaAnadirEmpleado.this, "El DNI introducido no es válido.",
-							"Error de Validación", JOptionPane.ERROR_MESSAGE);
-					txtDNI.requestFocus();
-					break;
-
-				case Eventos.RES_ALTA_EMPLEADO_KO_NOMBRE:
-					JOptionPane.showMessageDialog(VistaAnadirEmpleado.this, "El nombre es obligatorio.",
-							"Error de Validación", JOptionPane.ERROR_MESSAGE);
-					txtNombre.requestFocus();
-					break;
-
-				case Eventos.RES_ALTA_EMPLEADO_KO_APELLIDO:
-					JOptionPane.showMessageDialog(VistaAnadirEmpleado.this,
-							"El apellido es obligatorio para evitar duplicados.", "Error de Validación",
-							JOptionPane.ERROR_MESSAGE);
-					txtApellido.requestFocus();
-					break;
-
-				case Eventos.RES_ALTA_EMPLEADO_KO_SUELDO:
-					JOptionPane.showMessageDialog(VistaAnadirEmpleado.this, "El sueldo debe ser un número positivo.",
-							"Error de Validación", JOptionPane.ERROR_MESSAGE);
 					break;
 
 				default:

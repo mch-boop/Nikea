@@ -386,22 +386,6 @@ public class ControladorImp extends Controlador {
 			                vista.actualizar(Eventos.RES_ALTA_EMPLEADO_CAMBIO_TIPO_REQUERIDO_ACTIVO, saEmpleado.getUltimoDuplicado());
 			                break;
 
-			            case -4: // DNI inválido
-			                vista.actualizar(Eventos.RES_ALTA_EMPLEADO_KO_DNI, tEmpleado);
-			                break;
-
-			            case -5: // Nombre inválido
-			                vista.actualizar(Eventos.RES_ALTA_EMPLEADO_KO_NOMBRE, tEmpleado);
-			                break;
-
-			            case -6: // Apellido inválido
-			                vista.actualizar(Eventos.RES_ALTA_EMPLEADO_KO_APELLIDO, tEmpleado);
-			                break;
-
-			            case -7: // Sueldo inválido
-			                vista.actualizar(Eventos.RES_ALTA_EMPLEADO_KO_SUELDO, tEmpleado);
-			                break;
-
 			            default: // Error genérico o fallo de persistencia
 			                vista.actualizar(Eventos.RES_ALTA_EMPLEADO_KO, res);
 			                break;

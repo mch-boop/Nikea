@@ -27,5 +27,15 @@
         "dni": "444D",
         "numeroVentas": 0,
         "activo": true
+    },
+    {
+        "tipo": 1,
+        "apellido": "",
+        "sueldo": 1000000,
+        "id": 4,
+        "nombre": "Vicente",
+        "dni": "555E",
+        "numeroVentas": 0,
+        "activo": true
     }
 ]
