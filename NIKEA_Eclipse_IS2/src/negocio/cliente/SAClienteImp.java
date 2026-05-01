@@ -5,7 +5,6 @@ import java.util.Collection;
 import integracion.cliente.DAOCliente;
 import integracion.factoria.FactoriaAbstractaIntegracion;
 import negocio.TOAResumenMensual;
-import negocio.factura.TFactura;
 
 public class SAClienteImp implements SACliente {
 
@@ -57,8 +56,8 @@ public class SAClienteImp implements SACliente {
 	            existente.setActivo(true);
 	            existente.setTelefono(tc.getTelefono()); // Actualizamos el teléfono al nuevo valor
 	            
-	            dao.update(existente);
-	            return existente.getId();
+	            // Usamos el método update del DAO para persistir los cambios del objeto recuperado
+	            return dao.update(existente);
 	        }
 
 	        // Existe inactivo pero con datos distintos (Nombre/Apellido no coinciden)
