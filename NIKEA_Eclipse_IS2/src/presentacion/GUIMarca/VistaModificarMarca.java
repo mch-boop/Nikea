@@ -2,8 +2,8 @@ package presentacion.GUIMarca;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 import negocio.marca.TMarca;
 import negocio.marca.TMarca.Especialidad;
@@ -14,46 +14,44 @@ import presentacion.controlador.Eventos;
 @SuppressWarnings("serial")
 public class VistaModificarMarca extends JFrame implements IGUI {
 
-    // ATRIBUTOS
+    // ===== ATRIBUTOS =====
 
     private JTextField txtId, txtNombre;
     private JTextField txtNombreAct;
+
     private JButton btnBuscar, btnModificar, btnCancelar, btnCancelarModif;
 
     private JPanel panelEdicion, pBotones;
     private TMarca marcaEncontrada;
-    
+
     private JCheckBox chkEspecialidades;
 
-    private JList<Especialidad> listaAct;
-    private JList<Especialidad> listaNueva;
+    private JList<Especialidad> listaEspecialidades;
+    private JScrollPane scrollEspecialidades;
 
-    private DefaultListModel<Especialidad> modelAct;
-    private DefaultListModel<Especialidad> modelNueva;
-
-    // CONSTRUCTORA
+    // ===== CONSTRUCTORA =====
 
     public VistaModificarMarca() {
         setTitle("Modificar Marca");
         initGUI();
     }
 
-    // MÉTODOS
+    // ===== UI =====
 
     private void initGUI() {
 
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
-        mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        mainPanel.setBorder(BorderFactory.createEmptyBorder(20,20,20,20));
 
-        // ===== PANEL BÚSQUEDA =====
-        JPanel pBusqueda = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        // ===== BÚSQUEDA =====
+        JPanel pBusqueda = new JPanel(new FlowLayout());
 
         txtId = new JTextField(20);
         btnBuscar = new JButton("BUSCAR");
         btnCancelar = new JButton("CANCELAR");
 
-        pBusqueda.add(new JLabel("ID Marca a modificar:"));
+        pBusqueda.add(new JLabel("ID Marca:"));
         pBusqueda.add(txtId);
         pBusqueda.add(btnBuscar);
         pBusqueda.add(btnCancelar);
@@ -61,20 +59,16 @@ public class VistaModificarMarca extends JFrame implements IGUI {
         btnBuscar.addActionListener(e -> {
             try {
                 if (txtId.getText().trim().isEmpty()) {
-                    JOptionPane.showMessageDialog(null,
-                            "El ID es obligatorio",
-                            "Error",
-                            JOptionPane.ERROR_MESSAGE);
-                } else {
-                    int id = Integer.parseInt(txtId.getText().trim());
-                    pBotones.setVisible(false);
-                    Controlador.getInstance().accion(Eventos.BUSCAR_MARCA_PARA_MODIFICAR, id);
+                    JOptionPane.showMessageDialog(this, "ID obligatorio");
+                    return;
                 }
-            } catch (NumberFormatException ex) {
-                JOptionPane.showMessageDialog(null,
-                        "ID inválido",
-                        "Error",
-                        JOptionPane.ERROR_MESSAGE);
+
+                int id = Integer.parseInt(txtId.getText().trim());
+                pBotones.setVisible(false);
+                Controlador.getInstance().accion(Eventos.BUSCAR_MARCA_PARA_MODIFICAR, id);
+
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, "ID inválido");
             }
         });
 
@@ -83,7 +77,6 @@ public class VistaModificarMarca extends JFrame implements IGUI {
             txtId.setText("");
             txtId.setEditable(true);
             setVisible(false);
-            pack();
             dispose();
         });
 
@@ -104,14 +97,16 @@ public class VistaModificarMarca extends JFrame implements IGUI {
         mainPanel.add(panelEdicion);
 
         add(mainPanel);
+
         pack();
         setLocationRelativeTo(null);
     }
 
-    //panel edición
+    // ===== PANEL EDICIÓN =====
+
     private void crearPanelEdicion() {
 
-    	panelEdicion = new JPanel();
+        panelEdicion = new JPanel();
         panelEdicion.setLayout(new BoxLayout(panelEdicion, BoxLayout.Y_AXIS));
         panelEdicion.setBorder(BorderFactory.createTitledBorder("Datos Marca"));
         panelEdicion.setVisible(false);
@@ -124,24 +119,24 @@ public class VistaModificarMarca extends JFrame implements IGUI {
 
         chkEspecialidades = new JCheckBox("Modificar especialidades");
 
-        modelAct = new DefaultListModel<>();
-        modelNueva = new DefaultListModel<>();
+        // ===== LISTA MULTISELECT ENUM =====
+        listaEspecialidades = new JList<>(Especialidad.values());
+        listaEspecialidades.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+        listaEspecialidades.setEnabled(false);
 
-        listaAct = new JList<>(modelAct);
-        listaNueva = new JList<>(modelNueva);
-
-        JScrollPane spAct = new JScrollPane(listaAct);
-        JScrollPane spNueva = new JScrollPane(listaNueva);
-
-        spAct.setPreferredSize(new Dimension(150, 100));
-        spNueva.setPreferredSize(new Dimension(150, 100));
+        scrollEspecialidades = new JScrollPane(listaEspecialidades);
+        scrollEspecialidades.setPreferredSize(new Dimension(200, 100));
 
         chkEspecialidades.addActionListener(e -> {
-            listaNueva.setEnabled(chkEspecialidades.isSelected());
+            listaEspecialidades.setEnabled(chkEspecialidades.isSelected());
+            if (!chkEspecialidades.isSelected()) {
+                listaEspecialidades.clearSelection();
+            }
         });
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(5,5,5,5);
+        gbc.fill = GridBagConstraints.HORIZONTAL;
 
         // ===== NOMBRE =====
         gbc.gridy = 0;
@@ -163,21 +158,9 @@ public class VistaModificarMarca extends JFrame implements IGUI {
 
         // ===== ESPECIALIDADES =====
         gbc.gridy = 2;
-        gbc.gridwidth = 1;
+        gbc.gridwidth = 3;
 
-        gbc.gridx = 0;
-        datos.add(new JLabel("Actuales"), gbc);
-
-        gbc.gridx = 1;
-        datos.add(new JLabel("Nuevas"), gbc);
-
-        gbc.gridy = 3;
-
-        gbc.gridx = 0;
-        datos.add(spAct, gbc);
-
-        gbc.gridx = 1;
-        datos.add(spNueva, gbc);
+        datos.add(scrollEspecialidades, gbc);
 
         // ===== BOTONES =====
         JPanel botones = new JPanel();
@@ -201,11 +184,10 @@ public class VistaModificarMarca extends JFrame implements IGUI {
 
             // especialidades
             if (chkEspecialidades.isSelected()) {
-                List<Especialidad> lista = new ArrayList<>();
-                for (int i = 0; i < modelNueva.size(); i++) {
-                    lista.add(modelNueva.get(i));
-                }
-                tm.setEspecialidades(lista);
+
+                List<Especialidad> seleccionadas = listaEspecialidades.getSelectedValuesList();
+                tm.setEspecialidades(seleccionadas);
+
             } else {
                 tm.setEspecialidades(null);
             }
@@ -236,6 +218,8 @@ public class VistaModificarMarca extends JFrame implements IGUI {
         panelEdicion.add(botones);
     }
 
+    // ===== ACTUALIZAR =====
+
     @Override
     public void actualizar(int evento, Object datos) {
 
@@ -247,12 +231,14 @@ public class VistaModificarMarca extends JFrame implements IGUI {
 
                 txtNombreAct.setText(marcaEncontrada.getNombre());
 
-                modelAct.clear();
-                modelNueva.clear();
+                // preseleccionar especialidades actuales
+                listaEspecialidades.clearSelection();
 
-                for (Especialidad e : marcaEncontrada.getEspecialidades()) {
-                    modelAct.addElement(e);
-                    modelNueva.addElement(e);
+                if (marcaEncontrada.getEspecialidades() != null) {
+                    for (Especialidad e : marcaEncontrada.getEspecialidades()) {
+                        int index = e.ordinal();
+                        listaEspecialidades.addSelectionInterval(index, index);
+                    }
                 }
 
                 panelEdicion.setVisible(true);
@@ -292,5 +278,6 @@ public class VistaModificarMarca extends JFrame implements IGUI {
 
     private void limpiar() {
         txtNombre.setText("");
+        listaEspecialidades.clearSelection();
     }
 }
