@@ -61,7 +61,7 @@ public class SAFacturaImp implements SAFactura {
 
 	// Está hecha la lógica para vincular y desvincular montadores, queda el resto.
 	@Override
-	public boolean añadirLinea(TLineaFactura linea, TServicio servicio, int idMontador) {
+	public boolean annadirLinea(TLineaFactura linea, TServicio servicio, int idMontador) {
 		if (facturaActual == null || linea == null || servicio == null)
 			return false;
 
@@ -110,10 +110,10 @@ public class SAFacturaImp implements SAFactura {
 	}
 
 	@Override
-	public boolean añadirServicioAVenta(TLineaFactura linea) {
+	public int annadirServicioAVenta(TLineaFactura linea) {
 
 		if (facturaActual == null || linea == null) {
-			return false;
+			return -1;
 		}
 
 		TLineaFactura existente = facturaActual.buscarLinea(linea.getIdProducto());
@@ -126,21 +126,21 @@ public class SAFacturaImp implements SAFactura {
 		else {
 			facturaActual.addLinea(linea);
 		}
-		return true;
+		return 1;
 	}
 
 	@Override
-	public ResultadoEliminarLinea eliminarServicioDeVenta(TLineaFactura linea) {
+	public int eliminarServicioDeVenta(TLineaFactura linea) {
 
 		if (facturaActual == null || linea == null) {
-			return ResultadoEliminarLinea.ERROR;
+			return -1;
 		}
 
 		TLineaFactura existente = facturaActual.buscarLinea(linea.getIdProducto());
 
 		// Si el producto no existe, delvolvemos false
 		if (existente == null) {
-			return ResultadoEliminarLinea.NO_EXISTE;
+			return -2;
 		}
 		// Calculamos la nueva cantidad tras restar
 		int nuevaCantidad = existente.getCantidad() - linea.getCantidad();
@@ -148,13 +148,13 @@ public class SAFacturaImp implements SAFactura {
 		// si necesario se borra la linea devolviendo el resultado correspondiente
 		if (nuevaCantidad < 0) {
 			facturaActual.removeLinea(existente);
-			return ResultadoEliminarLinea.BORRADO_DE_MAS;
+			return -3;
 		} else if (nuevaCantidad == 0) {
 			facturaActual.removeLinea(existente);
 		} else {
 			existente.setCantidad(nuevaCantidad);
 		}
-		return ResultadoEliminarLinea.OK;
+		return 1;
 	}
 
 	@Override
