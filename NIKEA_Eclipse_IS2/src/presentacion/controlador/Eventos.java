@@ -1,45 +1,44 @@
 package presentacion.controlador;
 
 public class Eventos {
-	
-	// EVENTOS DE CLIENTE
 
-	public static final int ALTA_CLIENTE = 101;
-	public static final int RES_ALTA_CLIENTE_OK = 1011;
-	public static final int RES_ALTA_CLIENTE_KO = 1010;
+    // EVENTOS DE CLIENTE
+
+    public static final int ALTA_CLIENTE = 101;
+    public static final int RES_ALTA_CLIENTE_OK = 1011;
+    public static final int RES_ALTA_CLIENTE_KO = 1010;
     public static final int RES_ALTA_CLIENTE_KO_TELEFONO = 10101;
-	public static final int RES_ALTA_CLIENTE_KO_APELLIDO = 10102;
-	public static final int RES_ALTA_CLIENTE_KO_NOMBRE = 10103;
-	public static final int RES_ALTA_CLIENTE_KO_DNI = 10104;
-	public static final int RES_ALTA_CLIENTE_YA_EXISTE_MISMO = 101051;
-	public static final int RES_ALTA_CLIENTE_YA_EXISTE_DISTINTO = 101052;
-	public static final int REACTIVAR_CLIENTE = 10111;
-	public static final int RES_ALTA_CLIENTE_CONFIRMAR_REACTIVACION = 101111;
+    public static final int RES_ALTA_CLIENTE_KO_APELLIDO = 10102;
+    public static final int RES_ALTA_CLIENTE_KO_NOMBRE = 10103;
+    public static final int RES_ALTA_CLIENTE_KO_DNI = 10104;
+    public static final int RES_ALTA_CLIENTE_YA_EXISTE_MISMO = 101051;
+    public static final int RES_ALTA_CLIENTE_YA_EXISTE_DISTINTO = 101052;
+    public static final int REACTIVAR_CLIENTE = 10111;
+    public static final int RES_ALTA_CLIENTE_CONFIRMAR_REACTIVACION = 101111;
 
-	
     public static final int BAJA_CLIENTE = 102;
     public static final int RES_BAJA_CLIENTE_OK = 1021;
     public static final int RES_BAJA_CLIENTE_KO = 1020;
     public static final int RES_BAJA_CLIENTE_KO_ID_VACIO = 10201;
     public static final int RES_BAJA_CLIENTE_KO_ID_FORMATO = 10202;
-	public static final int RES_BAJA_CLIENTE_KO_NO_EXISTE = 10203;
-	public static final int RES_BAJA_CLIENTE_KO_YA_INACTIVO = 10204;
-	public static final int CONFIRMAR_BAJA_CLIENTE = 10211;
-	public static final int RES_BAJA_CLIENTE_CONFIRMADA = 102111;
-    
+    public static final int RES_BAJA_CLIENTE_KO_NO_EXISTE = 10203;
+    public static final int RES_BAJA_CLIENTE_KO_YA_INACTIVO = 10204;
+    public static final int CONFIRMAR_BAJA_CLIENTE = 10211;
+    public static final int RES_BAJA_CLIENTE_CONFIRMADA = 102111;
+
     public static final int MODIFICAR_CLIENTE = 103;
     public static final int RES_MODIFICAR_CLIENTE_OK = 1031;
     public static final int RES_MODIFICAR_CLIENTE_KO_NO_EXISTE = 10300;
     public static final int RES_MODIFICAR_CLIENTE_KO_DATOS_INVALIDOS = 10301;
-    public static final int BUSCAR_CLIENTE_PARA_MODIFICAR = 10303; 
+    public static final int BUSCAR_CLIENTE_PARA_MODIFICAR = 10303;
     public static final int VENTANA_BUSCAR_ID_CLIENTE = 103030;
     public static final int RES_BUSCAR_CLIENTE_PARA_MODIFICAR_OK = 103031;
     public static final int RES_BUSCAR_CLIENTE_PARA_MODIFICAR_KO = 103032;
-    
+
     public static final int BUSCAR_CLIENTE = 104;
     public static final int RES_BUSCAR_CLIENTE_KO = 1040;
     public static final int RES_BUSCAR_CLIENTE_OK = 1041;
-    
+
     public static final int MOSTRAR_CLIENTES = 105;
     public static final int RES_MOSTRAR_CLIENTES_OK = 1051;
     public static final int RES_MOSTRAR_CLIENTES_KO = 1050;
@@ -48,107 +47,108 @@ public class Eventos {
     public static final int RES_MOSTRAR_MEJOR_CLIENTE_OK = 1061;
     public static final int RES_BUSCAR_MEJOR_CLIENTE_PARA_MOSTRAR_OK = 1062;
     public static final int RES_MOSTRAR_MEJOR_CLIENTE_KO = 1060;
-    
-	// EVENTOS DE EMPLEADO
-    
+
+    // EVENTOS DE EMPLEADO
+
     public static final int ALTA_EMPLEADO = 201;
     public static final int RES_ALTA_EMPLEADO_OK = 2011;
-	public static final int RES_ALTA_EMPLEADO_KO = 2010;
+    public static final int RES_ALTA_EMPLEADO_KO = 2010;
     public static final int RES_ALTA_EMPLEADO_KO_SUELDO = 20101;
-	public static final int RES_ALTA_EMPLEADO_KO_APELLIDO = 20102;
-	public static final int RES_ALTA_EMPLEADO_KO_NOMBRE = 20103;
-	public static final int RES_ALTA_EMPLEADO_KO_DNI = 20104;
-	public static final int RES_ALTA_EMPLEADO_YA_EXISTE_MISMO = 201051;
-	public static final int RES_ALTA_EMPLEADO_YA_EXISTE_DISTINTO = 201052;
-	public static final int REACTIVAR_EMPLEADO = 20111;
-	public static final int RES_ALTA_EMPLEADO_CONFIRMAR_REACTIVACION = 201111;
-	public static final int RES_ALTA_EMPLEADO_CAMBIO_TIPO_REQUERIDO_INACTIVO = 201061;
-	public static final int RES_ALTA_EMPLEADO_CAMBIO_TIPO_REQUERIDO_ACTIVO = 201062;
-	
+    public static final int RES_ALTA_EMPLEADO_KO_APELLIDO = 20102;
+    public static final int RES_ALTA_EMPLEADO_KO_NOMBRE = 20103;
+    public static final int RES_ALTA_EMPLEADO_KO_DNI = 20104;
+    public static final int RES_ALTA_EMPLEADO_YA_EXISTE_MISMO = 201051;
+    public static final int RES_ALTA_EMPLEADO_YA_EXISTE_DISTINTO = 201052;
+    public static final int REACTIVAR_EMPLEADO = 20111;
+    public static final int RES_ALTA_EMPLEADO_CONFIRMAR_REACTIVACION = 201111;
+    public static final int RES_ALTA_EMPLEADO_CAMBIO_TIPO_REQUERIDO_INACTIVO = 201061;
+    public static final int RES_ALTA_EMPLEADO_CAMBIO_TIPO_REQUERIDO_ACTIVO = 201062;
+
     public static final int BAJA_EMPLEADO = 202;
     public static final int RES_BAJA_EMPLEADO_OK = 2021;
     public static final int RES_BAJA_EMPLEADO_KO = 2020;
     public static final int RES_BAJA_EMPLEADO_KO_ID_VACIO = 20201;
     public static final int RES_BAJA_EMPLEADO_KO_ID_FORMATO = 20202;
-	public static final int RES_BAJA_EMPLEADO_KO_NO_EXISTE = 20203;
-	public static final int RES_BAJA_EMPLEADO_KO_YA_INACTIVO = 20204;
-	public static final int CONFIRMAR_BAJA_EMPLEADO = 20211;
-	public static final int RES_BAJA_EMPLEADO_CONFIRMADA = 202111;
-    
+    public static final int RES_BAJA_EMPLEADO_KO_NO_EXISTE = 20203;
+    public static final int RES_BAJA_EMPLEADO_KO_YA_INACTIVO = 20204;
+    public static final int CONFIRMAR_BAJA_EMPLEADO = 20211;
+    public static final int RES_BAJA_EMPLEADO_CONFIRMADA = 202111;
+
     public static final int MODIFICAR_EMPLEADO = 203;
     public static final int RES_MODIFICAR_EMPLEADO_OK = 2031;
     public static final int RES_MODIFICAR_EMPLEADO_KO_NO_EXISTE = 20301;
     public static final int RES_MODIFICAR_EMPLEADO_KO_DATOS_INVALIDOS = 20302;
-    public static final int BUSCAR_EMPLEADO_PARA_MODIFICAR = 20303; 
+    public static final int BUSCAR_EMPLEADO_PARA_MODIFICAR = 20303;
     public static final int VENTANA_BUSCAR_ID_EMPLEADO = 203030;
     public static final int RES_BUSCAR_EMPLEADO_PARA_MODIFICAR_OK = 203031;
     public static final int RES_BUSCAR_EMPLEADO_PARA_MODIFICAR_KO = 203032;
-    
+
     public static final int BUSCAR_EMPLEADO = 204;
     public static final int RES_BUSCAR_EMPLEADO_KO = 2040;
     public static final int RES_BUSCAR_EMPLEADO_OK = 2041;
-    
+
     public static final int MOSTRAR_EMPLEADOS = 205;
     public static final int RES_MOSTRAR_EMPLEADOS_OK = 2051;
     public static final int RES_MOSTRAR_EMPLEADOS_KO = 2050;
-    
+
     // Relación M a N
     public static final int VINCULAR_MONTADOR_MONTAJE = 206;
     public static final int RES_VINCULAR_MONTADOR_OK = 2061;
     public static final int RES_VINCULAR_MONTADOR_KO = 2060;
     public static final int RES_VINCULAR_MONTADOR_KO_NO_EXISTE_EMPLEADO = 20601;
-    
+
     public static final int DESVINCULAR_MONTADOR_MONTAJE = 207;
     public static final int RES_DESVINCULAR_MONTADOR_OK = 2071;
     public static final int RES_DESVINCULAR_MONTADOR_KO = 2070;
     public static final int RES_DESVINCULAR_MONTADOR_KO_RELACION_NO_EXISTE = 20701;
     public static final int RES_DESVINCULAR_MONTADOR_KO_ID_NO_ENCONTRADO = 20702;
-    
-    
+
     // EVENTOS DE FACTURA
-    
+
     public static final int INICIAR_VENTA = 301;
     public static final int RES_INICIAR_VENTA_OK = 3011;
-	public static final int RES_INICIAR_VENTA_KO = -3010;
-	public static final int RES_INICIAR_VENTA_KO_VENDEDOR_NO_EXISTE = -30101;
-	public static final int RES_INICIAR_VENTA_KO_VENDEDOR_INACTIVO = -30102;
-	public static final int RES_INICIAR_VENTA_KO_YA_EN_CURSO = -30103;
-	public static final int RES_INICIAR_VENTA_KO_GENERAL = -30104;
-    
+    public static final int RES_INICIAR_VENTA_KO = -3010;
+    public static final int RES_INICIAR_VENTA_KO_VENDEDOR_NO_EXISTE = -30101;
+    public static final int RES_INICIAR_VENTA_KO_VENDEDOR_INACTIVO = -30102;
+    public static final int RES_INICIAR_VENTA_KO_YA_EN_CURSO = -30103;
+    public static final int RES_INICIAR_VENTA_KO_GENERAL = -30104;
+
     public static final int CERRAR_VENTA = 302;
     public static final int RES_CERRAR_VENTA_OK = 3021;
-	public static final int RES_CERRAR_VENTA_KO = -3020;
-	public static final int RES_CERRAR_VENTA_KO_NO_INICIADA = -30201;
-	public static final int RES_CERRAR_VENTA_KO_SIN_LINEAS = -30202;
-	public static final int RES_CERRAR_VENTA_KO_CLIENTE_NO_EXISTE = -30203;
-	public static final int RES_CERRAR_VENTA_KO_CLIENTE_INACTIVO = -30204;
-	public static final int RES_CERRAR_VENTA_KO_DESCUENTO_NO_EXISTE = -30205;
-	public static final int RES_CERRAR_VENTA_KO_DESCUENTO_INACTIVO = -30206;
-	public static final int RES_CERRAR_VENTA_KO_FECHA_INVALIDA = -30207;
-	public static final int RES_CERRAR_VENTA_KO_GENERAL = -30208;
-	
+    public static final int RES_CERRAR_VENTA_KO = -3020;
+    public static final int RES_CERRAR_VENTA_KO_NO_INICIADA = -30201;
+    public static final int RES_CERRAR_VENTA_KO_SIN_LINEAS = -30202;
+    public static final int RES_CERRAR_VENTA_KO_CLIENTE_NO_EXISTE = -30203;
+    public static final int RES_CERRAR_VENTA_KO_CLIENTE_INACTIVO = -30204;
+    public static final int RES_CERRAR_VENTA_KO_DESCUENTO_NO_EXISTE = -30205;
+    public static final int RES_CERRAR_VENTA_KO_DESCUENTO_INACTIVO = -30206;
+    public static final int RES_CERRAR_VENTA_KO_FECHA_INVALIDA = -30207;
+    public static final int RES_CERRAR_VENTA_KO_GENERAL = -30208;
+
     public static final int ANNADIR_SERVICIO = 303;
     public static final int RES_ANNADIR_SERVICIO_OK = 3031;
     public static final int RES_ANNADIR_SERVICIO_KO = 3030;
 
-    
-    public static final int BUSCAR_FACTURA = 304;
-    public static final int RES_BUSCAR_FACTURA_OK = 3041;
-    public static final int RES_BUSCAR_FACTURA_KO = 3040;
+    public static final int ELIMINAR_SERVICIO = 304;
+    public static final int RES_ELIMINAR_SERVICIO_OK = 3041;
+    public static final int RES_ELIMINAR_SERVICIO_KO = 3040;
+    public static final int RES_ELIMINAR_SERVIVIO_KO_BORRADO_DE_MAS = 30401;
+    public static final int RES_ELIMINAR_SERVIVIO_KO_NO_EXISTE = 30402;
 
-    
-    public static final int MOSTRAR_FACTURAS = 305;
-    public static final int RES_MOSTRAR_FACTURAS_OK = 3051;
-	public static final int RES_MOSTRAR_FACTURAS_KO = 3050;
-	
-    public static final int MOSTRAR_FACTURAS_CLIENTE = 306;
-    public static final int RES_MOSTRAR_FACTURAS_CLIENTE_OK = 3061;
-    public static final int RES_MOSTRAR_FACTURAS_CLIENTE_KO = 3060;
+    public static final int BUSCAR_FACTURA = 305;
+    public static final int RES_BUSCAR_FACTURA_OK = 3051;
+    public static final int RES_BUSCAR_FACTURA_KO = 3050;
 
-    
-    
+    public static final int MOSTRAR_FACTURAS = 306;
+    public static final int RES_MOSTRAR_FACTURAS_OK = 3061;
+    public static final int RES_MOSTRAR_FACTURAS_KO = 3060;
+
+    public static final int MOSTRAR_FACTURAS_CLIENTE = 307;
+    public static final int RES_MOSTRAR_FACTURAS_CLIENTE_OK = 3071;
+    public static final int RES_MOSTRAR_FACTURAS_CLIENTE_KO = 3070;
+
     // EVENTOS DE DESCUENTO
-    
+
     public static final int ALTA_DESCUENTO = 401;
     public static final int RES_ALTA_DESCUENTO_OK = 4011;
     public static final int RES_ALTA_DESCUENTO_KO = 4010;
@@ -157,11 +157,11 @@ public class Eventos {
     public static final int RES_ALTA_DESCUENTO_YA_EXISTE = 40105;
     public static final int RES_ALTA_DESCUENTO_CONFIRMAR_REACTIVACION = 40111;
     public static final int REACTIVAR_DESCUENTO = 40112;
-    
-    public static final int MOSTRAR_DESCUENTOS     = 402;
+
+    public static final int MOSTRAR_DESCUENTOS = 402;
     public static final int RES_MOSTRAR_DESCUENTOS = 4021;
     public static final int RES_MOSTRAR_DESCUENTOS_KO = 4020;
-    
+
     public static final int MODIFICAR_DESCUENTO = 403;
     public static final int CARGAR_DESCUENTO_MODIFICAR = 4032;
     public static final int RES_CARGAR_DESCUENTO_MOD_OK = 40321;
@@ -171,23 +171,19 @@ public class Eventos {
     public static final int RES_MODIFICAR_DESCUENTO_NO_ENCONTRADO = 40301;
     public static final int RES_MODIFICAR_DESCUENTO_KO_CODIGO = 40302;
     public static final int RES_MODIFICAR_DESCUENTO_KO_PORCENTAJE = 40303;
-    
+
     public static final int BAJA_DESCUENTO = 404;
     public static final int RES_BAJA_DESCUENTO_OK = 4041;
     public static final int RES_BAJA_DESCUENTO_KO = 4040;
-            
+
     public static final int BUSCAR_DESCUENTO = 405;
     public static final int RES_BUSCAR_DESCUENTO_OK = 4051;
     public static final int RES_BUSCAR_DESCUENTO_KO = 4050;
-    
+
     public static final int ANADIR_DESCUENTO = 406;
-    
-    
-    
-	
-    
-	// EVENTOS DE MARCA
-	
+
+    // EVENTOS DE MARCA
+
     public static final int ALTA_MARCA = 501;
     public static final int RES_ALTA_MARCA_OK = 5011;
     public static final int RES_ALTA_MARCA_REACTIVADA = 50111;
@@ -214,7 +210,7 @@ public class Eventos {
     public static final int RES_BUSCAR_MARCA_PARA_MODIFICAR_OK = 50321;
     public static final int RES_BUSCAR_MARCA_PARA_MODIFICAR_KO = 50320;
     public static final int VENTANA_BUSCAR_ID_MARCA = 5033;
-    
+
     public static final int BUSCAR_MARCA = 504;
     public static final int RES_BUSCAR_MARCA_OK = 5041;
     public static final int RES_BUSCAR_MARCA_KO = 5040;
@@ -226,10 +222,9 @@ public class Eventos {
     public static final int MOSTRAR_RANKING_MARCA = 506;
     public static final int RES_MOSTRAR_RANKING_MARCA_OK = 5061;
     public static final int RES_MOSTRAR_RANKING_MARCA_KO = 5060;
-    
-    
+
     // EVENTOS DE SERVICIO
-    
+
     public static final int ALTA_SERVICIO = 601;
     public static final int RES_ALTA_SERVICIO_OK = 6011;
     public static final int RES_ALTA_SERVICIO_KO = 6010;
@@ -261,11 +256,8 @@ public class Eventos {
     public static final int MOSTRAR_MEJOR_ARTICULO = 606;
     public static final int RES_MOSTRAR_MEJOR_ARTICULO_OK = 6061;
     public static final int RES_MOSTRAR_MEJOR_ARTICULO_KO = 6062;
-  
 
-    
     public static final int ORGANIZAR_MONTAJE = 607;
     public static final int RES_ORGANIZAR_MONTAJE_OK = 6071;
-	
-    
+
 }

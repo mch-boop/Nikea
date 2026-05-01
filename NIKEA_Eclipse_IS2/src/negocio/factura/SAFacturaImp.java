@@ -130,17 +130,17 @@ public class SAFacturaImp implements SAFactura {
 	}
 
 	@Override
-	public ResultadoEliminarLinea eliminarServicioDeVenta(TLineaFactura linea) {
+	public int eliminarServicioDeVenta(TLineaFactura linea) {
 
 		if (facturaActual == null || linea == null) {
-			return ResultadoEliminarLinea.ERROR;
+			return Eventos.RES_ELIMINAR_SERVICIO_KO;
 		}
 
 		TLineaFactura existente = facturaActual.buscarLinea(linea.getIdProducto());
 
 		// Si el producto no existe, delvolvemos false
 		if (existente == null) {
-			return ResultadoEliminarLinea.NO_EXISTE;
+			return Eventos.RES_ELIMINAR_SERVIVIO_KO_NO_EXISTE;
 		}
 		// Calculamos la nueva cantidad tras restar
 		int nuevaCantidad = existente.getCantidad() - linea.getCantidad();
@@ -148,13 +148,13 @@ public class SAFacturaImp implements SAFactura {
 		// si necesario se borra la linea devolviendo el resultado correspondiente
 		if (nuevaCantidad < 0) {
 			facturaActual.removeLinea(existente);
-			return ResultadoEliminarLinea.BORRADO_DE_MAS;
+			return Eventos.RES_ELIMINAR_SERVIVIO_KO_BORRADO_DE_MAS;
 		} else if (nuevaCantidad == 0) {
 			facturaActual.removeLinea(existente);
 		} else {
 			existente.setCantidad(nuevaCantidad);
 		}
-		return ResultadoEliminarLinea.OK;
+		return Eventos.RES_ELIMINAR_SERVICIO_OK;
 	}
 
 	@Override

@@ -11,7 +11,7 @@ public interface SAFactura {
 
     public boolean añadirServicioAVenta(TLineaFactura linea);
 
-    public ResultadoEliminarLinea eliminarServicioDeVenta(TLineaFactura linea);
+    public int eliminarServicioDeVenta(TLineaFactura linea);
 
     public int cerrarVenta(TFactura factura);
 
