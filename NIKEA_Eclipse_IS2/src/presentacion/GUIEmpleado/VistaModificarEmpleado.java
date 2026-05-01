@@ -66,9 +66,16 @@ public class VistaModificarEmpleado extends JFrame implements IGUI {
 		comboTipo = new JComboBox<>(tipos);
 		// Listener para mostrar/ocultar campos dinámicamente según el combo
 		comboTipo.addActionListener(e -> {
-		    boolean esVendedor = comboTipo.getSelectedIndex() == 1; // Vendedor es índice 1
+		    boolean esVendedor = comboTipo.getSelectedIndex() == 1;
 		    lblVentas.setVisible(esVendedor);
 		    txtVentas.setVisible(esVendedor);
+		    
+		    // Si cambiamos a vendedor y el empleado original NO lo era, forzamos el "0"
+		    if (esVendedor && empleadoEncontrado != null && empleadoEncontrado.getTipo() != 1) {
+		        txtVentas.setText("0");
+		        txtVentas.setForeground(Color.GRAY); // Se mantiene como placeholder
+		    }
+		    
 		    this.pack();
 		});
 
@@ -240,7 +247,13 @@ public class VistaModificarEmpleado extends JFrame implements IGUI {
                 // Recordamos: Índice 0 = Montador, Índice 1 = Vendedor
                 if (empleadoEncontrado.getTipo() == 1) { // Caso Vendedor
                     comboTipo.setSelectedIndex(1);
-                    configurarPlaceholder(txtVentas, ((TVendedor)empleadoEncontrado).getNumeroVentas().toString()); 
+                    String numVentas = ((TVendedor)empleadoEncontrado).getNumeroVentas().toString(); 
+                    if(numVentas == null) {
+                    	configurarPlaceholder(txtVentas, "0");
+                    }
+                    else {
+                    	configurarPlaceholder(txtVentas, numVentas);
+                    }
                     lblVentas.setVisible(true);
                     txtVentas.setVisible(true);
                 } 
