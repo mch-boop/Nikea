@@ -2,13 +2,14 @@ package presentacion.GUIDescuento;
 
 import java.awt.*;
 import javax.swing.*;
+
 import negocio.descuento.TDescuento;
 import presentacion.IGUI;
 import presentacion.controlador.Controlador;
 import presentacion.controlador.Eventos;
 
 @SuppressWarnings("serial")
-public class VistaModificarDescuento extends JFrame implements IGUI {
+public class VistaModificarDescuento extends JDialog implements IGUI {
 
 	private JTextField txtIdBuscar;
 	private JButton btnBuscar, btnCancelarBusqueda;
@@ -29,7 +30,10 @@ public class VistaModificarDescuento extends JFrame implements IGUI {
 	private int idActual = -1;
 
 	public VistaModificarDescuento() {
+		super(null, "Consultar Descuento por ID", ModalityType.APPLICATION_MODAL);
 		setTitle("Modificar Descuento");
+		
+		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		initGUI();
 	}
 
@@ -320,4 +324,18 @@ public class VistaModificarDescuento extends JFrame implements IGUI {
 			}
 		});
 	}
+	
+	
+	// reset
+    
+    @Override
+    public void setVisible(boolean b) {
+        if (b) limpiarCampos();
+        super.setVisible(b);
+    }
+    
+    private void limpiarCampos() {
+    	
+        pack(); 
+    }
 }

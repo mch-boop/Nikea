@@ -6,14 +6,14 @@
         "porcentaje": 1,
         "cantidad": 1,
         "nombre": "1",
-        "activo": true
+        "activo": false
     },
     {
         "codigo": "dos",
-        "tipo": true,
+        "tipo": false,
         "id": 2,
         "porcentaje": 2,
-        "cantidad": 200,
+        "cantidad": 10,
         "nombre": "2",
         "activo": true
     },
@@ -33,6 +33,24 @@
         "porcentaje": 4,
         "cantidad": 4,
         "nombre": "4",
+        "activo": false
+    },
+    {
+        "codigo": "03-CHUPI",
+        "tipo": false,
+        "id": 5,
+        "porcentaje": 90,
+        "cantidad": 9,
+        "nombre": "El mejor descuento que has visto jamás ;)",
+        "activo": false
+    },
+    {
+        "codigo": "DESC314",
+        "tipo": true,
+        "id": 6,
+        "porcentaje": 10,
+        "cantidad": 100,
+        "nombre": "Has descubierto que pi = 3,14 :D",
         "activo": true
     }
 ]

@@ -2,13 +2,14 @@ package presentacion.GUIDescuento;
 
 import java.awt.*;
 import javax.swing.*;
+
 import presentacion.IGUI;
 import presentacion.controlador.Controlador;
 import presentacion.controlador.Eventos;
 import negocio.descuento.TDescuento;
 
 @SuppressWarnings("serial")
-public class VistaBuscarDescuento extends JFrame implements IGUI {
+public class VistaBuscarDescuento extends JDialog implements IGUI {
 
     // ATRIBUTOS
     private JTextField txtId;
@@ -17,7 +18,10 @@ public class VistaBuscarDescuento extends JFrame implements IGUI {
 
     // CONSTRUCTORA
     public VistaBuscarDescuento() {
+    	super(null, "Consultar Descuento por ID", ModalityType.APPLICATION_MODAL);
         setTitle("Consultar Descuento por ID");
+        
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         initGUI();
     }
 
@@ -77,10 +81,7 @@ public class VistaBuscarDescuento extends JFrame implements IGUI {
         });
 
         btnLimpiar.addActionListener(e -> {
-            txtId.setText("");
-            areaDetalles.setText("");
-            areaDetalles.setPreferredSize(new Dimension(363, 200));
-            pack(); 
+            limpiarCampos();
         });
 
         btnCancelar.addActionListener(e -> {
@@ -139,5 +140,21 @@ public class VistaBuscarDescuento extends JFrame implements IGUI {
                     break;
             }
         });
+    }
+    
+    
+    // reset
+    
+    @Override
+    public void setVisible(boolean b) {
+        if (b) limpiarCampos();
+        super.setVisible(b);
+    }
+    
+    private void limpiarCampos() {
+    	txtId.setText("");
+        areaDetalles.setText("");
+        areaDetalles.setPreferredSize(new Dimension(363, 200));
+        pack(); 
     }
 }

@@ -1,35 +1,29 @@
 package presentacion.GUIDescuento;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-
-import javax.swing.BorderFactory;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.SwingUtilities;
+import java.awt.*;
+import javax.swing.*;
 
 import presentacion.IGUI;
 import presentacion.controlador.Controlador;
 import presentacion.controlador.Eventos;
 
 @SuppressWarnings("serial")
-public class VistaBajaDescuento extends JFrame implements IGUI {
+public class VistaBajaDescuento extends JDialog implements IGUI {
 
+	// ATRIBUTOS
     private JTextField txtId;
     private JButton btnAceptar, btnCancelar;
 
+    // CONSTRUCTORA
     public VistaBajaDescuento() {
+    	super(null, "Baja de Descuento", ModalityType.APPLICATION_MODAL);
         setTitle("Baja de Descuento");
+        
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         initGUI();
     }
 
+    // INIT
     private void initGUI() {
         // Panel principal con margen
         JPanel mainPanel = new JPanel();
@@ -107,5 +101,19 @@ public class VistaBajaDescuento extends JFrame implements IGUI {
                     break;
             }
         });
+    }
+    
+    // reset
+    
+    @Override
+    public void setVisible(boolean b) {
+        if (b) limpiarCampos();
+        super.setVisible(b);
+    }
+    
+    private void limpiarCampos() {
+    	txtId.setText("");
+    	txtId.requestFocus();
+    	pack();
     }
 }
