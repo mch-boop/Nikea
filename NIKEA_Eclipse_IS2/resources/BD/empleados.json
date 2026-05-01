@@ -1,60 +1,41 @@
 [
     {
-        "tipo": 2,
-        "apellido": "b",
+        "tipo": 1,
+        "apellido": "Lopez",
         "sueldo": 1200,
         "id": 1,
-        "nombre": "a",
-        "dni": "c",
-        "activo": true
-    },
-    {
-        "tipo": 1,
-        "apellido": "ap",
-        "sueldo": 1200,
-        "id": 2,
-        "nombre": "nom",
-        "dni": "no",
+        "nombre": "Ana",
+        "dni": "111A",
         "numeroVentas": 0,
-        "activo": true
-    },
-    {
-        "tipo": 1,
-        "apellido": "b",
-        "sueldo": 1200,
-        "id": 3,
-        "nombre": "a",
-        "dni": "a",
-        "numeroVentas": 0,
-        "activo": true
+        "activo": false
     },
     {
         "tipo": 2,
-        "apellido": "em1",
-        "sueldo": 1700,
+        "apellido": "Gomez",
+        "sueldo": 1800,
+        "id": 2,
+        "nombre": "Luis",
+        "dni": "222B",
+        "activo": true
+    },
+    {
+        "tipo": 1,
+        "apellido": "Bing",
+        "sueldo": 1200,
+        "id": 3,
+        "nombre": "West",
+        "dni": "444D",
+        "numeroVentas": 0,
+        "activo": true
+    },
+    {
+        "tipo": 1,
+        "apellido": "",
+        "sueldo": 1000000,
         "id": 4,
-        "nombre": "em1",
-        "dni": "1234A",
-        "activo": true
-    },
-    {
-        "tipo": 1,
-        "apellido": "ple",
-        "sueldo": 1200,
-        "id": 5,
-        "nombre": "Em",
-        "dni": "ado",
+        "nombre": "Vicente",
+        "dni": "555E",
         "numeroVentas": 0,
         "activo": true
-    },
-    {
-        "tipo": 1,
-        "apellido": "Lolo",
-        "sueldo": 1200,
-        "id": 6,
-        "nombre": "Manolo",
-        "dni": "9090",
-        "numeroVentas": 0,
-        "activo": false
     }
 ]

@@ -21,21 +21,10 @@ public class DAOClienteImp implements DAOCliente {
 	public int create(TCliente tc) {
 		List<TCliente> lista = (List<TCliente>) readAll();
         
-        if (tc.getId() == null || tc.getId() <= 0) {
-            // Lógica de ALTA
-            tc.setId(lista.size()+1);
-            lista.add(tc);
-        } else {
-            // Lógica de MODIFICACIÓN
-            for (int i = 0; i < lista.size(); i++) {
-                if (lista.get(i).getId().equals(tc.getId())) {
-                    // Reemplazamos la instancia antigua por la nueva 'tc'.
-                    lista.set(i, tc); 
-                    break;
-                }
-            }
-        }
-        
+        // Lógica de ALTA
+        tc.setId(lista.size()+1);
+        lista.add(tc);
+            
         guardarEnArchivo(lista); // Esto recorrerá la lista y llamará a asJSON() de cada uno
         return tc.getId();
 	}
@@ -86,8 +75,17 @@ public class DAOClienteImp implements DAOCliente {
 
 	@Override
 	public int update(TCliente tCliente) {
-		// Si tiene ID, busca en la lista y reemplaza
-        return this.create(tCliente);
+    	List<TCliente> lista = (List<TCliente>) readAll();
+
+        for (int i = 0; i < lista.size(); i++) {
+            if (lista.get(i).getId().equals(tCliente.getId())) {
+                // Reemplazamos la instancia antigua por la nueva 'tc'.
+                lista.set(i, tCliente); 
+                guardarEnArchivo(lista);
+                return tCliente.getId();
+            }
+        }
+       return -1;
 	}
 
 	@Override

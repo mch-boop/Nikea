@@ -386,22 +386,6 @@ public class ControladorImp extends Controlador {
 			                vista.actualizar(Eventos.RES_ALTA_EMPLEADO_CAMBIO_TIPO_REQUERIDO_ACTIVO, saEmpleado.getUltimoDuplicado());
 			                break;
 
-			            case -4: // DNI inválido
-			                vista.actualizar(Eventos.RES_ALTA_EMPLEADO_KO_DNI, tEmpleado);
-			                break;
-
-			            case -5: // Nombre inválido
-			                vista.actualizar(Eventos.RES_ALTA_EMPLEADO_KO_NOMBRE, tEmpleado);
-			                break;
-
-			            case -6: // Apellido inválido
-			                vista.actualizar(Eventos.RES_ALTA_EMPLEADO_KO_APELLIDO, tEmpleado);
-			                break;
-
-			            case -7: // Sueldo inválido
-			                vista.actualizar(Eventos.RES_ALTA_EMPLEADO_KO_SUELDO, tEmpleado);
-			                break;
-
 			            default: // Error genérico o fallo de persistencia
 			                vista.actualizar(Eventos.RES_ALTA_EMPLEADO_KO, res);
 			                break;
@@ -491,9 +475,7 @@ public class ControladorImp extends Controlador {
 			    IGUI vModificar = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.MODIFICAR_EMPLEADO);
 
 			    if (emp != null && emp.isActivo()) {
-			        // Ocultamos la ventana pequeña de "Introduce ID"
-			        ((JFrame)vBuscarId).setVisible(false);
-
+			    	vBuscarId.actualizar(Eventos.RES_BUSCAR_EMPLEADO_PARA_MODIFICAR_OK, id);
 			        // Pasamos los datos a la de Modificar
 			        vModificar.actualizar(Eventos.RES_BUSCAR_EMPLEADO_PARA_MODIFICAR_OK, emp);
 			        
