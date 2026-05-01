@@ -72,8 +72,7 @@ public class VistaModificarEmpleado extends JFrame implements IGUI {
 		    
 		    // Si cambiamos a vendedor y el empleado original NO lo era, forzamos el "0"
 		    if (esVendedor && empleadoEncontrado != null && empleadoEncontrado.getTipo() != 1) {
-		        txtVentas.setText("0");
-		        txtVentas.setForeground(Color.GRAY); // Se mantiene como placeholder
+		    	configurarPlaceholder(txtVentas, "0");
 		    }
 		    
 		    this.pack();
