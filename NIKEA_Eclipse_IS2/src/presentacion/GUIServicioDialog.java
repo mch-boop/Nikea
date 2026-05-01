@@ -37,11 +37,19 @@ public class GUIServicioDialog extends JDialog {
         JButton btnBaja = new JButton("Baja Servicio");
         JButton btnMostrar = new JButton("Mostrar Todos");
         JButton btnBuscar = new JButton("Buscar Servicio");
+        JButton btnMejor = new JButton("Mejor Articulo");
+        JButton btnModificar = new JButton("Modificar Servicio");
+
+
 
         Servicios.add(btnAlta);
         Servicios.add(btnBaja);
         Servicios.add(btnMostrar);
         Servicios.add(btnBuscar);
+        Servicios.add(btnMejor);
+        Servicios.add(btnModificar);
+
+
 
         // --- CONCRETOS ---
         JPanel Abajo = new JPanel(new GridLayout(1, 4, 10, 10));
@@ -50,15 +58,15 @@ public class GUIServicioDialog extends JDialog {
         JPanel Producto = new JPanel(new GridLayout(1, 4, 10, 10));
        // Producto.setBorder(BorderFactory.createTitledBorder("Articulo"));
         
-        JButton btnMejor = new JButton("Mejor Articulo");
+       // JButton btnMejor = new JButton("Mejor Articulo");
         
-        Producto.add(btnMejor);
+       // Producto.add(btnMejor);
 
         // Modificación de servicio
         JPanel ModificacionServicio = new JPanel(new GridLayout(1, 1, 10, 10));
        // ModificacionServicio.setBorder(BorderFactory.createTitledBorder("Servicio"));
-        JButton btnModificar = new JButton("Modificar Servicio");
-        ModificacionServicio.add(btnModificar);
+       // JButton btnModificar = new JButton("Modificar Servicio");
+      //  ModificacionServicio.add(btnModificar);
 
         // Montaje
         JPanel Montaje = new JPanel(new GridLayout(1, 1, 10, 10));
