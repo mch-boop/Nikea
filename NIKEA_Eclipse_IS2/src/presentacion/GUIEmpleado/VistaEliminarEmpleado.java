@@ -23,12 +23,24 @@ public class VistaEliminarEmpleado extends JFrame implements IGUI {
     
     public VistaEliminarEmpleado() {
         setTitle("Baja Empleado");
-        setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         initGUI();
+        this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+        this.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent e) {
+                limpiarCampos();
+            }
+        });
     }
 
     
     // MÉTODOS
+    
+    private void limpiarCampos() {
+		txtId.setText("");
+		repaint();
+		revalidate();
+	}
     
     private void initGUI() {
     	
@@ -72,10 +84,8 @@ public class VistaEliminarEmpleado extends JFrame implements IGUI {
 
         // Lógica de Cancelar
         btnCancelar.addActionListener(al -> {
-        	// Limpiar campos
-            txtId.setText("");
-            // Cerrar la ventana
-            dispose();
+        	limpiarCampos();
+        	setVisible(false); 
         });
 
         // Añadir componentes al panel principal
@@ -118,30 +128,33 @@ public class VistaEliminarEmpleado extends JFrame implements IGUI {
 
                 case Eventos.RES_BAJA_EMPLEADO_CONFIRMADA:
                     JOptionPane.showMessageDialog(this, "El empleado con ID " + datos + " se ha dado de baja correctamente.");
-                    txtId.setText("");
+                    limpiarCampos(); 
+                    txtId.requestFocus();
                     break;
 
                 case Eventos.RES_BAJA_EMPLEADO_KO_NO_EXISTE:
                     JOptionPane.showMessageDialog(this, "Error: No existe ningún empleado con el ID: " + datos, "Error", JOptionPane.ERROR_MESSAGE);
+                    limpiarCampos(); 
                     txtId.requestFocus();
                     break;
 
                 case Eventos.RES_BAJA_EMPLEADO_KO_YA_INACTIVO:
                     JOptionPane.showMessageDialog(this, "El empleado ya se encuentra en estado inactivo.", "Aviso", JOptionPane.WARNING_MESSAGE);
+                    limpiarCampos(); 
+                    txtId.requestFocus();
                     break;
 
                 case Eventos.RES_BAJA_EMPLEADO_KO_ID_FORMATO:
                     JOptionPane.showMessageDialog(this, "El ID debe ser un número entero válido.", "Error de Formato", JOptionPane.ERROR_MESSAGE);
+                    limpiarCampos(); 
                     txtId.requestFocus();
                     break;
 
                 case Eventos.RES_BAJA_EMPLEADO_KO_ID_VACIO:
                     JOptionPane.showMessageDialog(this, "El campo ID no puede estar vacío.", "Error", JOptionPane.WARNING_MESSAGE);
+                    limpiarCampos(); 
                     txtId.requestFocus();
                     break;
-
-                // Eliminamos el default con mensaje de error porque en Singleton 
-                // esta vista puede recibir eventos que no le pertenecen.
             }
         });
     }

@@ -491,9 +491,7 @@ public class ControladorImp extends Controlador {
 			    IGUI vModificar = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.MODIFICAR_EMPLEADO);
 
 			    if (emp != null && emp.isActivo()) {
-			        // Ocultamos la ventana pequeña de "Introduce ID"
-			        ((JFrame)vBuscarId).setVisible(false);
-
+			    	vBuscarId.actualizar(Eventos.RES_BUSCAR_EMPLEADO_PARA_MODIFICAR_OK, id);
 			        // Pasamos los datos a la de Modificar
 			        vModificar.actualizar(Eventos.RES_BUSCAR_EMPLEADO_PARA_MODIFICAR_OK, emp);
 			        

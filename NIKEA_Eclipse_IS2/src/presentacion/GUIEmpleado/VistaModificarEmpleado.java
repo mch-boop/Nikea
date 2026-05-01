@@ -27,6 +27,13 @@ public class VistaModificarEmpleado extends JFrame implements IGUI {
 	public VistaModificarEmpleado() {
 		setTitle("Modificar Empleado");
 		initGUI();
+		this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE); 
+		this.addWindowListener(new java.awt.event.WindowAdapter() {
+		    @Override
+		    public void windowClosing(java.awt.event.WindowEvent e) {
+		        limpiarCampos();
+		    }
+		});
 	}
 
 	// MÉTODOS
@@ -119,7 +126,6 @@ public class VistaModificarEmpleado extends JFrame implements IGUI {
 		btnCancelar.addActionListener(e -> {
         	limpiarCampos();
 			setVisible(false);
-			//dispose();
 		});
 
 		// ALINEACIÓN
@@ -131,7 +137,7 @@ public class VistaModificarEmpleado extends JFrame implements IGUI {
 		// Fila 0: ID
 		gbc.gridx = 0;
 		gbc.gridy = 0;
-		formPanel.add(new JLabel("ID Empleado (Obligatorio):"), gbc);
+		formPanel.add(new JLabel("ID Empleado:"), gbc);
 		gbc.gridx = 1;
 		formPanel.add(txtId, gbc);
 
@@ -256,8 +262,8 @@ public class VistaModificarEmpleado extends JFrame implements IGUI {
 
 			case Eventos.RES_MODIFICAR_EMPLEADO_OK:
 				JOptionPane.showMessageDialog(this, "Empleado actualizado correctamente.");
-				setVisible(false);
-				//this.dispose(); // Cerramos al terminar
+				limpiarCampos(); 
+				setVisible(false); 
 				break;
 
 			case Eventos.RES_MODIFICAR_EMPLEADO_KO_NO_EXISTE:

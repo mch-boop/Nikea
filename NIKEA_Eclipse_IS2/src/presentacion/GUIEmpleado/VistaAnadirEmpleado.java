@@ -27,6 +27,12 @@ public class VistaAnadirEmpleado extends JFrame implements IGUI {
 		setTitle("Alta Empleado");
 		initGUI();
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+		this.addWindowListener(new java.awt.event.WindowAdapter() {
+		    @Override
+		    public void windowClosing(java.awt.event.WindowEvent e) {
+		        limpiarCampos(); 
+		    }
+		});
 	}
 
 	// MÉTODOS
@@ -198,8 +204,7 @@ public class VistaAnadirEmpleado extends JFrame implements IGUI {
 				case Eventos.RES_ALTA_EMPLEADO_OK:
 					VistaAnadirEmpleado.this.limpiarCampos(); // Limpia los campos para el siguiente alta
 					JOptionPane.showMessageDialog(VistaAnadirEmpleado.this, "Éxito: Empleado creado con ID: " + datos);
-					VistaAnadirEmpleado.this.setVisible(false);
-					// VistaAnadirEmpleado.this.dispose();
+					limpiarCampos(); 
 					break;
 
 				case Eventos.RES_ALTA_EMPLEADO_YA_EXISTE_MISMO:
@@ -233,8 +238,7 @@ public class VistaAnadirEmpleado extends JFrame implements IGUI {
 					if (respReac == JOptionPane.YES_OPTION) {
 						// Al darle a SÍ, enviamos el Transfer con los datos nuevos al controlador
 						Controlador.getInstance().accion(Eventos.REACTIVAR_EMPLEADO, empReac);
-						VistaAnadirEmpleado.this.setVisible(false);
-						// VistaAnadirEmpleado.this.dispose();
+						limpiarCampos(); 
 					}
 					break;
 
@@ -244,8 +248,7 @@ public class VistaAnadirEmpleado extends JFrame implements IGUI {
 							"Este empleado ya figura en el sistema pero con un cargo distinto.\n"
 									+ "Para cambiar su tipo (ej. de Vendedor a Montador), use el botón 'Actualizar Empleado' del menú.",
 							"Empleado Activo - Cambio de Tipo", JOptionPane.INFORMATION_MESSAGE);
-					VistaAnadirEmpleado.this.setVisible(false);
-					// VistaAnadirEmpleado.this.dispose();
+					limpiarCampos(); 
 					break;
 
 				case Eventos.RES_ALTA_EMPLEADO_CAMBIO_TIPO_REQUERIDO_INACTIVO:
@@ -260,8 +263,7 @@ public class VistaAnadirEmpleado extends JFrame implements IGUI {
 									+ "' para reactivarlo.\n"
 									+ "2. Una vez reactivado, use el botón 'Actualizar Empleado' para cambiar su cargo actual.",
 							"Reactivación Requerida", JOptionPane.WARNING_MESSAGE);
-					VistaAnadirEmpleado.this.setVisible(false);
-					// VistaAnadirEmpleado.this.dispose();
+					limpiarCampos(); 
 					break;
 
 				case Eventos.RES_ALTA_EMPLEADO_KO:
