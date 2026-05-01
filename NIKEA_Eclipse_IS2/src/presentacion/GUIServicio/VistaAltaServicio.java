@@ -16,7 +16,9 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.JSpinner;
 import javax.swing.JScrollPane;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
@@ -36,8 +38,8 @@ public class VistaAltaServicio extends JFrame implements IGUI {
 
     private JTextField txtNombre;
     private JTextArea txtDescripcion;
-    private JTextField txtStock;
-    private JTextField txtPrecio;
+    private JSpinner spStock;
+    private JSpinner spPrecio;
     private JRadioButton rbArticulo;
     private JRadioButton rbMontaje;
     private JButton btnAceptar;
@@ -51,8 +53,8 @@ public class VistaAltaServicio extends JFrame implements IGUI {
     private void limpiarCampos() {
         txtNombre.setText("");
         txtDescripcion.setText("");
-        txtStock.setText("");
-        txtPrecio.setText("");
+        spStock.setValue(0);
+        spPrecio.setValue(0);
         rbArticulo.setSelected(true);
         txtNombre.requestFocus();
         repaint();
@@ -68,8 +70,8 @@ public class VistaAltaServicio extends JFrame implements IGUI {
         txtDescripcion = new JTextArea(4, 20);
         txtDescripcion.setLineWrap(true);
         txtDescripcion.setWrapStyleWord(true);
-        txtStock = new JTextField(20);
-        txtPrecio = new JTextField(20);
+        spStock = new JSpinner(new SpinnerNumberModel(0, 0, Integer.MAX_VALUE, 1));
+        spPrecio = new JSpinner(new SpinnerNumberModel(0, 0, Integer.MAX_VALUE, 10));
 
         rbArticulo = new JRadioButton("Artículo", true);
         rbMontaje = new JRadioButton("Montaje");
@@ -111,7 +113,7 @@ public class VistaAltaServicio extends JFrame implements IGUI {
         formPanel.add(new JLabel("Stock:"), gbc);
         gbc.gridx = 1;
         gbc.weightx = 1.0;
-        formPanel.add(txtStock, gbc);
+        formPanel.add(spStock, gbc);
 
         gbc.gridx = 0;
         gbc.gridy = 3;
@@ -119,7 +121,7 @@ public class VistaAltaServicio extends JFrame implements IGUI {
         formPanel.add(new JLabel("Precio actual:"), gbc);
         gbc.gridx = 1;
         gbc.weightx = 1.0;
-        formPanel.add(txtPrecio, gbc);
+        formPanel.add(spPrecio, gbc);
 
         gbc.gridx = 0;
         gbc.gridy = 4;
@@ -151,18 +153,6 @@ public class VistaAltaServicio extends JFrame implements IGUI {
                         return;
                     }
 
-                    if (txtStock.getText().trim().isEmpty()) {
-                        JOptionPane.showMessageDialog(null, "Error: El stock es un campo obligatorio.", "Faltan datos", JOptionPane.WARNING_MESSAGE);
-                        txtStock.requestFocus();
-                        return;
-                    }
-
-                    if (txtPrecio.getText().trim().isEmpty()) {
-                        JOptionPane.showMessageDialog(null, "Error: El precio actual es un campo obligatorio.", "Faltan datos", JOptionPane.WARNING_MESSAGE);
-                        txtPrecio.requestFocus();
-                        return;
-                    }
-
                     TServicio servicio;
                     if (rbArticulo.isSelected()) {
                         servicio = new TArticulo();
@@ -174,8 +164,23 @@ public class VistaAltaServicio extends JFrame implements IGUI {
 
                     servicio.setNombre(txtNombre.getText().trim());
                     servicio.setDescripcion(txtDescripcion.getText().trim());
-                    servicio.setStock(Integer.valueOf(txtStock.getText().trim()));
-                    servicio.setPrecioActual(Integer.valueOf(txtPrecio.getText().trim()));
+
+                    int stock = ((Number) spStock.getValue()).intValue();
+                    if (stock == 0) {
+                        JOptionPane.showMessageDialog(null, "Error: El stock debe ser mayor que 0.", "Faltan datos", JOptionPane.WARNING_MESSAGE);
+                        spStock.requestFocus();
+                        return;
+                    }
+
+                    int precio = ((Number) spPrecio.getValue()).intValue();
+                    if (precio == 0) {
+                        JOptionPane.showMessageDialog(null, "Error: El precio actual debe ser mayor que 0.", "Faltan datos", JOptionPane.WARNING_MESSAGE);
+                        spPrecio.requestFocus();
+                        return;
+                    }
+
+                    servicio.setStock(stock);
+                    servicio.setPrecioActual(precio);
                     servicio.setActivo(true);
 
                     Controlador.getInstance().accion(Eventos.ALTA_SERVICIO, servicio);

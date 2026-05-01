@@ -43,5 +43,14 @@
         "stock": 23,
         "nombre": "pata",
         "activo": false
+    },
+    {
+        "descripcion": "2",
+        "precioActual": 10,
+        "tipo": 1,
+        "id": 6,
+        "stock": 1,
+        "nombre": "2",
+        "activo": true
     }
 ]

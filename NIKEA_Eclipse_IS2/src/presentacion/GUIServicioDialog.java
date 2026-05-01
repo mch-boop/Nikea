@@ -13,8 +13,8 @@ public class GUIServicioDialog extends JDialog {
     public GUIServicioDialog(JFrame owner) {
         super(owner, "Gestión de Servicios", false);
         setResizable(false); 
+        setSize(800, 150);
         initGUI();
-        pack();
         setLocationRelativeTo(owner);
         setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
     }
@@ -22,62 +22,22 @@ public class GUIServicioDialog extends JDialog {
     // MÉTODOS
     
     private void initGUI() {
-    	
-        JPanel mainPanel = new JPanel();
-        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
-        mainPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-
-        // --- SERVICIO GENERAL ---
-        JPanel Servicios = new JPanel(new GridLayout(1, 4, 10, 10));
-        Servicios.setBorder(BorderFactory.createTitledBorder("Servicios"));
+    
+        JPanel mainPanel = new JPanel(new GridLayout(2, 3, 10, 10));
+        mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
         JButton btnAlta = new JButton("Alta Servicio");
         JButton btnBaja = new JButton("Baja Servicio");
         JButton btnMostrar = new JButton("Mostrar Todos");
         JButton btnBuscar = new JButton("Buscar Servicio");
-
-        Servicios.add(btnAlta);
-        Servicios.add(btnBaja);
-        Servicios.add(btnMostrar);
-        Servicios.add(btnBuscar);
-
-        // --- CONCRETOS ---
-        JPanel Abajo = new JPanel(new GridLayout(1, 3, 10, 10));
-
-        // Producto
-        JPanel Producto = new JPanel(new GridLayout(1, 1, 10, 10));
-        Producto.setBorder(BorderFactory.createTitledBorder("Articulo"));
-        
         JButton btnMejor = new JButton("Mejor Articulo");
-        
-        Producto.add(btnMejor);
-
-        // Modificación de servicio
-        JPanel ModificacionServicio = new JPanel(new GridLayout(1, 1, 10, 10));
-        ModificacionServicio.setBorder(BorderFactory.createTitledBorder("Servicio"));
         JButton btnModificar = new JButton("Modificar Servicio");
-        ModificacionServicio.add(btnModificar);
 
-        // Montaje
-        JPanel Montaje = new JPanel(new GridLayout(1, 1, 10, 10));
-        Montaje.setBorder(BorderFactory.createTitledBorder("Montaje"));
-        
-        JButton btnOrganizar = new JButton("Organizar Montaje");
-        Montaje.add(btnOrganizar);
-
-        Abajo.add(Producto);
-        Abajo.add(ModificacionServicio);
-        Abajo.add(Montaje);
-
-        JButton[] todosLosBotones = {btnAlta, btnBaja, btnMostrar, btnBuscar, btnMejor, btnModificar, btnOrganizar};
+        JButton[] todosLosBotones = {btnAlta, btnBaja, btnMostrar, btnBuscar, btnMejor, btnModificar};
         for (JButton b : todosLosBotones) {
             b.setFocusPainted(false);
+            mainPanel.add(b);
         }
-
-        // Unir
-        mainPanel.add(Servicios);
-        mainPanel.add(Box.createVerticalStrut(10));
-        mainPanel.add(Abajo);
 
         add(mainPanel, BorderLayout.CENTER);
 
@@ -113,10 +73,6 @@ public class GUIServicioDialog extends JDialog {
             abrirVistaBloqueante((JFrame) vista);
         });
         
-        btnOrganizar.addActionListener(e -> { 
-            IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.ORGANIZAR_MONTAJE);
-            abrirVistaBloqueante((JFrame) vista);
-        });
     }
 
     private void abrirVistaBloqueante(Window ventanaSecundaria) {
