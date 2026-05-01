@@ -8,6 +8,7 @@ import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -24,14 +25,17 @@ import presentacion.controlador.Controlador;
 import presentacion.controlador.Eventos;
 
 @SuppressWarnings("serial")
-public class VistaEliminarServicio extends JFrame implements IGUI {
+public class VistaEliminarServicio extends JDialog implements IGUI {
 
     private JTextField txtId;
     private JButton btnBaja;
     private JButton btnCancelar;
 
     public VistaEliminarServicio() {
+    	super(null, "Baja Servicio", ModalityType.APPLICATION_MODAL);
         setTitle("Baja Servicio");
+        
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         initGUI();
     }
 
@@ -128,5 +132,18 @@ public class VistaEliminarServicio extends JFrame implements IGUI {
                     break;
             }
         });
+    }
+    
+    // reset
+    
+    @Override
+    public void setVisible(boolean b) {
+        if (b) limpiarCampos();
+        super.setVisible(b);
+    }
+    
+    private void limpiarCampos() {
+    	txtId.setText("");
+    	pack();
     }
 }

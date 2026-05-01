@@ -8,6 +8,7 @@ import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -20,15 +21,19 @@ import negocio.servicio.TArticulo;
 import presentacion.IGUI;
 import presentacion.controlador.Controlador;
 import presentacion.controlador.Eventos;
+
 @SuppressWarnings("serial")
-public class VistaMostrarMejorArticulo extends JFrame implements IGUI {
+public class VistaMostrarMejorArticulo extends JDialog implements IGUI {
 
 		private JTextField txtId;
 		private JTextArea areaDetalles;
 	    private JButton btnSalir;
 	
 		public VistaMostrarMejorArticulo() {
+			super(null, "Mostrar Mejor Articulo", ModalityType.APPLICATION_MODAL);
 			setTitle("Mostrar Mejor Articulo");
+			
+			this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 			initGUI();
 		}
 		

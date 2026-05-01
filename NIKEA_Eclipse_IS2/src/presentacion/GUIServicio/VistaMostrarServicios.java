@@ -6,6 +6,7 @@ import java.util.Collection;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -20,13 +21,14 @@ import presentacion.controlador.Controlador;
 import presentacion.controlador.Eventos;
 
 @SuppressWarnings("serial")
-public class VistaMostrarServicios extends JFrame implements IGUI {
+public class VistaMostrarServicios extends JDialog implements IGUI {
 
     private JTable tablaServicios;
     private DefaultTableModel modeloTabla;
     private JButton btnCancelar;
 
     public VistaMostrarServicios() {
+    	super(null, "Listado General de Servicios", ModalityType.APPLICATION_MODAL);
         setTitle("Listado General de Servicios");
         initGUI();
         addWindowListener(new java.awt.event.WindowAdapter() {
