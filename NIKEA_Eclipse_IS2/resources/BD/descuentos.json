@@ -51,6 +51,15 @@
         "porcentaje": 10,
         "cantidad": 100,
         "nombre": "Has descubierto que pi = 3,14 :D",
+        "activo": false
+    },
+    {
+        "codigo": "oxo",
+        "tipo": false,
+        "id": 7,
+        "porcentaje": 8,
+        "cantidad": 8,
+        "nombre": "OxO",
         "activo": true
     }
 ]

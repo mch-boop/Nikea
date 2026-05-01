@@ -63,7 +63,9 @@ public class SADescuentoImp implements SADescuento {
 
     @Override
     public TDescuento read(int id) {
-        return FactoriaIntegracion.getInstance().crearDAODescuento().read(id);
+        TDescuento td = FactoriaIntegracion.getInstance().crearDAODescuento().read(id);
+        if (td != null && !td.isActivo()) return null;
+        return td;
     }
 
     @Override

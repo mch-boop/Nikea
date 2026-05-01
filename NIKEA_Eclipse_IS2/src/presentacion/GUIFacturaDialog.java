@@ -15,43 +15,44 @@ import presentacion.controlador.Eventos;
 import presentacion.factoria.FactoriaAbstractaPresentacion;
 
 @SuppressWarnings("serial")
-public class GUIFacturaDialog  extends JDialog  {
+public class GUIFacturaDialog extends JDialog {
 
-	//CONSTRUCTORA
-	
-	public GUIFacturaDialog(JFrame owner) {
+    // CONSTRUCTORA
+
+    public GUIFacturaDialog(JFrame owner) {
         super(owner, "Gestión de Factura", false);
         setResizable(false);
-    	setSize(800, 150);
+        setSize(800, 200);
         setLocationRelativeTo(owner);
         setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-        
-        initGUI();
-	}
-	
-	// MÉTODOS
-    
-    private void initGUI() {
-    	JPanel panel = new JPanel(new GridLayout(2, 3, 10, 10));
-        panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-        
-        JButton btnIniciar           = new JButton("Iniciar venta");
-        JButton btnAnnadir           = new JButton("Añadir servicio");
-        JButton btnCerrar            = new JButton("Cerrar venta");
-        JButton btnBuscar            = new JButton("Buscar factura");
-        JButton btnListar            = new JButton("Listar facturas");
-        JButton btnListarCliente     = new JButton("Listar facturas de cliente");
 
-        JButton[] botones = {btnIniciar, btnAnnadir, btnCerrar, btnBuscar, btnListar, btnListarCliente};
+        initGUI();
+    }
+
+    // MÉTODOS
+
+    private void initGUI() {
+        JPanel panel = new JPanel(new GridLayout(3, 2, 10, 10));
+        panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+
+        JButton btnIniciar = new JButton("Iniciar venta");
+        JButton btnAnnadir = new JButton("Añadir servicio");
+        JButton btnEliminar = new JButton("Eliminar servicio");
+        JButton btnCerrar = new JButton("Cerrar venta");
+        JButton btnBuscar = new JButton("Buscar factura");
+        JButton btnListar = new JButton("Listar facturas");
+        JButton btnListarCliente = new JButton("Listar facturas de cliente");
+
+        JButton[] botones = { btnIniciar, btnAnnadir, btnEliminar, btnCerrar, btnBuscar, btnListar, btnListarCliente };
         for (JButton b : botones) {
             b.setFocusPainted(false);
             panel.add(b);
         }
 
         add(panel, BorderLayout.CENTER);
-        
+
         // Listeners
-        
+
         btnIniciar.addActionListener(e -> {
             IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.INICIAR_VENTA);
             abrirVistaBloqueante((JFrame) vista);
@@ -59,6 +60,11 @@ public class GUIFacturaDialog  extends JDialog  {
 
         btnAnnadir.addActionListener(e -> {
             IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.ANNADIR_SERVICIO);
+            abrirVistaBloqueante((JFrame) vista);
+        });
+
+        btnEliminar.addActionListener(e -> {
+            IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.ELIMINAR_SERVICIO);
             abrirVistaBloqueante((JFrame) vista);
         });
 
@@ -72,11 +78,11 @@ public class GUIFacturaDialog  extends JDialog  {
             abrirVistaBloqueante((JFrame) vista);
         });
 
-        btnListar.addActionListener(e -> { 
-        	Controlador.getInstance().accion(Eventos.MOSTRAR_FACTURAS, null);
+        btnListar.addActionListener(e -> {
+            Controlador.getInstance().accion(Eventos.MOSTRAR_FACTURAS, null);
         });
-        
-        btnListarCliente.addActionListener(e -> { 
+
+        btnListarCliente.addActionListener(e -> {
             IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.MOSTRAR_FACTURAS_CLIENTE);
             abrirVistaBloqueante((JFrame) vista);
         });
@@ -90,6 +96,7 @@ public class GUIFacturaDialog  extends JDialog  {
                 GUIFacturaDialog.this.setEnabled(true);
                 GUIFacturaDialog.this.toFront();
             }
+
             @Override
             public void windowClosing(java.awt.event.WindowEvent e) {
                 GUIFacturaDialog.this.setEnabled(true);

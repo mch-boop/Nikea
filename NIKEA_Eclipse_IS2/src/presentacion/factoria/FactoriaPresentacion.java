@@ -11,18 +11,18 @@ import presentacion.GUIServicio.*;
 import presentacion.controlador.Eventos;
 
 public class FactoriaPresentacion extends FactoriaAbstractaPresentacion {
-	
+
 	// ATRIBUTOS PARA SINGLETON (CLIENTE)
-	
+
 	private static VistaAnadirCliente vistaAnadirCliente;
 	private static VistaEliminarCliente vistaEliminarCliente;
 	private static VistaModificarCliente vistaModificarCliente;
 	private static VistaBuscarCliente vistaBuscarCliente;
 	private static VistaMostrarClientes vistaMostrarClientes;
 	private static VistaMostrarMejorCliente vistaMostrarMejorCliente;
-	
+
 	// ATRIBUTOS PARA SINGLETON (EMPLEADO)
-	
+
 	private static VistaAnadirEmpleado vistaAnadirEmpleado;
 	private static VistaEliminarEmpleado vistaEliminarEmpleado;
 	private static GUIBuscarIdModificar vistaBuscarIdModificarEmpleado;
@@ -31,13 +31,15 @@ public class FactoriaPresentacion extends FactoriaAbstractaPresentacion {
 	private static VistaMostrarEmpleados vistaMostrarEmpleado;
 
 	// ATRIBUTOS PARA SINGLETON (FACTURA)
-	
+
 	private static VistaIniciarVenta vistaIniciar;
 	private static VistaCerrarVenta vistaCerrar;
 	private static VistaMostrarFacturas vistaMostrarFacturas;
-
+	private static VistaAnnadirServicioFactura vistaAnnadirServicio;
+	private static VistaEliminarServicioFactura vistaEliminarServicioFactura;	private static VistaMostrarFacturaPorId vistaMostrarFacturaPorId;
+	private static VistaMostrarFacturasCliente vistaMostrarFacturasCliente;
 	// ATRIBUTOS PARA SINGLETON (MARCA)
-		
+
 	private static VistaAnadirMarca vistaAnadirMarca;
 	private static VistaEliminarMarca vistaEliminarMarca;
 	private static VistaModificarMarca vistaModificarMarca;
@@ -46,15 +48,15 @@ public class FactoriaPresentacion extends FactoriaAbstractaPresentacion {
 	private static VistaMostrarMejorMarca vistaMostrarMejorMarca;
 
 	// ATRIBUTOS PARA SINGLETON (DESCUENTO)
-		
+
 	private static VistaAltaDescuento vistaAltaDescuento;
 	private static VistaMostrarDescuentos VistaMostrarDescuentos;
 	private static VistaBajaDescuento vistaBajaDescuento;
 	private static VistaBuscarDescuento vistaBuscarDescuento;
 	private static VistaModificarDescuento vistaModificarDescuento;
-	
+
 	// ATRIBUTOS PARA SINGLETON (SERVICIO)
-	
+
 	private static VistaAltaServicio vistaAltaServicio;
 	private static VistaEliminarServicio vistaEliminarServicio;
 	private static VistaBuscarServicio vistaBuscarServicio;
@@ -62,24 +64,22 @@ public class FactoriaPresentacion extends FactoriaAbstractaPresentacion {
 	private static VistaMostrarServicios vistaMostrarServicios;
 	private static VistaMostrarMejorArticulo vistaMostrarMejorArticulo;
 
-	
-
 	public IGUI createVista(int idEvento) {
 		switch (idEvento) {
-		
+
 			// VISTAS DE CLIENTE
-		
-			case Eventos.ALTA_CLIENTE: 
+
+			case Eventos.ALTA_CLIENTE:
 				if (vistaAnadirCliente == null) {
 					vistaAnadirCliente = new VistaAnadirCliente();
 				}
 				return vistaAnadirCliente;
-			case Eventos.BUSCAR_CLIENTE: 
+			case Eventos.BUSCAR_CLIENTE:
 				if (vistaBuscarCliente == null) {
 					vistaBuscarCliente = new VistaBuscarCliente();
 				}
 				return vistaBuscarCliente;
-			case Eventos.BAJA_CLIENTE: 
+			case Eventos.BAJA_CLIENTE:
 				if (vistaEliminarCliente == null) {
 					vistaEliminarCliente = new VistaEliminarCliente();
 				}
@@ -104,20 +104,20 @@ public class FactoriaPresentacion extends FactoriaAbstractaPresentacion {
 					vistaModificarCliente = new VistaModificarCliente();
 				}
 				return vistaModificarCliente;
-				
+
 			// VISTAS DE EMPLEADO
-				
-			case Eventos.ALTA_EMPLEADO: 
+
+			case Eventos.ALTA_EMPLEADO:
 				if (vistaAnadirEmpleado == null) {
 					vistaAnadirEmpleado = new VistaAnadirEmpleado();
 				}
 				return vistaAnadirEmpleado;
-			case Eventos.BUSCAR_EMPLEADO: 
-				if (vistaBuscarEmpleado == null) { 
-                    vistaBuscarEmpleado = new VistaBuscarEmpleado();
-                }
-                return vistaBuscarEmpleado;
-			case Eventos.BAJA_EMPLEADO: 
+			case Eventos.BUSCAR_EMPLEADO:
+				if (vistaBuscarEmpleado == null) {
+					vistaBuscarEmpleado = new VistaBuscarEmpleado();
+				}
+				return vistaBuscarEmpleado;
+			case Eventos.BAJA_EMPLEADO:
 				if (vistaEliminarEmpleado == null) {
 					vistaEliminarEmpleado = new VistaEliminarEmpleado();
 				}
@@ -137,42 +137,62 @@ public class FactoriaPresentacion extends FactoriaAbstractaPresentacion {
 					vistaMostrarEmpleado = new VistaMostrarEmpleados();
 				}
 				return vistaMostrarEmpleado;
-			
+
 			// VISTAS DE FACTURA
-			
+
 			case Eventos.INICIAR_VENTA:
-				if(vistaIniciar == null) {
+				if (vistaIniciar == null) {
 					vistaIniciar = new VistaIniciarVenta();
 				}
 				return vistaIniciar;
 			case Eventos.CERRAR_VENTA:
-				if(vistaCerrar == null) {
+				if (vistaCerrar == null) {
 					vistaCerrar = new VistaCerrarVenta();
 				}
 				return vistaCerrar;
+			case Eventos.ANNADIR_SERVICIO:
+				if (vistaAnnadirServicio == null) {
+					vistaAnnadirServicio = new VistaAnnadirServicioFactura();
+				}
+				return vistaAnnadirServicio;
+			case Eventos.ELIMINAR_SERVICIO:
+				if (vistaEliminarServicioFactura == null) {
+					vistaEliminarServicioFactura = new VistaEliminarServicioFactura();
+				}
+				return vistaEliminarServicioFactura;
 			case Eventos.MOSTRAR_FACTURAS:
-				if(vistaMostrarFacturas == null) {
+				if (vistaMostrarFacturas == null) {
 					vistaMostrarFacturas = new VistaMostrarFacturas();
 				}
 				return vistaMostrarFacturas;
-			
+			case Eventos.BUSCAR_FACTURA:
+				if (vistaMostrarFacturaPorId == null) {
+					vistaMostrarFacturaPorId = new VistaMostrarFacturaPorId();
+				}
+				return vistaMostrarFacturaPorId;
+			case Eventos.MOSTRAR_FACTURAS_CLIENTE:
+				if (vistaMostrarFacturasCliente == null) {
+					vistaMostrarFacturasCliente = new VistaMostrarFacturasCliente();
+				}
+				return vistaMostrarFacturasCliente;
+
 			// VISTAS DE MARCA
-				
-			case Eventos.ALTA_MARCA: 
+
+			case Eventos.ALTA_MARCA:
 				if (vistaAnadirMarca == null) {
 					vistaAnadirMarca = new VistaAnadirMarca();
 				}
 				return vistaAnadirMarca;
-			case Eventos.BUSCAR_MARCA: 
-				if (vistaBuscarMarca == null) { 
-                    vistaBuscarMarca = new VistaBuscarMarca();
-                }
-                return vistaBuscarMarca;
-			case Eventos.BAJA_MARCA: 
-				if (vistaEliminarMarca == null) { 
-                    vistaEliminarMarca = new VistaEliminarMarca();
-                }
-                return vistaEliminarMarca;
+			case Eventos.BUSCAR_MARCA:
+				if (vistaBuscarMarca == null) {
+					vistaBuscarMarca = new VistaBuscarMarca();
+				}
+				return vistaBuscarMarca;
+			case Eventos.BAJA_MARCA:
+				if (vistaEliminarMarca == null) {
+					vistaEliminarMarca = new VistaEliminarMarca();
+				}
+				return vistaEliminarMarca;
 			case Eventos.MODIFICAR_MARCA:
 				if (vistaModificarMarca == null) {
 					vistaModificarMarca = new VistaModificarMarca();
@@ -191,34 +211,34 @@ public class FactoriaPresentacion extends FactoriaAbstractaPresentacion {
 
 			// VISTAS DE DESCUENTO
 			case Eventos.ALTA_DESCUENTO:
-				if(vistaAltaDescuento == null) {
+				if (vistaAltaDescuento == null) {
 					vistaAltaDescuento = new VistaAltaDescuento();
 				}
 				return vistaAltaDescuento;
-				
+
 			case Eventos.MOSTRAR_DESCUENTOS:
-			    if (VistaMostrarDescuentos == null) {
-			        VistaMostrarDescuentos = new VistaMostrarDescuentos();
-			    }
-			    return VistaMostrarDescuentos;
+				if (VistaMostrarDescuentos == null) {
+					VistaMostrarDescuentos = new VistaMostrarDescuentos();
+				}
+				return VistaMostrarDescuentos;
 			case Eventos.BAJA_DESCUENTO:
-				if(vistaBajaDescuento == null) {
+				if (vistaBajaDescuento == null) {
 					vistaBajaDescuento = new VistaBajaDescuento();
 				}
 				return vistaBajaDescuento;
 			case Eventos.BUSCAR_DESCUENTO:
-				if(vistaBuscarDescuento == null) {
+				if (vistaBuscarDescuento == null) {
 					vistaBuscarDescuento = new VistaBuscarDescuento();
 				}
 				return vistaBuscarDescuento;
 			case Eventos.MODIFICAR_DESCUENTO:
-				if(vistaModificarDescuento == null) {
+				if (vistaModificarDescuento == null) {
 					vistaModificarDescuento = new VistaModificarDescuento();
 				}
 				return vistaModificarDescuento;
-				
+
 			// VISTAS DE SERVICIO
-				
+
 			case Eventos.ALTA_SERVICIO:
 				if (vistaAltaServicio == null) {
 					vistaAltaServicio = new VistaAltaServicio();
@@ -249,14 +269,13 @@ public class FactoriaPresentacion extends FactoriaAbstractaPresentacion {
 					vistaModificarServicio = new VistaModificarServicio();
 				}
 				return vistaModificarServicio;
-				
+
 			case Eventos.MOSTRAR_SERVICIOS:
 				if (vistaMostrarServicios == null) {
 					vistaMostrarServicios = new VistaMostrarServicios();
 				}
 				return vistaMostrarServicios;
-				
-				
+
 			default:
 				// Error inesperado.
 				return null;
