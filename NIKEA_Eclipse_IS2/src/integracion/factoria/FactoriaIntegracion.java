@@ -19,6 +19,7 @@ import integracion.servicio.DAOMontajeImp;
 import integracion.servicio.DAOServicio;
 import integracion.servicio.DAOServicioImp;
 import negocio.TOAResumenMensual;
+import negocio.TOAResumenMensualImp;
 
 public class FactoriaIntegracion extends FactoriaAbstractaIntegracion {
 	
@@ -59,7 +60,6 @@ public class FactoriaIntegracion extends FactoriaAbstractaIntegracion {
 
 	@Override
 	public DAOServicio crearDAOServicio() {
-		// TODO Auto-generated method stub
 		return new DAOServicioImp();
 	}
 	
@@ -70,7 +70,6 @@ public class FactoriaIntegracion extends FactoriaAbstractaIntegracion {
 
 	@Override
 	public TOAResumenMensual crearTOAResumenMensual() {
-		// TODO Auto-generated method stub
-		return null;
+		return new TOAResumenMensualImp();
 	}
 }

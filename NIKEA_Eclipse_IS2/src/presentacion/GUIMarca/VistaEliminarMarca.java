@@ -2,7 +2,6 @@ package presentacion.GUIMarca;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.Dialog.ModalityType;
 import java.util.List;
 
 import presentacion.IGUI;
@@ -99,7 +98,7 @@ public class VistaEliminarMarca extends JDialog implements IGUI {
 
                     TMarca tm = (TMarca) datos;
                     String info = "ID: " + tm.getId() + "\nNombre: " + tm.getNombre() + "\n" +
-                    		formatear((List) tm.getEspecialidades());
+                    		formatear((List<Especialidad>) tm.getEspecialidades());
 
                     int respuesta = JOptionPane.showConfirmDialog(
                             this, "Se ha encontrado la siguiente marca activa:\n\n" + info

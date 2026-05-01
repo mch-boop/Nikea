@@ -2,12 +2,10 @@ package presentacion.GUIEmpleado;
 
 import javax.swing.*;
 import java.awt.*;
-import negocio.empleado.TEmpleado;
+
 import presentacion.IGUI;
 import presentacion.controlador.Controlador;
 import presentacion.controlador.Eventos;
-import java.awt.HeadlessException;
-import java.awt.Dialog.ModalityType;
 
 @SuppressWarnings("serial")
 public class GUIBuscarIdModificar extends JDialog implements IGUI {
@@ -20,8 +18,9 @@ public class GUIBuscarIdModificar extends JDialog implements IGUI {
     public GUIBuscarIdModificar() {
     	super(null, "Buscar ID Modificar", ModalityType.APPLICATION_MODAL);
         setTitle("Seleccionar Empleado");
-        initGUI();
+
         this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+        initGUI();
         this.addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
             public void windowClosing(java.awt.event.WindowEvent e) {

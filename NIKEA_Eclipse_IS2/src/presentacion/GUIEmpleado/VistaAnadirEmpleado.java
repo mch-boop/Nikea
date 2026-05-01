@@ -2,9 +2,9 @@ package presentacion.GUIEmpleado;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.Dialog.ModalityType;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import negocio.empleado.TEmpleado;
 import negocio.empleado.TVendedor;
 import negocio.empleado.TMontador;

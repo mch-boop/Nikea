@@ -2,7 +2,6 @@ package presentacion.GUIEmpleado;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.Dialog.ModalityType;
 
 import negocio.empleado.TEmpleado;
 import negocio.empleado.TMontador;
