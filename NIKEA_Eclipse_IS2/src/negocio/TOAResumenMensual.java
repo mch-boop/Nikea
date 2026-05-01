@@ -8,8 +8,7 @@ import negocio.marca.TMarca;
 public interface TOAResumenMensual {
 
     TCliente getMejorCliente();
-    TServicio getMejorServicio();
+    TServicio getMejorServicio ();
     TMarca getMejorMarca();
     TVendedor getMejorVendedor();
-
 }

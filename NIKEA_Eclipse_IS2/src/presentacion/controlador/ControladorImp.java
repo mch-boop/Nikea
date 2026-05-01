@@ -18,6 +18,7 @@ import negocio.factura.TLineaFactura;
 import negocio.marca.SAMarca;
 import negocio.marca.TMarca;
 import negocio.servicio.SAServicio;
+import negocio.servicio.TArticulo;
 import negocio.servicio.TServicio;
 import presentacion.IGUI;
 import presentacion.factoria.FactoriaAbstractaPresentacion;
@@ -357,6 +358,16 @@ public class ControladorImp extends Controlador {
 				break;
 			}
 			case Eventos.MOSTRAR_MEJOR_ARTICULO: {
+				SAServicio saCli = FactoriaAbstractaNegocio.getInstance().crearSAServicio();
+				TArticulo mejor = (TArticulo) saCli.getMejorArticulo();
+
+				IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(evento);
+
+				if (mejor != null) {
+					vista.actualizar(Eventos.RES_MOSTRAR_MEJOR_ARTICULO_OK, mejor);
+				} else {
+					vista.actualizar(Eventos.RES_MOSTRAR_MEJOR_ARTICULO_KO, null);
+				}
 				break;
 			}
 
