@@ -2,8 +2,10 @@ package presentacion.GUIMarca;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.HashMap;
 
 import negocio.marca.TMarca;
 import negocio.marca.TMarca.Especialidad;
@@ -12,97 +14,88 @@ import presentacion.controlador.Controlador;
 import presentacion.controlador.Eventos;
 
 @SuppressWarnings("serial")
-public class VistaModificarMarca extends JFrame implements IGUI {
+public class VistaModificarMarca extends JDialog implements IGUI {
 
-    // ===== ATRIBUTOS =====
+    // ATRIBUTOS
 
-    private JTextField txtId, txtNombre;
-    private JTextField txtNombreAct;
-
-    private JButton btnBuscar, btnModificar, btnCancelar, btnCancelarModif;
-
+    private JTextField txtId, txtNombre, txtNombreAct;
+    private JButton btnBuscar, btnModificar, btnCancelar;
     private JPanel panelEdicion, pBotones;
     private TMarca marcaEncontrada;
 
-    private JCheckBox chkEspecialidades;
+    // checkboxes
+    private Map<Especialidad, JCheckBox> checkAct;
+    private Map<Especialidad, JCheckBox> checkNueva;
 
-    private JList<Especialidad> listaEspecialidades;
-    private JScrollPane scrollEspecialidades;
-
-    // ===== CONSTRUCTORA =====
+    // CONSTRUCTOR
 
     public VistaModificarMarca() {
+    	super(null, "Modificar Marca", ModalityType.APPLICATION_MODAL);
         setTitle("Modificar Marca");
+        
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         initGUI();
     }
 
-    // ===== UI =====
+    
+    // INIT 
 
     private void initGUI() {
 
-        JPanel mainPanel = new JPanel();
-        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
-        mainPanel.setBorder(BorderFactory.createEmptyBorder(20,20,20,20));
+        JPanel main = new JPanel();
+        main.setLayout(new BoxLayout(main, BoxLayout.Y_AXIS));
+        main.setBorder(BorderFactory.createEmptyBorder(20,20,20,20));
 
-        // ===== BÚSQUEDA =====
-        JPanel pBusqueda = new JPanel(new FlowLayout());
+        // búsqueda
+        JPanel busqueda = new JPanel(new FlowLayout());
 
         txtId = new JTextField(20);
         btnBuscar = new JButton("BUSCAR");
         btnCancelar = new JButton("CANCELAR");
 
-        pBusqueda.add(new JLabel("ID Marca:"));
-        pBusqueda.add(txtId);
-        pBusqueda.add(btnBuscar);
-        pBusqueda.add(btnCancelar);
+        busqueda.add(new JLabel("ID Marca:"));
+        busqueda.add(txtId);
+        busqueda.add(btnBuscar);
+        busqueda.add(btnCancelar);
 
         btnBuscar.addActionListener(e -> {
             try {
                 if (txtId.getText().trim().isEmpty()) {
-                    JOptionPane.showMessageDialog(this, "ID obligatorio");
+                    JOptionPane.showMessageDialog(this, "ID obligatorio", "Error",
+                            JOptionPane.ERROR_MESSAGE);
                     return;
                 }
 
                 int id = Integer.parseInt(txtId.getText().trim());
                 pBotones.setVisible(false);
-                Controlador.getInstance().accion(Eventos.BUSCAR_MARCA_PARA_MODIFICAR, id);
+
+                Controlador.getInstance().accion( Eventos.BUSCAR_MARCA_PARA_MODIFICAR, id);
 
             } catch (Exception ex) {
-                JOptionPane.showMessageDialog(this, "ID inválido");
+                JOptionPane.showMessageDialog(this, "ID inválido", "Error",
+                        JOptionPane.ERROR_MESSAGE);
             }
         });
 
-        btnCancelar.addActionListener(e -> {
-            panelEdicion.setVisible(false);
-            txtId.setText("");
-            txtId.setEditable(true);
-            setVisible(false);
-            dispose();
-        });
+        btnCancelar.addActionListener(e -> dispose());
 
-        // ===== BOTONES GENERALES =====
         pBotones = new JPanel();
         pBotones.add(btnBuscar);
         pBotones.add(btnCancelar);
 
         crearPanelEdicion();
 
-        JLabel titulo = new JLabel("Modificar Marca");
-        titulo.setAlignmentX(Component.CENTER_ALIGNMENT);
+        main.add(busqueda);
+        main.add(pBotones);
+        main.add(panelEdicion);
 
-        mainPanel.add(titulo);
-        mainPanel.add(pBusqueda);
-        mainPanel.add(Box.createRigidArea(new Dimension(0,10)));
-        mainPanel.add(pBotones);
-        mainPanel.add(panelEdicion);
-
-        add(mainPanel);
-
+        add(main);
         pack();
         setLocationRelativeTo(null);
     }
 
-    // ===== PANEL EDICIÓN =====
+    
+    // panel de edición
 
     private void crearPanelEdicion() {
 
@@ -111,89 +104,96 @@ public class VistaModificarMarca extends JFrame implements IGUI {
         panelEdicion.setBorder(BorderFactory.createTitledBorder("Datos Marca"));
         panelEdicion.setVisible(false);
 
-        JPanel datos = new JPanel(new GridBagLayout());
+        JPanel form = new JPanel(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(5,5,5,5);
+        gbc.fill = GridBagConstraints.HORIZONTAL;
 
         txtNombre = new JTextField(20);
         txtNombreAct = new JTextField(20);
         txtNombreAct.setEditable(false);
 
-        chkEspecialidades = new JCheckBox("Modificar especialidades");
+        checkAct = new HashMap<>();
+        checkNueva = new HashMap<>();
 
-        // ===== LISTA MULTISELECT ENUM =====
-        listaEspecialidades = new JList<>(Especialidad.values());
-        listaEspecialidades.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-        listaEspecialidades.setEnabled(false);
+        JPanel panelAct = new JPanel();
+        panelAct.setLayout(new BoxLayout(panelAct, BoxLayout.Y_AXIS));
+        panelAct.setBorder(BorderFactory.createTitledBorder("Actuales"));
 
-        scrollEspecialidades = new JScrollPane(listaEspecialidades);
-        scrollEspecialidades.setPreferredSize(new Dimension(200, 100));
+        JPanel panelNueva = new JPanel();
+        panelNueva.setLayout(new BoxLayout(panelNueva, BoxLayout.Y_AXIS));
+        panelNueva.setBorder(BorderFactory.createTitledBorder("Nuevas"));
 
-        chkEspecialidades.addActionListener(e -> {
-            listaEspecialidades.setEnabled(chkEspecialidades.isSelected());
-            if (!chkEspecialidades.isSelected()) {
-                listaEspecialidades.clearSelection();
-            }
-        });
+        // crear checkboxes por enum
+        for (Especialidad e : Especialidad.values()) {
 
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(5,5,5,5);
-        gbc.fill = GridBagConstraints.HORIZONTAL;
+            JCheckBox c1 = new JCheckBox(e.toString());
+            JCheckBox c2 = new JCheckBox(e.toString());
 
-        // ===== NOMBRE =====
+            c1.setEnabled(false); // actuales no editables
+
+            checkAct.put(e, c1);
+            checkNueva.put(e, c2);
+
+            panelAct.add(c1);
+            panelNueva.add(c2);
+        }
+
+        // nombre
         gbc.gridy = 0;
-
         gbc.gridx = 0;
-        datos.add(new JLabel("Nombre:"), gbc);
+        form.add(new JLabel("Nombre actual:"), gbc);
 
         gbc.gridx = 1;
-        datos.add(txtNombreAct, gbc);
+        form.add(txtNombreAct, gbc);
 
         gbc.gridx = 2;
-        datos.add(txtNombre, gbc);
+        form.add(txtNombre, gbc);
 
-        // ===== CHECK =====
+        // especialidades
         gbc.gridy = 1;
         gbc.gridx = 0;
-        gbc.gridwidth = 3;
-        datos.add(chkEspecialidades, gbc);
+        form.add(panelAct, gbc);
 
-        // ===== ESPECIALIDADES =====
-        gbc.gridy = 2;
-        gbc.gridwidth = 3;
+        gbc.gridx = 2;
+        form.add(panelNueva, gbc);
 
-        datos.add(scrollEspecialidades, gbc);
-
-        // ===== BOTONES =====
+        // botones
         JPanel botones = new JPanel();
 
         btnModificar = new JButton("GUARDAR CAMBIOS");
-        btnCancelarModif = new JButton("CANCELAR");
 
         btnModificar.addActionListener(e -> {
 
             if (marcaEncontrada == null) return;
-
             TMarca tm = new TMarca();
             tm.setId(marcaEncontrada.getId());
 
             // nombre
-            if (!txtNombre.getText().trim().isEmpty()) {
+            if (!txtNombre.getText().trim().isEmpty())
                 tm.setNombre(txtNombre.getText().trim());
-            } else {
+            else
                 tm.setNombre(null);
+
+            // especialidades nuevas
+            List<Especialidad> lista = new ArrayList<>();
+            for (Map.Entry<Especialidad, JCheckBox> entry : checkNueva.entrySet()) {
+                if (entry.getValue().isSelected()) {
+                    lista.add(entry.getKey());
+                }
             }
 
-            // especialidades
-            if (chkEspecialidades.isSelected()) {
+            tm.setEspecialidades(lista.isEmpty() ? null : lista);
 
-                List<Especialidad> seleccionadas = listaEspecialidades.getSelectedValuesList();
-                tm.setEspecialidades(seleccionadas);
-
-            } else {
-                tm.setEspecialidades(null);
-            }
+            // confirmación
+            String info = "ID: " + marcaEncontrada.getId()
+                    + "\nNombre: " + (tm.getNombre() != null ? tm.getNombre() : marcaEncontrada.getNombre())
+                    + "\nEspecialidades:\n" + formatear(lista.isEmpty()
+                            ? (List) marcaEncontrada.getEspecialidades()
+                            : lista);
 
             int res = JOptionPane.showConfirmDialog(this,
-                    "¿Confirmar modificación?",
+                    "¿Confirmar modificación?\n\n" + info,
                     "Confirmar",
                     JOptionPane.YES_NO_OPTION);
 
@@ -202,23 +202,14 @@ public class VistaModificarMarca extends JFrame implements IGUI {
             }
         });
 
-        btnCancelarModif.addActionListener(e -> {
-            txtId.setEditable(true);
-            txtId.setText("");
-            limpiar();
-            panelEdicion.setVisible(false);
-            pBotones.setVisible(true);
-            pack();
-        });
-
         botones.add(btnModificar);
-        botones.add(btnCancelarModif);
 
-        panelEdicion.add(datos);
+        panelEdicion.add(form);
         panelEdicion.add(botones);
     }
 
-    // ===== ACTUALIZAR =====
+    
+    // actualizar
 
     @Override
     public void actualizar(int evento, Object datos) {
@@ -231,14 +222,16 @@ public class VistaModificarMarca extends JFrame implements IGUI {
 
                 txtNombreAct.setText(marcaEncontrada.getNombre());
 
-                // preseleccionar especialidades actuales
-                listaEspecialidades.clearSelection();
+                // reset
+                for (Especialidad e : Especialidad.values()) {
+                    checkAct.get(e).setSelected(false);
+                    checkNueva.get(e).setSelected(false);
+                }
 
-                if (marcaEncontrada.getEspecialidades() != null) {
-                    for (Especialidad e : marcaEncontrada.getEspecialidades()) {
-                        int index = e.ordinal();
-                        listaEspecialidades.addSelectionInterval(index, index);
-                    }
+                // marcar actuales
+                for (Especialidad e : marcaEncontrada.getEspecialidades()) {
+                    checkAct.get(e).setSelected(true);
+                    checkNueva.get(e).setSelected(true); // preselección
                 }
 
                 panelEdicion.setVisible(true);
@@ -248,36 +241,67 @@ public class VistaModificarMarca extends JFrame implements IGUI {
 
             case Eventos.RES_MODIFICAR_MARCA_OK:
 
-                JOptionPane.showMessageDialog(this,
-                        "Marca modificada correctamente");
+                JOptionPane.showMessageDialog(this, "Marca modificada correctamente");
 
                 panelEdicion.setVisible(false);
-                txtId.setEditable(true);
                 txtId.setText("");
-                limpiar();
+                txtId.setEditable(true);
                 pack();
                 break;
 
             case Eventos.RES_MODIFICAR_MARCA_KO_NO_EXISTE:
 
-                JOptionPane.showMessageDialog(this,
-                        "La marca no existe",
-                        "Error",
-                        JOptionPane.ERROR_MESSAGE);
-                break;
-
-            case Eventos.RES_MODIFICAR_MARCA_KO_DATOS_INVALIDOS:
-
-                JOptionPane.showMessageDialog(this,
-                        "Datos inválidos",
-                        "Error",
+                JOptionPane.showMessageDialog(this, "La marca no existe", "Error",
                         JOptionPane.ERROR_MESSAGE);
                 break;
         }
     }
 
-    private void limpiar() {
+    // formato
+
+    private String formatear(List<Especialidad> lista) {
+
+        if (lista == null || lista.isEmpty())
+            return " - (sin especialidades)";
+
+        StringBuilder sb = new StringBuilder();
+
+        for (Especialidad e : lista)
+            sb.append(" - ").append(e.toString()).append("\n");
+
+        return sb.toString();
+    }
+    
+    // reseteo cada vez que abro la ventana
+    
+    @Override
+    public void setVisible(boolean visible) {
+        if (visible) {
+            limpiarCampos(); // o resetEstado()
+        }
+        super.setVisible(visible);
+    }
+    
+    private void limpiarCampos() {
+        txtId.setText("");
+        txtId.setEditable(true);
+
         txtNombre.setText("");
-        listaEspecialidades.clearSelection();
+        txtNombreAct.setText("");
+
+        marcaEncontrada = null;
+        panelEdicion.setVisible(false);
+
+        for (Especialidad e : Especialidad.values()) {
+            checkAct.get(e).setSelected(false);
+            checkNueva.get(e).setSelected(false);
+        }
+        if (pBotones != null) {
+            pBotones.setVisible(true);
+        }
+
+        revalidate();
+        repaint();
+        pack();
     }
 }

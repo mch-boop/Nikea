@@ -25,7 +25,12 @@
     },
     {
         "listaArticulos": [],
-        "especialidades": ["ELECTRODOMESTICOS"],
+        "especialidades": [
+            "MUEBLES",
+            "JARDIN_EXTERIOR",
+            "TECNOLOGIA",
+            "DECORACION"
+        ],
         "idMarca": 4,
         "nombre": "Modificada",
         "activo": true

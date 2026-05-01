@@ -65,8 +65,10 @@ public class GUIMarcaDialog extends JDialog {
         });
 
         btnModificar.addActionListener(e -> { 
-            IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.MODIFICAR_MARCA);
-            abrirVistaBloqueante((JFrame) vista);
+        	IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.MODIFICAR_MARCA);
+
+        	((JDialog) vista).setModal(true);
+        	((JDialog) vista).setVisible(true);
         });
         
         btnRanking.addActionListener(e -> { 
