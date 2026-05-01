@@ -43,7 +43,7 @@ public class GUIDescuentoDialog extends JDialog {
         JButton btnBuscar    = new JButton("Buscar descuento");
         JButton btnAnadir    = new JButton("Añadir descuento a factura");
 
-        JButton[] botones = {btnAlta, btnBaja, btnModificar, btnListar, btnBuscar, btnAnadir};
+        JButton[] botones = {btnAlta, btnBaja, btnModificar, btnBuscar, btnListar, btnAnadir};
         for (JButton b : botones) {
             b.setFocusPainted(false);
             panel.add(b);

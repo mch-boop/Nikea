@@ -42,7 +42,7 @@ public class GUIClienteDialog extends JDialog {
 	    JButton btnMostrarMejor  = new JButton("Mejor Cliente");
 	    JButton btnBuscar        = new JButton("Buscar Cliente");
 
-	    JButton[] botones = {btnAlta, btnBaja, btnModificar, btnListar, btnMostrarMejor, btnBuscar};
+	    JButton[] botones = {btnAlta, btnBaja, btnModificar, btnBuscar, btnListar, btnMostrarMejor, };
 	    for (JButton b : botones) {
 	        b.setFocusPainted(false);
 	        panel.add(b);

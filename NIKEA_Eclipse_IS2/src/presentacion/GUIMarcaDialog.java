@@ -31,12 +31,12 @@ public class GUIMarcaDialog extends JDialog {
         
         JButton btnAlta          = new JButton("Alta Marca");
         JButton btnBaja          = new JButton("Baja Marca");
-        JButton btnMostrarId     = new JButton("Mostrar info por ID");
-        JButton btnMostrarTodos  = new JButton("Mostrar todos");
-        JButton btnModificar     = new JButton("Modificar");
-        JButton btnRanking       = new JButton("Mostrar Ranking");
+        JButton btnMostrarId     = new JButton("Buscar Marca");
+        JButton btnMostrarTodos  = new JButton("Listar Marcas");
+        JButton btnModificar     = new JButton("Modificar Marca");
+        JButton btnRanking       = new JButton("Mostrar Ranking de Marcas");
 
-        JButton[] botones = {btnAlta, btnBaja, btnMostrarId, btnMostrarTodos, btnModificar, btnRanking};
+        JButton[] botones = {btnAlta, btnBaja, btnModificar, btnMostrarId, btnMostrarTodos, btnRanking};
         for (JButton b : botones) {
             b.setFocusPainted(false);
             panel.add(b);
