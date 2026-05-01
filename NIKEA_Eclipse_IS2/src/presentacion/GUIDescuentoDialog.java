@@ -2,7 +2,6 @@ package presentacion;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
-import java.awt.Window;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -55,17 +54,17 @@ public class GUIDescuentoDialog extends JDialog {
         
         btnAlta.addActionListener(e -> {
             IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.ALTA_DESCUENTO);
-            abrirVistaBloqueante((JFrame) vista);
+            abrirVistaBloqueante((JDialog) vista);
         });
 
         btnBaja.addActionListener(e -> {
             IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.BAJA_DESCUENTO);
-            abrirVistaBloqueante((JFrame) vista);
+            abrirVistaBloqueante((JDialog) vista);
         });
 
         btnModificar.addActionListener(e -> {
             IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.MODIFICAR_DESCUENTO);
-            abrirVistaBloqueante((JFrame) vista);
+            abrirVistaBloqueante((JDialog) vista);
         });
 
         btnListar.addActionListener(e -> {
@@ -74,28 +73,17 @@ public class GUIDescuentoDialog extends JDialog {
 
         btnBuscar.addActionListener(e -> { 
             IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.BUSCAR_DESCUENTO);
-            abrirVistaBloqueante((JFrame) vista);
+            abrirVistaBloqueante((JDialog) vista);
         });
                 
         btnAnadir.addActionListener(e->{
         	IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.ANADIR_DESCUENTO);
-        	abrirVistaBloqueante((JFrame) vista);
+        	abrirVistaBloqueante((JDialog) vista);
         });
     }
 
-    private void abrirVistaBloqueante(Window ventanaSecundaria) {
-        this.setEnabled(false);
-        ventanaSecundaria.addWindowListener(new java.awt.event.WindowAdapter() {
-            @Override
-            public void windowClosed(java.awt.event.WindowEvent e) {
-                GUIDescuentoDialog.this.setEnabled(true);
-                GUIDescuentoDialog.this.toFront();
-            }
-            @Override
-            public void windowClosing(java.awt.event.WindowEvent e) {
-                GUIDescuentoDialog.this.setEnabled(true);
-            }
-        });
-        ventanaSecundaria.setVisible(true);
+    private void abrirVistaBloqueante(JDialog vista) {
+    	vista.setModal(true);
+    	vista.setVisible(true);
     }
 }

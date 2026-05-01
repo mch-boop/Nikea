@@ -104,15 +104,13 @@ public class VistaMostrarMejorMarca extends JDialog implements IGUI {
     @SuppressWarnings("unchecked")
     @Override
     public void actualizar(int evento, Object datos) {
-    	this.setVisible(true);
-    	System.out.println("Se quiere abrir");
         SwingUtilities.invokeLater(() -> {
             switch (evento) {
                 case Eventos.RES_MOSTRAR_RANKING_MARCA_OK:
                     List<TMarca> lista = (List<TMarca>) datos;
                     modelo.setRowCount(0);
 
-                    if (lista == null || lista.isEmpty()) {
+                    if (lista == null) {
                         JOptionPane.showMessageDialog(this,
                                 "No hay marcas registradas en el sistema.",
                                 "Información",

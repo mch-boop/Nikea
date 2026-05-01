@@ -1,27 +1,7 @@
 package presentacion.GUIDescuento;
 
-import java.awt.CardLayout;
-import java.awt.Dimension;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
-
-import javax.swing.BorderFactory;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.ButtonGroup;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JRadioButton;
-import javax.swing.JScrollPane;
-import javax.swing.JSpinner;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-import javax.swing.SpinnerNumberModel;
-import javax.swing.SwingUtilities;
+import java.awt.*;
+import javax.swing.*;
 
 import negocio.descuento.TDescuento;
 import presentacion.IGUI;
@@ -29,7 +9,7 @@ import presentacion.controlador.Controlador;
 import presentacion.controlador.Eventos;
 
 @SuppressWarnings("serial")
-public class VistaAltaDescuento extends JFrame implements IGUI {
+public class VistaAltaDescuento extends JDialog implements IGUI {
 
     // ATRIBUTOS
     private JTextField txtCodigo, txtDescuento;
@@ -40,7 +20,10 @@ public class VistaAltaDescuento extends JFrame implements IGUI {
 
     // CONSTRUCTORA
     public VistaAltaDescuento() {
+    	super(null, "Alta Descuento", ModalityType.APPLICATION_MODAL);
         setTitle("Alta Descuento");
+        
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         initGUI();    
     }
 
@@ -258,5 +241,14 @@ public class VistaAltaDescuento extends JFrame implements IGUI {
                     break;
             }
         });
+    }
+    
+    
+    // reset
+    
+    @Override
+    public void setVisible(boolean b) {
+        if (b) limpiarCampos();
+        super.setVisible(b);
     }
 }

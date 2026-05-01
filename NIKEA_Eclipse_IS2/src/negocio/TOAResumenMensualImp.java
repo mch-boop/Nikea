@@ -12,6 +12,8 @@ public class TOAResumenMensualImp implements TOAResumenMensual {
 	private TMarca mejorMarca;
 	private TVendedor mejorVendedor;
 
+	public TOAResumenMensualImp() {}
+	
 	public TOAResumenMensualImp(TCliente cliente, TServicio servicio, TMarca marca, TVendedor vendedor) {
 		this.mejorCliente = cliente;
 		this.mejorServicio = servicio;

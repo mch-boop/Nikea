@@ -2,7 +2,6 @@ package presentacion.GUIMarca;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.Dialog.ModalityType;
 
 import negocio.marca.TMarca;
 import negocio.marca.TMarca.Especialidad;

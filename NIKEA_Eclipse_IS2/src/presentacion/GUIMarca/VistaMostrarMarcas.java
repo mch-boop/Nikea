@@ -9,7 +9,6 @@ import java.util.stream.Collectors;
 
 import negocio.marca.TMarca;
 import presentacion.IGUI;
-import presentacion.controlador.Controlador;
 import presentacion.controlador.Eventos;
 
 @SuppressWarnings("serial")

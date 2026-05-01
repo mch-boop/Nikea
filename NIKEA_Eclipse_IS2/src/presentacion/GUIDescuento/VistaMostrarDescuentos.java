@@ -3,29 +3,24 @@ package presentacion.GUIDescuento;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.util.Collection;
-
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.SwingUtilities;
+import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
 import negocio.descuento.TDescuento;
 import presentacion.IGUI;
-import presentacion.controlador.Controlador;
 import presentacion.controlador.Eventos;
 
 @SuppressWarnings("serial")
-public class VistaMostrarDescuentos extends JFrame implements IGUI {
+public class VistaMostrarDescuentos extends JDialog implements IGUI {
 
     private JTable tabla;
     private DefaultTableModel modelo;
 
     public VistaMostrarDescuentos() {
+    	super(null, "Lista de Descuentos Activos", ModalityType.APPLICATION_MODAL);
         setTitle("Lista de Descuentos Activos");
+        
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         initGUI();
     }
 

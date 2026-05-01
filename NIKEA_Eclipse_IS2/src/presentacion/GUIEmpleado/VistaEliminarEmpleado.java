@@ -1,13 +1,11 @@
 package presentacion.GUIEmpleado;
 
 import javax.swing.*;
-
-import negocio.empleado.TEmpleado;
-
 import java.awt.*;
-import java.awt.Dialog.ModalityType;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import negocio.empleado.TEmpleado;
 import presentacion.IGUI;
 import presentacion.controlador.Controlador;
 import presentacion.controlador.Eventos;
