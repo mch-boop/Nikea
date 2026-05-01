@@ -2,13 +2,15 @@ package presentacion.GUIEmpleado;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.Dialog.ModalityType;
+
 import negocio.empleado.TEmpleado;
 import presentacion.IGUI;
 import presentacion.controlador.Controlador;
 import presentacion.controlador.Eventos;
 
 @SuppressWarnings("serial")
-public class VistaBuscarEmpleado extends JFrame implements IGUI {
+public class VistaBuscarEmpleado extends JDialog implements IGUI {
 
 	// ATRIBUTOS
 	
@@ -19,6 +21,7 @@ public class VistaBuscarEmpleado extends JFrame implements IGUI {
     // CONSTRUCTORA
     
     public VistaBuscarEmpleado() {
+    	super(null, "Buscar Empleado", ModalityType.APPLICATION_MODAL);
         setTitle("Consultar Empleado por ID");
         initGUI();
         this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE); // Solo oculta
@@ -32,6 +35,12 @@ public class VistaBuscarEmpleado extends JFrame implements IGUI {
 
     
     // MÉTODOS
+    
+    @Override
+    public void setVisible(boolean b) {
+        if (b) limpiarCampos();
+        super.setVisible(b);
+    }
     
     private void limpiarCampos() {
 		txtId.setText("");

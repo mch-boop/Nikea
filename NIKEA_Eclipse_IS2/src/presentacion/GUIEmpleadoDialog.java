@@ -47,22 +47,22 @@ public class GUIEmpleadoDialog extends JDialog {
         
         btnAlta.addActionListener(e -> {
             IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.ALTA_EMPLEADO);
-            abrirVistaBloqueante((JFrame) vista);
+            abrirVistaBloqueante((JDialog) vista);
         });
 
         btnBaja.addActionListener(e -> {
             IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.BAJA_EMPLEADO);
-            abrirVistaBloqueante((JFrame) vista);
+            abrirVistaBloqueante((JDialog) vista);
         });
 
         btnActualizar.addActionListener(e -> {
             IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.VENTANA_BUSCAR_ID_EMPLEADO);
-            abrirVistaBloqueante((JFrame) vista);
+            abrirVistaBloqueante((JDialog) vista);
         });
 
         btnBuscar.addActionListener(e -> {
             IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.BUSCAR_EMPLEADO);
-            abrirVistaBloqueante((JFrame) vista);
+            abrirVistaBloqueante((JDialog) vista);
         });
 
         btnListar.addActionListener(e -> { 
@@ -70,27 +70,8 @@ public class GUIEmpleadoDialog extends JDialog {
         });
     }
 
-    private void abrirVistaBloqueante(Window ventanaSecundaria) {
-        this.setEnabled(false); // Bloqueamos el menú de empleados
-
-        // Listener para detectar tanto el cierre físico como el ocultarse (Singleton)
-        ventanaSecundaria.addComponentListener(new java.awt.event.ComponentAdapter() {
-            @Override
-            public void componentHidden(java.awt.event.ComponentEvent e) {
-                GUIEmpleadoDialog.this.setEnabled(true);
-                GUIEmpleadoDialog.this.toFront();
-            }
-        });
-
-        // Por si acaso se hace un dispose() real en alguna
-        ventanaSecundaria.addWindowListener(new java.awt.event.WindowAdapter() {
-            @Override
-            public void windowClosing(java.awt.event.WindowEvent e) {
-                GUIEmpleadoDialog.this.setEnabled(true);
-                GUIEmpleadoDialog.this.toFront();
-            }
-        });
-
-        ventanaSecundaria.setVisible(true);
+    private void abrirVistaBloqueante(JDialog vista) {
+    	vista.setModal(true);
+    	vista.setVisible(true);
     }
 }

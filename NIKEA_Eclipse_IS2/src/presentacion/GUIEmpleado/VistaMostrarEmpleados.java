@@ -4,6 +4,7 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
 import java.awt.*;
+import java.awt.Dialog.ModalityType;
 import java.util.Collection;
 import negocio.empleado.TEmpleado;
 import presentacion.IGUI;
@@ -11,7 +12,7 @@ import presentacion.controlador.Controlador;
 import presentacion.controlador.Eventos;
 
 @SuppressWarnings("serial")
-public class VistaMostrarEmpleados extends JFrame implements IGUI {
+public class VistaMostrarEmpleados extends JDialog implements IGUI {
 
 	// ATRIBUTOS
 	
@@ -22,6 +23,7 @@ public class VistaMostrarEmpleados extends JFrame implements IGUI {
     // CONSTRUCTORA
     
     public VistaMostrarEmpleados() {
+    	super(null, "Listar Empleados", ModalityType.APPLICATION_MODAL);
         setTitle("Listado General de Empleados");
         initGUI();
         this.addWindowListener(new java.awt.event.WindowAdapter() {

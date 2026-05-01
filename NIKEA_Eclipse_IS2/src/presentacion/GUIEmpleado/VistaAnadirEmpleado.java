@@ -2,6 +2,7 @@ package presentacion.GUIEmpleado;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.Dialog.ModalityType;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import negocio.empleado.TEmpleado;
@@ -12,7 +13,7 @@ import presentacion.controlador.Eventos;
 import presentacion.controlador.Controlador;
 
 @SuppressWarnings("serial")
-public class VistaAnadirEmpleado extends JFrame implements IGUI {
+public class VistaAnadirEmpleado extends JDialog implements IGUI {
 
 	// ATRIBUTOS
 
@@ -24,6 +25,7 @@ public class VistaAnadirEmpleado extends JFrame implements IGUI {
 	// CONSTRUCTORA
 
 	public VistaAnadirEmpleado() {
+		super(null, "Alta Empleado", ModalityType.APPLICATION_MODAL);
 		setTitle("Alta Empleado");
 		initGUI();
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
@@ -36,6 +38,12 @@ public class VistaAnadirEmpleado extends JFrame implements IGUI {
 	}
 
 	// MÉTODOS
+	
+	@Override
+    public void setVisible(boolean b) {
+        if (b) limpiarCampos();
+        super.setVisible(b);
+    }
 
 	private void limpiarCampos() {
 		txtNombre.setText("");

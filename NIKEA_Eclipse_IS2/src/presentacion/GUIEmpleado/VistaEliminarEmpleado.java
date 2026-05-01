@@ -5,6 +5,7 @@ import javax.swing.*;
 import negocio.empleado.TEmpleado;
 
 import java.awt.*;
+import java.awt.Dialog.ModalityType;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import presentacion.IGUI;
@@ -12,7 +13,7 @@ import presentacion.controlador.Controlador;
 import presentacion.controlador.Eventos;
 
 @SuppressWarnings("serial")
-public class VistaEliminarEmpleado extends JFrame implements IGUI {
+public class VistaEliminarEmpleado extends JDialog implements IGUI {
 
 	// ATRIBUTOS
 	
@@ -22,6 +23,7 @@ public class VistaEliminarEmpleado extends JFrame implements IGUI {
     // CONSTRUCTORA
     
     public VistaEliminarEmpleado() {
+    	super(null, "Baja Marca", ModalityType.APPLICATION_MODAL);
         setTitle("Baja Empleado");
         initGUI();
         this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
@@ -35,6 +37,12 @@ public class VistaEliminarEmpleado extends JFrame implements IGUI {
 
     
     // MÉTODOS
+    
+    @Override
+    public void setVisible(boolean b) {
+        if (b) limpiarCampos();
+        super.setVisible(b);
+    }
     
     private void limpiarCampos() {
 		txtId.setText("");

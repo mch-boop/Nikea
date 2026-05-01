@@ -2,6 +2,8 @@ package presentacion.GUIEmpleado;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.Dialog.ModalityType;
+
 import negocio.empleado.TEmpleado;
 import negocio.empleado.TMontador;
 import negocio.empleado.TVendedor;
@@ -10,7 +12,7 @@ import presentacion.controlador.Controlador;
 import presentacion.controlador.Eventos;
 
 @SuppressWarnings("serial")
-public class VistaModificarEmpleado extends JFrame implements IGUI {
+public class VistaModificarEmpleado extends JDialog implements IGUI {
 
 	// ATRIBUTOS
 
@@ -25,6 +27,7 @@ public class VistaModificarEmpleado extends JFrame implements IGUI {
 	// CONSTRUCTORA
 
 	public VistaModificarEmpleado() {
+		super(null, "Modificar Empleado", ModalityType.APPLICATION_MODAL);
 		setTitle("Modificar Empleado");
 		initGUI();
 		this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE); 

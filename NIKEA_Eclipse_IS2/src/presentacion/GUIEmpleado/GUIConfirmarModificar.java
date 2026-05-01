@@ -21,8 +21,8 @@ public class GUIConfirmarModificar extends JDialog {
     private final Color COLOR_BORDE_VIEJO = new Color(200, 200, 200);
     private final Color COLOR_BORDE_NUEVO = new Color(160, 210, 160);
 
-    public GUIConfirmarModificar(JFrame owner, TEmpleado datosViejos, TEmpleado datosNuevos) {
-        super(owner, "Confirmación de Cambios", true);
+    public GUIConfirmarModificar(JDialog vistaModificarEmpleado, TEmpleado datosViejos, TEmpleado datosNuevos) {
+        super(vistaModificarEmpleado, "Confirmación de Cambios", true);
         initGUI(datosViejos, datosNuevos);
     }
 

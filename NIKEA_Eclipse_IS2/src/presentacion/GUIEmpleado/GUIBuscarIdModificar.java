@@ -7,11 +7,10 @@ import presentacion.IGUI;
 import presentacion.controlador.Controlador;
 import presentacion.controlador.Eventos;
 import java.awt.HeadlessException;
-
-import javax.swing.JFrame;
+import java.awt.Dialog.ModalityType;
 
 @SuppressWarnings("serial")
-public class GUIBuscarIdModificar extends JFrame implements IGUI {
+public class GUIBuscarIdModificar extends JDialog implements IGUI {
 
 	// ATRRIBUTOS
 	private JTextField txtId;
@@ -19,6 +18,7 @@ public class GUIBuscarIdModificar extends JFrame implements IGUI {
 
     // CONSTRUCTORA
     public GUIBuscarIdModificar() {
+    	super(null, "Buscar ID Modificar", ModalityType.APPLICATION_MODAL);
         setTitle("Seleccionar Empleado");
         initGUI();
         this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
@@ -31,6 +31,12 @@ public class GUIBuscarIdModificar extends JFrame implements IGUI {
     }
 
     // MÉTODOS
+    
+    @Override
+    public void setVisible(boolean b) {
+        if (b) limpiarCampos();
+        super.setVisible(b);
+    }
     
     private void limpiarCampos() {
 		txtId.setText("");
