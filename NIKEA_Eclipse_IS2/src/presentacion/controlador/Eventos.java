@@ -132,8 +132,8 @@ public class Eventos {
     public static final int ELIMINAR_SERVICIO = 304;
     public static final int RES_ELIMINAR_SERVICIO_OK = 3041;
     public static final int RES_ELIMINAR_SERVICIO_KO = 3040;
-    public static final int RES_ELIMINAR_SERVIVIO_KO_BORRADO_DE_MAS = 30401;
-    public static final int RES_ELIMINAR_SERVIVIO_KO_NO_EXISTE = 30402;
+    public static final int RES_ELIMINAR_SERVICIO_KO_BORRADO_DE_MAS = 30401;
+    public static final int RES_ELIMINAR_SERVICIO_KO_NO_EXISTE = 30402;
 
     public static final int BUSCAR_FACTURA = 305;
     public static final int RES_BUSCAR_FACTURA_OK = 3051;
