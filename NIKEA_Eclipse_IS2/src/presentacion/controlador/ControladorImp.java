@@ -39,10 +39,15 @@ public class ControladorImp extends Controlador {
 	
 			    if (res > 0) {
 			        vista.actualizar(Eventos.RES_ALTA_CLIENTE_OK, res);
+			    } else if (res == -1) { // mismo cliente ya existente
+			        vista.actualizar(Eventos.RES_ALTA_CLIENTE_YA_EXISTE_MISMO, saCli.getUltimoDuplicado());
+			    } else if (res == -100) { // DNI pertenece a otra persona
+			        vista.actualizar(Eventos.RES_ALTA_CLIENTE_YA_EXISTE_DISTINTO, saCli.getUltimoDuplicado());
+			    } else if (res == -2) { // existe inactivo con datos distintos → pedir confirmación
+			        vista.actualizar(Eventos.REACTIVAR_CLIENTE, saCli.getUltimoDuplicado());
 			    } else {
 			        vista.actualizar(Eventos.RES_ALTA_CLIENTE_KO, tCliente);
 			    }
-	
 			    break;
 			}
 			
@@ -60,30 +65,27 @@ public class ControladorImp extends Controlador {
 			    } else {
 			        vista.actualizar(Eventos.RES_BAJA_CLIENTE_OK, cli);
 			    }
-
 			    break;
 			}
-			case Eventos.CONFIRMAR_BAJA_CLIENTE:
-				break;
-				
-			case Eventos.MODIFICAR_CLIENTE: {
-			    TCliente tCliente = (TCliente) datos;
+			case Eventos.CONFIRMAR_BAJA_CLIENTE: {
+				Integer id = (Integer) datos;
 			    SACliente saCli = FactoriaAbstractaNegocio.getInstance().crearSACliente();
-			    int res = saCli.update(tCliente);
+			    int res = saCli.delete(id);
 
-			    IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.MODIFICAR_CLIENTE);
+			    IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.BAJA_CLIENTE);
 
 			    if (res > 0) {
-			        vista.actualizar(Eventos.RES_MODIFICAR_CLIENTE_OK, res);
-			    } else if (res == -1) {
-			        vista.actualizar(Eventos.RES_MODIFICAR_CLIENTE_KO_NO_EXISTE, tCliente);
+			        vista.actualizar(Eventos.RES_BAJA_CLIENTE_CONFIRMADA, id);
+			    } else if (res == -3) {
+			        vista.actualizar(Eventos.RES_BAJA_CLIENTE_KO_NO_EXISTE, id);
+			    } else if (res == -4) {
+			        vista.actualizar(Eventos.RES_BAJA_CLIENTE_KO_YA_INACTIVO, id);
 			    } else {
-			        vista.actualizar(Eventos.RES_MODIFICAR_CLIENTE_KO_DATOS_INVALIDOS, tCliente);
+			        vista.actualizar(Eventos.RES_BAJA_CLIENTE_KO, id);
 			    }
-
-			    break;
+				break;
 			}
-			
+				
 			case Eventos.BUSCAR_CLIENTE: {
 			    Integer id = (Integer) datos;
 			    SACliente saCli = FactoriaAbstractaNegocio.getInstance().crearSACliente();
@@ -96,8 +98,6 @@ public class ControladorImp extends Controlador {
 			    } else {
 			        vista.actualizar(Eventos.RES_BUSCAR_CLIENTE_KO, id);
 			    }
-
-			    ((JFrame) vista).setVisible(true);
 			    break;
 			}
 			
@@ -112,31 +112,52 @@ public class ControladorImp extends Controlador {
 			    } else {
 			        vista.actualizar(Eventos.RES_MOSTRAR_CLIENTES_KO, null);
 			    }
-
 			    break;
 			}
 			
 			case Eventos.BUSCAR_CLIENTE_PARA_MODIFICAR: {
 			    Integer id = (Integer) datos;
 			    SACliente saCli = FactoriaAbstractaNegocio.getInstance().crearSACliente();
-			    TCliente cli = saCli.read(id);
+			    TCliente tc = saCli.read(id);
 
-			    IGUI vistaBuscar = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.BUSCAR_CLIENTE_PARA_MODIFICAR);
-			    IGUI vistaModificar = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.MODIFICAR_CLIENTE);
+			    IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.MODIFICAR_CLIENTE);
 
-			    if (cli != null && cli.isActivo()) {
-			        ((JFrame) vistaBuscar).setVisible(false);
-			        vistaModificar.actualizar(Eventos.RES_BUSCAR_CLIENTE_PARA_MODIFICAR_OK, cli);
-
-			        ((JFrame) vistaModificar).setVisible(true);
-			        ((JFrame) vistaModificar).toFront();
+			    if (tc != null && tc.isActivo()) {
+			        vista.actualizar(Eventos.RES_BUSCAR_CLIENTE_PARA_MODIFICAR_OK, tc);
 			    } else {
-			        vistaBuscar.actualizar(Eventos.RES_BUSCAR_CLIENTE_PARA_MODIFICAR_KO, id);
+			        vista.actualizar(Eventos.RES_MODIFICAR_CLIENTE_KO_NO_EXISTE, id);
 			    }
-
 			    break;
 			}
+			
+			case Eventos.MODIFICAR_CLIENTE: {
+			    TCliente tc = (TCliente) datos;
+			    SACliente saCli = FactoriaAbstractaNegocio.getInstance().crearSACliente();
+			    int res = saCli.update(tc);
+
+			    IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(evento);
+
+			    if (res > 0) {
+			        vista.actualizar(Eventos.RES_MODIFICAR_CLIENTE_OK, res);
+			    } else if (res == -1) {
+			        vista.actualizar(Eventos.RES_MODIFICAR_CLIENTE_KO_NO_EXISTE, tc);
+			    } else {
+			        vista.actualizar(Eventos.RES_MODIFICAR_CLIENTE_KO_DATOS_INVALIDOS, tc);
+			    }
+			    break;
+			}
+			
 			case Eventos.MOSTRAR_MEJOR_CLIENTE: {
+				SACliente saCli = FactoriaAbstractaNegocio.getInstance().crearSACliente();
+			    TCliente mejor = saCli.getMejorCliente();
+
+			    IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(evento);
+
+			    if (mejor != null) {
+			        vista.actualizar(Eventos.RES_MOSTRAR_MEJOR_CLIENTE_OK, mejor);
+			    } else {
+			        vista.actualizar(Eventos.RES_MOSTRAR_MEJOR_CLIENTE_KO, null);
+			    }
 				break;
 			}
 			
@@ -533,22 +554,14 @@ public class ControladorImp extends Controlador {
 			    IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(evento);
 
 			    if (res > 0) {
-			        vista.actualizar(Eventos.RES_ALTA_MARCA_OK, res);
+			    	if (saMarca.isReactivada())
+		                vista.actualizar(Eventos.RES_ALTA_MARCA_REACTIVADA, tMarca);
+		           	else
+			    		vista.actualizar(Eventos.RES_ALTA_MARCA_OK, res);
+			    } else if (res == -1) {
+			        vista.actualizar(Eventos.RES_ALTA_MARCA_YA_EXISTE, tMarca);
 			    } else {
-			        switch (res) {
-			            case -1:
-			                vista.actualizar(Eventos.RES_ALTA_MARCA_YA_EXISTE, tMarca);
-			                break;
-			            case -2: 
-			                vista.actualizar(Eventos.RES_ALTA_MARCA_REACTIVADA, tMarca);
-			                break;
-			            case -3:
-			                vista.actualizar(Eventos.RES_ALTA_MARCA_KO_NOMBRE, tMarca);
-			                break;
-			            default:
-			                vista.actualizar(Eventos.RES_ALTA_MARCA_KO, res);
-			                break;
-			        }
+			    	vista.actualizar(Eventos.RES_ALTA_MARCA_KO, res);
 			    }
 			    break;
 			}
@@ -560,7 +573,7 @@ public class ControladorImp extends Controlador {
 			    TMarca tm = saMarca.read(id);
 			    IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(evento);
 			    
-			    if (tm != null) {
+			    if (tm != null && tm.isActivo()) {
 			        vista.actualizar(Eventos.RES_BUSCAR_MARCA_OK, tm);
 			    } else {
 			        vista.actualizar(Eventos.RES_BUSCAR_MARCA_KO, null);
@@ -597,40 +610,44 @@ public class ControladorImp extends Controlador {
 			    
 			    if (res >= 0) {
 			        vista.actualizar(Eventos.RES_BAJA_MARCA_CONFIRMADA, res);
-			    } else {
+			    } else if (res == -1) {
 			        vista.actualizar(Eventos.RES_BAJA_MARCA_KO_NO_EXISTE, id);
+			    } else if (res == -2) {
+			        vista.actualizar(Eventos.RES_BAJA_MARCA_KO_YA_INACTIVO, null);
+			    } else {
+			        vista.actualizar(Eventos.RES_BAJA_MARCA_KO, res);
 			    }
 			    break;
 			}
 
 			case Eventos.BUSCAR_MARCA_PARA_MODIFICAR: {
-			    int id = (int) datos;
-			    SAMarca saMarca = FactoriaAbstractaNegocio.getInstance().crearSAMarca();
-			    
-			    TMarca tm = saMarca.read(id);
-			    IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(evento);
-			    
+			    Integer id = (Integer) datos;
+			    SAMarca sa = FactoriaAbstractaNegocio.getInstance().crearSAMarca();
+			    TMarca tm = sa.read(id);
+
+			    IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.MODIFICAR_MARCA);
+
 			    if (tm != null && tm.isActivo()) {
 			        vista.actualizar(Eventos.RES_BUSCAR_MARCA_PARA_MODIFICAR_OK, tm);
 			    } else {
-			        vista.actualizar(Eventos.RES_BUSCAR_MARCA_PARA_MODIFICAR_KO, null);
+			        vista.actualizar(Eventos.RES_MODIFICAR_MARCA_KO_NO_EXISTE, id);
 			    }
 			    break;
 			}
 
 			case Eventos.MODIFICAR_MARCA: {
 			    TMarca tm = (TMarca) datos;
-			    SAMarca saMarca = FactoriaAbstractaNegocio.getInstance().crearSAMarca();
-			    
-			    int res = saMarca.update(tm);
-			    IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.MODIFICAR_MARCA); 
-			    
-			    if (res >= 0) {
+			    SAMarca sa = FactoriaAbstractaNegocio.getInstance().crearSAMarca();
+			    int res = sa.update(tm);
+
+			    IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(evento);
+
+			    if (res > 0) {
 			        vista.actualizar(Eventos.RES_MODIFICAR_MARCA_OK, res);
 			    } else if (res == -1) {
-			        vista.actualizar(Eventos.RES_MODIFICAR_MARCA_KO_NO_EXISTE, null);
+			        vista.actualizar(Eventos.RES_MODIFICAR_MARCA_KO_NO_EXISTE, tm);
 			    } else {
-			        vista.actualizar(Eventos.RES_MODIFICAR_MARCA_KO_DATOS_INVALIDOS, null);
+			        vista.actualizar(Eventos.RES_MODIFICAR_MARCA_KO_DATOS_INVALIDOS, tm);
 			    }
 			    break;
 			}

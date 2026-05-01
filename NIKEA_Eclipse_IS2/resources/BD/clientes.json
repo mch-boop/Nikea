@@ -1,10 +1,10 @@
 [
     {
-        "apellidos": "Test",
-        "teléfono": 1,
+        "apellidos": "Clientín",
+        "teléfono": 100000000,
         "id": 1,
-        "nombre": "Clientín",
-        "DNI": "pi",
+        "nombre": "Cliente",
+        "DNI": "29228282838D",
         "activo": true
     },
     {

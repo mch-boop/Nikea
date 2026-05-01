@@ -16,7 +16,6 @@ public class Eventos {
 	public static final int REACTIVAR_CLIENTE = 10111;
 	public static final int RES_ALTA_CLIENTE_CONFIRMAR_REACTIVACION = 101111;
 
-	
     public static final int BAJA_CLIENTE = 102;
     public static final int RES_BAJA_CLIENTE_OK = 1021;
     public static final int RES_BAJA_CLIENTE_KO = 1020;
