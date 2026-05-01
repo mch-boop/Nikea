@@ -149,6 +149,8 @@ public class VistaBuscarEmpleado extends JFrame implements IGUI {
                     areaDetalles.setText(sb.toString());
                     this.pack();
                     areaDetalles.setCaretPosition(0);
+                    this.setVisible(true);
+                    this.toFront();
                     break;
 
                 case Eventos.RES_BUSCAR_EMPLEADO_KO:
