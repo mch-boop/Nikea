@@ -61,5 +61,14 @@
         "stock": 100,
         "nombre": "cepillo",
         "activo": false
+    },
+    {
+        "descripcion": "prueba",
+        "precioActual": -23,
+        "tipo": 1,
+        "id": 8,
+        "stock": -1,
+        "nombre": "jlprueba",
+        "activo": true
     }
 ]
