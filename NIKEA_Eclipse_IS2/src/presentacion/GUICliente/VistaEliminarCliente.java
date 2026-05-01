@@ -1,18 +1,17 @@
 package presentacion.GUICliente;
 
 import javax.swing.*;
-
-import negocio.cliente.TCliente;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import negocio.cliente.TCliente;
 import presentacion.IGUI;
 import presentacion.controlador.Controlador;
 import presentacion.controlador.Eventos;
 
 @SuppressWarnings("serial")
-public class VistaEliminarCliente extends JFrame implements IGUI {
+public class VistaEliminarCliente extends JDialog implements IGUI {
 
 	// ATRIBUTOS
 	
@@ -23,7 +22,10 @@ public class VistaEliminarCliente extends JFrame implements IGUI {
     // CONSTRUCTORA
     
     public VistaEliminarCliente() {
+    	super(null, "Baja Cliente", ModalityType.APPLICATION_MODAL);
         setTitle("Baja Cliente");
+        
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         initGUI();
     }
 
@@ -145,5 +147,20 @@ public class VistaEliminarCliente extends JFrame implements IGUI {
 
             }
         });
+    }
+    
+    
+    // reset
+    
+    @Override
+    public void setVisible(boolean b) {
+        if (b) limpiarCampos();
+        super.setVisible(b);
+    }
+    
+    private void limpiarCampos() {
+    	txtId.setText("");
+    	txtId.requestFocus();
+    	pack();
     }
 }

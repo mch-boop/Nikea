@@ -4,7 +4,6 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -12,6 +11,7 @@ import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -26,7 +26,7 @@ import presentacion.controlador.Controlador;
 import presentacion.controlador.Eventos;
 
 @SuppressWarnings("serial")
-public class VistaBuscarCliente extends JFrame implements IGUI {
+public class VistaBuscarCliente extends JDialog implements IGUI {
 	
 	// ATRIBUTOS	
 	private JTextField txtId;
@@ -36,7 +36,10 @@ public class VistaBuscarCliente extends JFrame implements IGUI {
 	// CONSTRUCTORA 
 	
 	public VistaBuscarCliente() {
+		super(null, "Buscar Cliente", ModalityType.APPLICATION_MODAL);
 		setTitle("Buscar Cliente");
+		
+		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		initGUI();
 	}
 	
@@ -103,8 +106,7 @@ public class VistaBuscarCliente extends JFrame implements IGUI {
         
         // Listener del botón Limpiar (limpio los textos).
         btnLimpiar.addActionListener(e -> {
-            txtId.setText("");
-            areaDetalles.setText("");
+            limpiarCampos();
         });
         
         // Listener del botón Cancelar (cierro la ventana).
@@ -175,4 +177,18 @@ public class VistaBuscarCliente extends JFrame implements IGUI {
         }
     }
 
+	
+	// reset
+    
+    @Override
+    public void setVisible(boolean b) {
+        if (b) limpiarCampos();
+        super.setVisible(b);
+    }
+    
+    private void limpiarCampos() {
+    	txtId.setText("");
+        areaDetalles.setText("");
+        pack();
+    }
 }

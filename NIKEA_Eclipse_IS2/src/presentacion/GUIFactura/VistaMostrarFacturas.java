@@ -14,7 +14,6 @@ import javax.swing.table.DefaultTableModel;
 
 import negocio.factura.TFactura;
 import presentacion.IGUI;
-import presentacion.controlador.Controlador;
 import presentacion.controlador.Eventos;
 
 @SuppressWarnings("serial")

@@ -2,15 +2,15 @@ package presentacion.GUICliente;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-
 import java.awt.*;
+
 import java.util.Collection;
 import negocio.cliente.TCliente;
 import presentacion.IGUI;
 import presentacion.controlador.Eventos;
 
 @SuppressWarnings("serial")
-public class VistaMostrarClientes extends JFrame implements IGUI {
+public class VistaMostrarClientes extends JDialog implements IGUI {
 
 	// ATRIBUTOS
 	
@@ -21,6 +21,7 @@ public class VistaMostrarClientes extends JFrame implements IGUI {
     // CONSTRUCTORA
     
     public VistaMostrarClientes() {
+    	super(null, "Listado General de Clientes", ModalityType.APPLICATION_MODAL);
         setTitle("Listado General de Clientes");
         initGUI();
         this.addWindowListener(new java.awt.event.WindowAdapter() {
@@ -90,7 +91,6 @@ public class VistaMostrarClientes extends JFrame implements IGUI {
 	            if (lista.isEmpty()) {
 	                JOptionPane.showMessageDialog(this, "No hay clientes registrados en el sistema.", "Información", JOptionPane.INFORMATION_MESSAGE);
 	            } else {
-	            	setVisible(true);
 	            	
 	                boolean hayActivos = false;
 	                for (TCliente tc : lista) {
@@ -109,6 +109,7 @@ public class VistaMostrarClientes extends JFrame implements IGUI {
 	                if (!hayActivos) {
 	                    JOptionPane.showMessageDialog(this, "No hay clientes activos para mostrar.", "Información", JOptionPane.INFORMATION_MESSAGE);
 	                } 
+	            	setVisible(true);
 	            }
 	            break;
 	

@@ -11,7 +11,7 @@ import presentacion.controlador.Controlador;
 import presentacion.controlador.Eventos;
 
 @SuppressWarnings("serial")
-public class VistaModificarCliente extends JFrame implements IGUI {
+public class VistaModificarCliente extends JDialog implements IGUI {
 
 	// ATRIBUTOS
 	
@@ -24,7 +24,10 @@ public class VistaModificarCliente extends JFrame implements IGUI {
     // CONSTRUCTORA
     
     public VistaModificarCliente() {
+    	super(null, "Modificar Cliente", ModalityType.APPLICATION_MODAL);
         setTitle("Modificar Cliente");
+        
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         initGUI();
     }
 
@@ -294,6 +297,14 @@ public class VistaModificarCliente extends JFrame implements IGUI {
         }
     }
 
+    
+    // reset
+    
+    @Override
+    public void setVisible(boolean b) {
+        if (b) limpiarCampos();
+        super.setVisible(b);
+    }
 
 	private void limpiarCampos() {
 		txtNombre.setText("");

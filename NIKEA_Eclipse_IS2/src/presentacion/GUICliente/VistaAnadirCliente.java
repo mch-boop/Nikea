@@ -12,6 +12,7 @@ import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -25,7 +26,7 @@ import presentacion.controlador.Controlador;
 import presentacion.controlador.Eventos;
 
 @SuppressWarnings("serial")
-public class VistaAnadirCliente extends JFrame implements IGUI {
+public class VistaAnadirCliente extends JDialog implements IGUI {
 
 	// ATRIBUTOS	
 	private JTextField txtNombre, txtApellido, txtDNI, txtTelefono;
@@ -34,7 +35,10 @@ public class VistaAnadirCliente extends JFrame implements IGUI {
 	// CONSTRUCTORA 
 	
 	public VistaAnadirCliente() {
+		super(null, "Alta Cliente", ModalityType.APPLICATION_MODAL);
 		setTitle("Alta Cliente");
+		
+		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		initGUI();
 	}
 	
@@ -267,5 +271,12 @@ public class VistaAnadirCliente extends JFrame implements IGUI {
 	    });
 	}
 
-	
+
+	// reset
+    
+    @Override
+    public void setVisible(boolean b) {
+        if (b) limpiarCampos();
+        super.setVisible(b);
+    }
 }

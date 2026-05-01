@@ -8,6 +8,7 @@ import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -22,7 +23,7 @@ import presentacion.controlador.Controlador;
 import presentacion.controlador.Eventos;
 
 @SuppressWarnings("serial")
-public class VistaMostrarMejorCliente extends JFrame implements IGUI {
+public class VistaMostrarMejorCliente extends JDialog implements IGUI {
 
 	// ATRIBUTOS	
 	private JTextField txtId;
@@ -32,7 +33,10 @@ public class VistaMostrarMejorCliente extends JFrame implements IGUI {
 	// CONSTRUCTORA 
 	
 	public VistaMostrarMejorCliente() {
+		super(null, "Mostrar Mejor Cliente", ModalityType.APPLICATION_MODAL);
 		setTitle("Mostrar Mejor Cliente");
+		
+		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		initGUI();
 	}
 	
