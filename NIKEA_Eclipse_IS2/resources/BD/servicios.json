@@ -45,14 +45,15 @@
         "activo": false
     },
     {
-<<<<<<< HEAD
         "descripcion": "2",
         "precioActual": 10,
         "tipo": 1,
         "id": 6,
         "stock": 1,
         "nombre": "2",
-=======
+		"activo": true
+	},
+	{
         "descripcion": "metaliccas1",
         "precioActual": 34,
         "tipo": 1,
@@ -77,7 +78,6 @@
         "id": 8,
         "stock": -1,
         "nombre": "jlprueba",
->>>>>>> 5ccca2ab325c0852f9ee93ba077cee362033728e
         "activo": true
     }
 ]

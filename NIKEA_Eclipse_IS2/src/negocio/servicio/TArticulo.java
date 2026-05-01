@@ -6,8 +6,6 @@ public class TArticulo extends TServicio {
 	private TMarca marca;
 	private int ventas;
 	
-	
-	
 	public void setMarca(TMarca marca) {
 		this.marca = marca;
 	}

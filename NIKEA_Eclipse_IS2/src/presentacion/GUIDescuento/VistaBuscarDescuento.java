@@ -122,7 +122,6 @@ public class VistaBuscarDescuento extends JDialog implements IGUI {
                         sb.append("Prod. Mín:   ").append(td.getProductosMin()).append(" uds\n");
                     }
                     
-                    sb.append("Activo:      ").append(td.isActivo() ? "SÍ" : "NO").append("\n");
                     sb.append(" ------------------------------------------ \n");
 
                     areaDetalles.setText(sb.toString());
@@ -135,7 +134,7 @@ public class VistaBuscarDescuento extends JDialog implements IGUI {
                     areaDetalles.setText("");
                     areaDetalles.setPreferredSize(new Dimension(363, 200));
                     pack();
-                    JOptionPane.showMessageDialog(this, "No existe descuento con ese ID", "Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "No existe descuento activo con ese ID", "Error", JOptionPane.ERROR_MESSAGE);
                     txtId.requestFocus();
                     break;
             }

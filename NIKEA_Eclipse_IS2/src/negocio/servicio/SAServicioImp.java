@@ -4,7 +4,6 @@ import integracion.factoria.FactoriaAbstractaIntegracion;
 import integracion.factoria.FactoriaIntegracion;
 import integracion.servicio.DAOServicio;
 import negocio.TOAResumenMensual;
-import negocio.cliente.TCliente;
 
 import java.util.Collection;
 

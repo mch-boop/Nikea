@@ -11,6 +11,7 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -34,7 +35,7 @@ import presentacion.controlador.Controlador;
 import presentacion.controlador.Eventos;
 
 @SuppressWarnings("serial")
-public class VistaAltaServicio extends JFrame implements IGUI {
+public class VistaAltaServicio extends JDialog implements IGUI {
 
     private JTextField txtNombre;
     private JTextArea txtDescripcion;
@@ -46,7 +47,10 @@ public class VistaAltaServicio extends JFrame implements IGUI {
     private JButton btnCancelar;
 
     public VistaAltaServicio() {
+    	super(null, "Alta Servicio", ModalityType.APPLICATION_MODAL);
         setTitle("Alta Servicio");
+        
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         initGUI();
     }
 
@@ -233,5 +237,14 @@ public class VistaAltaServicio extends JFrame implements IGUI {
                     break;
             }
         });
+    }
+    
+    
+    // reset
+    
+    @Override
+    public void setVisible(boolean b) {
+        if (b) limpiarCampos();
+        super.setVisible(b);
     }
 }

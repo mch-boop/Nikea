@@ -12,6 +12,7 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -29,7 +30,7 @@ import presentacion.controlador.Controlador;
 import presentacion.controlador.Eventos;
 
 @SuppressWarnings("serial")
-public class VistaModificarServicio extends JFrame implements IGUI {
+public class VistaModificarServicio extends JDialog implements IGUI {
 
 	private JTextField txtId;
 	private JTextField txtNombre;
@@ -55,7 +56,10 @@ public class VistaModificarServicio extends JFrame implements IGUI {
 	private TServicio servicioEncontrado;
 
 	public VistaModificarServicio() {
+		super(null, "Modificar Servicio", ModalityType.APPLICATION_MODAL);
 		setTitle("Modificar Servicio");
+		
+		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		initGUI();
 	}
 
@@ -331,4 +335,12 @@ public class VistaModificarServicio extends JFrame implements IGUI {
 
 		return tipo == 1 ? "Artículo" : "Montaje";
 	}
+	
+	// reset
+    
+    @Override
+    public void setVisible(boolean b) {
+        if (b) limpiarTodo();
+        super.setVisible(b);
+    }
 }
