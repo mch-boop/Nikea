@@ -40,7 +40,6 @@ public class FactoriaPresentacion extends FactoriaAbstractaPresentacion {
 		
 	private static VistaAnadirMarca vistaAnadirMarca;
 	private static VistaEliminarMarca vistaEliminarMarca;
-	private static VistaModificarBuscarMarca vistaModificarBuscarMarca;
 	private static VistaModificarMarca vistaModificarMarca;
 	private static VistaBuscarMarca vistaBuscarMarca;
 	private static VistaMostrarMarcas vistaMostrarMarcas;
@@ -174,11 +173,6 @@ public class FactoriaPresentacion extends FactoriaAbstractaPresentacion {
                     vistaEliminarMarca = new VistaEliminarMarca();
                 }
                 return vistaEliminarMarca;
-			case Eventos.VENTANA_BUSCAR_ID_MARCA:
-				if (vistaModificarBuscarMarca == null) {
-					vistaModificarBuscarMarca = new VistaModificarBuscarMarca();
-				}
-				return vistaModificarBuscarMarca;
 			case Eventos.MODIFICAR_MARCA:
 				if (vistaModificarMarca == null) {
 					vistaModificarMarca = new VistaModificarMarca();

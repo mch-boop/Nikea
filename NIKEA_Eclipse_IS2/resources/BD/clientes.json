@@ -94,5 +94,13 @@
         "nombre": "C",
         "DNI": "i",
         "activo": true
+    },
+    {
+        "apellidos": "Nocompra",
+        "teléfono": 23,
+        "id": 13,
+        "nombre": "Nocliente",
+        "DNI": "00000003A",
+        "activo": true
     }
 ]

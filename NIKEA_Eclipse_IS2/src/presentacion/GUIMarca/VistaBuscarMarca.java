@@ -2,6 +2,7 @@ package presentacion.GUIMarca;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.Dialog.ModalityType;
 
 import negocio.marca.TMarca;
 import negocio.marca.TMarca.Especialidad;
@@ -10,17 +11,27 @@ import presentacion.controlador.Controlador;
 import presentacion.controlador.Eventos;
 
 @SuppressWarnings("serial")
-public class VistaBuscarMarca extends JFrame implements IGUI {
+public class VistaBuscarMarca extends JDialog implements IGUI {
 
+	// ATRIBUTOS
+	
 	private JTextField txtId;
     private JTextArea areaDetalles;
     private JButton btnConsultar, btnLimpiar, btnCancelar;
 
+    // CONSTRUCTORA
+    
     public VistaBuscarMarca() {
-        setTitle("Consultar Marca por ID");
+    	super(null, "Buscar Marca", ModalityType.APPLICATION_MODAL);
+    	setTitle("Consultar Marca por ID");
+    	
+    	this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         initGUI();
     }
 
+    
+    // INIT
+    
     private void initGUI() {
 
         JPanel mainPanel = new JPanel(new GridBagLayout());
@@ -81,8 +92,7 @@ public class VistaBuscarMarca extends JFrame implements IGUI {
         });
 
         btnLimpiar.addActionListener(e -> {
-            txtId.setText("");
-            areaDetalles.setText("");
+            limpiarCampos();
         });
 
         btnCancelar.addActionListener(e -> dispose());
@@ -124,8 +134,6 @@ public class VistaBuscarMarca extends JFrame implements IGUI {
                         }
                     }
 
-                    sb.append("========================================\n");
-
                     areaDetalles.setText(sb.toString());
                     areaDetalles.setCaretPosition(0);
                     break;
@@ -142,4 +150,17 @@ public class VistaBuscarMarca extends JFrame implements IGUI {
         });
     }
 
+    // reseteo
+    
+    @Override
+    public void setVisible(boolean b) {
+        if (b) limpiarCampos();
+        super.setVisible(b);
+    }
+    
+    private void limpiarCampos() {
+    	txtId.setText("");
+        areaDetalles.setText("");
+        pack();
+    }
 }

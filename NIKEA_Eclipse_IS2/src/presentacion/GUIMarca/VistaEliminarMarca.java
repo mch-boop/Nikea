@@ -2,14 +2,17 @@ package presentacion.GUIMarca;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.Dialog.ModalityType;
+import java.util.List;
 
 import presentacion.IGUI;
 import negocio.marca.TMarca;
+import negocio.marca.TMarca.Especialidad;
 import presentacion.controlador.Controlador;
 import presentacion.controlador.Eventos;
 
 @SuppressWarnings("serial")
-public class VistaEliminarMarca extends JFrame implements IGUI {
+public class VistaEliminarMarca extends JDialog implements IGUI {
 	
 	// ATRIBUTOS
 	
@@ -19,8 +22,10 @@ public class VistaEliminarMarca extends JFrame implements IGUI {
     // CONSTRUCTORA
     
     public VistaEliminarMarca() {
+    	super(null, "Baja Marca", ModalityType.APPLICATION_MODAL);
         setTitle("Baja Marca");
-        setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+        
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         initGUI();
     }
 
@@ -93,14 +98,12 @@ public class VistaEliminarMarca extends JFrame implements IGUI {
                 case Eventos.RES_BAJA_MARCA_OK: {
 
                     TMarca tm = (TMarca) datos;
-                    String info = "ID: " + tm.getId() + "\nNombre: " + tm.getNombre();
+                    String info = "ID: " + tm.getId() + "\nNombre: " + tm.getNombre() + "\n" +
+                    		formatear((List) tm.getEspecialidades());
 
                     int respuesta = JOptionPane.showConfirmDialog(
-                            this,
-                            "Se ha encontrado la siguiente marca activa:\n\n"
-                                    + info
-                                    + "\n\n¿Está seguro de que desea darla de baja?",
-                            "Confirmar Baja",
+                            this, "Se ha encontrado la siguiente marca activa:\n\n" + info
+                                    + "\n\n¿Está seguro de que desea darla de baja?", "Confirmar Baja",
                             JOptionPane.YES_NO_OPTION,
                             JOptionPane.WARNING_MESSAGE
                     );
@@ -113,16 +116,14 @@ public class VistaEliminarMarca extends JFrame implements IGUI {
                 }
 
                 case Eventos.RES_BAJA_MARCA_CONFIRMADA:
-                    JOptionPane.showMessageDialog(
-                            this,
+                    JOptionPane.showMessageDialog( this,
                             "La marca con ID " + datos + " se ha dado de baja correctamente."
                     );
                     txtId.setText("");
                     break;
 
                 case Eventos.RES_BAJA_MARCA_KO_NO_EXISTE:
-                    JOptionPane.showMessageDialog(
-                            this,
+                    JOptionPane.showMessageDialog( this,
                             "Error: No existe ninguna marca con el ID: " + datos,
                             "Error",
                             JOptionPane.ERROR_MESSAGE
@@ -131,8 +132,7 @@ public class VistaEliminarMarca extends JFrame implements IGUI {
                     break;
 
                 case Eventos.RES_BAJA_MARCA_KO_YA_INACTIVO:
-                    JOptionPane.showMessageDialog(
-                            this,
+                    JOptionPane.showMessageDialog( this, 
                             "La marca ya se encuentra en estado inactivo.",
                             "Aviso",
                             JOptionPane.WARNING_MESSAGE
@@ -160,5 +160,33 @@ public class VistaEliminarMarca extends JFrame implements IGUI {
                     break;
             }
         });
+    }
+    
+    // formato
+    
+    private String formatear(List<Especialidad> lista) {
+
+        if (lista == null || lista.isEmpty())
+            return " - (sin especialidades)";
+        StringBuilder sb = new StringBuilder();
+
+        for (Especialidad e : lista)
+            sb.append(" - ").append(e.toString()).append("\n");
+        return sb.toString();
+    }
+    
+    
+    // reseteo
+    
+    @Override
+    public void setVisible(boolean b) {
+        if (b) limpiarCampos();
+        super.setVisible(b);
+    }
+    
+    private void limpiarCampos() {
+        txtId.setText("");
+        txtId.requestFocus();
+        pack();
     }
 }

@@ -2,12 +2,14 @@
     {
         "listaArticulos": [],
         "especialidades": [
-            "MUEBLES",
-            "ELECTRODOMESTICOS"
+            "ELECTRODOMESTICOS",
+            "TECNOLOGIA",
+            "DECORACION",
+            "OFICINA"
         ],
         "idMarca": 1,
         "nombre": "Nokia",
-        "activo": false
+        "activo": true
     },
     {
         "listaArticulos": [],

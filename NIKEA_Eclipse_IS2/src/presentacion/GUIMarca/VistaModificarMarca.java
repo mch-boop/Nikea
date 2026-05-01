@@ -275,11 +275,9 @@ public class VistaModificarMarca extends JDialog implements IGUI {
     // reseteo cada vez que abro la ventana
     
     @Override
-    public void setVisible(boolean visible) {
-        if (visible) {
-            limpiarCampos(); // o resetEstado()
-        }
-        super.setVisible(visible);
+    public void setVisible(boolean b) {
+        if (b) limpiarCampos();
+        super.setVisible(b);
     }
     
     private void limpiarCampos() {
