@@ -1,6 +1,5 @@
 [
     {
-        "listaArticulos": [],
         "especialidades": [
             "ELECTRODOMESTICOS",
             "TECNOLOGIA",
@@ -12,21 +11,18 @@
         "activo": false
     },
     {
-        "listaArticulos": [],
-        "especialidades": [],
+        "especialidades": ["OFICINA"],
         "idMarca": 2,
         "nombre": "Nivea",
         "activo": false
     },
     {
-        "listaArticulos": [],
-        "especialidades": [],
+        "especialidades": ["OFICINA"],
         "idMarca": 3,
         "nombre": "Ikea",
         "activo": false
     },
     {
-        "listaArticulos": [],
         "especialidades": [
             "MUEBLES",
             "JARDIN_EXTERIOR",
@@ -34,11 +30,10 @@
             "DECORACION"
         ],
         "idMarca": 4,
-        "nombre": "Modificada",
+        "nombre": "El Corte Inglés",
         "activo": true
     },
     {
-        "listaArticulos": [],
         "especialidades": [
             "ILUMINACION",
             "DECORACION"
@@ -48,29 +43,26 @@
         "activo": true
     },
     {
-        "listaArticulos": [],
         "especialidades": [
             "MUEBLES",
             "ILUMINACION",
             "ELECTRODOMESTICOS"
         ],
         "idMarca": 6,
-        "nombre": "Marca interesantísima",
+        "nombre": "Iluminadamente",
         "activo": true
     },
     {
-        "listaArticulos": [],
         "especialidades": [
             "TECNOLOGIA",
             "MUEBLES",
             "DECORACION"
         ],
         "idMarca": 7,
-        "nombre": "Algo",
+        "nombre": "Decoracasa",
         "activo": true
     },
     {
-        "listaArticulos": [],
         "especialidades": [
             "ILUMINACION",
             "OTROS",
@@ -81,7 +73,6 @@
         "activo": true
     },
     {
-        "listaArticulos": [],
         "especialidades": [
             "JARDIN_EXTERIOR",
             "DECORACION",
@@ -97,13 +88,15 @@
         "activo": true
     },
     {
-        "listaArticulos": [],
-        "especialidades": [
-            "TECNOLOGIA",
-            "MUEBLES"
-        ],
+        "especialidades": ["TECNOLOGIA"],
         "idMarca": 10,
-        "nombre": "Mesita de noche",
+        "nombre": "Tecnology",
         "activo": false
+    },
+    {
+        "especialidades": ["MUEBLES"],
+        "idMarca": 11,
+        "nombre": "Muebles SA",
+        "activo": true
     }
 ]

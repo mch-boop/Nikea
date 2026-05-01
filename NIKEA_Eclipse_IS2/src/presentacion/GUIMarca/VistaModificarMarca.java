@@ -169,14 +169,22 @@ public class VistaModificarMarca extends JDialog implements IGUI {
                 tm.setNombre(null);
 
             // especialidades nuevas
+            boolean algunaSeleccionada = false;
             List<Especialidad> lista = new ArrayList<>();
             for (Map.Entry<Especialidad, JCheckBox> entry : checkNueva.entrySet()) {
                 if (entry.getValue().isSelected()) {
                     lista.add(entry.getKey());
+                    algunaSeleccionada = true;
                 }
             }
-
-            tm.setEspecialidades(lista.isEmpty() ? null : lista);
+            if (!algunaSeleccionada) {
+                JOptionPane.showMessageDialog(null,
+                        "Debes seleccionar al menos una especialidad.",
+                        "Error",
+                        JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+            tm.setEspecialidades(lista);
 
             // confirmación
             String info = "ID: " + marcaEncontrada.getId()

@@ -139,13 +139,6 @@ public class DAOMarcaImp implements DAOMarca {
             obj.put("nombre", m.getNombre());
             obj.put("activo", m.isActivo());
 
-            JSONArray arrArt = new JSONArray();
-            if (m.getListaArticulos() != null) {
-                for (Integer idArt : m.getListaArticulos()) {
-                    arrArt.put(idArt);
-                }
-            }
-            
             JSONArray arrEsp = new JSONArray();
 
             if (m.getEspecialidades() != null) {
@@ -155,8 +148,6 @@ public class DAOMarcaImp implements DAOMarca {
             }
 
             obj.put("especialidades", arrEsp);
-
-            obj.put("listaArticulos", arrArt);
 
             array.put(obj);
         }
