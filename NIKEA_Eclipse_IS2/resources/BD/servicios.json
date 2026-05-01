@@ -45,15 +45,7 @@
         "activo": false
     },
     {
-<<<<<<< HEAD
-        "descripcion": "2",
-        "precioActual": 10,
-        "tipo": 1,
-        "id": 6,
-        "stock": 1,
-        "nombre": "2",
-=======
-        "descripcion": "metaliccas1",
+        "descripcion": "canastas metalicas",
         "precioActual": 34,
         "tipo": 1,
         "id": 6,
@@ -69,15 +61,5 @@
         "stock": 100,
         "nombre": "cepillo",
         "activo": false
-    },
-    {
-        "descripcion": "prueba",
-        "precioActual": -23,
-        "tipo": 1,
-        "id": 8,
-        "stock": -1,
-        "nombre": "jlprueba",
->>>>>>> 5ccca2ab325c0852f9ee93ba077cee362033728e
-        "activo": true
     }
 ]
