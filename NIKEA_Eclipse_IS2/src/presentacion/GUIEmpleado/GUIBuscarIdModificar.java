@@ -7,11 +7,10 @@ import presentacion.IGUI;
 import presentacion.controlador.Controlador;
 import presentacion.controlador.Eventos;
 import java.awt.HeadlessException;
-
-import javax.swing.JFrame;
+import java.awt.Dialog.ModalityType;
 
 @SuppressWarnings("serial")
-public class GUIBuscarIdModificar extends JFrame implements IGUI {
+public class GUIBuscarIdModificar extends JDialog implements IGUI {
 
 	// ATRRIBUTOS
 	private JTextField txtId;
@@ -19,11 +18,30 @@ public class GUIBuscarIdModificar extends JFrame implements IGUI {
 
     // CONSTRUCTORA
     public GUIBuscarIdModificar() {
+    	super(null, "Buscar ID Modificar", ModalityType.APPLICATION_MODAL);
         setTitle("Seleccionar Empleado");
         initGUI();
+        this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+        this.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent e) {
+                limpiarCampos();
+            }
+        });
     }
 
     // MÉTODOS
+    
+    @Override
+    public void setVisible(boolean b) {
+        if (b) limpiarCampos();
+        super.setVisible(b);
+    }
+    
+    private void limpiarCampos() {
+		txtId.setText("");
+	}
+    
     private void initGUI() {
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
@@ -61,8 +79,8 @@ public class GUIBuscarIdModificar extends JFrame implements IGUI {
 
         // Lógica Cancelar
         btnCancelar.addActionListener(e ->{
+        	limpiarCampos(); 
         	setVisible(false);
-        	//dispose(); 
         });
 
         mainPanel.add(lblTitulo);
@@ -80,12 +98,11 @@ public class GUIBuscarIdModificar extends JFrame implements IGUI {
     public void actualizar(int evento, Object datos) {
         switch (evento) {
             case Eventos.RES_BUSCAR_EMPLEADO_PARA_MODIFICAR_OK:
-                // Si lo encuentra, cerramos esta ventana
-            	setVisible(false);
-                //this.dispose();
+                limpiarCampos(); 
                 break;
             case Eventos.RES_BUSCAR_EMPLEADO_PARA_MODIFICAR_KO:
                 JOptionPane.showMessageDialog(this, "No existe el empleado con ID: " + datos, "Error", JOptionPane.ERROR_MESSAGE);
+                limpiarCampos(); 
                 break;
         }
     }

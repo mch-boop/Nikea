@@ -2,6 +2,8 @@ package negocio.servicio;
 
 import java.util.Collection;
 
+import negocio.cliente.TCliente;
+
 public interface SAServicio {
 
 	public int create(TServicio tServicio);
@@ -10,5 +12,7 @@ public interface SAServicio {
 	public Collection<TServicio> readAll();
 	int update(TServicio ts);
 	TServicio getUltimoDuplicado();
+    public TServicio getMejorArticulo();
+
 	
 }

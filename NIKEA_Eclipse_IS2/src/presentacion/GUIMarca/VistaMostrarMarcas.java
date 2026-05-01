@@ -13,30 +13,25 @@ import presentacion.controlador.Controlador;
 import presentacion.controlador.Eventos;
 
 @SuppressWarnings("serial")
-public class VistaMostrarMarcas extends JFrame implements IGUI {
+public class VistaMostrarMarcas extends JDialog implements IGUI {
 	
 	// ATRIBUTOS
 
     private JTable tablaMarcas;
     private DefaultTableModel modeloTabla;
-    private JButton btnCargar, btnLimpiar, btnCancelar;
+    private JButton btnCancelar;
 
     // CONSTRUCTORA
 
     public VistaMostrarMarcas() {
+    	super(null, "Listado de Marcas", ModalityType.APPLICATION_MODAL);
         setTitle("Listado de Marcas");
+
+    	this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         initGUI();
-
-        this.addWindowListener(new java.awt.event.WindowAdapter() {
-            @Override
-            public void windowClosing(java.awt.event.WindowEvent e) {
-                modeloTabla.setRowCount(0);
-            }
-        });
-
-        setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
     }
 
+    
     // MÉTODOS
 
     private void initGUI() {
@@ -67,24 +62,14 @@ public class VistaMostrarMarcas extends JFrame implements IGUI {
 
         // PANEL NORTE
         JPanel panelNorte = new JPanel();
-        btnCargar = new JButton("MOSTRAR TODAS LAS MARCAS");
-        panelNorte.add(btnCargar);
-
+        
         // PANEL SUR
         JPanel panelSur = new JPanel();
-        btnLimpiar = new JButton("LIMPIAR");
-        btnCancelar = new JButton("CANCELAR");
+        btnCancelar = new JButton("SALIR");
 
-        panelSur.add(btnLimpiar);
         panelSur.add(btnCancelar);
 
         // ACCIONES
-
-        btnCargar.addActionListener(e -> {
-            Controlador.getInstance().accion(Eventos.MOSTRAR_MARCAS, null);
-        });
-
-        btnLimpiar.addActionListener(e -> modeloTabla.setRowCount(0));
 
         btnCancelar.addActionListener(e -> {
             setVisible(false);
@@ -105,50 +90,49 @@ public class VistaMostrarMarcas extends JFrame implements IGUI {
     @Override
     @SuppressWarnings("unchecked")
     public void actualizar(int evento, Object datos) {
+    	SwingUtilities.invokeLater(() -> {
+	        switch (evento) {
+	
+	            case Eventos.RES_MOSTRAR_MARCAS_OK:
+	                Collection<TMarca> lista = (Collection<TMarca>) datos;
+	                modeloTabla.setRowCount(0);
+	
+	                if (lista.isEmpty()) {
+	                    JOptionPane.showMessageDialog(this, "No hay marcas registradas.", "Información",
+	                            JOptionPane.INFORMATION_MESSAGE);
+	                    break;
+	                }
+	                else {	                	
+		                for (TMarca tm : lista) {
+		                    // escribo las especialidades
+		                    String especialidades = "";
+		
+		                    if (tm.getEspecialidades() != null && !tm.getEspecialidades().isEmpty()) {
+		                        especialidades = tm.getEspecialidades()
+		                                .stream()
+		                                .map(Object::toString)
+		                                .collect(Collectors.joining(", "));
+		                    }
+		
+		                    Object[] fila = { tm.getId(), tm.getNombre(), especialidades };
+		                    modeloTabla.addRow(fila);
+		                }
 
-        switch (evento) {
-
-            case Eventos.RES_MOSTRAR_MARCAS_OK:
-
-                Collection<TMarca> lista = (Collection<TMarca>) datos;
-                modeloTabla.setRowCount(0);
-
-                if (lista == null || lista.isEmpty()) {
-                    JOptionPane.showMessageDialog(this,
-                            "No hay marcas registradas.",
-                            "Información",
-                            JOptionPane.INFORMATION_MESSAGE);
-                    break;
-                }
-
-                for (TMarca tm : lista) {
-                    // escribo las especialidades
-                    String especialidades = "";
-
-                    if (tm.getEspecialidades() != null && !tm.getEspecialidades().isEmpty()) {
-                        especialidades = tm.getEspecialidades()
-                                .stream()
-                                .map(Object::toString)
-                                .collect(Collectors.joining(", "));
-                    }
-
-                    Object[] fila = { tm.getId(), tm.getNombre(), especialidades };
-                    modeloTabla.addRow(fila);
-                }
-                break;
-
-            case Eventos.RES_MOSTRAR_MARCAS_KO:
-
-                modeloTabla.setRowCount(0);
-                JOptionPane.showMessageDialog(this,
-                        "Error al recuperar las marcas.",
-                        "Error",
-                        JOptionPane.ERROR_MESSAGE);
-                break;
-
-            default:
-            	System.err.println("Evento no reconocido en mostrar todos de Marca: " + evento);
-                break;
-        }
+	                	this.setVisible(true);
+	                }
+	                break;
+	
+	            case Eventos.RES_MOSTRAR_MARCAS_KO:
+	
+	                modeloTabla.setRowCount(0);
+	                JOptionPane.showMessageDialog(this, "Error al recuperar las marcas.", "Error",
+	                        JOptionPane.ERROR_MESSAGE);
+	                break;
+	
+	            default:
+	            	System.err.println("Evento no reconocido en mostrar todos de Marca: " + evento);
+	                break;
+	        }
+    	});
     }
 }

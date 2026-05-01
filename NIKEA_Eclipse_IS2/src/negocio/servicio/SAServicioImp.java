@@ -1,7 +1,10 @@
 package negocio.servicio;
 
+import integracion.factoria.FactoriaAbstractaIntegracion;
 import integracion.factoria.FactoriaIntegracion;
 import integracion.servicio.DAOServicio;
+import negocio.TOAResumenMensual;
+import negocio.cliente.TCliente;
 
 import java.util.Collection;
 
@@ -133,4 +136,9 @@ public class SAServicioImp implements SAServicio {
         DAOServicio dao = FactoriaIntegracion.getInstance().crearDAOServicio();
         return dao.readAll();
     }
+    public TServicio getMejorArticulo() {
+		TOAResumenMensual toa = FactoriaAbstractaIntegracion.getInstance().crearTOAResumenMensual();
+		return toa.getMejorServicio();
+	}
+
 }

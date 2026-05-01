@@ -2,6 +2,8 @@ package presentacion.GUIEmpleado;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.Dialog.ModalityType;
+
 import negocio.empleado.TEmpleado;
 import negocio.empleado.TMontador;
 import negocio.empleado.TVendedor;
@@ -10,7 +12,7 @@ import presentacion.controlador.Controlador;
 import presentacion.controlador.Eventos;
 
 @SuppressWarnings("serial")
-public class VistaModificarEmpleado extends JFrame implements IGUI {
+public class VistaModificarEmpleado extends JDialog implements IGUI {
 
 	// ATRIBUTOS
 
@@ -25,8 +27,16 @@ public class VistaModificarEmpleado extends JFrame implements IGUI {
 	// CONSTRUCTORA
 
 	public VistaModificarEmpleado() {
+		super(null, "Modificar Empleado", ModalityType.APPLICATION_MODAL);
 		setTitle("Modificar Empleado");
 		initGUI();
+		this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE); 
+		this.addWindowListener(new java.awt.event.WindowAdapter() {
+		    @Override
+		    public void windowClosing(java.awt.event.WindowEvent e) {
+		        limpiarCampos();
+		    }
+		});
 	}
 
 	// MÉTODOS
@@ -59,9 +69,15 @@ public class VistaModificarEmpleado extends JFrame implements IGUI {
 		comboTipo = new JComboBox<>(tipos);
 		// Listener para mostrar/ocultar campos dinámicamente según el combo
 		comboTipo.addActionListener(e -> {
-		    boolean esVendedor = comboTipo.getSelectedIndex() == 1; // Vendedor es índice 1
+		    boolean esVendedor = comboTipo.getSelectedIndex() == 1;
 		    lblVentas.setVisible(esVendedor);
 		    txtVentas.setVisible(esVendedor);
+		    
+		    // Si cambiamos a vendedor y el empleado original NO lo era, forzamos el "0"
+		    if (esVendedor && empleadoEncontrado != null && empleadoEncontrado.getTipo() != 1) {
+		    	configurarPlaceholder(txtVentas, "0");
+		    }
+		    
 		    this.pack();
 		});
 
@@ -119,7 +135,6 @@ public class VistaModificarEmpleado extends JFrame implements IGUI {
 		btnCancelar.addActionListener(e -> {
         	limpiarCampos();
 			setVisible(false);
-			//dispose();
 		});
 
 		// ALINEACIÓN
@@ -131,7 +146,7 @@ public class VistaModificarEmpleado extends JFrame implements IGUI {
 		// Fila 0: ID
 		gbc.gridx = 0;
 		gbc.gridy = 0;
-		formPanel.add(new JLabel("ID Empleado (Obligatorio):"), gbc);
+		formPanel.add(new JLabel("ID Empleado:"), gbc);
 		gbc.gridx = 1;
 		formPanel.add(txtId, gbc);
 
@@ -234,7 +249,13 @@ public class VistaModificarEmpleado extends JFrame implements IGUI {
                 // Recordamos: Índice 0 = Montador, Índice 1 = Vendedor
                 if (empleadoEncontrado.getTipo() == 1) { // Caso Vendedor
                     comboTipo.setSelectedIndex(1);
-                    configurarPlaceholder(txtVentas, ((TVendedor)empleadoEncontrado).getNumeroVentas().toString()); 
+                    String numVentas = ((TVendedor)empleadoEncontrado).getNumeroVentas().toString(); 
+                    if(numVentas == null) {
+                    	configurarPlaceholder(txtVentas, "0");
+                    }
+                    else {
+                    	configurarPlaceholder(txtVentas, numVentas);
+                    }
                     lblVentas.setVisible(true);
                     txtVentas.setVisible(true);
                 } 
@@ -256,8 +277,8 @@ public class VistaModificarEmpleado extends JFrame implements IGUI {
 
 			case Eventos.RES_MODIFICAR_EMPLEADO_OK:
 				JOptionPane.showMessageDialog(this, "Empleado actualizado correctamente.");
-				setVisible(false);
-				//this.dispose(); // Cerramos al terminar
+				limpiarCampos(); 
+				setVisible(false); 
 				break;
 
 			case Eventos.RES_MODIFICAR_EMPLEADO_KO_NO_EXISTE:

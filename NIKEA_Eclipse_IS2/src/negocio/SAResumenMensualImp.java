@@ -7,9 +7,9 @@ import java.util.Map;
 
 import integracion.cliente.DAOCliente;
 import integracion.empleado.DAOEmpleado;
+import integracion.factoria.FactoriaAbstractaIntegracion;
 import integracion.factura.DAOFactura;
 import integracion.marca.DAOMarca;
-import integracion.servicio.DAOArticulo;
 import integracion.servicio.DAOServicio;
 import negocio.cliente.TCliente;
 import negocio.empleado.TVendedor;
@@ -30,6 +30,13 @@ public class SAResumenMensualImp implements SAResumenMensual {
     @Override
     public TOAResumenMensual generarResumenMensual(int mes, int anio) {
 
+        // Inicializar DAOs
+        facturaDAO = FactoriaAbstractaIntegracion.getInstance().crearDAOFactura();
+        clienteDAO = FactoriaAbstractaIntegracion.getInstance().crearDAOCliente();
+        servicioDAO = FactoriaAbstractaIntegracion.getInstance().crearDAOServicio();
+        marcaDAO = FactoriaAbstractaIntegracion.getInstance().crearDAOMarca();
+        vendedorDAO = FactoriaAbstractaIntegracion.getInstance().crearDAOEmpleado();
+
         List<TFactura> facturas = facturaDAO.readByMes(mes, anio);
 
         Map<Integer, Double> gastoCliente = new HashMap<>();
@@ -39,11 +46,24 @@ public class SAResumenMensualImp implements SAResumenMensual {
 
         for (TFactura f : facturas) {
 
-            double importe = f.getImporte();
+            double importe = f.getTotal();
 
+            // CLIENTE
             gastoCliente.put(f.getIdCliente(),
                 gastoCliente.getOrDefault(f.getIdCliente(), 0.0) + importe);
 
+            // VENDEDOR
+            ventasVendedor.put(f.getIdVendedor(),
+                ventasVendedor.getOrDefault(f.getIdVendedor(), 0.0) + importe);
+
+            // Asegurar que tiene líneas
+            if (f.getLineas() == null || f.getLineas().isEmpty()) {
+                f.setLineas(
+                    FactoriaAbstractaIntegracion.getInstance()
+                        .crearDAOLineaFactura()
+                        .leerPorFactura(f.getId())
+                );
+            }
 
             for (TLineaFactura l : f.getLineas()) {
 
@@ -53,21 +73,31 @@ public class SAResumenMensualImp implements SAResumenMensual {
                 ventasServicio.put(l.getIdServicio(),
                     ventasServicio.getOrDefault(l.getIdServicio(), 0.0) + subtotal);
 
+                // MARCA
                 int idProducto = l.getIdProducto();
 
-                //TServicio p = DAOArticulo.read(idProducto);
+                TArticulo art = (TArticulo) servicioDAO.read(idProducto);
 
-                //int idMarca = p.getIdMarca();
+                if (art != null) {
+                	TMarca marca = (TMarca) art.getMarca();
+                    int idMarca = marca.getId();
 
-                //ventasMarca.put(idMarca,
-                    //ventasMarca.getOrDefault(idMarca, 0.0) + l.getSubtotal());
+                    ventasMarca.put(idMarca,
+                        ventasMarca.getOrDefault(idMarca, 0.0) + subtotal);
+                }
             }
         }
 
-        TCliente mejorCliente = clienteDAO.read(getMax(gastoCliente));
-        TServicio mejorServicio = servicioDAO.read(getMax(ventasServicio));
-        TMarca mejorMarca = marcaDAO.read(getMax(ventasMarca));
-        TVendedor mejorVendedor = (TVendedor) vendedorDAO.read(getMax(ventasVendedor));
+        // Evitar nulls
+        Integer idCliente = getMax(gastoCliente);
+        Integer idServicio = getMax(ventasServicio);
+        Integer idMarca = getMax(ventasMarca);
+        Integer idVendedor = getMax(ventasVendedor);
+
+        TCliente mejorCliente = (idCliente != null) ? clienteDAO.read(idCliente) : null;
+        TServicio mejorServicio = (idServicio != null) ? servicioDAO.read(idServicio) : null;
+        TMarca mejorMarca = (idMarca != null) ? marcaDAO.read(idMarca) : null;
+        TVendedor mejorVendedor = (idVendedor != null) ? (TVendedor) vendedorDAO.read(idVendedor) : null;
 
         return new TOAResumenMensualImp(
             mejorCliente,

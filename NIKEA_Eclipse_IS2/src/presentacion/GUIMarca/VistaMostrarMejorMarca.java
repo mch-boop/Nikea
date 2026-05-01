@@ -12,7 +12,7 @@ import presentacion.controlador.Controlador;
 import presentacion.controlador.Eventos;
 
 @SuppressWarnings("serial")
-public class VistaMostrarMejorMarca extends JFrame implements IGUI {
+public class VistaMostrarMejorMarca extends JDialog implements IGUI {
 
 	// ATRIBUTOS
 
@@ -27,14 +27,6 @@ public class VistaMostrarMejorMarca extends JFrame implements IGUI {
     public VistaMostrarMejorMarca() {
         setTitle("Ranking de Marcas");
         initGUI();
-        setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-        
-        addWindowListener(new java.awt.event.WindowAdapter() {
-            @Override
-            public void windowClosing(java.awt.event.WindowEvent e) {
-                limpiar();
-            }
-        });
     }
 
     // MÉTODOS
@@ -112,7 +104,8 @@ public class VistaMostrarMejorMarca extends JFrame implements IGUI {
     @SuppressWarnings("unchecked")
     @Override
     public void actualizar(int evento, Object datos) {
-
+    	this.setVisible(true);
+    	System.out.println("Se quiere abrir");
         SwingUtilities.invokeLater(() -> {
             switch (evento) {
                 case Eventos.RES_MOSTRAR_RANKING_MARCA_OK:
@@ -164,5 +157,19 @@ public class VistaMostrarMejorMarca extends JFrame implements IGUI {
     private void limpiar() {
         modelo.setRowCount(0);
         txtTitulo.setText("Ranking de marcas (sin cargar)");
+    }
+    
+    // reseteo
+    
+    @Override
+    public void setVisible(boolean b) {
+        if (b) limpiarCampos();
+        super.setVisible(b);
+    }
+    
+    private void limpiarCampos() {
+    	modelo.setRowCount(0);
+    	txtTitulo.setText("Ranking de marcas (sin cargar)");
+        pack();
     }
 }

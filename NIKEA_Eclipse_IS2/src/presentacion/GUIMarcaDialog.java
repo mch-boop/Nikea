@@ -2,6 +2,8 @@ package presentacion;
 
 import javax.swing.*;
 import java.awt.*;
+
+import presentacion.controlador.Controlador;
 import presentacion.controlador.Eventos;
 import presentacion.factoria.FactoriaAbstractaPresentacion;
 
@@ -29,12 +31,12 @@ public class GUIMarcaDialog extends JDialog {
         
         JButton btnAlta          = new JButton("Alta Marca");
         JButton btnBaja          = new JButton("Baja Marca");
-        JButton btnMostrarId     = new JButton("Mostrar info por ID");
-        JButton btnMostrarTodos  = new JButton("Mostrar todos");
-        JButton btnModificar     = new JButton("Modificar");
-        JButton btnRanking       = new JButton("Mostrar Ranking");
+        JButton btnMostrarId     = new JButton("Buscar Marca");
+        JButton btnMostrarTodos  = new JButton("Listar Marcas");
+        JButton btnModificar     = new JButton("Modificar Marca");
+        JButton btnRanking       = new JButton("Mostrar Ranking de Marcas");
 
-        JButton[] botones = {btnAlta, btnBaja, btnMostrarId, btnMostrarTodos, btnModificar, btnRanking};
+        JButton[] botones = {btnAlta, btnBaja, btnModificar, btnMostrarId, btnMostrarTodos, btnRanking};
         for (JButton b : botones) {
             b.setFocusPainted(false);
             panel.add(b);
@@ -46,48 +48,36 @@ public class GUIMarcaDialog extends JDialog {
         
         btnAlta.addActionListener(e -> {
             IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.ALTA_MARCA);
-            abrirVistaBloqueante((JFrame) vista);
+            abrirVistaBloqueante((JDialog) vista);
         });
 
         btnBaja.addActionListener(e -> {
             IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.BAJA_MARCA);
-            abrirVistaBloqueante((JFrame) vista);
+            abrirVistaBloqueante((JDialog) vista);
         });
 
         btnMostrarId.addActionListener(e -> {
             IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.BUSCAR_MARCA);
-            abrirVistaBloqueante((JFrame) vista);
+            abrirVistaBloqueante((JDialog) vista);
         });
 
         btnMostrarTodos.addActionListener(e -> {
-            IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.MOSTRAR_MARCAS);
-            abrirVistaBloqueante((JFrame) vista);
+        	Controlador.getInstance().accion(Eventos.MOSTRAR_MARCAS, null);
         });
 
         btnModificar.addActionListener(e -> { 
-            IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.VENTANA_BUSCAR_ID_MARCA);
-            abrirVistaBloqueante((JFrame) vista);
+        	IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.MODIFICAR_MARCA);
+        	abrirVistaBloqueante((JDialog) vista);
         });
         
         btnRanking.addActionListener(e -> { 
             IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.MOSTRAR_RANKING_MARCA);
-            abrirVistaBloqueante((JFrame) vista);
+            abrirVistaBloqueante((JDialog) vista);
         });
     }
 
-    private void abrirVistaBloqueante(Window ventanaSecundaria) {
-        this.setEnabled(false);
-        ventanaSecundaria.addWindowListener(new java.awt.event.WindowAdapter() {
-            @Override
-            public void windowClosed(java.awt.event.WindowEvent e) {
-                GUIMarcaDialog.this.setEnabled(true);
-                GUIMarcaDialog.this.toFront();
-            }
-            @Override
-            public void windowClosing(java.awt.event.WindowEvent e) {
-                GUIMarcaDialog.this.setEnabled(true);
-            }
-        });
-        ventanaSecundaria.setVisible(true);
+    private void abrirVistaBloqueante(JDialog vista) {
+    	vista.setModal(true);
+    	vista.setVisible(true);
     }
 }

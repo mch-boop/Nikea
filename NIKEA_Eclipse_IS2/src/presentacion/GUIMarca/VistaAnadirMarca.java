@@ -2,6 +2,7 @@ package presentacion.GUIMarca;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.Dialog.ModalityType;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
@@ -16,7 +17,7 @@ import presentacion.controlador.Controlador;
 import presentacion.controlador.Eventos;
 
 @SuppressWarnings("serial")
-public class VistaAnadirMarca extends JFrame implements IGUI {
+public class VistaAnadirMarca extends JDialog implements IGUI {
 
     // ATRIBUTOS
 	
@@ -27,21 +28,14 @@ public class VistaAnadirMarca extends JFrame implements IGUI {
     // CONSTRUCTORA
     
     public VistaAnadirMarca() {
+    	super(null, "Alta Marca", ModalityType.APPLICATION_MODAL);
         setTitle("Alta Marca");
+        
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         initGUI();
     }
 
     // MÉTODOS
-
-    private void limpiarCampos() {
-        txtNombre.setText("");
-        for (JCheckBox cb : checkBoxesEspecialidades.values()) {
-            cb.setSelected(false);
-        }
-        txtNombre.requestFocus();
-        repaint();
-        revalidate();
-    }
 
     private void initGUI() {
 
@@ -201,5 +195,23 @@ public class VistaAnadirMarca extends JFrame implements IGUI {
                     break;
             }
         });
+    }
+    
+    
+    // reset
+    
+    @Override
+    public void setVisible(boolean b) {
+        if (b) limpiarCampos();
+        super.setVisible(b);
+    }
+    
+    private void limpiarCampos() {
+        txtNombre.setText("");
+        for (JCheckBox cb : checkBoxesEspecialidades.values()) {
+            cb.setSelected(false);
+        }
+        txtNombre.requestFocus();
+        pack();
     }
 }

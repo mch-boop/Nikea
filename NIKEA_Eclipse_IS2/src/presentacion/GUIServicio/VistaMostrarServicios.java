@@ -64,7 +64,11 @@ public class VistaMostrarServicios extends JFrame implements IGUI {
         scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 
         JPanel panelSur = new JPanel();
+<<<<<<< HEAD
         btnCancelar = new JButton("CERRAR");
+=======
+        btnCancelar = new JButton("SALIR");
+>>>>>>> 5ccca2ab325c0852f9ee93ba077cee362033728e
         panelSur.add(btnCancelar);
 
         btnCancelar.addActionListener(e -> {
@@ -80,7 +84,7 @@ public class VistaMostrarServicios extends JFrame implements IGUI {
         setLocationRelativeTo(null);
     }
 
-    private void cargarServicios() {
+    public void cargarServicios() {
         Controlador.getInstance().accion(Eventos.MOSTRAR_SERVICIOS, null);
     }
 

@@ -40,7 +40,6 @@ public class FactoriaPresentacion extends FactoriaAbstractaPresentacion {
 		
 	private static VistaAnadirMarca vistaAnadirMarca;
 	private static VistaEliminarMarca vistaEliminarMarca;
-	private static VistaModificarBuscarMarca vistaModificarBuscarMarca;
 	private static VistaModificarMarca vistaModificarMarca;
 	private static VistaBuscarMarca vistaBuscarMarca;
 	private static VistaMostrarMarcas vistaMostrarMarcas;
@@ -58,8 +57,11 @@ public class FactoriaPresentacion extends FactoriaAbstractaPresentacion {
 	
 	private static VistaAltaServicio vistaAltaServicio;
 	private static VistaEliminarServicio vistaEliminarServicio;
+	private static VistaBuscarServicio vistaBuscarServicio;
 	private static VistaModificarServicio vistaModificarServicio;
 	private static VistaMostrarServicios vistaMostrarServicios;
+	private static VistaMostrarMejorArticulo vistaMostrarMejorArticulo;
+
 	
 
 	public IGUI createVista(int idEvento) {
@@ -171,11 +173,6 @@ public class FactoriaPresentacion extends FactoriaAbstractaPresentacion {
                     vistaEliminarMarca = new VistaEliminarMarca();
                 }
                 return vistaEliminarMarca;
-			case Eventos.VENTANA_BUSCAR_ID_MARCA:
-				if (vistaModificarBuscarMarca == null) {
-					vistaModificarBuscarMarca = new VistaModificarBuscarMarca();
-				}
-				return vistaModificarBuscarMarca;
 			case Eventos.MODIFICAR_MARCA:
 				if (vistaModificarMarca == null) {
 					vistaModificarMarca = new VistaModificarMarca();
@@ -232,11 +229,21 @@ public class FactoriaPresentacion extends FactoriaAbstractaPresentacion {
 					vistaEliminarServicio = new VistaEliminarServicio();
 				}
 				return vistaEliminarServicio;
+			case Eventos.BUSCAR_SERVICIO:
+				if (vistaBuscarServicio == null) {
+					vistaBuscarServicio = new VistaBuscarServicio();
+				}
+				return vistaBuscarServicio;
 			case Eventos.MODIFICAR_SERVICIO:
 				if (vistaModificarServicio == null) {
 					vistaModificarServicio = new VistaModificarServicio();
 				}
 				return vistaModificarServicio;
+			case Eventos.MOSTRAR_MEJOR_ARTICULO:
+				if (vistaMostrarMejorArticulo == null) {
+					vistaMostrarMejorArticulo = new VistaMostrarMejorArticulo();
+				}
+				return vistaMostrarMejorArticulo;
 			case Eventos.BUSCAR_SERVICIO_PARA_MODIFICAR:
 				if (vistaModificarServicio == null) {
 					vistaModificarServicio = new VistaModificarServicio();

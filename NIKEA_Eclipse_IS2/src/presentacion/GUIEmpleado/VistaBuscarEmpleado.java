@@ -2,13 +2,15 @@ package presentacion.GUIEmpleado;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.Dialog.ModalityType;
+
 import negocio.empleado.TEmpleado;
 import presentacion.IGUI;
 import presentacion.controlador.Controlador;
 import presentacion.controlador.Eventos;
 
 @SuppressWarnings("serial")
-public class VistaBuscarEmpleado extends JFrame implements IGUI {
+public class VistaBuscarEmpleado extends JDialog implements IGUI {
 
 	// ATRIBUTOS
 	
@@ -19,12 +21,35 @@ public class VistaBuscarEmpleado extends JFrame implements IGUI {
     // CONSTRUCTORA
     
     public VistaBuscarEmpleado() {
+    	super(null, "Buscar Empleado", ModalityType.APPLICATION_MODAL);
         setTitle("Consultar Empleado por ID");
         initGUI();
+        this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE); // Solo oculta
+        this.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent e) {
+                limpiarCampos(); // Limpia al dar a la "X"
+            }
+        });
     }
 
     
     // MÉTODOS
+    
+    @Override
+    public void setVisible(boolean b) {
+        if (b) limpiarCampos();
+        super.setVisible(b);
+    }
+    
+    private void limpiarCampos() {
+		txtId.setText("");
+		areaDetalles.setText("");
+		areaDetalles.setPreferredSize(new Dimension(363, 200));
+        pack();
+		repaint();
+		revalidate();
+	}
     
     private void initGUI() {
     	
@@ -85,19 +110,12 @@ public class VistaBuscarEmpleado extends JFrame implements IGUI {
         });
 
         btnLimpiar.addActionListener(e -> {
-            txtId.setText("");
-            areaDetalles.setText("");
-            areaDetalles.setPreferredSize(new Dimension(363, 200));
-            pack(); // Reajusta al vaciar
+            limpiarCampos(); 
         });
 
         btnCancelar.addActionListener(e -> {
-        	txtId.setText("");
-            areaDetalles.setText("");
-            areaDetalles.setPreferredSize(new Dimension(363, 200));
-            pack();
+        	limpiarCampos();
             setVisible(false);
-            //dispose(); 
         });
 
         getContentPane().add(mainPanel);
@@ -140,6 +158,8 @@ public class VistaBuscarEmpleado extends JFrame implements IGUI {
                     areaDetalles.setText(sb.toString());
                     this.pack();
                     areaDetalles.setCaretPosition(0);
+                    this.setVisible(true);
+                    this.toFront();
                     break;
 
                 case Eventos.RES_BUSCAR_EMPLEADO_KO:
