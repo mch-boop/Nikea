@@ -444,7 +444,6 @@ public class ControladorImp extends Controlador {
 				SAEmpleado sa = FactoriaAbstractaNegocio.getInstance().crearSAEmpleado();
 
 				// El SA hace un update de los datos y cambiar activo a true
-				t.setActivo(true);
 				int res = sa.reactivate(t);
 
 				IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.ALTA_EMPLEADO);
@@ -516,17 +515,13 @@ public class ControladorImp extends Controlador {
 				SAEmpleado sa = FactoriaAbstractaNegocio.getInstance().crearSAEmpleado();
 				TEmpleado emp = sa.read(id);
 
-				IGUI vBuscarId = FactoriaAbstractaPresentacion.getInstance()
-						.createVista(Eventos.VENTANA_BUSCAR_ID_EMPLEADO);
+				IGUI vBuscarId = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.VENTANA_BUSCAR_ID_EMPLEADO);
 				IGUI vModificar = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.MODIFICAR_EMPLEADO);
 
 				if (emp != null && emp.isActivo()) {
 					vBuscarId.actualizar(Eventos.RES_BUSCAR_EMPLEADO_PARA_MODIFICAR_OK, id);
 					// Pasamos los datos a la de Modificar
 					vModificar.actualizar(Eventos.RES_BUSCAR_EMPLEADO_PARA_MODIFICAR_OK, emp);
-
-					((JFrame) vModificar).setVisible(true);
-					((JFrame) vModificar).toFront(); // La traemos al frente
 				} else {
 					// Si no existe o está inactivo, avisamos a la pequeña para que muestre error
 					vBuscarId.actualizar(Eventos.RES_BUSCAR_EMPLEADO_PARA_MODIFICAR_KO, id);
@@ -548,8 +543,6 @@ public class ControladorImp extends Controlador {
 					// Se trata igual que si no existiera
 					vista.actualizar(Eventos.RES_BUSCAR_EMPLEADO_KO, id);
 				}
-
-				((JFrame) vista).setVisible(true);
 				break;
 			}
 
@@ -563,8 +556,6 @@ public class ControladorImp extends Controlador {
 				} else {
 					vista.actualizar(Eventos.RES_MOSTRAR_EMPLEADOS_KO, null);
 				}
-				((JFrame) vista).setVisible(true);
-				((JFrame) vista).toFront();
 				break;
 			}
 

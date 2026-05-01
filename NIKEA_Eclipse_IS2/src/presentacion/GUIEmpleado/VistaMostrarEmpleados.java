@@ -108,6 +108,8 @@ public class VistaMostrarEmpleados extends JFrame implements IGUI {
                     JOptionPane.showMessageDialog(this, "No hay empleados activos para mostrar.", "Información", JOptionPane.INFORMATION_MESSAGE);
                 } 
             }
+            this.setVisible(true);
+			this.toFront();
             break;
 
         case Eventos.RES_MOSTRAR_EMPLEADOS_KO:
