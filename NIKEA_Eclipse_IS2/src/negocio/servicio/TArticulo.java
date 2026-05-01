@@ -1,16 +1,14 @@
 package negocio.servicio;
 
-import negocio.marca.TMarca;
-
 public class TArticulo extends TServicio {
-	private TMarca marca;
+	private int idMarca;
 	private int ventas;
 	
-	public void setMarca(TMarca marca) {
-		this.marca = marca;
+	public void setMarca(int marca) {
+		this.idMarca = marca;
 	}
 	
-	public TMarca getMarca() {
-		return marca;	 
+	public int getMarca() {
+		return idMarca;	 
 	}
 }

@@ -1,6 +1,7 @@
 package negocio.factura;
 
 import java.util.List;
+import java.util.Map;
 
 import negocio.servicio.TServicio;
 
@@ -20,4 +21,7 @@ public interface SAFactura {
     public List<TFactura> mostrarPorCliente(int idCliente);
 
     public List<TFactura> mostrarTodas();
+    
+    // Casos de uso extra
+    public Map<String, Double> getVentasPorMarca();
 }

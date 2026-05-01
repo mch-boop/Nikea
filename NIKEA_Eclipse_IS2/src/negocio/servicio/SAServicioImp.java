@@ -6,6 +6,8 @@ import integracion.servicio.DAOServicio;
 import negocio.TOAResumenMensual;
 
 import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 
 public class SAServicioImp implements SAServicio {
 
@@ -135,9 +137,30 @@ public class SAServicioImp implements SAServicio {
         DAOServicio dao = FactoriaIntegracion.getInstance().crearDAOServicio();
         return dao.readAll();
     }
+    
+    
+    // Usadas en Marca
+    
+    @Override
+    public Collection<TArticulo> readAllArticulos() {
+    	Collection<TServicio> lista = readAll();
+    	return lista.stream()
+    		    .filter(s -> s.getTipo() == 2)
+    		    .map(s -> (TArticulo) s).toList();
+    }
+    
+    @Override
+    public List<String> obtenerArticulosActivosPorMarca(String nombre) {
+    	Collection<TArticulo> lista = readAllArticulos();
+    	return lista.stream()
+    		    .filter(s -> nombre.equals(s.getMarca()))
+    		    .map(s -> s.getNombre()).toList();
+    }
+    
+    // Para obtener el mejor artículo
+    
     public TServicio getMejorArticulo() {
 		TOAResumenMensual toa = FactoriaAbstractaIntegracion.getInstance().crearTOAResumenMensual();
 		return toa.getMejorServicio();
 	}
-
 }

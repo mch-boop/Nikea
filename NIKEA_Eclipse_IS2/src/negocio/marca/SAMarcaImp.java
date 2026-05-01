@@ -8,8 +8,11 @@ import java.util.Map;
 
 import integracion.marca.DAOMarca;
 import integracion.servicio.DAOServicio;
+import negocio.factoria.FactoriaAbstractaNegocio;
+import negocio.factura.SAFactura;
 import negocio.factura.TFactura;
 import negocio.factura.TLineaFactura;
+import negocio.servicio.SAServicio;
 import negocio.servicio.TArticulo;
 import integracion.factoria.FactoriaAbstractaIntegracion;
 import integracion.factura.DAOFactura;
@@ -85,6 +88,7 @@ public class SAMarcaImp implements SAMarca {
 	    TMarca tm = dao.read(id);
 	    if (tm == null) return -1; // no existe
 	    if (!tm.isActivo()) return -2; // ya inactivo
+	    if (tm.getListaArticulos().isEmpty()) return -3; // todavía tiene artículos
 
 	    tm.setActivo(false);
 	    return dao.update(tm);
@@ -103,61 +107,22 @@ public class SAMarcaImp implements SAMarca {
 	
 	@Override
 	public List<TMarca> getTop5Marcas() {
-		DAOFactura facturaDAO = FactoriaAbstractaIntegracion.getInstance().crearDAOFactura();
-	    DAOServicio servicioDAO = FactoriaAbstractaIntegracion.getInstance().crearDAOServicio();
-	    DAOMarca marcaDAO = FactoriaAbstractaIntegracion.getInstance().crearDAOMarca();
-	    
-	    List<TFactura> facturas = facturaDAO.leerTodas();
+		SAFactura saFactura = FactoriaAbstractaNegocio.getInstance().crearSAFactura();
+	    Map<String, Double> ventas = saFactura.getVentasPorMarca();
+	    Collection<TMarca> marcas = readAll();
 
-	    Map<Integer, Double> ventasMarca = new HashMap<>();
-
-	    for (TFactura f : facturas) {
-
-	        // Asegurar líneas
-	        if (f.getLineas() == null || f.getLineas().isEmpty()) {
-	            f.setLineas(
-	                FactoriaAbstractaIntegracion.getInstance()
-	                    .crearDAOLineaFactura()
-	                    .leerPorFactura(f.getId())
-	            );
-	        }
-
-	        for (TLineaFactura l : f.getLineas()) {
-
-	            double subtotal = l.getSubtotal();
-
-	            int idProducto = l.getIdProducto();
-	            TArticulo art = (TArticulo) servicioDAO.read(idProducto);
-
-	            if (art != null && art.getMarca() != null) {
-	                int idMarca = art.getMarca().getId();
-
-	                ventasMarca.put(
-	                    idMarca,
-	                    ventasMarca.getOrDefault(idMarca, 0.0) + subtotal
-	                );
-	            }
-	        }
-	    }
-
-	    // ORDENAR por ventas (descendente)
-	    List<Map.Entry<Integer, Double>> ranking = new ArrayList<>(ventasMarca.entrySet());
-
-	    ranking.sort((a, b) -> Double.compare(b.getValue(), a.getValue()));
-
-	    // CONSTRUIR resultado
-	    List<TMarca> resultado = new ArrayList<>();
-	    int limite = Math.min(5, ranking.size());
-
-	    for (int i = 0; i < limite; i++) {
-	        Integer idMarca = ranking.get(i).getKey();
-	        TMarca marca = marcaDAO.read(idMarca);
-
-	        if (marca != null && marca.isActivo()) {
-	            resultado.add(marca);
-	        }
-	    }
-
-	    return resultado;
+	    return marcas.stream()
+	        .filter(TMarca::isActivo)
+	        .filter(m -> ventas.containsKey(m.getNombre()))
+	        .sorted((m1, m2) -> Double.compare(
+	            ventas.get(m2.getNombre()),
+	            ventas.get(m1.getNombre())
+	        )).limit(5).toList();
+	}
+	
+	public Collection<String> articulosMarca() {
+		SAServicio todos = FactoriaAbstractaNegocio.getInstance().crearSAServicio();
+		List<TArticulo> art = (List<TArticulo>) todos.readAllArticulos();
+		return art.stream().map(s -> s.getNombre()).toList();
 	}
 }

@@ -616,10 +616,14 @@ public class ControladorImp extends Controlador {
 
 				if (tm != null) {
 					if (tm.isActivo()) {
-						vista.actualizar(Eventos.RES_BAJA_MARCA_OK, tm);
+						if (!tm.getListaArticulos().isEmpty()) {
+							vista.actualizar(Eventos.RES_BAJA_MARCA_KO_TIENE_ARTICULOS, null);
+						} else {
+							vista.actualizar(Eventos.RES_BAJA_MARCA_OK, tm);
+						}
 					} else {
 						vista.actualizar(Eventos.RES_BAJA_MARCA_KO_YA_INACTIVO, id);
-					}
+					} 
 				} else {
 					vista.actualizar(Eventos.RES_BAJA_MARCA_KO_NO_EXISTE, id);
 				}
@@ -636,10 +640,6 @@ public class ControladorImp extends Controlador {
 
 				if (res >= 0) {
 					vista.actualizar(Eventos.RES_BAJA_MARCA_CONFIRMADA, res);
-				} else if (res == -1) {
-					vista.actualizar(Eventos.RES_BAJA_MARCA_KO_NO_EXISTE, id);
-				} else if (res == -2) {
-					vista.actualizar(Eventos.RES_BAJA_MARCA_KO_YA_INACTIVO, null);
 				} else {
 					vista.actualizar(Eventos.RES_BAJA_MARCA_KO, res);
 				}

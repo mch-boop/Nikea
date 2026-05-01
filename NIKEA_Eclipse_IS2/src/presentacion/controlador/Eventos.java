@@ -200,6 +200,7 @@ public class Eventos {
     public static final int RES_BAJA_MARCA_CONFIRMADA = 5121;
     public static final int RES_BAJA_MARCA_KO_YA_INACTIVO = 51201;
     public static final int RES_BAJA_MARCA_KO_NO_EXISTE = 51202;
+    public static final int RES_BAJA_MARCA_KO_TIENE_ARTICULOS = 51203;
 
     public static final int MODIFICAR_MARCA = 503;
     public static final int RES_MODIFICAR_MARCA_OK = 5031;

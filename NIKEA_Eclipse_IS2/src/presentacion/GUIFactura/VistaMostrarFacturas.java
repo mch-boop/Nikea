@@ -80,6 +80,7 @@ public class VistaMostrarFacturas extends JFrame implements IGUI {
 	}
 
 	// IGUI
+	@SuppressWarnings("unchecked")
 	@Override
 	public void actualizar(int evento, Object datos) {
 

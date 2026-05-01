@@ -9,7 +9,7 @@
         ],
         "idMarca": 1,
         "nombre": "Nokia",
-        "activo": true
+        "activo": false
     },
     {
         "listaArticulos": [],
@@ -23,7 +23,7 @@
         "especialidades": [],
         "idMarca": 3,
         "nombre": "Ikea",
-        "activo": true
+        "activo": false
     },
     {
         "listaArticulos": [],

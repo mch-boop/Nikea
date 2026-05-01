@@ -157,6 +157,26 @@ public class VistaEliminarMarca extends JDialog implements IGUI {
                     );
                     txtId.requestFocus();
                     break;
+                   
+                case Eventos.RES_BAJA_MARCA_KO_TIENE_ARTICULOS:
+                	JOptionPane.showMessageDialog(
+                            this,
+                            "La marca no se puede dar de baja porque todavía tiene artículos activos.",
+                            "Error",
+                            JOptionPane.WARNING_MESSAGE
+                    );
+                    txtId.requestFocus();
+                    break;
+                
+               default:
+            	   JOptionPane.showMessageDialog(
+                           this,
+                           "Error desconocido al dar de baja.",
+                           "Error",
+                           JOptionPane.WARNING_MESSAGE
+                   );
+                   txtId.requestFocus();
+                   break;
             }
         });
     }

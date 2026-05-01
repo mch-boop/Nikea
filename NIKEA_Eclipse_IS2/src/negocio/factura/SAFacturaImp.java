@@ -270,4 +270,13 @@ public class SAFacturaImp implements SAFactura {
 
 		return null;
 	}
+	
+	
+	// Casos de uso extra
+	
+	@Override
+	 public Map<String, Double> getVentasPorMarca() {
+		System.out.println("Falta en SAFacturaImp");
+	    return null;
+	}
 }
