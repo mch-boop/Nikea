@@ -76,8 +76,7 @@ public class GUIClienteDialog extends JDialog {
         });
         
         btnMostrarMejor.addActionListener(e -> { 
-            IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.MOSTRAR_MEJOR_CLIENTE);
-            abrirVistaBloqueante((JDialog) vista);
+            Controlador.getInstance().accion(Eventos.MOSTRAR_MEJOR_CLIENTE, null);
         });
         
 	}

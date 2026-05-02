@@ -19,7 +19,6 @@ import javax.swing.JTextField;
 
 import negocio.cliente.TCliente;
 import presentacion.IGUI;
-import presentacion.controlador.Controlador;
 import presentacion.controlador.Eventos;
 
 @SuppressWarnings("serial")
@@ -49,7 +48,7 @@ public class VistaMostrarMejorCliente extends JDialog implements IGUI {
 		viewPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
         // Área de visualización (no editable)
-        areaDetalles = new JTextArea(10, 30);
+        areaDetalles = new JTextArea();
         areaDetalles.setEditable(false);	
         areaDetalles.setBorder(BorderFactory.createTitledBorder("Detalles del Cliente"));
         areaDetalles.setFont(new Font("Monospaced", Font.PLAIN, 13));
@@ -82,9 +81,6 @@ public class VistaMostrarMejorCliente extends JDialog implements IGUI {
         pack();
         setResizable(false); // Evitamos que se deforme el layout
         setLocationRelativeTo(null);
-        
-        // Llamada al controlador para que se lance el proceso de buscar el mejor cliente.
-        Controlador.getInstance().accion(Eventos.MOSTRAR_MEJOR_CLIENTE, null);
 	}
 	
 	
@@ -95,7 +91,7 @@ public class VistaMostrarMejorCliente extends JDialog implements IGUI {
     	// El controlador llama a este método tras la ejecución en el SA
         switch (evento) {
 
-            case Eventos.RES_BUSCAR_MEJOR_CLIENTE_PARA_MOSTRAR_OK:
+            case Eventos.RES_MOSTRAR_MEJOR_CLIENTE_OK:
             	// Recibo el transfer de cliente para leer los datos.
                 TCliente tc = (TCliente) datos;
                 // Formateo los datos en un StringBuilder.
@@ -104,10 +100,12 @@ public class VistaMostrarMejorCliente extends JDialog implements IGUI {
                 sb.append("DNI:      ").append(tc.getDNI()).append("\n");
                 sb.append("Nombre:   ").append(tc.getNombre()).append("\n");
                 sb.append("Apellidos: ").append(tc.getApellidos()).append("\n");
-                sb.append("Teléfono:   ").append(tc.getTelefono()).append("\n");
+                sb.append("Teléfono:   ").append(tc.getTelefono());
                 
                 // Muestro el texto.
                 areaDetalles.setText(sb.toString());
+                this.pack();
+                this.setVisible(true);
                 break;
 
             case Eventos.RES_MOSTRAR_MEJOR_CLIENTE_KO:
