@@ -90,11 +90,12 @@ public class VistaBajaDescuento extends JDialog implements IGUI {
                 case Eventos.RES_BAJA_DESCUENTO_OK:
                     JOptionPane.showMessageDialog(this, "Descuento con ID " + datos + " dado de baja correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
                     txtId.setText("");
-                    dispose(); // Cerramos tras éxito
+                    dispose();
                     break;
 
                 case Eventos.RES_BAJA_DESCUENTO_KO:
                     JOptionPane.showMessageDialog(this, "No se pudo eliminar el descuento. Verifica que el ID exista y esté activo.", "Error", JOptionPane.ERROR_MESSAGE);
+                    SwingUtilities.invokeLater(() -> txtId.requestFocus());
                     break;
 
                 default:

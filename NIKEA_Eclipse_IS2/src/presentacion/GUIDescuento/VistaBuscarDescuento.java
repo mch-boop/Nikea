@@ -18,10 +18,8 @@ public class VistaBuscarDescuento extends JDialog implements IGUI {
 
     // CONSTRUCTORA
     public VistaBuscarDescuento() {
-    	super(null, "Consultar Descuento por ID", ModalityType.APPLICATION_MODAL);
-        setTitle("Consultar Descuento por ID");
-        
-        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        super(null, "Consultar Descuento por ID", ModalityType.APPLICATION_MODAL);
+        this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         initGUI();
     }
 
@@ -88,7 +86,6 @@ public class VistaBuscarDescuento extends JDialog implements IGUI {
             txtId.setText("");
             areaDetalles.setText("");
             dispose();
-            dispose();
         });
 
         getContentPane().add(mainPanel);
@@ -100,6 +97,7 @@ public class VistaBuscarDescuento extends JDialog implements IGUI {
     @Override
     public void actualizar(int evento, Object datos) {
         SwingUtilities.invokeLater(() -> {
+        	if (!isShowing()) return;
             switch (evento) {
                 case Eventos.RES_BUSCAR_DESCUENTO_OK:
                     TDescuento td = (TDescuento) datos;
@@ -135,7 +133,7 @@ public class VistaBuscarDescuento extends JDialog implements IGUI {
                     areaDetalles.setPreferredSize(new Dimension(363, 200));
                     pack();
                     JOptionPane.showMessageDialog(this, "No existe descuento activo con ese ID", "Error", JOptionPane.ERROR_MESSAGE);
-                    txtId.requestFocus();
+                    SwingUtilities.invokeLater(() -> txtId.requestFocus());
                     break;
             }
         });
