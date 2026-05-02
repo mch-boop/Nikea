@@ -148,13 +148,13 @@ public class VistaAltaDescuento extends JDialog implements IGUI {
                 //Valido
                 if (txtCodigo.getText().trim().isEmpty()) {
                     JOptionPane.showMessageDialog(this, "El código es obligatorio.", "Faltan datos", JOptionPane.WARNING_MESSAGE);
-                    txtCodigo.requestFocusInWindow();
+                    SwingUtilities.invokeLater(() -> txtCodigo.requestFocus());
                     return;
                 }
 
                 if (txtDescuento.getText().trim().isEmpty()) {
                     JOptionPane.showMessageDialog(this, "Debe indicar un porcentaje.", "Faltan datos", JOptionPane.WARNING_MESSAGE);
-                    txtDescuento.requestFocusInWindow();
+                    SwingUtilities.invokeLater(() -> txtDescuento.requestFocus());
                     return;
                 }
 
@@ -180,9 +180,11 @@ public class VistaAltaDescuento extends JDialog implements IGUI {
 
             } catch (NumberFormatException nfe) {
                 JOptionPane.showMessageDialog(this, "El descuento debe ser un número entero (ej: 15).", "Error de formato", JOptionPane.ERROR_MESSAGE);
-                txtDescuento.requestFocusInWindow();
+                SwingUtilities.invokeLater(() -> txtDescuento.requestFocus());                
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(this, "Error inesperado: " + ex.getMessage());
+                SwingUtilities.invokeLater(() -> txtCodigo.requestFocus());
+
             }
         });
 
@@ -204,11 +206,12 @@ public class VistaAltaDescuento extends JDialog implements IGUI {
                 case Eventos.RES_ALTA_DESCUENTO_OK:
                     limpiarCampos();
                     JOptionPane.showMessageDialog(this, "Descuento creado con éxito. ID: " + datos);
+                    SwingUtilities.invokeLater(() -> txtCodigo.requestFocus());
                     break;
 
                 case Eventos.RES_ALTA_DESCUENTO_YA_EXISTE:
                     JOptionPane.showMessageDialog(this, "El código de descuento ya está en uso.", "Aviso", JOptionPane.WARNING_MESSAGE);
-                    txtCodigo.requestFocus();
+                    SwingUtilities.invokeLater(() -> txtCodigo.requestFocus());
                     break;
 
                 case Eventos.RES_ALTA_DESCUENTO_CONFIRMAR_REACTIVACION:
@@ -224,20 +227,22 @@ public class VistaAltaDescuento extends JDialog implements IGUI {
 
                 case Eventos.RES_ALTA_DESCUENTO_KO_CODIGO:
                     JOptionPane.showMessageDialog(this, "El código no es válido o está vacío.", "Error", JOptionPane.ERROR_MESSAGE);
-                    txtCodigo.requestFocus();
+                    SwingUtilities.invokeLater(() -> txtCodigo.requestFocus());
                     break;
 
                 case Eventos.RES_ALTA_DESCUENTO_KO_PORCENTAJE:
                     JOptionPane.showMessageDialog(this, "El porcentaje debe estar entre 1 y 100.", "Error", JOptionPane.ERROR_MESSAGE);
-                    txtDescuento.requestFocus();
+                    SwingUtilities.invokeLater(() -> txtDescuento.requestFocus());
                     break;
 
                 case Eventos.RES_ALTA_DESCUENTO_KO:
                     JOptionPane.showMessageDialog(this, "Error al reactivar usuario.", "Error Grave", JOptionPane.ERROR_MESSAGE);
+                    SwingUtilities.invokeLater(() -> txtCodigo.requestFocus());
                     break;
 
                 default:
                     JOptionPane.showMessageDialog(this, "Error desconocido / descontrolado", "Error Grave", JOptionPane.ERROR_MESSAGE);
+                    SwingUtilities.invokeLater(() -> txtCodigo.requestFocus());
                     break;
             }
         });

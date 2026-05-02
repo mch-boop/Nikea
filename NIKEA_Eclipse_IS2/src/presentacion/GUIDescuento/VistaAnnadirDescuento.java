@@ -36,28 +36,24 @@ public class VistaAnnadirDescuento extends JDialog implements IGUI {
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
         mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
-        // --- ORDEN Y FORMULARIO ---
         JPanel formPanel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.insets = new Insets(5, 5, 5, 5);
         gbc.anchor = GridBagConstraints.NORTHWEST;
 
-        // ID Factura
         txtIdFactura = new JTextField(15);
         gbc.gridx = 0; gbc.gridy = 0;
         formPanel.add(new JLabel("ID de Factura:"), gbc);
         gbc.gridx = 1;
         formPanel.add(txtIdFactura, gbc);
 
-        // ID Descuento
         txtIdDescuento = new JTextField(15);
         gbc.gridx = 0; gbc.gridy = 1;
         formPanel.add(new JLabel("ID de Descuento:"), gbc);
         gbc.gridx = 1;
         formPanel.add(txtIdDescuento, gbc);
 
-        // --- BOTONES ---
         JPanel panelBotones = new JPanel();
         btnAceptar = new JButton("ACEPTAR");
         btnCancelar = new JButton("CANCELAR");
@@ -71,20 +67,16 @@ public class VistaAnnadirDescuento extends JDialog implements IGUI {
 
         btnAceptar.addActionListener(e -> {
             try {
-                // Validación básica de campos vacíos
                 if (txtIdFactura.getText().trim().isEmpty() || txtIdDescuento.getText().trim().isEmpty()) {
                     JOptionPane.showMessageDialog(this, "Ambos campos (Factura y Descuento) son obligatorios.", "Faltan datos", JOptionPane.WARNING_MESSAGE);
                     return;
                 }
 
-                // Parseo de IDs
                 int idFactura = Integer.parseInt(txtIdFactura.getText().trim());
                 int idDescuento = Integer.parseInt(txtIdDescuento.getText().trim());
 
-                // Transfer al controlador (pasamos un array con ambos IDs)
                 int[] datos = new int[]{idFactura, idDescuento};
                 
-                // Llamada al controlador
                 Controlador.getInstance().accion(Eventos.ANNADIR_DESCUENTO_FACTURA, datos);
 
             } catch (NumberFormatException nfe) {
@@ -94,7 +86,6 @@ public class VistaAnnadirDescuento extends JDialog implements IGUI {
             }
         });
 
-        // Ensamblar todo
         mainPanel.add(formPanel);
         mainPanel.add(Box.createRigidArea(new Dimension(0, 10)));
         mainPanel.add(panelBotones);
@@ -116,29 +107,33 @@ public class VistaAnnadirDescuento extends JDialog implements IGUI {
 
                 case Eventos.RES_ANNADIR_DESCUENTO_FACTURA_KO_FACTURA_NO_EXISTE:
                     JOptionPane.showMessageDialog(this, "La factura indicada no existe.", "Error", JOptionPane.ERROR_MESSAGE);
-                    txtIdFactura.requestFocus();
+                    SwingUtilities.invokeLater(() -> txtIdFactura.requestFocus());
+
                     break;
 
                 case Eventos.RES_ANNADIR_DESCUENTO_FACTURA_KO_DESCUENTO_NO_EXISTE:
                     JOptionPane.showMessageDialog(this, "El descuento indicado no existe o se encuentra inactivo.", "Error", JOptionPane.ERROR_MESSAGE);
-                    txtIdDescuento.requestFocus();
+                    SwingUtilities.invokeLater(() -> txtIdDescuento.requestFocus());
                     break;
 
                 case Eventos.RES_ANNADIR_DESCUENTO_FACTURA_KO_REQUISITOS:
                     JOptionPane.showMessageDialog(this, "La factura no cumple los requisitos (importe mínimo o cantidad de productos) para aplicar este descuento.", "Requisitos no cumplidos", JOptionPane.WARNING_MESSAGE);
+                    SwingUtilities.invokeLater(() -> txtIdFactura.requestFocus());
                     break;
 
                 case Eventos.RES_ANNADIR_DESCUENTO_FACTURA_KO:
                     JOptionPane.showMessageDialog(this, "Error al añadir el descuento a la factura.", "Error Grave", JOptionPane.ERROR_MESSAGE);
+                    SwingUtilities.invokeLater(() -> txtIdFactura.requestFocus());
                     break;
                     
                 case Eventos.RES_ANNADIR_DESCUENTO_FACTURA_KO_YA_TIENE_DESCUENTO:
                     JOptionPane.showMessageDialog(this, "Esta factura ya tiene un descuento aplicado. Solo se permite uno por factura.", "Descuento ya aplicado", JOptionPane.WARNING_MESSAGE);
-                    txtIdFactura.requestFocus();
+                    SwingUtilities.invokeLater(() -> txtIdFactura.requestFocus());
                     break;
 
                 default:
                     JOptionPane.showMessageDialog(this, "Error desconocido / descontrolado", "Error Grave", JOptionPane.ERROR_MESSAGE);
+                    SwingUtilities.invokeLater(() -> txtIdFactura.requestFocus());
                     break;
             }
         });

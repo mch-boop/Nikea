@@ -32,7 +32,7 @@ public class VistaModificarDescuento extends JDialog implements IGUI {
 	public VistaModificarDescuento() {
 		super(null, "Consultar Descuento por ID", ModalityType.APPLICATION_MODAL);
 		setTitle("Modificar Descuento");
-		
+
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		initGUI();
 	}
@@ -278,16 +278,15 @@ public class VistaModificarDescuento extends JDialog implements IGUI {
 			switch (evento) {
 
 			case Eventos.RES_CARGAR_DESCUENTO_MOD_OK:
-			    cargarDescuento((TDescuento) datos);
-			    break;
+				cargarDescuento((TDescuento) datos);
+				break;
 
 			case Eventos.RES_CARGAR_DESCUENTO_MOD_KO:
-			    JOptionPane.showMessageDialog(this,
-			        "No se encontró ningún descuento activo con ese ID.",
-			        "No encontrado", JOptionPane.WARNING_MESSAGE);
-			    break;
+				JOptionPane.showMessageDialog(this, "No se encontró ningún descuento activo con ese ID.",
+						"No encontrado", JOptionPane.WARNING_MESSAGE);
+                SwingUtilities.invokeLater(() -> txtIdBuscar.requestFocus());
+				break;
 
-			// Resultado del guardado
 			case Eventos.RES_MODIFICAR_DESCUENTO_OK:
 				JOptionPane.showMessageDialog(this, "Descuento modificado correctamente. ID: " + datos, "Éxito",
 						JOptionPane.INFORMATION_MESSAGE);
@@ -300,23 +299,26 @@ public class VistaModificarDescuento extends JDialog implements IGUI {
 			case Eventos.RES_MODIFICAR_DESCUENTO_NO_ENCONTRADO:
 				JOptionPane.showMessageDialog(this, "No se encontró el descuento a modificar.", "Error",
 						JOptionPane.ERROR_MESSAGE);
+                SwingUtilities.invokeLater(() -> txtIdBuscar.requestFocus());
 				break;
 
 			case Eventos.RES_MODIFICAR_DESCUENTO_KO_CODIGO:
 				JOptionPane.showMessageDialog(this, "El código no es válido o está vacío.", "Error",
 						JOptionPane.ERROR_MESSAGE);
-				txtCodigo.requestFocus();
+                SwingUtilities.invokeLater(() -> txtCodigo.requestFocus());
 				break;
 
 			case Eventos.RES_MODIFICAR_DESCUENTO_KO_PORCENTAJE:
 				JOptionPane.showMessageDialog(this, "El porcentaje debe estar entre 1 y 100.", "Error",
 						JOptionPane.ERROR_MESSAGE);
-				txtDescuento.requestFocus();
+                SwingUtilities.invokeLater(() -> txtDescuento.requestFocus());
+
 				break;
 
 			case Eventos.RES_MODIFICAR_DESCUENTO_KO:
 				JOptionPane.showMessageDialog(this, "Error al guardar los cambios.", "Error grave",
 						JOptionPane.ERROR_MESSAGE);
+                SwingUtilities.invokeLater(() -> txtCodigo.requestFocus());
 				break;
 
 			default:
@@ -324,18 +326,18 @@ public class VistaModificarDescuento extends JDialog implements IGUI {
 			}
 		});
 	}
-	
-	
+
 	// reset
-    
-    @Override
-    public void setVisible(boolean b) {
-        if (b) limpiarCampos();
-        super.setVisible(b);
-    }
-    
-    private void limpiarCampos() {
-    	
-        pack(); 
-    }
+
+	@Override
+	public void setVisible(boolean b) {
+		if (b)
+			limpiarCampos();
+		super.setVisible(b);
+	}
+
+	private void limpiarCampos() {
+
+		pack();
+	}
 }

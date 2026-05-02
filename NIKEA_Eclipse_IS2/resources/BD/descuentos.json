@@ -70,5 +70,41 @@
         "cantidad": 100,
         "nombre": "Prueba para factura con id 10",
         "activo": true
+    },
+    {
+        "codigo": "1234",
+        "tipo": true,
+        "id": 9,
+        "porcentaje": 65,
+        "cantidad": 50,
+        "nombre": "1234",
+        "activo": true
+    },
+    {
+        "codigo": "1",
+        "tipo": true,
+        "id": 10,
+        "porcentaje": 1,
+        "cantidad": 100,
+        "nombre": "1",
+        "activo": false
+    },
+    {
+        "codigo": "as",
+        "tipo": true,
+        "id": 11,
+        "porcentaje": 12,
+        "cantidad": 100,
+        "nombre": "",
+        "activo": true
+    },
+    {
+        "codigo": "123",
+        "tipo": true,
+        "id": 12,
+        "porcentaje": 12,
+        "cantidad": 100,
+        "nombre": "",
+        "activo": true
     }
 ]
