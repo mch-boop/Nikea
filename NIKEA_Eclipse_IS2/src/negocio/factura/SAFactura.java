@@ -22,6 +22,8 @@ public interface SAFactura {
 
     public List<TFactura> mostrarTodas();
     
+    public int annadirDescuento(int idFactura, int idDescuento);
+    
     // Casos de uso extra
     public Map<String, Double> getVentasPorMarca();
 }

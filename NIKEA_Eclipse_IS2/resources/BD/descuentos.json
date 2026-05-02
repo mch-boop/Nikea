@@ -61,5 +61,14 @@
         "cantidad": 8,
         "nombre": "OxO",
         "activo": true
+    },
+    {
+        "codigo": "Prueba",
+        "tipo": true,
+        "id": 8,
+        "porcentaje": 50,
+        "cantidad": 100,
+        "nombre": "Prueba para factura con id 10",
+        "activo": true
     }
 ]

@@ -310,6 +310,67 @@ public class SAFacturaImp implements SAFactura {
 		return null;
 	}
 	
+	@Override
+	public int annadirDescuento(int idFactura, int idDescuento) {
+		if (idFactura <= 0 || idDescuento <= 0) {
+			return -4;
+		}
+
+		TFactura factura = mostrarPorId(idFactura);
+		if (factura == null) {
+			return -1;
+		}
+		
+		if (factura.getIdDescuento() > 0) {
+			return -5; // RES_ANNADIR_DESCUENTO_FACTURA_KO_YA_TIENE_DESCUENTO
+		}
+
+		DAODescuento daoDescuento = FactoriaAbstractaIntegracion.getInstance().crearDAODescuento();
+		TDescuento descuento = daoDescuento.read(idDescuento);
+		
+		if (descuento == null || !descuento.isActivo()) {
+			return -2;
+		}
+
+		boolean cumpleRequisitos = false;
+
+		if (descuento.isTipo()) {
+			double importeTotal = factura.getImporte();
+			if (importeTotal >= descuento.getCantidad()) {
+				cumpleRequisitos = true;
+			}
+		} else {
+			int cantidadProductos = 0;
+			if (factura.getLineas() != null) {
+				for (TLineaFactura lf : factura.getLineas()) {
+					cantidadProductos += lf.getCantidad();
+				}
+			}
+			if (cantidadProductos >= descuento.getCantidad()) {
+				cumpleRequisitos = true;
+			}
+		}
+
+		if (!cumpleRequisitos) {
+			return -3;
+		}
+
+		factura.setIdDescuento(idDescuento);
+		
+		double importeBase = factura.getImporte();
+		double cantidadDescontada = importeBase * ((double) descuento.getPorcentaje() / 100.0);
+		factura.setTotal(importeBase - cantidadDescontada);
+
+		DAOFactura daoFactura = FactoriaAbstractaIntegracion.getInstance().crearDAOFactura();
+		boolean actualizado = daoFactura.actualizar(factura);
+
+		if (actualizado) {
+			return 1;
+		} else {
+			return -4;
+		}
+	}
+	
 	
 	// Casos de uso extra
 	

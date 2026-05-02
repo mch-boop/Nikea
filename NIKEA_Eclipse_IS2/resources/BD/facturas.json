@@ -82,9 +82,9 @@
     },
     {
         "fecha": "2026-05-02",
-        "total": 108,
+        "total": 54,
         "cerrada": true,
-        "idDescuento": 0,
+        "idDescuento": 8,
         "idCliente": 1,
         "idVendedor": 3,
         "id": 10

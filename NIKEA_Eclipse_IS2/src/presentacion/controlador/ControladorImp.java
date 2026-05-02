@@ -838,6 +838,44 @@ public class ControladorImp extends Controlador {
 				}
 				break;
 			}
+			case Eventos.ANNADIR_DESCUENTO_FACTURA: {
+				int[] ids = (int[]) datos;
+				int idFactura = ids[0];
+				int idDescuento = ids[1];
+
+				SAFactura saFactura = FactoriaAbstractaNegocio.getInstance().crearSAFactura();
+				
+				int res = saFactura.annadirDescuento(idFactura, idDescuento);
+
+				IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(evento);
+
+				if (res > 0) {
+					vista.actualizar(Eventos.RES_ANNADIR_DESCUENTO_FACTURA_OK, res);
+				} else {
+					switch (res) {
+						case -1:
+							vista.actualizar(Eventos.RES_ANNADIR_DESCUENTO_FACTURA_KO_FACTURA_NO_EXISTE, null);
+							break;
+
+						case -2:
+							vista.actualizar(Eventos.RES_ANNADIR_DESCUENTO_FACTURA_KO_DESCUENTO_NO_EXISTE, null);
+							break;
+
+						case -3:
+							vista.actualizar(Eventos.RES_ANNADIR_DESCUENTO_FACTURA_KO_REQUISITOS, null);
+							break;
+							
+						case -5:
+							vista.actualizar(Eventos.RES_ANNADIR_DESCUENTO_FACTURA_KO_YA_TIENE_DESCUENTO, null);
+							break;
+
+						default:
+							vista.actualizar(Eventos.RES_ANNADIR_DESCUENTO_FACTURA_KO, res);
+							break;
+					}
+				}
+				break;
+			}
 
 			// DEFAULT
 			default:

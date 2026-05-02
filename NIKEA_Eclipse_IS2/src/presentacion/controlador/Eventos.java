@@ -184,7 +184,13 @@ public class Eventos {
     public static final int RES_BUSCAR_DESCUENTO_OK = 4051;
     public static final int RES_BUSCAR_DESCUENTO_KO = 4050;
 
-    public static final int ANADIR_DESCUENTO = 406;
+    public static final int ANNADIR_DESCUENTO_FACTURA = 406;
+    public static final int RES_ANNADIR_DESCUENTO_FACTURA_OK = 4061;
+    public static final int RES_ANNADIR_DESCUENTO_FACTURA_KO = 4060;
+    public static final int RES_ANNADIR_DESCUENTO_FACTURA_KO_FACTURA_NO_EXISTE = 40601;
+    public static final int RES_ANNADIR_DESCUENTO_FACTURA_KO_DESCUENTO_NO_EXISTE = 40602;
+    public static final int RES_ANNADIR_DESCUENTO_FACTURA_KO_REQUISITOS = 40603;
+    public static final int RES_ANNADIR_DESCUENTO_FACTURA_KO_YA_TIENE_DESCUENTO = 40604;
 
     // EVENTOS DE MARCA
 

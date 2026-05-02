@@ -77,7 +77,7 @@ public class GUIDescuentoDialog extends JDialog {
         });
                 
         btnAnadir.addActionListener(e->{
-        	IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.ANADIR_DESCUENTO);
+        	IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.ANNADIR_DESCUENTO_FACTURA);
         	abrirVistaBloqueante((JDialog) vista);
         });
     }
