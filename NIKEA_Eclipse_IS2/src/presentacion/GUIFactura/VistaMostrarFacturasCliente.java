@@ -59,13 +59,24 @@ public class VistaMostrarFacturasCliente extends JFrame implements IGUI {
         pBotones.add(btnCancelar);
 
         // MODELO TABLA
-        modelo = new DefaultTableModel(new Object[] { "ID Factura", "ID Cliente", "ID Vendedor", "Fecha", "Total" }, 0);
+        modelo = new DefaultTableModel(new Object[] { "ID Factura", "ID Cliente", "ID Vendedor", "Fecha", "Total" },
+                0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
         tabla = new JTable(modelo);
         JScrollPane scroll = new JScrollPane(tabla);
         scroll.setPreferredSize(new Dimension(600, 200));
 
         modeloLineas = new DefaultTableModel(new Object[] { "ID Producto", "Cantidad", "Precio Unitario", "Subtotal" },
-                0);
+                0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
         tablaLineas = new JTable(modeloLineas);
         JScrollPane scrollLineas = new JScrollPane(tablaLineas);
         scrollLineas.setPreferredSize(new Dimension(600, 150));
@@ -176,6 +187,11 @@ public class VistaMostrarFacturasCliente extends JFrame implements IGUI {
         for (TFactura f : facturas) {
             modelo.addRow(
                     new Object[] { f.getId(), f.getIdCliente(), f.getIdVendedor(), f.getFecha(), f.getTotal() });
+        }
+
+        // Seleccionar la primera fila automáticamente para mostrar sus líneas
+        if (!facturas.isEmpty()) {
+            tabla.setRowSelectionInterval(0, 0);
         }
     }
 
