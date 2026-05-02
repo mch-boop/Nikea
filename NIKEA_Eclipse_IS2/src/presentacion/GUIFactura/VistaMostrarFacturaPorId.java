@@ -1,23 +1,10 @@
 package presentacion.GUIFactura;
 
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
-
-import javax.swing.BorderFactory;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.SwingUtilities;
+import java.awt.*;
+import javax.swing.*;
 
 import negocio.factura.TFactura;
+import negocio.factura.TLineaFactura;
 import presentacion.IGUI;
 import presentacion.controlador.Controlador;
 import presentacion.controlador.Eventos;
@@ -31,6 +18,14 @@ public class VistaMostrarFacturaPorId extends JFrame implements IGUI {
     public VistaMostrarFacturaPorId() {
         setTitle("Buscar Factura por ID");
         initGUI();
+
+        this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+        this.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent e) {
+                limpiarCampos();
+            }
+        });
     }
 
     private void limpiarCampos() {
@@ -125,19 +120,37 @@ public class VistaMostrarFacturaPorId extends JFrame implements IGUI {
 
                 case Eventos.RES_BUSCAR_FACTURA_OK:
                     TFactura factura = (TFactura) datos;
-                    String info = "ID: " + factura.getId() + "\n" +
-                            "Vendedor: " + factura.getIdVendedor() + "\n" +
-                            "Cliente: " + factura.getIdCliente() + "\n" +
-                            "Descuento: " + factura.getIdDescuento() + "\n" +
-                            "Fecha: " + factura.getFecha() + "\n" +
-                            "Total: " + factura.getTotal() + "\n" +
-                            "Cerrada: " + factura.isCerrada();
-                    JOptionPane.showMessageDialog(this, info, "Factura encontrada", JOptionPane.INFORMATION_MESSAGE);
+                    StringBuilder infoBuilder = new StringBuilder();
+                    infoBuilder.append("ID: ").append(factura.getId()).append("\n");
+                    infoBuilder.append("Vendedor: ").append(factura.getIdVendedor()).append("\n");
+                    infoBuilder.append("Cliente: ").append(factura.getIdCliente()).append("\n");
+                    infoBuilder.append("Descuento: ").append(factura.getIdDescuento()).append("\n");
+                    infoBuilder.append("Fecha: ").append(factura.getFecha()).append("\n");
+                    infoBuilder.append("Total: ").append(factura.getTotal()).append("\n\n");
+                    infoBuilder.append("Líneas de factura:\n");
+
+                    if (factura.getLineas() == null || factura.getLineas().isEmpty()) {
+                        infoBuilder.append("  No hay líneas de factura registradas.\n");
+                    } else {
+                        for (TLineaFactura linea : factura.getLineas()) {
+                            infoBuilder.append("  Producto: ").append(linea.getIdProducto())
+                                    .append(" | Cantidad: ").append(linea.getCantidad())
+                                    .append(" | Precio unitario: ").append(linea.getPrecioUnitario())
+                                    .append(" | Subtotal: ").append(linea.getSubtotal()).append("\n");
+                        }
+                    }
+
+                    JTextArea textArea = new JTextArea(infoBuilder.toString());
+                    textArea.setEditable(false);
+                    textArea.setFont(new Font("Monospaced", Font.PLAIN, 12));
+                    JOptionPane.showMessageDialog(this, new JScrollPane(textArea), "Factura encontrada",
+                            JOptionPane.INFORMATION_MESSAGE);
                     limpiarCampos();
                     break;
 
                 case Eventos.RES_BUSCAR_FACTURA_KO:
                     JOptionPane.showMessageDialog(this, "Factura no encontrada.", "Error", JOptionPane.ERROR_MESSAGE);
+                    limpiarCampos();
                     break;
             }
         });
