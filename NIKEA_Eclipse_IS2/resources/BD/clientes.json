@@ -110,5 +110,21 @@
         "nombre": "Nombre",
         "DNI": "6262728D",
         "activo": true
+    },
+    {
+        "apellidos": "Cer",
+        "teléfono": 123,
+        "id": 15,
+        "nombre": "Jul",
+        "DNI": "9090",
+        "activo": false
+    },
+    {
+        "apellidos": "J",
+        "teléfono": 98,
+        "id": 16,
+        "nombre": "Pim",
+        "DNI": "111A",
+        "activo": true
     }
 ]

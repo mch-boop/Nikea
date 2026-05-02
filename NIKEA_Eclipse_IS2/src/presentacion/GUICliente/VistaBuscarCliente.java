@@ -167,6 +167,7 @@ public class VistaBuscarCliente extends JDialog implements IGUI {
             // Datos es la id del cliente.
             case Eventos.RES_BUSCAR_CLIENTE_KO:
                 areaDetalles.setText("");
+                areaDetalles.setPreferredSize(new Dimension(363, 200));
                 JOptionPane.showMessageDialog(this, "No se ha encontrado ningún cliente con el ID: " + datos, "Error", JOptionPane.ERROR_MESSAGE);
                 txtId.requestFocus();
                 break;
@@ -189,6 +190,7 @@ public class VistaBuscarCliente extends JDialog implements IGUI {
     private void limpiarCampos() {
     	txtId.setText("");
         areaDetalles.setText("");
+        areaDetalles.setPreferredSize(new Dimension(363, 200));
         pack();
     }
 }
