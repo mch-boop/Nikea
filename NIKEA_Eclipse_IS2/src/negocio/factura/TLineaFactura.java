@@ -54,12 +54,11 @@ public class TLineaFactura {
         }
     }
 
-	public double getSubtotal() {
-		return cantidad*precioUnitario;
-	}
+    public double getSubtotal() {
+        return cantidad * precioUnitario;
+    }
 
-	public Integer getIdServicio() {
-		// TODO Auto-generated method stub
-		return idProducto;
-	}
+    public Integer getIdServicio() {
+        return idProducto;
+    }
 }

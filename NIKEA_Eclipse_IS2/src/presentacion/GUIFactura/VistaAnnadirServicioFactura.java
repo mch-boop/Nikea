@@ -1,21 +1,7 @@
 package presentacion.GUIFactura;
 
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
-
-import javax.swing.BorderFactory;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.SwingUtilities;
+import java.awt.*;
+import javax.swing.*;
 
 import presentacion.IGUI;
 import presentacion.controlador.Controlador;
@@ -32,6 +18,14 @@ public class VistaAnnadirServicioFactura extends JFrame implements IGUI {
     public VistaAnnadirServicioFactura() {
         setTitle("Añadir Servicio");
         initGUI();
+
+        this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+        this.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent e) {
+                limpiarCampos();
+            }
+        });
     }
 
     private void limpiarCampos() {
@@ -83,8 +77,8 @@ public class VistaAnnadirServicioFactura extends JFrame implements IGUI {
 
                 int cantidad = Integer.parseInt(txtCantidad.getText());
 
-                if (cantidad <= 0) {
-                    JOptionPane.showMessageDialog(this, "La cantidad debe ser mayor que 0.", "Error",
+                if (cantidad < 1) {
+                    JOptionPane.showMessageDialog(this, "La cantidad debe ser de al menos 1.", "Error",
                             JOptionPane.ERROR_MESSAGE);
                     return;
                 }
@@ -158,21 +152,9 @@ public class VistaAnnadirServicioFactura extends JFrame implements IGUI {
 
                 case Eventos.RES_ANNADIR_SERVICIO_KO:
 
-                    int error = (int) datos;
-                    String mensaje;
-
-                    switch (error) {
-
-                        case -1:
-                            mensaje = "No hay una venta en curso o datos inválidos.";
-                            break;
-
-                        default:
-                            mensaje = "Error al añadir el servicio.";
-                            break;
-                    }
-
-                    JOptionPane.showMessageDialog(this, mensaje, "Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "No se pudo añadir el servicio.", "Error",
+                            JOptionPane.ERROR_MESSAGE);
+                    limpiarCampos();
                     break;
             }
         });

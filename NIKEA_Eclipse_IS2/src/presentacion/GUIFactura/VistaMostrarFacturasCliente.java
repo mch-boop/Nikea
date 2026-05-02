@@ -1,29 +1,14 @@
 package presentacion.GUIFactura;
 
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
-import java.text.SimpleDateFormat;
+import java.awt.*;
+import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.table.*;
 import java.util.List;
 
-import javax.swing.BorderFactory;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JTextField;
-import javax.swing.SwingUtilities;
-import javax.swing.table.DefaultTableModel;
-
 import negocio.factura.TFactura;
+import negocio.factura.TLineaFactura;
 import presentacion.IGUI;
 import presentacion.controlador.Controlador;
 import presentacion.controlador.Eventos;
@@ -35,22 +20,33 @@ public class VistaMostrarFacturasCliente extends JFrame implements IGUI {
     private JButton btnBuscar, btnCancelar;
     private JTable tabla;
     private DefaultTableModel modelo;
+    private JTable tablaLineas;
+    private DefaultTableModel modeloLineas;
+    private List<TFactura> facturasCliente;
 
     public VistaMostrarFacturasCliente() {
         setTitle("Mostrar Facturas de Cliente");
         initGUI();
+
+        this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+        this.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent e) {
+                limpiarCampos();
+            }
+        });
     }
 
     private void limpiarCampos() {
         txtIdCliente.setText("");
         modelo.setRowCount(0);
+        modeloLineas.setRowCount(0);
+        facturasCliente = null;
     }
 
     private void initGUI() {
 
-        JPanel viewPanel = new JPanel();
-        viewPanel.setLayout(new BoxLayout(viewPanel, BoxLayout.Y_AXIS));
-        viewPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        setLayout(new BorderLayout());
 
         txtIdCliente = new JTextField(20);
 
@@ -63,9 +59,41 @@ public class VistaMostrarFacturasCliente extends JFrame implements IGUI {
         pBotones.add(btnCancelar);
 
         // MODELO TABLA
-        modelo = new DefaultTableModel(new Object[] { "ID Factura", "ID Cliente", "ID Vendedor", "Fecha", "Total" }, 0);
+        modelo = new DefaultTableModel(new Object[] { "ID Factura", "ID Cliente", "ID Vendedor", "Fecha", "Total" },
+                0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
         tabla = new JTable(modelo);
         JScrollPane scroll = new JScrollPane(tabla);
+        scroll.setPreferredSize(new Dimension(600, 200));
+
+        modeloLineas = new DefaultTableModel(new Object[] { "ID Producto", "Cantidad", "Precio Unitario", "Subtotal" },
+                0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+        tablaLineas = new JTable(modeloLineas);
+        JScrollPane scrollLineas = new JScrollPane(tablaLineas);
+        scrollLineas.setPreferredSize(new Dimension(600, 150));
+
+        tabla.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                if (!e.getValueIsAdjusting()) {
+                    int fila = tabla.getSelectedRow();
+                    if (fila >= 0 && facturasCliente != null && fila < facturasCliente.size()) {
+                        cargarTablaLineas(facturasCliente.get(fila).getLineas());
+                    } else {
+                        cargarTablaLineas(null);
+                    }
+                }
+            }
+        });
 
         // BUSCAR
         btnBuscar.addActionListener(e -> {
@@ -118,39 +146,69 @@ public class VistaMostrarFacturasCliente extends JFrame implements IGUI {
         JLabel lblTitulo = new JLabel("Introduzca el ID del cliente:");
         lblTitulo.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        viewPanel.add(lblTitulo);
-        viewPanel.add(Box.createRigidArea(new Dimension(0, 20)));
-        viewPanel.add(formPanel);
-        viewPanel.add(Box.createRigidArea(new Dimension(0, 20)));
-        viewPanel.add(scroll);
-        viewPanel.add(Box.createRigidArea(new Dimension(0, 20)));
-        viewPanel.add(pBotones);
+        // PANEL NORTE: título, formulario, botones
+        JPanel northPanel = new JPanel();
+        northPanel.setLayout(new BoxLayout(northPanel, BoxLayout.Y_AXIS));
+        northPanel.add(lblTitulo);
+        northPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+        northPanel.add(formPanel);
+        northPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+        northPanel.add(pBotones);
 
-        getContentPane().add(viewPanel);
-        pack();
-        setResizable(false);
+        // PANEL SUR: etiqueta y tabla líneas
+        JPanel southPanel = new JPanel();
+        southPanel.setLayout(new BoxLayout(southPanel, BoxLayout.Y_AXIS));
+        southPanel.add(new JLabel("Líneas de la factura seleccionada:"));
+        southPanel.add(Box.createRigidArea(new Dimension(0, 5)));
+        southPanel.add(scrollLineas);
+
+        add(northPanel, BorderLayout.NORTH);
+        add(scroll, BorderLayout.CENTER);
+        add(southPanel, BorderLayout.SOUTH);
+
+        setSize(800, 600);
+        setResizable(true);
         setLocationRelativeTo(null);
     }
 
-    // CARGAR DATOS
+    // auxiliares carga datos
     private void cargarTabla(List<TFactura> facturas) {
         modelo.setRowCount(0);
+        cargarTablaLineas(null);
+
+        facturasCliente = facturas;
 
         if (facturas == null || facturas.isEmpty()) {
             JOptionPane.showMessageDialog(this, "No existen facturas para este cliente.", "Información",
                     JOptionPane.INFORMATION_MESSAGE);
             return;
         }
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
         for (TFactura f : facturas) {
-            String fechaFormateada = sdf.format(f.getFecha());
-
             modelo.addRow(
-                    new Object[] { f.getId(), f.getIdCliente(), f.getIdVendedor(), fechaFormateada, f.getTotal() });
+                    new Object[] { f.getId(), f.getIdCliente(), f.getIdVendedor(), f.getFecha(), f.getTotal() });
+        }
+
+        // Seleccionar la primera fila automáticamente para mostrar sus líneas
+        if (!facturas.isEmpty()) {
+            tabla.setRowSelectionInterval(0, 0);
         }
     }
 
+    private void cargarTablaLineas(List<TLineaFactura> lineas) {
+        modeloLineas.setRowCount(0);
+
+        if (lineas == null || lineas.isEmpty()) {
+            return;
+        }
+
+        for (TLineaFactura l : lineas) {
+            modeloLineas.addRow(
+                    new Object[] { l.getIdProducto(), l.getCantidad(), l.getPrecioUnitario(), l.getSubtotal() });
+        }
+    }
+
+    @SuppressWarnings("unchecked") // el controlador devuelve List<TFacturas>
     @Override
     public void actualizar(int evento, Object datos) {
 
@@ -160,11 +218,13 @@ public class VistaMostrarFacturasCliente extends JFrame implements IGUI {
 
                 case Eventos.RES_MOSTRAR_FACTURAS_CLIENTE_OK:
                     cargarTabla((List<TFactura>) datos);
+                    txtIdCliente.setText("");
                     break;
 
                 case Eventos.RES_MOSTRAR_FACTURAS_CLIENTE_KO:
                     JOptionPane.showMessageDialog(this, "No se pudieron cargar las facturas del cliente.", "Error",
                             JOptionPane.ERROR_MESSAGE);
+                    limpiarCampos();
                     break;
             }
         });

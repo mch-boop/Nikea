@@ -1,23 +1,10 @@
 package presentacion.GUIFactura;
 
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
-
-import javax.swing.BorderFactory;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.SwingUtilities;
+import java.awt.*;
+import javax.swing.*;
 
 import negocio.factura.TFactura;
+import negocio.factura.TLineaFactura;
 import presentacion.IGUI;
 import presentacion.controlador.Controlador;
 import presentacion.controlador.Eventos;
@@ -26,15 +13,36 @@ import presentacion.controlador.Eventos;
 public class VistaMostrarFacturaPorId extends JFrame implements IGUI {
 
     private JTextField txtIdFactura;
-    private JButton btnBuscar, btnCancelar;
+    private JTextArea areaDetalles;
+    private JButton btnBuscar, btnLimpiar, btnCancelar;
 
     public VistaMostrarFacturaPorId() {
+        super();
         setTitle("Buscar Factura por ID");
         initGUI();
+
+        this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+        this.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent e) {
+                limpiarCampos();
+            }
+        });
+    }
+
+    @Override
+    public void setVisible(boolean b) {
+        if (b) {
+            limpiarCampos();
+        }
+        super.setVisible(b);
     }
 
     private void limpiarCampos() {
         txtIdFactura.setText("");
+        areaDetalles.setText("");
+        areaDetalles.setPreferredSize(new Dimension(363, 200));
+        pack();
     }
 
     private void initGUI() {
@@ -43,21 +51,32 @@ public class VistaMostrarFacturaPorId extends JFrame implements IGUI {
         viewPanel.setLayout(new BoxLayout(viewPanel, BoxLayout.Y_AXIS));
         viewPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
-        txtIdFactura = new JTextField(20);
+        JLabel lblTitulo = new JLabel("Introduzca el ID de la factura a buscar:");
+        lblTitulo.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        // BOTONES
-        JPanel pBotones = new JPanel();
+        // PANEL DE BÚSQUEDA
+        JPanel panelBusqueda = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        txtIdFactura = new JTextField(10);
         btnBuscar = new JButton("BUSCAR");
+        panelBusqueda.add(new JLabel("ID Factura:"));
+        panelBusqueda.add(txtIdFactura);
+        panelBusqueda.add(btnBuscar);
+
+        areaDetalles = new JTextArea();
+        areaDetalles.setEditable(false);
+        areaDetalles.setBorder(BorderFactory.createTitledBorder("Detalles de la factura"));
+        areaDetalles.setFont(new Font("Monospaced", Font.PLAIN, 13));
+        areaDetalles.setPreferredSize(new Dimension(363, 200));
+        JScrollPane scroll = new JScrollPane(areaDetalles);
+
+        JPanel panelBotones = new JPanel();
+        btnLimpiar = new JButton("LIMPIAR");
         btnCancelar = new JButton("CANCELAR");
+        panelBotones.add(btnLimpiar);
+        panelBotones.add(btnCancelar);
 
-        pBotones.add(btnBuscar);
-        pBotones.add(btnCancelar);
-
-        // BUSCAR
         btnBuscar.addActionListener(e -> {
-
             try {
-
                 if (txtIdFactura.getText().trim().isEmpty()) {
                     JOptionPane.showMessageDialog(this, "El ID de la factura es obligatorio.", "Error",
                             JOptionPane.ERROR_MESSAGE);
@@ -80,35 +99,21 @@ public class VistaMostrarFacturaPorId extends JFrame implements IGUI {
             }
         });
 
-        // CANCELAR
+        btnLimpiar.addActionListener(e -> limpiarCampos());
+
         btnCancelar.addActionListener(e -> {
             limpiarCampos();
             setVisible(false);
             dispose();
         });
 
-        // FORMULARIO
-        JPanel formPanel = new JPanel(new GridBagLayout());
-        GridBagConstraints ajuste = new GridBagConstraints();
-        ajuste.fill = GridBagConstraints.HORIZONTAL;
-        ajuste.insets = new Insets(5, 5, 5, 5);
-
-        // ID Factura
-        ajuste.gridx = 0;
-        ajuste.gridy = 0;
-        formPanel.add(new JLabel("ID Factura:"), ajuste);
-        ajuste.gridx = 1;
-        formPanel.add(txtIdFactura, ajuste);
-
-        // TÍTULO
-        JLabel lblTitulo = new JLabel("Introduzca el ID de la factura a buscar:");
-        lblTitulo.setAlignmentX(Component.CENTER_ALIGNMENT);
-
         viewPanel.add(lblTitulo);
-        viewPanel.add(Box.createRigidArea(new Dimension(0, 20)));
-        viewPanel.add(formPanel);
-        viewPanel.add(Box.createRigidArea(new Dimension(0, 20)));
-        viewPanel.add(pBotones);
+        viewPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+        viewPanel.add(panelBusqueda);
+        viewPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+        viewPanel.add(scroll);
+        viewPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+        viewPanel.add(panelBotones);
 
         getContentPane().add(viewPanel);
         pack();
@@ -125,19 +130,42 @@ public class VistaMostrarFacturaPorId extends JFrame implements IGUI {
 
                 case Eventos.RES_BUSCAR_FACTURA_OK:
                     TFactura factura = (TFactura) datos;
-                    String info = "ID: " + factura.getId() + "\n" +
-                            "Vendedor: " + factura.getIdVendedor() + "\n" +
-                            "Cliente: " + factura.getIdCliente() + "\n" +
-                            "Descuento: " + factura.getIdDescuento() + "\n" +
-                            "Fecha: " + factura.getFecha() + "\n" +
-                            "Total: " + factura.getTotal() + "\n" +
-                            "Cerrada: " + factura.isCerrada();
-                    JOptionPane.showMessageDialog(this, info, "Factura encontrada", JOptionPane.INFORMATION_MESSAGE);
-                    limpiarCampos();
+                    StringBuilder sb = new StringBuilder();
+                    sb.append(" ------------------------------------------ \n");
+                    sb.append("          DETALLES DE LA FACTURA           \n");
+                    sb.append(" ------------------------------------------ \n");
+                    sb.append("ID:          ").append(factura.getId()).append("\n");
+                    sb.append("Vendedor:    ").append(factura.getIdVendedor()).append("\n");
+                    sb.append("Cliente:     ").append(factura.getIdCliente()).append("\n");
+                    sb.append("Descuento:   ").append(factura.getIdDescuento()).append("\n");
+                    sb.append("Fecha:       ").append(factura.getFecha()).append("\n");
+                    sb.append("Total:       ").append(factura.getTotal()).append("\n");
+                    sb.append("Cerrada:     ").append(factura.isCerrada()).append("\n\n");
+                    sb.append("Líneas de factura:\n");
+
+                    if (factura.getLineas() == null || factura.getLineas().isEmpty()) {
+                        sb.append("  No hay líneas de factura registradas.\n");
+                    } else {
+                        for (TLineaFactura linea : factura.getLineas()) {
+                            sb.append("  Producto: ").append(linea.getIdProducto())
+                                    .append(" | Cantidad: ").append(linea.getCantidad())
+                                    .append(" | Precio unitario: ").append(linea.getPrecioUnitario())
+                                    .append(" | Subtotal: ").append(linea.getSubtotal()).append("\n");
+                        }
+                    }
+
+                    areaDetalles.setText(sb.toString());
+                    areaDetalles.setCaretPosition(0);
+                    areaDetalles.setPreferredSize(null);
+                    pack();
                     break;
 
                 case Eventos.RES_BUSCAR_FACTURA_KO:
+                    areaDetalles.setText("");
+                    areaDetalles.setPreferredSize(new Dimension(363, 200));
+                    pack();
                     JOptionPane.showMessageDialog(this, "Factura no encontrada.", "Error", JOptionPane.ERROR_MESSAGE);
+                    txtIdFactura.requestFocus();
                     break;
             }
         });
