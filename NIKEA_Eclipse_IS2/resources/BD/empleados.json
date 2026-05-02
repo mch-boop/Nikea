@@ -37,5 +37,15 @@
         "dni": "555E",
         "numeroVentas": 0,
         "activo": true
+    },
+    {
+        "tipo": 1,
+        "apellido": "Santos",
+        "sueldo": 1200,
+        "id": 5,
+        "nombre": "Baran",
+        "dni": "444R",
+        "numeroVentas": 0,
+        "activo": false
     }
 ]

@@ -245,10 +245,30 @@ public class VistaAnadirEmpleado extends JDialog implements IGUI {
 							"Reactivación de Empleado", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
 
 					if (respReac == JOptionPane.YES_OPTION) {
-						// Al darle a SÍ, enviamos el Transfer con los datos nuevos al controlador
-						Controlador.getInstance().accion(Eventos.REACTIVAR_EMPLEADO, empReac);
-						limpiarCampos(); 
-					}
+				        // Creamos el transfer correcto según el tipo que seleccionó el usuario
+				        TEmpleado nuevosDatos;
+				        if (rbVendedor.isSelected()) {
+				            nuevosDatos = new TVendedor();
+				            nuevosDatos.setTipo(1);
+				        } else {
+				            nuevosDatos = new TMontador();
+				            nuevosDatos.setTipo(2);
+				        }
+
+				        // Le asignamos el ID que viene de la BD para que el SA sepa a quién actualizar
+				        nuevosDatos.setId(empReac.getId());
+				        
+				        // Recogemos lo que el usuario ha escrito ahora en la vista
+				        nuevosDatos.setNombre(txtNombre.getText().trim());
+				        nuevosDatos.setApellido(txtApellido.getText().trim());
+				        nuevosDatos.setDNI(txtDNI.getText().trim());
+				        nuevosDatos.setSueldo((Double) spSueldo.getValue());
+				        nuevosDatos.setActivo(true);
+
+				        // Enviamos los datos nuevos al controlador
+				        Controlador.getInstance().accion(Eventos.REACTIVAR_EMPLEADO, nuevosDatos);
+				        limpiarCampos();
+				        }
 					break;
 
 				case Eventos.RES_ALTA_EMPLEADO_CAMBIO_TIPO_REQUERIDO_ACTIVO:
