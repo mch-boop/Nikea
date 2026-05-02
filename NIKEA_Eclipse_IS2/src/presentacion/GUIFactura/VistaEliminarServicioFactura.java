@@ -1,21 +1,7 @@
 package presentacion.GUIFactura;
 
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
-
-import javax.swing.BorderFactory;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.SwingUtilities;
+import java.awt.*;
+import javax.swing.*;
 
 import presentacion.IGUI;
 import presentacion.controlador.Controlador;
@@ -32,6 +18,14 @@ public class VistaEliminarServicioFactura extends JFrame implements IGUI {
     public VistaEliminarServicioFactura() {
         setTitle("Eliminar Servicio");
         initGUI();
+
+        this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+        this.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent e) {
+                limpiarCampos();
+            }
+        });
     }
 
     private void limpiarCampos() {
@@ -159,17 +153,20 @@ public class VistaEliminarServicioFactura extends JFrame implements IGUI {
                 case Eventos.RES_ELIMINAR_SERVICIO_KO_NO_EXISTE:
                     JOptionPane.showMessageDialog(this, "El servicio no existe en la venta.", "Error",
                             JOptionPane.ERROR_MESSAGE);
+                    limpiarCampos();
                     break;
 
                 case Eventos.RES_ELIMINAR_SERVICIO_KO_BORRADO_DE_MAS:
                     JOptionPane.showMessageDialog(this, "Se intentó eliminar más cantidad de la existente.", "Error",
                             JOptionPane.ERROR_MESSAGE);
+                    limpiarCampos();
                     break;
 
                 case Eventos.RES_ELIMINAR_SERVICIO_KO:
                 default:
                     JOptionPane.showMessageDialog(this, "Error al eliminar el servicio.", "Error",
                             JOptionPane.ERROR_MESSAGE);
+                    limpiarCampos();
                     break;
             }
         });

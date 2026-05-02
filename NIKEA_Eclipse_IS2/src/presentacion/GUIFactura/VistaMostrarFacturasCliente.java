@@ -46,9 +46,7 @@ public class VistaMostrarFacturasCliente extends JFrame implements IGUI {
 
     private void initGUI() {
 
-        JPanel viewPanel = new JPanel();
-        viewPanel.setLayout(new BoxLayout(viewPanel, BoxLayout.Y_AXIS));
-        viewPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        setLayout(new BorderLayout());
 
         txtIdCliente = new JTextField(20);
 
@@ -64,11 +62,13 @@ public class VistaMostrarFacturasCliente extends JFrame implements IGUI {
         modelo = new DefaultTableModel(new Object[] { "ID Factura", "ID Cliente", "ID Vendedor", "Fecha", "Total" }, 0);
         tabla = new JTable(modelo);
         JScrollPane scroll = new JScrollPane(tabla);
+        scroll.setPreferredSize(new Dimension(600, 200));
 
         modeloLineas = new DefaultTableModel(new Object[] { "ID Producto", "Cantidad", "Precio Unitario", "Subtotal" },
                 0);
         tablaLineas = new JTable(modeloLineas);
         JScrollPane scrollLineas = new JScrollPane(tablaLineas);
+        scrollLineas.setPreferredSize(new Dimension(600, 150));
 
         tabla.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             @Override
@@ -135,21 +135,28 @@ public class VistaMostrarFacturasCliente extends JFrame implements IGUI {
         JLabel lblTitulo = new JLabel("Introduzca el ID del cliente:");
         lblTitulo.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        viewPanel.add(lblTitulo);
-        viewPanel.add(Box.createRigidArea(new Dimension(0, 20)));
-        viewPanel.add(formPanel);
-        viewPanel.add(Box.createRigidArea(new Dimension(0, 20)));
-        viewPanel.add(scroll);
-        viewPanel.add(Box.createRigidArea(new Dimension(0, 20)));
-        viewPanel.add(new JLabel("Líneas de la factura seleccionada:"));
-        viewPanel.add(Box.createRigidArea(new Dimension(0, 10)));
-        viewPanel.add(scrollLineas);
-        viewPanel.add(Box.createRigidArea(new Dimension(0, 20)));
-        viewPanel.add(pBotones);
+        // PANEL NORTE: título, formulario, botones
+        JPanel northPanel = new JPanel();
+        northPanel.setLayout(new BoxLayout(northPanel, BoxLayout.Y_AXIS));
+        northPanel.add(lblTitulo);
+        northPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+        northPanel.add(formPanel);
+        northPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+        northPanel.add(pBotones);
 
-        getContentPane().add(viewPanel);
-        pack();
-        setResizable(false);
+        // PANEL SUR: etiqueta y tabla líneas
+        JPanel southPanel = new JPanel();
+        southPanel.setLayout(new BoxLayout(southPanel, BoxLayout.Y_AXIS));
+        southPanel.add(new JLabel("Líneas de la factura seleccionada:"));
+        southPanel.add(Box.createRigidArea(new Dimension(0, 5)));
+        southPanel.add(scrollLineas);
+
+        add(northPanel, BorderLayout.NORTH);
+        add(scroll, BorderLayout.CENTER);
+        add(southPanel, BorderLayout.SOUTH);
+
+        setSize(800, 600);
+        setResizable(true);
         setLocationRelativeTo(null);
     }
 
