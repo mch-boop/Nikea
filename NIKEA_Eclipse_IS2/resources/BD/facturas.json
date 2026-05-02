@@ -72,12 +72,21 @@
         "id": 8
     },
     {
-        "fecha": "25-04-2026",
+        "fecha": "0030-10-17",
         "total": 0,
         "cerrada": true,
         "idDescuento": 1,
         "idCliente": 7,
         "idVendedor": 1,
         "id": 9
+    },
+    {
+        "fecha": "2026-05-02",
+        "total": 108,
+        "cerrada": true,
+        "idDescuento": 0,
+        "idCliente": 1,
+        "idVendedor": 3,
+        "id": 10
     }
 ]

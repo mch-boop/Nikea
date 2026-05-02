@@ -128,6 +128,10 @@ public class Eventos {
     public static final int ANNADIR_SERVICIO = 303;
     public static final int RES_ANNADIR_SERVICIO_OK = 3031;
     public static final int RES_ANNADIR_SERVICIO_KO = 3030;
+    public static final int RES_ANNADIR_SERVICIO_KO_NO_VENTA = 30301;
+    public static final int RES_ANNADIR_SERVICIO_KO_NO_EXISTE = 30302;
+    public static final int RES_ANNADIR_SERVICIO_KO_INACTIVO = 30303;
+    public static final int RES_ANNADIR_SERVICIO_KO_PRECIO_INVALIDO = 30304;
 
     public static final int ELIMINAR_SERVICIO = 304;
     public static final int RES_ELIMINAR_SERVICIO_OK = 3041;

@@ -115,6 +115,24 @@ public class SAFacturaImp implements SAFactura {
 			return -1;
 		}
 
+		if (linea.getIdProducto() <= 0 || linea.getCantidad() <= 0) {
+			return 0;
+		}
+
+		TServicio servicio = FactoriaAbstractaIntegracion.getInstance().crearDAOServicio().read(linea.getIdProducto());
+
+		if (servicio == null) {
+			return -2;
+		}
+
+		if (!servicio.isActivo()) {
+			return -3;
+		}
+
+		if (servicio.getPrecioActual() == null || servicio.getPrecioActual() < 0) {
+			return -4;
+		}
+
 		TLineaFactura existente = facturaActual.buscarLinea(linea.getIdProducto());
 
 		// Si el producto ya está añadido, aumentamos la cantidad
@@ -123,7 +141,12 @@ public class SAFacturaImp implements SAFactura {
 		}
 		// De lo contrario, añadimos la nueva linea de factura
 		else {
-			facturaActual.addLinea(linea);
+			TLineaFactura nuevaLinea = new TLineaFactura();
+			nuevaLinea.setIdProducto(servicio.getId());
+			nuevaLinea.setCantidad(linea.getCantidad());
+			nuevaLinea.setPrecioUnitario(servicio.getPrecioActual());
+
+			facturaActual.addLinea(nuevaLinea);
 		}
 		return 1;
 	}
@@ -133,6 +156,10 @@ public class SAFacturaImp implements SAFactura {
 
 		if (facturaActual == null || linea == null) {
 			return -1;
+		}
+
+		if (linea.getIdProducto() <= 0 || linea.getCantidad() <= 0) {
+			return 0;
 		}
 
 		TLineaFactura existente = facturaActual.buscarLinea(linea.getIdProducto());
@@ -146,7 +173,6 @@ public class SAFacturaImp implements SAFactura {
 
 		// si necesario se borra la linea devolviendo el resultado correspondiente
 		if (nuevaCantidad < 0) {
-			facturaActual.removeLinea(existente);
 			return -3;
 		} else if (nuevaCantidad == 0) {
 			facturaActual.removeLinea(existente);
@@ -223,6 +249,10 @@ public class SAFacturaImp implements SAFactura {
 	@Override
 	public TFactura mostrarPorId(int idFactura) {
 
+		if (idFactura <= 0) {
+			return null;
+		}
+
 		TFactura factura = FactoriaAbstractaIntegracion.getInstance().crearDAOFactura().leerPorId(idFactura);
 
 		if (factura == null) {
@@ -242,6 +272,15 @@ public class SAFacturaImp implements SAFactura {
 
 	@Override
 	public List<TFactura> mostrarPorCliente(int idCliente) {
+
+		if (idCliente <= 0) {
+			return null;
+		}
+
+		TCliente cliente = FactoriaAbstractaIntegracion.getInstance().crearDAOCliente().read(idCliente);
+		if (cliente == null || !cliente.isActivo()) {
+			return null;
+		}
 
 		List<TFactura> facturas = FactoriaAbstractaIntegracion.getInstance().crearDAOFactura()
 				.leerPorCliente(idCliente);

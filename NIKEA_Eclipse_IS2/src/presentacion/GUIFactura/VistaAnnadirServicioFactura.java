@@ -156,6 +156,30 @@ public class VistaAnnadirServicioFactura extends JFrame implements IGUI {
                             JOptionPane.ERROR_MESSAGE);
                     limpiarCampos();
                     break;
+
+                case Eventos.RES_ANNADIR_SERVICIO_KO_NO_VENTA:
+                    JOptionPane.showMessageDialog(this, "No hay ninguna venta iniciada.", "Error",
+                            JOptionPane.ERROR_MESSAGE);
+                    limpiarCampos();
+                    break;
+
+                case Eventos.RES_ANNADIR_SERVICIO_KO_NO_EXISTE:
+                    JOptionPane.showMessageDialog(this, "El servicio no existe.", "Error",
+                            JOptionPane.ERROR_MESSAGE);
+                    limpiarCampos();
+                    break;
+
+                case Eventos.RES_ANNADIR_SERVICIO_KO_INACTIVO:
+                    JOptionPane.showMessageDialog(this, "El servicio está inactivo.", "Error",
+                            JOptionPane.ERROR_MESSAGE);
+                    limpiarCampos();
+                    break;
+
+                case Eventos.RES_ANNADIR_SERVICIO_KO_PRECIO_INVALIDO:
+                    JOptionPane.showMessageDialog(this, "El servicio no tiene un precio válido.", "Error",
+                            JOptionPane.ERROR_MESSAGE);
+                    limpiarCampos();
+                    break;
             }
         });
     }

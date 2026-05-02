@@ -204,8 +204,16 @@ public class ControladorImp extends Controlador {
 
 				IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(evento);
 
-				if (res > 0) {
+				if (res == 1) {
 					vista.actualizar(Eventos.RES_ANNADIR_SERVICIO_OK, res);
+				} else if (res == -1) {
+					vista.actualizar(Eventos.RES_ANNADIR_SERVICIO_KO_NO_VENTA, res);
+				} else if (res == -2) {
+					vista.actualizar(Eventos.RES_ANNADIR_SERVICIO_KO_NO_EXISTE, res);
+				} else if (res == -3) {
+					vista.actualizar(Eventos.RES_ANNADIR_SERVICIO_KO_INACTIVO, res);
+				} else if (res == -4) {
+					vista.actualizar(Eventos.RES_ANNADIR_SERVICIO_KO_PRECIO_INVALIDO, res);
 				} else {
 					vista.actualizar(Eventos.RES_ANNADIR_SERVICIO_KO, res);
 				}
@@ -269,7 +277,7 @@ public class ControladorImp extends Controlador {
 
 				IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(evento);
 
-				if (!facturasCliente.isEmpty()) {
+				if (facturasCliente != null) {
 					vista.actualizar(Eventos.RES_MOSTRAR_FACTURAS_CLIENTE_OK, facturasCliente);
 				} else {
 					vista.actualizar(Eventos.RES_MOSTRAR_FACTURAS_CLIENTE_KO, idCliente);

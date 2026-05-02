@@ -35,11 +35,7 @@ public class TLineaFactura {
     }
 
     public void setCantidad(int cantidad) {
-        if (cantidad < 1) {
-            this.cantidad = 1;
-        } else {
-            this.cantidad = cantidad;
-        }
+        this.cantidad = cantidad;
     }
 
     public double getPrecioUnitario() {

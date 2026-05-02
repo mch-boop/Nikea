@@ -1,0 +1,122 @@
+[
+    {
+        "precioUnitario": 9,
+        "idFactura": 1,
+        "idProducto": 3,
+        "cantidad": 4
+    },
+    {
+        "precioUnitario": 27,
+        "idFactura": 1,
+        "idProducto": 4,
+        "cantidad": 3
+    },
+    {
+        "precioUnitario": 3.5,
+        "idFactura": 1,
+        "idProducto": 6,
+        "cantidad": 1
+    },
+    {
+        "precioUnitario": 27,
+        "idFactura": 2,
+        "idProducto": 4,
+        "cantidad": 2
+    },
+    {
+        "precioUnitario": 9,
+        "idFactura": 2,
+        "idProducto": 3,
+        "cantidad": 3
+    },
+    {
+        "precioUnitario": 8.99,
+        "idFactura": 2,
+        "idProducto": 6,
+        "cantidad": 1
+    },
+    {
+        "precioUnitario": 9,
+        "idFactura": 3,
+        "idProducto": 3,
+        "cantidad": 5
+    },
+    {
+        "precioUnitario": 27,
+        "idFactura": 4,
+        "idProducto": 4,
+        "cantidad": 10
+    },
+    {
+        "precioUnitario": 10,
+        "idFactura": 4,
+        "idProducto": 6,
+        "cantidad": 3
+    },
+    {
+        "precioUnitario": 27,
+        "idFactura": 5,
+        "idProducto": 4,
+        "cantidad": 7
+    },
+    {
+        "precioUnitario": 9,
+        "idFactura": 5,
+        "idProducto": 3,
+        "cantidad": 1
+    },
+    {
+        "precioUnitario": 1.9,
+        "idFactura": 5,
+        "idProducto": 6,
+        "cantidad": 1
+    },
+    {
+        "precioUnitario": 9,
+        "idFactura": 6,
+        "idProducto": 3,
+        "cantidad": 5
+    },
+    {
+        "precioUnitario": 10,
+        "idFactura": 6,
+        "idProducto": 6,
+        "cantidad": 3
+    },
+    {
+        "precioUnitario": 0.25,
+        "idFactura": 6,
+        "idProducto": 4,
+        "cantidad": 1
+    },
+    {
+        "precioUnitario": 9,
+        "idFactura": 7,
+        "idProducto": 3,
+        "cantidad": 4
+    },
+    {
+        "precioUnitario": 24,
+        "idFactura": 7,
+        "idProducto": 4,
+        "cantidad": 1
+    },
+    {
+        "precioUnitario": 0,
+        "idFactura": 8,
+        "idProducto": 3,
+        "cantidad": 1
+    },
+    {
+        "precioUnitario": 0,
+        "idFactura": 9,
+        "idProducto": 4,
+        "cantidad": 1
+    },
+    {
+        "precioUnitario": 27,
+        "idFactura": 10,
+        "idProducto": 4,
+        "cantidad": 4
+    }
+]
