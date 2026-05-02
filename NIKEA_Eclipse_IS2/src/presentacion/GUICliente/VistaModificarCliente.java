@@ -77,7 +77,7 @@ public class VistaModificarCliente extends JDialog implements IGUI {
         });
         
         // Label de título.
-        JLabel lblTitulo = new JLabel("Introduzca el ID del Cliente a modificar:");
+        JLabel lblTitulo = new JLabel("Introduzca los datos del Cliente a modificar:");
         lblTitulo.setAlignmentX(Component.CENTER_ALIGNMENT);
         
         // Panel de botones
@@ -141,7 +141,7 @@ public class VistaModificarCliente extends JDialog implements IGUI {
         panelDatos.add(new JLabel("Dato nuevo"), ajuste);
 
         // Fila 1: Nombre
-        ajuste.gridy = 1; ajuste.gridx = 0; panelEdicion.add(new JLabel("Nombre:"), ajuste);
+        ajuste.gridy = 1; ajuste.gridx = 0; panelDatos.add(new JLabel("Nombre:"), ajuste);
         ajuste.gridx = 1; panelDatos.add(txtNombreAct, ajuste);
         ajuste.gridx = 2; panelDatos.add(txtNombre, ajuste);
 
@@ -232,6 +232,9 @@ public class VistaModificarCliente extends JDialog implements IGUI {
                     JOptionPane.showMessageDialog(null, "Asegúrese de que el teléfono sea un número válido.", "Error", JOptionPane.ERROR_MESSAGE);
                     txtTelefono.requestFocus();
                  }
+                
+                pBotones.setVisible(true);
+                pack();
             }
         });
         
@@ -280,6 +283,7 @@ public class VistaModificarCliente extends JDialog implements IGUI {
                 
                 // Aquí sí queremos ocultar el panel y resetear todo para buscar a otro cliente
                 panelEdicion.setVisible(false);
+                pBotones.setVisible(true);
                 txtId.setEditable(true);
                 txtId.setText("");
                 pack();
@@ -288,6 +292,8 @@ public class VistaModificarCliente extends JDialog implements IGUI {
             case Eventos.RES_MODIFICAR_CLIENTE_KO_NO_EXISTE:
                 JOptionPane.showMessageDialog(this, "Error: No se encontró ningún cliente con el ID especificado.", "Error", JOptionPane.ERROR_MESSAGE);
                 txtId.requestFocus();
+                pBotones.setVisible(true);
+                pack();
                 break;
 
             case Eventos.RES_MODIFICAR_CLIENTE_KO_DATOS_INVALIDOS:

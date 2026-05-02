@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import integracion.cliente.DAOCliente;
 import integracion.factoria.FactoriaAbstractaIntegracion;
+import integracion.factoria.FactoriaIntegracion;
 import negocio.TOAResumenMensual;
 
 public class SAClienteImp implements SACliente {
@@ -129,4 +130,33 @@ public class SAClienteImp implements SACliente {
 		return toa.getMejorCliente();
 	}
 
+	@Override
+	public int reactivate(TCliente tCliente) {
+	    int res = -1;
+	    DAOCliente dao = FactoriaIntegracion.getInstance().crearDAOCliente();
+	    
+	    // Leemos el empleado que ya existe por su DNI
+	    TCliente existente = dao.readByDNI(tCliente.getDNI());
+	    
+	    if (existente != null) {
+	        
+	        // Actualizamos los datos del cliente existente con los nuevos del formulario
+	    	existente.setNombre(tCliente.getNombre());
+	    	existente.setApellidos(tCliente.getApellidos());
+	    	existente.setTelefono(tCliente.getTelefono());
+	        
+	        // Cambiamos el estado a ACTIVO
+	    	existente.setActivo(true);
+	        
+	        // Persistimos los cambios en el JSON a través del DAO
+	        // El método update del DAO busca por ID y sobreescribe
+	        res = dao.update(existente);
+	        
+	        // Si el update fue bien, devolvemos el ID del cliente reactivado
+	        if (res > 0) {
+	            res = existente.getId();
+	        }
+	    }
+	    return res;
+	}
 }

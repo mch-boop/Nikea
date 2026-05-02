@@ -22,6 +22,7 @@ import javax.swing.SwingUtilities;
 
 import negocio.cliente.TCliente;
 import presentacion.IGUI;
+import presentacion.GUIEmpleado.VistaAnadirEmpleado;
 import presentacion.controlador.Controlador;
 import presentacion.controlador.Eventos;
 
@@ -225,42 +226,24 @@ public class VistaAnadirCliente extends JDialog implements IGUI {
 	                    // El cliente existe inactivo con datos distintos (Caso -2)
 	                    TCliente cliReac = (TCliente) datos;
 	                    
-	                    int respReac = JOptionPane.showConfirmDialog(VistaAnadirCliente.this, 
-	                        "Existe un cliente inactivo con DNI " + cliReac.getDNI() + ".\n" +
-	                        "¿Desea reactivarlo y actualizarlo con los nuevos datos introducidos?", 
-	                        "Confirmar Reactivación y Modificación", 
-	                        JOptionPane.YES_NO_OPTION, 
-	                        JOptionPane.QUESTION_MESSAGE);
+	                    String mensaje = "ATENCION: Conflicto de identidad en el histórico.\n\n" + "El DNI "
+								+ cliReac.getDNI() + " ya existe en la base de datos asociado al cliente: "
+								+ cliReac.getNombre() + " " + cliReac.getApellidos() + ".\n\n" + "Actualmente el cliente está dado de baja.\n"
+								+ "¿Desea reactivar la ficha existente y actualizarla con los nuevos datos introducidos?\n";
+
+						int respReac = JOptionPane.showConfirmDialog(VistaAnadirCliente.this, mensaje,
+								"Reactivación de Cliente", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+
 	                    
 	                    if (respReac == JOptionPane.YES_OPTION) {
 	                        // Al darle a SÍ, enviamos el Transfer con los datos nuevos al controlador
 	                        Controlador.getInstance().accion(Eventos.REACTIVAR_CLIENTE, cliReac);
-	                        VistaAnadirCliente.this.setVisible(false);
-	                        VistaAnadirCliente.this.dispose();
+	                        limpiarCampos(); 
 	                    }
 	                    break;
 	                    
 	                case Eventos.RES_ALTA_CLIENTE_KO:
 	                    JOptionPane.showMessageDialog(VistaAnadirCliente.this, "Error en el sistema de persistencia.", "Error Grave", JOptionPane.ERROR_MESSAGE);
-	                    break;
-	        
-	                case Eventos.RES_ALTA_CLIENTE_KO_DNI:
-	                    JOptionPane.showMessageDialog(VistaAnadirCliente.this, "El DNI introducido no es válido.", "Error de Validación", JOptionPane.ERROR_MESSAGE);
-	                    txtDNI.requestFocus();
-	                    break;
-	        
-	                case Eventos.RES_ALTA_CLIENTE_KO_NOMBRE:
-	                    JOptionPane.showMessageDialog(VistaAnadirCliente.this, "El nombre es obligatorio.", "Error de Validación", JOptionPane.ERROR_MESSAGE);
-	                    txtNombre.requestFocus();
-	                    break;
-	        
-	                case Eventos.RES_ALTA_CLIENTE_KO_APELLIDO:
-	                    JOptionPane.showMessageDialog(VistaAnadirCliente.this, "El apellido es obligatorio para evitar duplicados.", "Error de Validación", JOptionPane.ERROR_MESSAGE);
-	                    txtApellido.requestFocus();
-	                    break;
-	        
-	                case Eventos.RES_ALTA_CLIENTE_KO_TELEFONO:
-	                    JOptionPane.showMessageDialog(VistaAnadirCliente.this, "El teléfono debe ser un número válido.", "Error de Validación", JOptionPane.ERROR_MESSAGE);
 	                    break;
 	        
 	                default:

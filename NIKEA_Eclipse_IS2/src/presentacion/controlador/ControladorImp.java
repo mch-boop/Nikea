@@ -45,9 +45,25 @@ public class ControladorImp extends Controlador {
 				} else if (res == -100) { // DNI pertenece a otra persona
 					vista.actualizar(Eventos.RES_ALTA_CLIENTE_YA_EXISTE_DISTINTO, saCli.getUltimoDuplicado());
 				} else if (res == -2) { // existe inactivo con datos distintos → pedir confirmación
-					vista.actualizar(Eventos.REACTIVAR_CLIENTE, saCli.getUltimoDuplicado());
+					vista.actualizar(Eventos.RES_ALTA_CLIENTE_CONFIRMAR_REACTIVACION, saCli.getUltimoDuplicado());
 				} else {
 					vista.actualizar(Eventos.RES_ALTA_CLIENTE_KO, tCliente);
+				}
+				break;
+			}
+			
+			case Eventos.REACTIVAR_CLIENTE: {
+				TCliente t = (TCliente) datos;
+				SACliente sa = FactoriaAbstractaNegocio.getInstance().crearSACliente();
+
+				// El SA hace un update de los datos y cambiar activo a true
+				int res = sa.reactivate(t);
+
+				IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.ALTA_CLIENTE);
+				if (res > 0) {
+					vista.actualizar(Eventos.RES_ALTA_CLIENTE_OK, res);
+				} else {
+					vista.actualizar(Eventos.RES_ALTA_CLIENTE_KO, res);
 				}
 				break;
 			}

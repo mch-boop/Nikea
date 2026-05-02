@@ -119,6 +119,7 @@ public class VistaEliminarCliente extends JDialog implements IGUI {
                     if (respuesta == JOptionPane.YES_OPTION) {
                         Controlador.getInstance().accion(Eventos.CONFIRMAR_BAJA_CLIENTE, tc.getId());
                     }
+                    txtId.requestFocus();
                     break;
 
                 case Eventos.RES_BAJA_CLIENTE_CONFIRMADA:
