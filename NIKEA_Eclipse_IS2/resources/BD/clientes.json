@@ -16,12 +16,12 @@
         "activo": false
     },
     {
-        "apellidos": "Clientísimo",
-        "teléfono": 11,
+        "apellidos": "clicli",
+        "teléfono": 1,
         "id": 3,
-        "nombre": "Cliente",
+        "nombre": "cliente",
         "DNI": "jiji",
-        "activo": false
+        "activo": true
     },
     {
         "apellidos": "Comprador",

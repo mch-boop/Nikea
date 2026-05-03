@@ -53,12 +53,9 @@ public class VistaModificarCliente extends JDialog implements IGUI {
         // Listener de botón Cancelar
         btnCancelar.addActionListener(e -> {
         	// Cerrar ventana.
-        	panelEdicion.setVisible(false);
-        	txtId.setText("");
-            txtId.setEditable(true);  
+        	
             setVisible(false);
-            pack();
-            dispose();
+            
         });
         
         btnBuscar.addActionListener(e -> {
@@ -313,16 +310,31 @@ public class VistaModificarCliente extends JDialog implements IGUI {
     
     @Override
     public void setVisible(boolean b) {
-        if (b) limpiarCampos();
+        if (b) {
+            // Restaurar estado inicial cuando se abre la ventana
+            limpiarCampos();
+            panelEdicion.setVisible(false);  // ✓ AÑADIR ESTA LÍNEA
+            pBotones.setVisible(true);       // ✓ AÑADIR ESTA LÍNEA
+            txtId.setEditable(true);         // ✓ AÑADIR ESTA LÍNEA
+            txtId.setText("");               // ✓ AÑADIR ESTA LÍNEA
+        }
+        pack();
         super.setVisible(b);
     }
 
-	private void limpiarCampos() {
-		txtNombre.setText("");
+    private void limpiarCampos() {
+        txtNombre.setText("");
         txtApellido.setText("");
         txtTelefono.setText("");
         txtDNI.setText("");
+        
+        // Limpiar también los campos de solo lectura
+        txtNombreAct.setText("");
+        txtApellidoAct.setText("");
+        txtTelefonoAct.setText("");
+        txtDNIAct.setText("");
+        
         pack(); 
         setLocationRelativeTo(null);
-	}
+    }
 }
