@@ -66,8 +66,7 @@ public class DAOEmpleadoImp implements DAOEmpleado {
 
     @Override
     public Collection<TEmpleado> readAll() {
-    	
-    	List<TEmpleado> lista = new ArrayList<>();
+        List<TEmpleado> lista = new ArrayList<>();
         File file = new File(PATH);
         
         if (!file.exists()) return lista;
@@ -79,21 +78,17 @@ public class DAOEmpleadoImp implements DAOEmpleado {
             for (int i = 0; i < array.length(); i++) {
                 JSONObject obj = array.getJSONObject(i);
                 
-                /*
-                   Al leer cada objeto del JSON, miramos el campo "tipo":
-                   - Si tipo == 1 -> instanciamos TVendedor y mapeamos 'numeroVentas'.
-                   - Si tipo == 2 -> instanciamos TMontador.
-                */
                 TEmpleado e;
                 int tipo = obj.getInt("tipo");
                 
-                if (tipo == 1) {
-                    e = new TVendedor();
-                } else {
+                if (tipo == 1) { // Vendedor
+                    TVendedor v = new TVendedor();
+                    v.setNumeroVentas(obj.optInt("numeroVentas", 0));
+                    e = v;
+                } else { // Montador (tipo 2)
                     e = new TMontador();
                 }
                 
-                // Datos comunes
                 e.setId(obj.getInt("id"));
                 e.setNombre(obj.getString("nombre"));
                 e.setApellido(obj.getString("apellido"));
@@ -102,30 +97,41 @@ public class DAOEmpleadoImp implements DAOEmpleado {
                 e.setActivo(obj.getBoolean("activo"));
                 e.setTipo(tipo);
                 
-                // Datos específicos (cada clase sabe qué leer del JSON)
-                e.fromJSON(obj);
-                
                 lista.add(e);
             }
         } catch (Exception e) {
-            // Si hay error (archivo mal formado), devolvemos lista vacía
             e.printStackTrace();
         }
         return lista;
     }
-
+    
     private void guardarEnArchivo(Collection<TEmpleado> lista) {
-        // Convierte la lista a JSON y sobrescribe empleados.json
-    	JSONArray array = new JSONArray();
+        JSONArray array = new JSONArray();
+        
         for (TEmpleado e : lista) {
-            // Cada objeto genera su propio JSONObject
-            array.put(e.asJSON());
+            JSONObject obj = new JSONObject();
+            
+            // Datos comunes 
+            obj.put("id", e.getId());
+            obj.put("nombre", e.getNombre());
+            obj.put("apellido", e.getApellido());
+            obj.put("dni", e.getDNI());
+            obj.put("sueldo", e.getSueldo());
+            obj.put("activo", e.isActivo());
+            obj.put("tipo", e.getTipo()); 
+
+            // Datos específicos basados en el valor de getTipo()
+            if (e.getTipo() == 1) {
+                TVendedor v = (TVendedor) e;
+                obj.put("numeroVentas", v.getNumeroVentas());
+            }           
+            array.put(obj);
         }
 
         try (FileOutputStream os = new FileOutputStream(new File(PATH))) {
             os.write(array.toString(4).getBytes());
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
     }
 }

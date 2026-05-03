@@ -47,5 +47,15 @@
         "dni": "444R",
         "numeroVentas": 0,
         "activo": false
+    },
+    {
+        "tipo": 1,
+        "apellido": "San",
+        "sueldo": 1200,
+        "id": 6,
+        "nombre": "Sepi",
+        "dni": "777H",
+        "numeroVentas": 0,
+        "activo": true
     }
 ]

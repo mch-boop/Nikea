@@ -19,20 +19,6 @@ public class TVendedor extends TEmpleado {
         this.numeroVentas = numeroVentas;
     }
     
-    // Métodos de traducción de/a JSON
-    @Override
-    public JSONObject asJSON() {
-        JSONObject obj = super.asJSON();
-        // Añadimos lo específico de Vendedor
-        obj.put("numeroVentas", this.numeroVentas);
-        return obj;
-    }
-
-    @Override
-    public void fromJSON(JSONObject obj) {
-        this.numeroVentas = obj.optInt("numeroVentas", 0);
-    }
-
     // Getters y Setters
     public Integer getNumeroVentas() {
         return numeroVentas;
