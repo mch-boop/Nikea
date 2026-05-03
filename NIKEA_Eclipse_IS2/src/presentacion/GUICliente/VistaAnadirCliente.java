@@ -22,7 +22,6 @@ import javax.swing.SwingUtilities;
 
 import negocio.cliente.TCliente;
 import presentacion.IGUI;
-import presentacion.GUIEmpleado.VistaAnadirEmpleado;
 import presentacion.controlador.Controlador;
 import presentacion.controlador.Eventos;
 
