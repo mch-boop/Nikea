@@ -75,7 +75,11 @@ public class VistaAltaServicio extends JDialog implements IGUI {
         txtDescripcion.setLineWrap(true);
         txtDescripcion.setWrapStyleWord(true);
         spStock = new JSpinner(new SpinnerNumberModel(0, 0, Integer.MAX_VALUE, 1));
-        spPrecio = new JSpinner(new SpinnerNumberModel(0, 0, Integer.MAX_VALUE, 10));
+        SpinnerNumberModel precioModel = new SpinnerNumberModel(0.0, 0.0, 1000000.0, 10.0);
+        spPrecio = new JSpinner(precioModel);
+        JSpinner.NumberEditor editor = new JSpinner.NumberEditor(spPrecio, "0.00");
+        spPrecio.setEditor(editor);
+        editor.getTextField().setColumns(10);
 
         rbArticulo = new JRadioButton("Artículo", true);
         rbMontaje = new JRadioButton("Montaje");

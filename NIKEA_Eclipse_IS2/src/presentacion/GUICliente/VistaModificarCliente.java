@@ -235,6 +235,7 @@ public class VistaModificarCliente extends JDialog implements IGUI {
                 
                 pBotones.setVisible(true);
                 pack();
+                setLocationRelativeTo(null);
             }
         });
         
@@ -247,6 +248,7 @@ public class VistaModificarCliente extends JDialog implements IGUI {
         	panelEdicion.setVisible(false);
         	pBotones.setVisible(true);
             pack();
+            setLocationRelativeTo(null);
         });
         
         panelBotones.add(btnModificar); 
@@ -276,6 +278,7 @@ public class VistaModificarCliente extends JDialog implements IGUI {
                 panelEdicion.setVisible(true);
                 txtId.setEditable(false);
                 pack();
+                setLocationRelativeTo(null);
                 break;
                 
             case Eventos.RES_MODIFICAR_CLIENTE_OK:
@@ -287,6 +290,7 @@ public class VistaModificarCliente extends JDialog implements IGUI {
                 txtId.setEditable(true);
                 txtId.setText("");
                 pack();
+                setLocationRelativeTo(null);
                 break;
                 
             case Eventos.RES_MODIFICAR_CLIENTE_KO_NO_EXISTE:
@@ -294,6 +298,7 @@ public class VistaModificarCliente extends JDialog implements IGUI {
                 txtId.requestFocus();
                 pBotones.setVisible(true);
                 pack();
+                setLocationRelativeTo(null);
                 break;
 
             case Eventos.RES_MODIFICAR_CLIENTE_KO_DATOS_INVALIDOS:
@@ -317,5 +322,7 @@ public class VistaModificarCliente extends JDialog implements IGUI {
         txtApellido.setText("");
         txtTelefono.setText("");
         txtDNI.setText("");
+        pack(); 
+        setLocationRelativeTo(null);
 	}
 }

@@ -10,10 +10,10 @@
     },
     {
         "codigo": "dos",
-        "tipo": false,
+        "tipo": true,
         "id": 2,
         "porcentaje": 2,
-        "cantidad": 10,
+        "cantidad": 100,
         "nombre": "2",
         "activo": true
     },

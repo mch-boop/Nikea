@@ -39,7 +39,18 @@ public class VistaModificarDescuento extends JDialog implements IGUI {
 
 	private void initGUI() {
 		cardLayout = new CardLayout();
-		cardPanel = new JPanel(cardLayout);
+		cardPanel = new JPanel(cardLayout) {
+			@Override
+			public Dimension getPreferredSize() {
+				// Obtenemos el componente que se está mostrando actualmente
+				for (Component comp : getComponents()) {
+					if (comp.isVisible()) {
+						return comp.getPreferredSize();
+					}
+				}
+				return super.getPreferredSize();
+			}
+		};
 
 		cardPanel.add(buildPanelBusqueda(), CARD_BUSQUEDA);
 		cardPanel.add(buildPanelFormulario(), CARD_FORMULARIO);
@@ -116,11 +127,13 @@ public class VistaModificarDescuento extends JDialog implements IGUI {
 		txtDescuento = new JTextField(20);
 
 		// Spinners
-		SpinnerNumberModel importeModel = new SpinnerNumberModel(100.0, 0.0, null, 10.0);
+		SpinnerNumberModel importeModel = new SpinnerNumberModel(100.0, 0.0, 1000000.0, 10.0);
 		importeMin = new JSpinner(importeModel);
-		((JSpinner.NumberEditor) importeMin.getEditor()).getTextField().setColumns(10);
+		JSpinner.NumberEditor editor = new JSpinner.NumberEditor(importeMin, "0.00");
+		importeMin.setEditor(editor);
+		editor.getTextField().setColumns(10);
 
-		SpinnerNumberModel productosModel = new SpinnerNumberModel(10, 0, null, 1);
+		SpinnerNumberModel productosModel = new SpinnerNumberModel(10, 0, 10000, 1);
 		productosMin = new JSpinner(productosModel);
 		((JSpinner.NumberEditor) productosMin.getEditor()).getTextField().setColumns(10);
 
@@ -251,11 +264,37 @@ public class VistaModificarDescuento extends JDialog implements IGUI {
 		return mainPanel;
 	}
 
+	public void configurarPlaceholder(JTextField textField, String texto) {
+		// Configuramos el estado inicial
+		textField.setText(texto);
+		textField.setForeground(Color.GRAY);
+
+		textField.addFocusListener(new java.awt.event.FocusAdapter() {
+			@Override
+			public void focusGained(java.awt.event.FocusEvent e) {
+				// Si al entrar el texto es el del placeholder, lo limpiamos para escribir
+				if (textField.getText().equals(texto)) {
+					textField.setText("");
+					textField.setForeground(Color.BLACK);
+				}
+			}
+
+			@Override
+			public void focusLost(java.awt.event.FocusEvent e) {
+				// Si al salir el usuario no ha escrito nada, restauramos el placeholder
+				if (textField.getText().isEmpty()) {
+					textField.setText(texto);
+					textField.setForeground(Color.GRAY);
+				}
+			}
+		});
+	}
+
 	private void cargarDescuento(TDescuento td) {
 		idActual = td.getId();
-		txtCodigo.setText(td.getCodigo());
+		configurarPlaceholder(txtCodigo, td.getCodigo()); 
+		configurarPlaceholder(txtDescuento, String.valueOf(td.getPorcentaje())); 
 		areaDescripcion.setText(td.getNombre());
-		txtDescuento.setText(String.valueOf(td.getPorcentaje()));
 
 		CardLayout cl = (CardLayout) panelDinamico.getLayout();
 		if (td.isTipo()) { // true = por importe
@@ -270,6 +309,7 @@ public class VistaModificarDescuento extends JDialog implements IGUI {
 
 		cardLayout.show(cardPanel, CARD_FORMULARIO);
 		pack();
+		setLocationRelativeTo(null);
 	}
 
 	@Override
@@ -284,7 +324,7 @@ public class VistaModificarDescuento extends JDialog implements IGUI {
 			case Eventos.RES_CARGAR_DESCUENTO_MOD_KO:
 				JOptionPane.showMessageDialog(this, "No se encontró ningún descuento activo con ese ID.",
 						"No encontrado", JOptionPane.WARNING_MESSAGE);
-                SwingUtilities.invokeLater(() -> txtIdBuscar.requestFocus());
+				SwingUtilities.invokeLater(() -> txtIdBuscar.requestFocus());
 				break;
 
 			case Eventos.RES_MODIFICAR_DESCUENTO_OK:
@@ -294,31 +334,32 @@ public class VistaModificarDescuento extends JDialog implements IGUI {
 				txtIdBuscar.setText("");
 				cardLayout.show(cardPanel, CARD_BUSQUEDA);
 				pack();
+				setLocationRelativeTo(null);
 				break;
 
 			case Eventos.RES_MODIFICAR_DESCUENTO_NO_ENCONTRADO:
 				JOptionPane.showMessageDialog(this, "No se encontró el descuento a modificar.", "Error",
 						JOptionPane.ERROR_MESSAGE);
-                SwingUtilities.invokeLater(() -> txtIdBuscar.requestFocus());
+				SwingUtilities.invokeLater(() -> txtIdBuscar.requestFocus());
 				break;
 
 			case Eventos.RES_MODIFICAR_DESCUENTO_KO_CODIGO:
 				JOptionPane.showMessageDialog(this, "El código no es válido o está vacío.", "Error",
 						JOptionPane.ERROR_MESSAGE);
-                SwingUtilities.invokeLater(() -> txtCodigo.requestFocus());
+				SwingUtilities.invokeLater(() -> txtCodigo.requestFocus());
 				break;
 
 			case Eventos.RES_MODIFICAR_DESCUENTO_KO_PORCENTAJE:
 				JOptionPane.showMessageDialog(this, "El porcentaje debe estar entre 1 y 100.", "Error",
 						JOptionPane.ERROR_MESSAGE);
-                SwingUtilities.invokeLater(() -> txtDescuento.requestFocus());
+				SwingUtilities.invokeLater(() -> txtDescuento.requestFocus());
 
 				break;
 
 			case Eventos.RES_MODIFICAR_DESCUENTO_KO:
 				JOptionPane.showMessageDialog(this, "Error al guardar los cambios.", "Error grave",
 						JOptionPane.ERROR_MESSAGE);
-                SwingUtilities.invokeLater(() -> txtCodigo.requestFocus());
+				SwingUtilities.invokeLater(() -> txtCodigo.requestFocus());
 				break;
 
 			default:
@@ -337,7 +378,9 @@ public class VistaModificarDescuento extends JDialog implements IGUI {
 	}
 
 	private void limpiarCampos() {
-
-		pack();
+		txtIdBuscar.setText("");
+		cardLayout.show(cardPanel, CARD_BUSQUEDA); // Volver a la búsqueda
+		pack(); // Reajustar tamaño
+		setLocationRelativeTo(null);
 	}
 }

@@ -58,11 +58,13 @@ public class VistaAltaDescuento extends JDialog implements IGUI {
         txtDescuento = new JTextField(20);
 
         //DINAMICO (Cantidad/Importe)
-        SpinnerNumberModel importeModel = new SpinnerNumberModel(100.0, 0.0, null, 10.0);
+        SpinnerNumberModel importeModel = new SpinnerNumberModel(100.0, 0.0, 1000000.0, 10.0);
         importeMin = new JSpinner(importeModel);
-        ((JSpinner.NumberEditor)importeMin.getEditor()).getTextField().setColumns(10);
+        JSpinner.NumberEditor editor = new JSpinner.NumberEditor(importeMin, "0.00");
+        importeMin.setEditor(editor);
+        editor.getTextField().setColumns(10);
         
-        SpinnerNumberModel productosModel = new SpinnerNumberModel(10, 0, null, 1);
+        SpinnerNumberModel productosModel = new SpinnerNumberModel(10, 0, 10000, 1);
         productosMin = new JSpinner(productosModel);
         ((JSpinner.NumberEditor)productosMin.getEditor()).getTextField().setColumns(10);
 
