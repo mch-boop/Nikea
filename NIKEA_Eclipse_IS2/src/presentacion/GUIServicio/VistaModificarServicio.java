@@ -26,6 +26,9 @@ import negocio.servicio.TArticulo;
 import negocio.servicio.TMontaje;
 import negocio.servicio.TServicio;
 import presentacion.IGUI;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 import presentacion.controlador.Controlador;
 import presentacion.controlador.Eventos;
 
@@ -44,6 +47,9 @@ public class VistaModificarServicio extends JDialog implements IGUI {
 	private JTextField txtStockAct;
 	private JTextField txtPrecioActualAct;
 	private JTextField txtTipoAct;
+	private JTextField txtMarcaAct;
+	private JComboBox<String> comboMarcas;
+	private Map<String, Integer> marcasMap;
 
 	private JButton btnBuscar;
 	private JButton btnModificar;
@@ -86,7 +92,6 @@ public class VistaModificarServicio extends JDialog implements IGUI {
 				}
 
 				int id = Integer.parseInt(txtId.getText().trim());
-				pBotones.setVisible(false);
 				Controlador.getInstance().accion(Eventos.BUSCAR_SERVICIO_PARA_MODIFICAR, id);
 			} catch (NumberFormatException ex) {
 				JOptionPane.showMessageDialog(this, "Asegúrese de que el ID sea un número válido.", "Error", JOptionPane.ERROR_MESSAGE);
@@ -130,6 +135,7 @@ public class VistaModificarServicio extends JDialog implements IGUI {
 		GridBagConstraints gbc = new GridBagConstraints();
 		gbc.fill = GridBagConstraints.HORIZONTAL;
 		gbc.insets = new Insets(5, 5, 5, 5);
+		gbc.anchor = GridBagConstraints.WEST;
 
 		txtNombre = new JTextField(20);
 		txtDescripcion = new JTextArea(4, 20);
@@ -138,6 +144,7 @@ public class VistaModificarServicio extends JDialog implements IGUI {
 		txtStock = new JTextField(20);
 		txtPrecioActual = new JTextField(20);
 		comboTipo = new JComboBox<>(new String[] {"Artículo", "Montaje"});
+		comboTipo.setEnabled(false);
 
 		txtNombre.setToolTipText("Deje este campo vacío para conservar el nombre actual");
 		txtDescripcion.setToolTipText("Deje este campo vacío para conservar la descripción actual");
@@ -150,12 +157,18 @@ public class VistaModificarServicio extends JDialog implements IGUI {
 		txtDescripcionAct.setEditable(false);
 		txtDescripcionAct.setLineWrap(true);
 		txtDescripcionAct.setWrapStyleWord(true);
+		txtDescripcionAct.setBackground(txtNombreAct.getBackground());
 		txtStockAct = new JTextField(20);
 		txtStockAct.setEditable(false);
 		txtPrecioActualAct = new JTextField(20);
 		txtPrecioActualAct.setEditable(false);
 		txtTipoAct = new JTextField(20);
 		txtTipoAct.setEditable(false);
+
+		marcasMap = new HashMap<>();
+		txtMarcaAct = new JTextField(20);
+		txtMarcaAct.setEditable(false);
+		comboMarcas = new JComboBox<>();
 
 		gbc.gridy = 0;
 		gbc.gridx = 1;
@@ -203,6 +216,14 @@ public class VistaModificarServicio extends JDialog implements IGUI {
 		gbc.gridx = 2;
 		panelDatos.add(comboTipo, gbc);
 
+		gbc.gridy = 6;
+		gbc.gridx = 0;
+		panelDatos.add(new JLabel("Marca:"), gbc);
+		gbc.gridx = 1;
+		panelDatos.add(txtMarcaAct, gbc);
+		gbc.gridx = 2;
+		panelDatos.add(comboMarcas, gbc);
+
 		JPanel panelBotones = new JPanel();
 		btnModificar = new JButton("GUARDAR CAMBIOS");
 		btnCancelarModif = new JButton("CANCELAR");
@@ -213,9 +234,10 @@ public class VistaModificarServicio extends JDialog implements IGUI {
 					return;
 				}
 
-				TServicio datosNuevos = comboTipo.getSelectedIndex() == 0 ? new TArticulo() : new TMontaje();
+				Integer tipoOriginal = servicioEncontrado.getTipo();
+				TServicio datosNuevos = tipoOriginal != null && tipoOriginal == 2 ? new TMontaje() : new TArticulo();
 				datosNuevos.setId(servicioEncontrado.getId());
-				datosNuevos.setTipo(comboTipo.getSelectedIndex() == 0 ? 1 : 2);
+				datosNuevos.setTipo(tipoOriginal);
 
 				datosNuevos.setNombre(txtNombre.getText().trim().isEmpty() ? null : txtNombre.getText().trim());
 				datosNuevos.setDescripcion(txtDescripcion.getText().trim().isEmpty() ? null : txtDescripcion.getText().trim());
@@ -232,6 +254,26 @@ public class VistaModificarServicio extends JDialog implements IGUI {
 					datosNuevos.setPrecioActual(Integer.parseInt(txtPrecioActual.getText().trim()));
 				}
 
+				// Asignar marca si es Artículo y ha cambiado
+				if (servicioEncontrado.getTipo() == 1 && comboMarcas.getSelectedIndex() != -1) {
+					String marcaNombreSeleccionada = (String) comboMarcas.getSelectedItem();
+					Integer marcaId = marcasMap.get(marcaNombreSeleccionada);
+					((TArticulo) datosNuevos).setMarcaId(marcaId);
+					datosNuevos.setMarca(marcaNombreSeleccionada);
+				}
+
+				int confirmacion = JOptionPane.showConfirmDialog(
+					this,
+					"Se va a modificar el servicio con ID " + servicioEncontrado.getId() + ".\n¿Está seguro de que desea aplicar los cambios?",
+					"Confirmar Modificación",
+					JOptionPane.YES_NO_OPTION,
+					JOptionPane.WARNING_MESSAGE
+				);
+
+				if (confirmacion != JOptionPane.YES_OPTION) {
+					return;
+				}
+
 				Controlador.getInstance().accion(Eventos.MODIFICAR_SERVICIO, datosNuevos);
 			} catch (NumberFormatException ex) {
 				JOptionPane.showMessageDialog(this, "El stock y el precio deben ser números válidos.", "Error", JOptionPane.ERROR_MESSAGE);
@@ -244,7 +286,7 @@ public class VistaModificarServicio extends JDialog implements IGUI {
 			limpiarCamposEdicion();
 			panelEdicion.setVisible(false);
 			pBotones.setVisible(true);
-			pack();
+			ajustarVentana();
 		});
 
 		panelBotones.add(btnModificar);
@@ -267,24 +309,58 @@ public class VistaModificarServicio extends JDialog implements IGUI {
 					txtStockAct.setText(servicioEncontrado.getStock() != null ? String.valueOf(servicioEncontrado.getStock()) : "");
 					txtPrecioActualAct.setText(servicioEncontrado.getPrecioActual() != null ? String.valueOf(servicioEncontrado.getPrecioActual()) : "");
 					txtTipoAct.setText(tipoToTexto(servicioEncontrado.getTipo()));
+				txtMarcaAct.setText(safe(servicioEncontrado.getMarca()));
 
-					comboTipo.setSelectedIndex(servicioEncontrado.getTipo() != null && servicioEncontrado.getTipo() == 2 ? 1 : 0);
+				comboTipo.setSelectedIndex(servicioEncontrado.getTipo() != null && servicioEncontrado.getTipo() == 2 ? 1 : 0);
+
+				// Habilitar/deshabilitar comboMarcas según el tipo
+				if (servicioEncontrado.getTipo() == 1) {
+					comboMarcas.setEnabled(true);
+					// Seleccionar la marca actual si existe
+					if (servicioEncontrado.getMarca() != null) {
+						comboMarcas.setSelectedItem(servicioEncontrado.getMarca());
+					}
+				} else {
+					comboMarcas.setEnabled(false);
+					comboMarcas.setSelectedIndex(-1);
+				}
 
 					txtId.setText(String.valueOf(servicioEncontrado.getId()));
 					txtId.setEditable(false);
 
 					panelEdicion.setVisible(true);
 					pBotones.setVisible(false);
-					pack();
-					setLocationRelativeTo(null);
-					setVisible(true);
+					ajustarVentana();
 					break;
 
 				case Eventos.RES_BUSCAR_SERVICIO_PARA_MODIFICAR_KO:
 					JOptionPane.showMessageDialog(this, "Error: No se encontró ningún servicio con el ID especificado.", "Error", JOptionPane.ERROR_MESSAGE);
+					panelEdicion.setVisible(false);
+					pBotones.setVisible(true);
 					txtId.requestFocus();
+					ajustarVentana();
 					break;
+			case Eventos.RES_CARGAR_MARCAS_PARA_SERVICIO_OK:
+				@SuppressWarnings("unchecked")
+				Collection<Object> listaMarcas = (Collection<Object>) datos;
+				marcasMap.clear();
+				comboMarcas.removeAllItems();
+				for (Object marcaObj : listaMarcas) {
+					try {
+						// Usar reflection para obtener nombre e id sin importar TMarca
+						String nombre = (String) marcaObj.getClass().getMethod("getNombre").invoke(marcaObj);
+						Integer id = (Integer) marcaObj.getClass().getMethod("getId").invoke(marcaObj);
+						marcasMap.put(nombre, id);
+						comboMarcas.addItem(nombre);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+				break;
 
+			case Eventos.RES_CARGAR_MARCAS_PARA_SERVICIO_KO:
+				JOptionPane.showMessageDialog(this, "No se pudieron cargar las marcas disponibles.", "Aviso", JOptionPane.WARNING_MESSAGE);
+				break;
 				case Eventos.RES_MODIFICAR_SERVICIO_OK:
 					JOptionPane.showMessageDialog(this, "Servicio modificado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
 					txtId.setEditable(true);
@@ -292,11 +368,12 @@ public class VistaModificarServicio extends JDialog implements IGUI {
 					limpiarTodo();
 					panelEdicion.setVisible(false);
 					pBotones.setVisible(true);
-					pack();
+					ajustarVentana();
 					break;
 
 				case Eventos.RES_MODIFICAR_SERVICIO_KO:
 					JOptionPane.showMessageDialog(this, "No se ha podido modificar el servicio.", "Error", JOptionPane.ERROR_MESSAGE);
+					ajustarVentana();
 					break;
 
 				default:
@@ -317,6 +394,8 @@ public class VistaModificarServicio extends JDialog implements IGUI {
 		txtStockAct.setText("");
 		txtPrecioActualAct.setText("");
 		txtTipoAct.setText("");
+		txtMarcaAct.setText("");
+		comboMarcas.setSelectedIndex(-1);
 	}
 
 	private void limpiarTodo() {
@@ -336,11 +415,23 @@ public class VistaModificarServicio extends JDialog implements IGUI {
 		return tipo == 1 ? "Artículo" : "Montaje";
 	}
 	
-	// reset
-    
-    @Override
-    public void setVisible(boolean b) {
-        if (b) limpiarTodo();
-        super.setVisible(b);
-    }
+	@Override
+	public void setVisible(boolean b) {
+		if (b && !isVisible()) {
+			limpiarTodo();
+			panelEdicion.setVisible(false);
+			pBotones.setVisible(true);
+			txtId.setEditable(true);
+			txtId.setText("");
+			// Cargar marcas cuando se abre
+			Controlador.getInstance().accion(Eventos.CARGAR_MARCAS_PARA_SERVICIO, this);
+			ajustarVentana();
+		}
+		super.setVisible(b);
+	}
+
+	private void ajustarVentana() {
+		pack();
+		setLocationRelativeTo(null);
+	}
 }

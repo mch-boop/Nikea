@@ -11,6 +11,7 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -30,6 +31,9 @@ import java.awt.event.ActionListener;
 import negocio.servicio.TArticulo;
 import negocio.servicio.TMontaje;
 import negocio.servicio.TServicio;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 import presentacion.IGUI;
 import presentacion.controlador.Controlador;
 import presentacion.controlador.Eventos;
@@ -43,6 +47,8 @@ public class VistaAltaServicio extends JDialog implements IGUI {
     private JSpinner spPrecio;
     private JRadioButton rbArticulo;
     private JRadioButton rbMontaje;
+    private JComboBox<String> comboMarcas;
+    private Map<String, Integer> marcasMap;
     private JButton btnAceptar;
     private JButton btnCancelar;
 
@@ -60,6 +66,7 @@ public class VistaAltaServicio extends JDialog implements IGUI {
         spStock.setValue(0);
         spPrecio.setValue(0);
         rbArticulo.setSelected(true);
+        comboMarcas.setSelectedIndex(-1);
         txtNombre.requestFocus();
         repaint();
         revalidate();
@@ -86,6 +93,17 @@ public class VistaAltaServicio extends JDialog implements IGUI {
         ButtonGroup grupoTipo = new ButtonGroup();
         grupoTipo.add(rbArticulo);
         grupoTipo.add(rbMontaje);
+
+        rbArticulo.addActionListener(e -> {
+            // ComboBox siempre está habilitado
+        });
+        rbMontaje.addActionListener(e -> {
+            comboMarcas.setSelectedIndex(-1);
+        });
+
+        marcasMap = new HashMap<>();
+        comboMarcas = new JComboBox<>();
+        // El comboBox siempre está habilitado para permitir seleccionar marcas
 
         JPanel panelTipo = new JPanel();
         panelTipo.add(rbArticulo);
@@ -139,6 +157,14 @@ public class VistaAltaServicio extends JDialog implements IGUI {
         gbc.weightx = 1.0;
         formPanel.add(panelTipo, gbc);
 
+        gbc.gridx = 0;
+        gbc.gridy = 5;
+        gbc.weightx = 0;
+        formPanel.add(new JLabel("Marca (solo para Artículos):"), gbc);
+        gbc.gridx = 1;
+        gbc.weightx = 1.0;
+        formPanel.add(comboMarcas, gbc);
+
         JPanel panelBotones = new JPanel();
         btnAceptar = new JButton("ACEPTAR");
         btnCancelar = new JButton("CANCELAR");
@@ -165,6 +191,17 @@ public class VistaAltaServicio extends JDialog implements IGUI {
                     if (rbArticulo.isSelected()) {
                         servicio = new TArticulo();
                         servicio.setTipo(1);
+
+                        if (comboMarcas.getSelectedIndex() == -1) {
+                            JOptionPane.showMessageDialog(null, "Error: Debe seleccionar una marca para los artículos.", "Faltan datos", JOptionPane.WARNING_MESSAGE);
+                            comboMarcas.requestFocus();
+                            return;
+                        }
+
+                        String marcaNombreSeleccionada = (String) comboMarcas.getSelectedItem();
+                        Integer marcaId = marcasMap.get(marcaNombreSeleccionada);
+                        ((TArticulo) servicio).setMarcaId(marcaId);
+                        servicio.setMarca(marcaNombreSeleccionada);  // Almacenar también el nombre
                     } else {
                         servicio = new TMontaje();
                         servicio.setTipo(2);
@@ -219,6 +256,56 @@ public class VistaAltaServicio extends JDialog implements IGUI {
     public void actualizar(int evento, Object datos) {
         SwingUtilities.invokeLater(() -> {
             switch (evento) {
+                case Eventos.RES_CARGAR_MARCAS_PARA_SERVICIO_OK:
+                    @SuppressWarnings("unchecked")
+                    Collection<Object> listaMarcas = (Collection<Object>) datos;
+                    marcasMap.clear();
+                    comboMarcas.removeAllItems();
+                    for (Object marcaObj : listaMarcas) {
+                        try {
+                            // Usar reflection para obtener nombre e id sin importar TMarca
+                            String nombre = (String) marcaObj.getClass().getMethod("getNombre").invoke(marcaObj);
+                            Integer id = (Integer) marcaObj.getClass().getMethod("getId").invoke(marcaObj);
+                            marcasMap.put(nombre, id);
+                            comboMarcas.addItem(nombre);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    if (!marcasMap.isEmpty()) {
+                        comboMarcas.setSelectedIndex(0);
+                    }
+                    break;
+
+                case Eventos.RES_CARGAR_MARCAS_PARA_SERVICIO_KO:
+                    JOptionPane.showMessageDialog(this, "No se pudieron cargar las marcas disponibles.", "Aviso", JOptionPane.WARNING_MESSAGE);
+                    break;
+
+                case Eventos.RES_MOSTRAR_MARCAS_OK:
+                    @SuppressWarnings("unchecked")
+                    Collection<Object> listaMarcas2 = (Collection<Object>) datos;
+                    marcasMap.clear();
+                    comboMarcas.removeAllItems();
+                    for (Object marcaObj : listaMarcas2) {
+                        try {
+                            // Usar reflection para obtener nombre e id sin importar TMarca
+                            String nombre = (String) marcaObj.getClass().getMethod("getNombre").invoke(marcaObj);
+                            Integer id = (Integer) marcaObj.getClass().getMethod("getId").invoke(marcaObj);
+                            marcasMap.put(nombre, id);
+                            comboMarcas.addItem(nombre);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    if (!marcasMap.isEmpty()) {
+                        comboMarcas.setSelectedIndex(0);
+                    }
+                    break;
+
+                case Eventos.RES_MOSTRAR_MARCAS_KO:
+                    JOptionPane.showMessageDialog(this, "No se pudieron cargar las marcas disponibles.", "Aviso", JOptionPane.WARNING_MESSAGE);
+                    break;
+
                 case Eventos.RES_ALTA_SERVICIO_OK:
                     limpiarCampos();
                     JOptionPane.showMessageDialog(this, "Servicio creado con ID: " + datos, "Éxito", JOptionPane.INFORMATION_MESSAGE);
@@ -248,7 +335,10 @@ public class VistaAltaServicio extends JDialog implements IGUI {
     
     @Override
     public void setVisible(boolean b) {
-        if (b) limpiarCampos();
+        if (b) {
+            limpiarCampos();
+            Controlador.getInstance().accion(Eventos.CARGAR_MARCAS_PARA_SERVICIO, this);
+        }
         super.setVisible(b);
     }
 }

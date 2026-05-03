@@ -108,6 +108,7 @@ public class SAServicioImp implements SAServicio {
                 if (ts.getDescripcion() == null) ts.setDescripcion(existente.getDescripcion());
                 if (ts.getStock() == null) ts.setStock(existente.getStock());
                 if (ts.getPrecioActual() == null) ts.setPrecioActual(existente.getPrecioActual());
+                if (ts.getMarca() == null) ts.setMarca(existente.getMarca());
 
                 ts.setActivo(existente.isActivo());
 
@@ -118,6 +119,7 @@ public class SAServicioImp implements SAServicio {
                 if (ts.getDescripcion() != null) existente.setDescripcion(ts.getDescripcion());
                 if (ts.getStock() != null) existente.setStock(ts.getStock());
                 if (ts.getPrecioActual() != null) existente.setPrecioActual(ts.getPrecioActual());
+                if (ts.getMarca() != null) existente.setMarca(ts.getMarca());
 
                 return dao.update(existente);
             }

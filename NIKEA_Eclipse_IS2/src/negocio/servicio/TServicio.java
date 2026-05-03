@@ -12,6 +12,7 @@ public abstract class TServicio {
 	private Integer precioActual;
 	private boolean activo;
 	private Integer tipo;
+	private String marca;
 	
 	// MÉTODOS
 
@@ -38,6 +39,7 @@ public abstract class TServicio {
 		obj.put("precioActual", this.precioActual);
 		obj.put("activo", this.activo);
 		obj.put("tipo", this.tipo);
+		obj.put("marca", this.marca);
 		return obj;
 	}
 
@@ -50,6 +52,7 @@ public abstract class TServicio {
 		this.precioActual = obj.has("precioActual") && !obj.isNull("precioActual") ? obj.getInt("precioActual") : null;
 		this.activo = obj.has("activo") && !obj.isNull("activo") ? obj.getBoolean("activo") : true;
 		this.tipo = obj.has("tipo") && !obj.isNull("tipo") ? obj.getInt("tipo") : null;
+		this.marca = obj.has("marca") && !obj.isNull("marca") ? obj.getString("marca") : null;
 	}
 
 	public Integer getId() {
@@ -108,10 +111,18 @@ public abstract class TServicio {
 		this.tipo = tipo;
 	}
 
+	public String getMarca() {
+		return marca;
+	}
+
+	public void setMarca(String marca) {
+		this.marca = marca;
+	}
+
 	@Override
 	public String toString() {
 		return "TServicio [ID=" + id + ", Nombre=" + nombre + ", Descripcion=" + descripcion + ", Stock=" + stock
-				+ ", PrecioActual=" + precioActual + ", Activo=" + activo + ", Tipo=" + tipo + "]";
+				+ ", PrecioActual=" + precioActual + ", Activo=" + activo + ", Tipo=" + tipo + ", Marca=" + marca + "]";
 	}
 	
 

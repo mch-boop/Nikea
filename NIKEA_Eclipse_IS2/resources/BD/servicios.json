@@ -3,8 +3,10 @@
         "descripcion": "LOL",
         "precioActual": 1,
         "tipo": 1,
+        "ventas": 0,
         "id": 1,
         "stock": 1,
+        "idMarca": 0,
         "nombre": "LOL",
         "activo": false
     },
@@ -21,10 +23,12 @@
         "descripcion": "pata de palo madera",
         "precioActual": 9,
         "tipo": 1,
+        "ventas": 0,
         "id": 3,
         "stock": 3,
+        "idMarca": 0,
         "nombre": "patapalo",
-        "activo": true
+        "activo": false
     },
     {
         "descripcion": "casi sillas metal vintage",
@@ -33,14 +37,16 @@
         "id": 4,
         "stock": 17,
         "nombre": "casillas",
-        "activo": true
+        "activo": false
     },
     {
         "descripcion": "pata",
         "precioActual": 12,
         "tipo": 1,
+        "ventas": 0,
         "id": 5,
         "stock": 23,
+        "idMarca": 0,
         "nombre": "pata",
         "activo": false
     },
@@ -48,17 +54,21 @@
         "descripcion": "2",
         "precioActual": 10,
         "tipo": 1,
+        "ventas": 0,
         "id": 6,
         "stock": 1,
+        "idMarca": 0,
         "nombre": "2",
-		"activo": true
-	},
-	{
+        "activo": false
+    },
+    {
         "descripcion": "metaliccas1",
         "precioActual": 34,
         "tipo": 1,
+        "ventas": 0,
         "id": 6,
         "stock": 2,
+        "idMarca": 0,
         "nombre": "canastas",
         "activo": false
     },
@@ -66,8 +76,10 @@
         "descripcion": "madera y pelo de cabello natural",
         "precioActual": 7,
         "tipo": 1,
+        "ventas": 0,
         "id": 7,
         "stock": 100,
+        "idMarca": 0,
         "nombre": "cepillo",
         "activo": false
     },
@@ -75,9 +87,23 @@
         "descripcion": "prueba",
         "precioActual": -23,
         "tipo": 1,
+        "ventas": 0,
         "id": 8,
         "stock": -1,
+        "idMarca": 0,
         "nombre": "jlprueba",
+        "activo": false
+    },
+    {
+        "descripcion": "s",
+        "precioActual": 20,
+        "marca": "Nikea",
+        "tipo": 1,
+        "ventas": 0,
+        "id": 9,
+        "stock": 1,
+        "idMarca": 0,
+        "nombre": "Sex",
         "activo": true
     }
 ]

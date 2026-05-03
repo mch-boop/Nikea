@@ -49,7 +49,7 @@ public class VistaMostrarServicios extends JDialog implements IGUI {
         JPanel mainPanel = new JPanel(new BorderLayout(10, 10));
         mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
-        String[] columnas = {"ID", "NOMBRE", "DESCRIPCIÓN", "STOCK", "PRECIO", "TIPO"};
+        String[] columnas = {"ID", "NOMBRE", "DESCRIPCIÓN", "STOCK", "PRECIO", "TIPO", "MARCA"};
         modeloTabla = new DefaultTableModel(columnas, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -109,7 +109,8 @@ public class VistaMostrarServicios extends JDialog implements IGUI {
                                     ts.getDescripcion(),
                                     ts.getStock(),
                                     ts.getPrecioActual(),
-                                    ts.getTipo() != null && ts.getTipo() == 1 ? "Artículo" : "Montaje"
+                                    ts.getTipo() != null && ts.getTipo() == 1 ? "Artículo" : "Montaje",
+                                    ts.getMarca() != null ? ts.getMarca() : "-"
                                 };
                                 modeloTabla.addRow(fila);
                                 hayActivos = true;

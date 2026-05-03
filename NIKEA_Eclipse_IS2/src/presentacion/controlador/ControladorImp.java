@@ -730,6 +730,20 @@ public class ControladorImp extends Controlador {
 				break;
 			}
 
+			case Eventos.CARGAR_MARCAS_PARA_SERVICIO: {
+				SAMarca saMarca = FactoriaAbstractaNegocio.getInstance().crearSAMarca();
+				Collection<TMarca> lista = saMarca.readAll();
+
+				IGUI vista = (IGUI) datos;
+
+				if (lista != null && !lista.isEmpty()) {
+					vista.actualizar(Eventos.RES_CARGAR_MARCAS_PARA_SERVICIO_OK, lista);
+				} else {
+					vista.actualizar(Eventos.RES_CARGAR_MARCAS_PARA_SERVICIO_KO, null);
+				}
+				break;
+			}
+
 			// EVENTOS DE DESCUENTO
 
 			case Eventos.ALTA_DESCUENTO: {

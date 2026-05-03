@@ -78,7 +78,7 @@ public class SAResumenMensualImp implements SAResumenMensual {
                 TArticulo art = (TArticulo) servicioDAO.read(idProducto);
 
                 if (art != null) {
-                	int marca = art.getMarca();
+                	int marca = art.getMarcaId();
 
                     ventasMarca.put(marca,
                         ventasMarca.getOrDefault(marca, 0.0) + subtotal);

@@ -271,4 +271,8 @@ public class Eventos {
     public static final int ORGANIZAR_MONTAJE = 607;
     public static final int RES_ORGANIZAR_MONTAJE_OK = 6071;
 
+    public static final int CARGAR_MARCAS_PARA_SERVICIO = 608;
+    public static final int RES_CARGAR_MARCAS_PARA_SERVICIO_OK = 6081;
+    public static final int RES_CARGAR_MARCAS_PARA_SERVICIO_KO = 6080;
+
 }

@@ -112,20 +112,24 @@ public class VistaEliminarServicio extends JDialog implements IGUI {
                     if (respuesta == JOptionPane.YES_OPTION) {
                         Controlador.getInstance().accion(Eventos.CONFIRMAR_BAJA_SERVICIO, servicio.getId());
                     }
+                    ajustarVentana();
                     break;
 
                 case Eventos.RES_BAJA_SERVICIO_CONFIRMADA:
                     JOptionPane.showMessageDialog(this, "El servicio con ID " + datos + " se ha dado de baja correctamente.");
-                    txtId.setText("");
+                    limpiarCampos();
+                    ajustarVentana();
                     break;
 
                 case Eventos.RES_BAJA_SERVICIO_KO_NO_EXISTE:
                     JOptionPane.showMessageDialog(this, "Error: No existe ningún servicio con el ID: " + datos, "Error", JOptionPane.ERROR_MESSAGE);
                     txtId.requestFocus();
+                    ajustarVentana();
                     break;
 
                 case Eventos.RES_BAJA_SERVICIO_KO:
                     JOptionPane.showMessageDialog(this, "El servicio ya se encuentra en estado inactivo.", "Aviso", JOptionPane.WARNING_MESSAGE);
+                    ajustarVentana();
                     break;
 
                 default:
@@ -144,6 +148,11 @@ public class VistaEliminarServicio extends JDialog implements IGUI {
     
     private void limpiarCampos() {
     	txtId.setText("");
+        txtId.requestFocus();
+    }
+
+    private void ajustarVentana() {
     	pack();
+        setLocationRelativeTo(null);
     }
 }
