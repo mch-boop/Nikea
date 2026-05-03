@@ -159,5 +159,14 @@
         "stock": 10,
         "nombre": "montaje sofa ILKET",
         "activo": true
+    },
+    {
+        "descripcion": "asd",
+        "precioActual": 2,
+        "tipo": 2,
+        "id": 15,
+        "stock": 2,
+        "nombre": "asd",
+        "activo": true
     }
 ]

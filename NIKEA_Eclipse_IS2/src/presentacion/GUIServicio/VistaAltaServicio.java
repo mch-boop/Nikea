@@ -95,15 +95,16 @@ public class VistaAltaServicio extends JDialog implements IGUI {
         grupoTipo.add(rbMontaje);
 
         rbArticulo.addActionListener(e -> {
-            // ComboBox siempre está habilitado
+            comboMarcas.setEnabled(true);
         });
         rbMontaje.addActionListener(e -> {
             comboMarcas.setSelectedIndex(-1);
+            comboMarcas.setEnabled(false);
         });
 
         marcasMap = new HashMap<>();
         comboMarcas = new JComboBox<>();
-        // El comboBox siempre está habilitado para permitir seleccionar marcas
+        comboMarcas.setEnabled(true);  // Habilitado por defecto para Artículos
 
         JPanel panelTipo = new JPanel();
         panelTipo.add(rbArticulo);
