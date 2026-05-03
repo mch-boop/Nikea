@@ -159,53 +159,5 @@
         "stock": 10,
         "nombre": "montaje sofa ILKET",
         "activo": true
-    },
-    {
-        "descripcion": "balda madera blanca",
-        "precioActual": 29,
-        "marca": "Decoracasa",
-        "tipo": 1,
-        "ventas": 0,
-        "id": 15,
-        "stock": 250,
-        "idMarca": 7,
-        "nombre": "balda",
-        "activo": true
-    },
-    {
-        "descripcion": "marco de fotos 10 x 15 cm",
-        "precioActual": 15,
-        "marca": "Decoracasa",
-        "tipo": 1,
-        "ventas": 0,
-        "id": 16,
-        "stock": 70,
-        "idMarca": 7,
-        "nombre": "marco",
-        "activo": true
-    },
-    {
-        "descripcion": "un metro de cable recubierto",
-        "precioActual": 19,
-        "marca": "UCM",
-        "tipo": 1,
-        "ventas": 0,
-        "id": 17,
-        "stock": 190,
-        "idMarca": 8,
-        "nombre": "cable 1m",
-        "activo": true
-    },
-    {
-        "descripcion": "mesilla de platico desmontable",
-        "precioActual": 10,
-        "marca": "Temu2",
-        "tipo": 1,
-        "ventas": 0,
-        "id": 18,
-        "stock": 250,
-        "idMarca": 12,
-        "nombre": "mesa plastico",
-        "activo": true
     }
 ]
