@@ -118,5 +118,17 @@
         "idFactura": 10,
         "idProducto": 4,
         "cantidad": 4
+    },
+    {
+        "precioUnitario": 10,
+        "idFactura": 11,
+        "idProducto": 10,
+        "cantidad": 3
+    },
+    {
+        "precioUnitario": 20,
+        "idFactura": 12,
+        "idProducto": 9,
+        "cantidad": 7
     }
 ]

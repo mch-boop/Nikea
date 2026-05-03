@@ -68,14 +68,17 @@ public class SAResumenMensualImp implements SAResumenMensual {
 
                 double subtotal = l.getSubtotal();
 
-                // SERVICIO
-                ventasServicio.put(l.getIdServicio(),
-                    ventasServicio.getOrDefault(l.getIdServicio(), 0.0) + subtotal);
+                int idProducto = l.getIdProducto();
+                TServicio servicio = servicioDAO.read(idProducto);
+
+                // SERVICIO/ARTICULO: el mejor se decide por cantidad vendida, no por importe
+                if (servicio instanceof TArticulo && servicio.isActivo()) {
+                    ventasServicio.put(idProducto,
+                        ventasServicio.getOrDefault(idProducto, 0.0) + l.getCantidad());
+                }
 
                 // MARCA
-                int idProducto = l.getIdProducto();
-
-                TArticulo art = (TArticulo) servicioDAO.read(idProducto);
+                TArticulo art = (servicio instanceof TArticulo && servicio.isActivo()) ? (TArticulo) servicio : null;
 
                 if (art != null) {
                 	int marca = art.getMarcaId();
@@ -88,12 +91,12 @@ public class SAResumenMensualImp implements SAResumenMensual {
 
         // Evitar nulls
         Integer idCliente = getMax(gastoCliente);
-        Integer idServicio = getMax(ventasServicio);
+        Integer idArticulo = getMax(ventasServicio);
         Integer idMarca = getMax(ventasMarca);
         Integer idVendedor = getMax(ventasVendedor);
 
         TCliente mejorCliente = (idCliente != null) ? clienteDAO.read(idCliente) : null;
-        TServicio mejorServicio = (idServicio != null) ? servicioDAO.read(idServicio) : null;
+        TServicio mejorServicio = (idArticulo != null) ? servicioDAO.read(idArticulo) : null;
         TMarca mejorMarca = (idMarca != null) ? marcaDAO.read(idMarca) : null;
         TVendedor mejorVendedor = (idVendedor != null) ? (TVendedor) vendedorDAO.read(idVendedor) : null;
 

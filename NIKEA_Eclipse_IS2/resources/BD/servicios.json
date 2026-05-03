@@ -99,11 +99,65 @@
         "precioActual": 20,
         "marca": "Nikea",
         "tipo": 1,
-        "ventas": 0,
+        "ventas": 7,
         "id": 9,
         "stock": 1,
         "idMarca": 0,
         "nombre": "Sex",
+        "activo": true
+    },
+    {
+        "descripcion": "d",
+        "precioActual": 10,
+        "tipo": 2,
+        "id": 10,
+        "stock": 2,
+        "nombre": "desguaje",
+        "activo": true
+    },
+    {
+        "descripcion": "chinchetas metalicas",
+        "precioActual": 1,
+        "marca": "Nikea",
+        "tipo": 1,
+        "ventas": 0,
+        "id": 11,
+        "stock": 1000,
+        "idMarca": 5,
+        "nombre": "chinchetas",
+        "activo": true
+    },
+    {
+        "descripcion": "sofa terciopelado biplaza",
+        "precioActual": 389,
+        "marca": "Muebles SA",
+        "tipo": 1,
+        "ventas": 0,
+        "id": 12,
+        "stock": 100,
+        "idMarca": 11,
+        "nombre": "sofa ILKET",
+        "activo": true
+    },
+    {
+        "descripcion": "lamparitad LED ajustables con mando",
+        "precioActual": 4,
+        "marca": "Iluminadamente",
+        "tipo": 1,
+        "ventas": 0,
+        "id": 13,
+        "stock": 500,
+        "idMarca": 6,
+        "nombre": "lamparitas LED",
+        "activo": true
+    },
+    {
+        "descripcion": "MONTAJE CON MONTADOR EN TU CASA",
+        "precioActual": 29,
+        "tipo": 2,
+        "id": 14,
+        "stock": 10,
+        "nombre": "montaje sofa ILKET",
         "activo": true
     }
 ]

@@ -383,12 +383,12 @@ public class ControladorImp extends Controlador {
 			}
 			case Eventos.MOSTRAR_MEJOR_ARTICULO: {
 				SAServicio saCli = FactoriaAbstractaNegocio.getInstance().crearSAServicio();
-				TArticulo mejor = (TArticulo) saCli.getMejorArticulo();
+				TServicio servicio = saCli.getMejorArticulo();
 
 				IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(evento);
 
-				if (mejor != null) {
-					vista.actualizar(Eventos.RES_MOSTRAR_MEJOR_ARTICULO_OK, mejor);
+				if (servicio instanceof TArticulo) {
+					vista.actualizar(Eventos.RES_MOSTRAR_MEJOR_ARTICULO_OK, (TArticulo) servicio);
 				} else {
 					vista.actualizar(Eventos.RES_MOSTRAR_MEJOR_ARTICULO_KO, null);
 				}

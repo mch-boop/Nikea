@@ -13,6 +13,14 @@ public class TArticulo extends TServicio {
 	public int getMarcaId() {
 		return idMarca;	 
 	}
+
+	public int getVentas() {
+		return ventas;
+	}
+
+	public void setVentas(int ventas) {
+		this.ventas = ventas;
+	}
 	
 	@Override
 	public JSONObject asJSON() {

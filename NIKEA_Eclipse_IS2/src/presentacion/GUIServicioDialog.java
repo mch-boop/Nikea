@@ -9,6 +9,7 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import presentacion.GUIServicio.VistaMostrarMejorArticulo;
 import presentacion.GUIServicio.VistaMostrarServicios;
 import presentacion.controlador.Eventos;
 import presentacion.factoria.FactoriaAbstractaPresentacion;
@@ -81,6 +82,9 @@ public class GUIServicioDialog extends JDialog {
 
 		btnMejor.addActionListener(e -> { 
 			IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.MOSTRAR_MEJOR_ARTICULO);
+			if (vista instanceof VistaMostrarMejorArticulo) {
+				((VistaMostrarMejorArticulo) vista).cargarMejorArticulo();
+			}
 			abrirVistaBloqueante((JDialog) vista);
 		});
 	}

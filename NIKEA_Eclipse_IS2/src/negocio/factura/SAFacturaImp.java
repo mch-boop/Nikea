@@ -16,6 +16,8 @@ import negocio.cliente.TCliente;
 import negocio.descuento.TDescuento;
 import negocio.empleado.TEmpleado;
 import negocio.empleado.TMontadorMontaje;
+import negocio.factoria.FactoriaAbstractaNegocio;
+import negocio.servicio.SAServicio;
 import negocio.servicio.TServicio;
 import presentacion.controlador.Eventos;
 
@@ -239,6 +241,9 @@ public class SAFacturaImp implements SAFactura {
 			l.setIdFactura(id);
 			daoLinea.crear(l);
 		}
+//para obtener el mejor articulo en sevicios
+		SAServicio saServicio = FactoriaAbstractaNegocio.getInstance().crearSAServicio();
+		saServicio.getMejorArticulo();
 
 		facturaActual = null;
 		servicioAMontador.clear();

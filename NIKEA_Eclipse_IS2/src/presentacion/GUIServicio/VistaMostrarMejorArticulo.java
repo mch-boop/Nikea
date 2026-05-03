@@ -11,11 +11,10 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 import negocio.servicio.TArticulo;
 import presentacion.IGUI;
@@ -25,8 +24,8 @@ import presentacion.controlador.Eventos;
 @SuppressWarnings("serial")
 public class VistaMostrarMejorArticulo extends JDialog implements IGUI {
 
-		private JTextField txtId;
-		private JTextArea areaDetalles;
+		private JTable tablaArticulo;
+		private DefaultTableModel model;
 	    private JButton btnSalir;
 	
 		public VistaMostrarMejorArticulo() {
@@ -43,11 +42,19 @@ public class VistaMostrarMejorArticulo extends JDialog implements IGUI {
 			viewPanel.setLayout(new BoxLayout(viewPanel, BoxLayout.Y_AXIS));
 			viewPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
-	        areaDetalles = new JTextArea(10, 30);
-	        areaDetalles.setEditable(false);	
-	        areaDetalles.setBorder(BorderFactory.createTitledBorder("Detalles del Articulo"));
-	        areaDetalles.setFont(new Font("Monospaced", Font.PLAIN, 13));
-	        JScrollPane scroll = new JScrollPane(areaDetalles);
+	        model = new DefaultTableModel(new String[] { "Id", "Nombre", "Descripcion", "Stock", "Precio", "Marca" }, 0) {
+	            @Override
+	            public boolean isCellEditable(int row, int column) {
+	                return false;
+	            }
+	        };
+
+	        tablaArticulo = new JTable(model);
+	        tablaArticulo.setFont(new Font("Monospaced", Font.PLAIN, 12));
+	        tablaArticulo.setRowHeight(24);
+
+	        JScrollPane scroll = new JScrollPane(tablaArticulo);
+	        scroll.setBorder(BorderFactory.createTitledBorder("Detalle del Mejor Articulo"));
 	        scroll.setAlignmentX(Component.CENTER_ALIGNMENT);	
 	        
 	        JPanel panelBotones = new JPanel();
@@ -73,8 +80,11 @@ public class VistaMostrarMejorArticulo extends JDialog implements IGUI {
 	        pack();
 	        setResizable(false); 
 	        setLocationRelativeTo(null);
-	        
-	        Controlador.getInstance().accion(Eventos.MOSTRAR_MEJOR_ARTICULO, null);
+		}
+
+		public void cargarMejorArticulo() {
+			model.setRowCount(0);
+			Controlador.getInstance().accion(Eventos.MOSTRAR_MEJOR_ARTICULO, null);
 		}
 		
 		
@@ -85,20 +95,19 @@ public class VistaMostrarMejorArticulo extends JDialog implements IGUI {
 
 	            case Eventos.RES_MOSTRAR_MEJOR_ARTICULO_OK:
 	                TArticulo tc = (TArticulo) datos;
-	                StringBuilder sb = new StringBuilder();
-	                sb.append("Id:       ").append(tc.getId()).append("\n");
-	                sb.append("Nombre:      ").append(tc.getNombre()).append("\n");
-	                sb.append("Descripcion:   ").append(tc.getDescripcion()).append("\n");
-	                sb.append("Stock: ").append(tc.getStock()).append("\n");
-	                sb.append("Precio:   ").append(tc.getPrecioActual()).append("\n");
-	                sb.append("Marca:   ").append(tc.getMarca()).append("\n");
-	         	                areaDetalles.setText(sb.toString());
+	                model.setRowCount(0);
+	                model.addRow(new Object[] {
+	                	tc.getId(),
+	                	tc.getNombre(),
+	                	tc.getDescripcion(),
+	                	tc.getStock(),
+	                	tc.getPrecioActual(),
+	                	tc.getMarca()
+	                });
 	                break;
 
 	            case Eventos.RES_MOSTRAR_MEJOR_ARTICULO_KO:
-	                areaDetalles.setText("");
-	                JOptionPane.showMessageDialog(this, "No se ha podido encontrar un mejor articulo", "Error", JOptionPane.ERROR_MESSAGE);
-	                txtId.requestFocus();
+	                model.setRowCount(0);
 	                break;
 
 	        }

@@ -1,11 +1,14 @@
 package negocio.servicio;
 
-import integracion.factoria.FactoriaAbstractaIntegracion;
 import integracion.factoria.FactoriaIntegracion;
+import integracion.factura.DAOLineaFactura;
+import integracion.factura.DAOFactura;
 import integracion.servicio.DAOServicio;
-import negocio.TOAResumenMensual;
+import negocio.factura.TFactura;
+import negocio.factura.TLineaFactura;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -162,7 +165,58 @@ public class SAServicioImp implements SAServicio {
     // Para obtener el mejor artículo
     
     public TServicio getMejorArticulo() {
-		TOAResumenMensual toa = FactoriaAbstractaIntegracion.getInstance().crearTOAResumenMensual();
-		return toa.getMejorServicio();
+        DAOFactura daoFactura = FactoriaIntegracion.getInstance().crearDAOFactura();
+        DAOLineaFactura daoLinea = FactoriaIntegracion.getInstance().crearDAOLineaFactura();
+        DAOServicio daoServicio = FactoriaIntegracion.getInstance().crearDAOServicio();
+
+        Map<Integer, Integer> ventasPorArticulo = new HashMap<>();
+        Map<Integer, TArticulo> articulosActivos = new HashMap<>();
+
+        for (TServicio servicio : daoServicio.readAll()) {
+            if (servicio instanceof TArticulo && servicio.isActivo()) {
+                articulosActivos.put(servicio.getId(), (TArticulo) servicio);
+            }
+        }
+
+        for (TFactura factura : daoFactura.leerTodas()) {
+            Collection<TLineaFactura> lineas = factura.getLineas();
+
+            if (lineas == null || lineas.isEmpty()) {
+                lineas = daoLinea.leerPorFactura(factura.getId());
+            }
+
+            for (TLineaFactura linea : lineas) {
+                TServicio servicio = daoServicio.read(linea.getIdProducto());
+                if (servicio instanceof TArticulo && servicio.isActivo()) {
+                    int idArticulo = servicio.getId();
+                    ventasPorArticulo.put(idArticulo,
+                        ventasPorArticulo.getOrDefault(idArticulo, 0) + linea.getCantidad());
+                }
+            }
+        }
+
+        for (Map.Entry<Integer, TArticulo> entry : articulosActivos.entrySet()) {
+            Integer idArticulo = entry.getKey();
+            TArticulo articulo = entry.getValue();
+            articulo.setVentas(ventasPorArticulo.getOrDefault(idArticulo, 0));
+            daoServicio.update(articulo);
+        }
+
+        Integer idMejorArticulo = getMaxEntero(ventasPorArticulo);
+        return idMejorArticulo != null ? daoServicio.read(idMejorArticulo) : null;
 	}
+
+    private Integer getMaxEntero(Map<Integer, Integer> mapa) {
+        Integer best = null;
+        int max = -1;
+
+        for (Map.Entry<Integer, Integer> entry : mapa.entrySet()) {
+            if (entry.getValue() > max) {
+                max = entry.getValue();
+                best = entry.getKey();
+            }
+        }
+
+        return best;
+    }
 }
