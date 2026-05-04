@@ -94,7 +94,7 @@ public class DAODescuentoImp implements DAODescuento {
                 lista.add(td);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+        	throw new RuntimeException("Error al leer descuentos.json", e);
         }
         return lista;
     }

@@ -85,6 +85,7 @@ public class VistaBuscarDescuento extends JDialog implements IGUI {
         btnCancelar.addActionListener(e -> {
             txtId.setText("");
             areaDetalles.setText("");
+            limpiarCampos();
             dispose();
         });
 

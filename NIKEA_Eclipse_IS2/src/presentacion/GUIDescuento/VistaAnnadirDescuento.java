@@ -103,6 +103,7 @@ public class VistaAnnadirDescuento extends JDialog implements IGUI {
                 case Eventos.RES_ANNADIR_DESCUENTO_FACTURA_OK:
                     limpiarCampos();
                     JOptionPane.showMessageDialog(this, "Descuento aplicado con éxito a la factura.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                    dispose();
                     break;
 
                 case Eventos.RES_ANNADIR_DESCUENTO_FACTURA_KO_FACTURA_NO_EXISTE:

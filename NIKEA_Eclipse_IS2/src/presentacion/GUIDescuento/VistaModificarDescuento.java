@@ -11,6 +11,7 @@ import presentacion.controlador.Eventos;
 @SuppressWarnings("serial")
 public class VistaModificarDescuento extends JDialog implements IGUI {
 
+	// === ATRIBUTOS ===
 	private JTextField txtIdBuscar;
 	private JButton btnBuscar, btnCancelarBusqueda;
 
@@ -26,23 +27,23 @@ public class VistaModificarDescuento extends JDialog implements IGUI {
 	private static final String CARD_BUSQUEDA = "busqueda";
 	private static final String CARD_FORMULARIO = "formulario";
 
-	// ID del descuento que se está editando
 	private int idActual = -1;
 
+	// === CONSTRUCTORA ===
 	public VistaModificarDescuento() {
-		super(null, "Consultar Descuento por ID", ModalityType.APPLICATION_MODAL);
+		super(null, "Modificar Descuento", ModalityType.APPLICATION_MODAL);
 		setTitle("Modificar Descuento");
 
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		initGUI();
 	}
 
+	// === INICIALIZACIÓN ===
 	private void initGUI() {
 		cardLayout = new CardLayout();
 		cardPanel = new JPanel(cardLayout) {
 			@Override
 			public Dimension getPreferredSize() {
-				// Obtenemos el componente que se está mostrando actualmente
 				for (Component comp : getComponents()) {
 					if (comp.isVisible()) {
 						return comp.getPreferredSize();
@@ -110,7 +111,6 @@ public class VistaModificarDescuento extends JDialog implements IGUI {
 		return panel;
 	}
 
-	// Edicion
 	private JPanel buildPanelFormulario() {
 		JPanel mainPanel = new JPanel();
 		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
@@ -118,6 +118,7 @@ public class VistaModificarDescuento extends JDialog implements IGUI {
 
 		// Campos
 		txtCodigo = new JTextField(20);
+		txtCodigo.setForeground(Color.BLACK);
 
 		areaDescripcion = new JTextArea(3, 20);
 		areaDescripcion.setLineWrap(true);
@@ -125,6 +126,7 @@ public class VistaModificarDescuento extends JDialog implements IGUI {
 		JScrollPane scrollDesc = new JScrollPane(areaDescripcion);
 
 		txtDescuento = new JTextField(20);
+		txtDescuento.setForeground(Color.BLACK);
 
 		// Spinners
 		SpinnerNumberModel importeModel = new SpinnerNumberModel(100.0, 0.0, 1000000.0, 10.0);
@@ -137,7 +139,7 @@ public class VistaModificarDescuento extends JDialog implements IGUI {
 		productosMin = new JSpinner(productosModel);
 		((JSpinner.NumberEditor) productosMin.getEditor()).getTextField().setColumns(10);
 
-		// Panel dinámico
+		// Panel
 		panelDinamico = new JPanel(new CardLayout());
 
 		JPanel cardImporte = new JPanel();
@@ -151,7 +153,7 @@ public class VistaModificarDescuento extends JDialog implements IGUI {
 		panelDinamico.add(cardImporte, "IMPORTE");
 		panelDinamico.add(cardProductos, "PRODUCTOS");
 
-		// Radio buttons tipo
+		// Radio buttons
 		rbImporte = new JRadioButton("Por importe", true);
 		rbProductos = new JRadioButton("Por cantidad");
 		ButtonGroup group = new ButtonGroup();
@@ -234,7 +236,7 @@ public class VistaModificarDescuento extends JDialog implements IGUI {
 				td.setCodigo(txtCodigo.getText().trim());
 				td.setNombre(areaDescripcion.getText().trim());
 				td.setPorcentaje(Integer.parseInt(txtDescuento.getText().trim()));
-				td.setActivo(true); // Sigue activo tras modificar
+				td.setActivo(true);
 
 				if (esImporte) {
 					td.setImporteMin((Double) importeMin.getValue());
@@ -263,47 +265,27 @@ public class VistaModificarDescuento extends JDialog implements IGUI {
 
 		return mainPanel;
 	}
-
-	public void configurarPlaceholder(JTextField textField, String texto) {
-		// Configuramos el estado inicial
-		textField.setText(texto);
-		textField.setForeground(Color.GRAY);
-
-		textField.addFocusListener(new java.awt.event.FocusAdapter() {
-			@Override
-			public void focusGained(java.awt.event.FocusEvent e) {
-				// Si al entrar el texto es el del placeholder, lo limpiamos para escribir
-				if (textField.getText().equals(texto)) {
-					textField.setText("");
-					textField.setForeground(Color.BLACK);
-				}
-			}
-
-			@Override
-			public void focusLost(java.awt.event.FocusEvent e) {
-				// Si al salir el usuario no ha escrito nada, restauramos el placeholder
-				if (textField.getText().isEmpty()) {
-					textField.setText(texto);
-					textField.setForeground(Color.GRAY);
-				}
-			}
-		});
-	}
-
+ 
+	// === CARGAR DESCUENTO ===
 	private void cargarDescuento(TDescuento td) {
 		idActual = td.getId();
-		configurarPlaceholder(txtCodigo, td.getCodigo()); 
-		configurarPlaceholder(txtDescuento, String.valueOf(td.getPorcentaje())); 
+
+		txtCodigo.setText(td.getCodigo());
+		txtCodigo.setForeground(Color.BLACK);
+
+		txtDescuento.setText(String.valueOf(td.getPorcentaje()));
+		txtDescuento.setForeground(Color.BLACK);
+
 		areaDescripcion.setText(td.getNombre());
 
 		CardLayout cl = (CardLayout) panelDinamico.getLayout();
-		if (td.isTipo()) { // true = por importe
+		if (td.isTipo()) {
 			rbImporte.setSelected(true);
-			importeMin.setValue(td.getCantidad());
+			importeMin.setValue(td.getImporteMin());
 			cl.show(panelDinamico, "IMPORTE");
-		} else { // false = por productos
+		} else {
 			rbProductos.setSelected(true);
-			productosMin.setValue((int) td.getCantidad());
+			productosMin.setValue(td.getProductosMin());
 			cl.show(panelDinamico, "PRODUCTOS");
 		}
 
@@ -312,6 +294,7 @@ public class VistaModificarDescuento extends JDialog implements IGUI {
 		setLocationRelativeTo(null);
 	}
 
+	// === ACTUALIZAR===
 	@Override
 	public void actualizar(int evento, Object datos) {
 		SwingUtilities.invokeLater(() -> {
@@ -353,7 +336,6 @@ public class VistaModificarDescuento extends JDialog implements IGUI {
 				JOptionPane.showMessageDialog(this, "El porcentaje debe estar entre 1 y 100.", "Error",
 						JOptionPane.ERROR_MESSAGE);
 				SwingUtilities.invokeLater(() -> txtDescuento.requestFocus());
-
 				break;
 
 			case Eventos.RES_MODIFICAR_DESCUENTO_KO:
@@ -368,8 +350,7 @@ public class VistaModificarDescuento extends JDialog implements IGUI {
 		});
 	}
 
-	// reset
-
+	// === RESET ===
 	@Override
 	public void setVisible(boolean b) {
 		if (b)
@@ -379,8 +360,9 @@ public class VistaModificarDescuento extends JDialog implements IGUI {
 
 	private void limpiarCampos() {
 		txtIdBuscar.setText("");
-		cardLayout.show(cardPanel, CARD_BUSQUEDA); // Volver a la búsqueda
-		pack(); // Reajustar tamaño
+		idActual = -1;
+		cardLayout.show(cardPanel, CARD_BUSQUEDA);
+		pack();
 		setLocationRelativeTo(null);
 	}
 }
