@@ -47,6 +47,7 @@ public class VistaAltaServicio extends JDialog implements IGUI {
     private JSpinner spPrecio;
     private JRadioButton rbArticulo;
     private JRadioButton rbMontaje;
+    private JLabel lblMarca;
     private JComboBox<String> comboMarcas;
     private Map<String, Integer> marcasMap;
     private JButton btnAceptar;
@@ -67,6 +68,9 @@ public class VistaAltaServicio extends JDialog implements IGUI {
         spPrecio.setValue(0);
         rbArticulo.setSelected(true);
         comboMarcas.setSelectedIndex(-1);
+        lblMarca.setVisible(true);
+        comboMarcas.setVisible(true);
+        comboMarcas.setEnabled(true);
         txtNombre.requestFocus();
         repaint();
         revalidate();
@@ -95,15 +99,24 @@ public class VistaAltaServicio extends JDialog implements IGUI {
         grupoTipo.add(rbMontaje);
 
         rbArticulo.addActionListener(e -> {
+            lblMarca.setVisible(true);
+            comboMarcas.setVisible(true);
             comboMarcas.setEnabled(true);
+            revalidate();
+            repaint();
         });
         rbMontaje.addActionListener(e -> {
             comboMarcas.setSelectedIndex(-1);
+            lblMarca.setVisible(false);
+            comboMarcas.setVisible(false);
             comboMarcas.setEnabled(false);
+            revalidate();
+            repaint();
         });
 
         marcasMap = new HashMap<>();
         comboMarcas = new JComboBox<>();
+        lblMarca = new JLabel("Marca");
         comboMarcas.setEnabled(true);  // Habilitado por defecto para Artículos
 
         JPanel panelTipo = new JPanel();
@@ -161,10 +174,13 @@ public class VistaAltaServicio extends JDialog implements IGUI {
         gbc.gridx = 0;
         gbc.gridy = 5;
         gbc.weightx = 0;
-        formPanel.add(new JLabel("Marca (solo para Artículos):"), gbc);
+        formPanel.add(lblMarca, gbc);
         gbc.gridx = 1;
         gbc.weightx = 1.0;
         formPanel.add(comboMarcas, gbc);
+
+        lblMarca.setVisible(true);
+        comboMarcas.setVisible(true);
 
         JPanel panelBotones = new JPanel();
         btnAceptar = new JButton("ACEPTAR");
