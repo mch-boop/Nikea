@@ -98,5 +98,11 @@
         "idMarca": 11,
         "nombre": "Muebles SA",
         "activo": true
+    },
+    {
+        "especialidades": ["OTROS"],
+        "idMarca": 12,
+        "nombre": "Temu2",
+        "activo": true
     }
 ]
