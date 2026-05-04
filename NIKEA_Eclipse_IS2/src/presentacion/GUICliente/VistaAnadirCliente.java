@@ -224,52 +224,11 @@ public class VistaAnadirCliente extends JDialog implements IGUI {
 					JOptionPane.showMessageDialog(VistaAnadirCliente.this, "Éxito: Cliente creado con ID: " + datos);
 					break;
 
-				case Eventos.RES_ALTA_CLIENTE_YA_EXISTE_MISMO:
+				case Eventos.RES_ALTA_CLIENTE_YA_EXISTE:
 					// El SA ya nos confirmó que nombre y apellido coinciden
-					JOptionPane.showMessageDialog(VistaAnadirCliente.this, "Este cliente ya existe en el sistema.",
+					JOptionPane.showMessageDialog(VistaAnadirCliente.this, "Ya existe un cliente con ese DNI en el sistema.",
 							"Aviso", JOptionPane.WARNING_MESSAGE);
 					VistaAnadirCliente.this.txtDNI.requestFocus();
-					break;
-
-				case Eventos.RES_ALTA_CLIENTE_YA_EXISTE_DISTINTO:
-					// El SA nos confirmó que el DNI es de otra persona
-					TCliente dup = (TCliente) datos;
-					JOptionPane.showMessageDialog(VistaAnadirCliente.this,
-							"El DNI introducido ya pertenece a: " + dup.getNombre() + " " + dup.getApellidos(),
-							"Conflicto de Identidad", JOptionPane.ERROR_MESSAGE);
-					VistaAnadirCliente.this.txtDNI.requestFocus();
-					break;
-
-				case Eventos.RES_ALTA_CLIENTE_CONFIRMAR_REACTIVACION:
-					// El cliente existe inactivo con datos distintos (Caso -2)
-					TCliente cliReac = (TCliente) datos;
-
-					String mensaje = "ATENCION: Conflicto de identidad en el histórico.\n\n" + "El DNI "
-							+ cliReac.getDNI() + " ya existe en la base de datos asociado al cliente: "
-							+ cliReac.getNombre() + " " + cliReac.getApellidos() + ".\n\n"
-							+ "Actualmente el cliente está dado de baja.\n"
-							+ "¿Desea reactivar la ficha existente y actualizarla con los nuevos datos introducidos?\n";
-
-					int respReac = JOptionPane.showConfirmDialog(VistaAnadirCliente.this, mensaje,
-							"Reactivación de Cliente", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
-
-					if (respReac == JOptionPane.YES_OPTION) {
-
-						TCliente nuevosDatos = new TCliente();
-
-						// Asignar el ID de la base de datos para que el SA sepa cuál actualizar
-						nuevosDatos.setId(cliReac.getId());
-
-						// Recoger los datos del formulario
-						nuevosDatos.setNombre(txtNombre.getText().trim());
-						nuevosDatos.setApellidos(txtApellido.getText().trim());
-						nuevosDatos.setDNI(txtDNI.getText().trim());
-						nuevosDatos.setTelefono(Integer.parseInt(txtTelefono.getText().trim()));
-						nuevosDatos.setActivo(true);
-
-						Controlador.getInstance().accion(Eventos.REACTIVAR_CLIENTE, nuevosDatos);
-						limpiarCampos();
-					}
 					break;
 
 				case Eventos.RES_ALTA_CLIENTE_KO:

@@ -41,29 +41,9 @@ public class ControladorImp extends Controlador {
 				if (res > 0) {
 					vista.actualizar(Eventos.RES_ALTA_CLIENTE_OK, res);
 				} else if (res == -1) { // mismo cliente ya existente
-					vista.actualizar(Eventos.RES_ALTA_CLIENTE_YA_EXISTE_MISMO, saCli.getUltimoDuplicado());
-				} else if (res == -100) { // DNI pertenece a otra persona
-					vista.actualizar(Eventos.RES_ALTA_CLIENTE_YA_EXISTE_DISTINTO, saCli.getUltimoDuplicado());
-				} else if (res == -2) { // existe inactivo con datos distintos → pedir confirmación
-					vista.actualizar(Eventos.RES_ALTA_CLIENTE_CONFIRMAR_REACTIVACION, saCli.getUltimoDuplicado());
+					vista.actualizar(Eventos.RES_ALTA_CLIENTE_YA_EXISTE, null);
 				} else {
 					vista.actualizar(Eventos.RES_ALTA_CLIENTE_KO, tCliente);
-				}
-				break;
-			}
-			
-			case Eventos.REACTIVAR_CLIENTE: {
-				TCliente t = (TCliente) datos;
-				SACliente sa = FactoriaAbstractaNegocio.getInstance().crearSACliente();
-
-				// El SA hace un update de los datos y cambiar activo a true
-				int res = sa.reactivate(t);
-
-				IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.ALTA_CLIENTE);
-				if (res > 0) {
-					vista.actualizar(Eventos.RES_ALTA_CLIENTE_OK, res);
-				} else {
-					vista.actualizar(Eventos.RES_ALTA_CLIENTE_KO, res);
 				}
 				break;
 			}

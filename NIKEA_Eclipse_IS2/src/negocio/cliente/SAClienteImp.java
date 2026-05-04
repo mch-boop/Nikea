@@ -4,14 +4,9 @@ import java.util.Collection;
 
 import integracion.cliente.DAOCliente;
 import integracion.factoria.FactoriaAbstractaIntegracion;
-import integracion.factoria.FactoriaIntegracion;
 import negocio.TOAResumenMensual;
 
 public class SAClienteImp implements SACliente {
-
-	// Atributo.
-	private TCliente ultimoDuplicado;
-
 	// MÉTODOS DE LA INTERFAZ
 	
 	@Override
@@ -34,54 +29,19 @@ public class SAClienteImp implements SACliente {
 		if (existente == null) { 
 			return dao.create(tc); 
 		}
-		
-		// Si existe (activo o inactivo), lo guardamos para que el Controlador/Vista lo consulten
-	    this.ultimoDuplicado = existente;
-
-	    // --- LÓGICA DE COMPARACIÓN DE DATOS ---
-	    boolean mismoNombre = existente.getNombre() != null &&
-	                          existente.getNombre().trim().equalsIgnoreCase(tc.getNombre().trim());
-
-	    boolean mismoApellido = ((existente.getApellidos() == null && tc.getApellidos() == null) ||
-	                            (existente.getApellidos() != null && tc.getApellidos() != null &&
-	                             existente.getApellidos().trim().equalsIgnoreCase(tc.getApellidos().trim())));
-
-	    boolean mismosDatosPersonales = mismoNombre && mismoApellido;
-	    
 
 	    // --- CASO 2: EL CLIENTE EXISTE PERO ESTÁ INACTIVO (BORRADO LÓGICO) ---
 	    if (!existente.isActivo()) {
 
-	        // Mismos datos -> Reactivación automática
-	        if (mismosDatosPersonales) {
-	            existente.setActivo(true);
-	            existente.setTelefono(tc.getTelefono()); // Actualizamos el teléfono al nuevo valor
-	            
-	            // Usamos el método update del DAO para persistir los cambios del objeto recuperado
-	            return dao.update(existente);
-	        }
-
-	        // Existe inactivo pero con datos distintos (Nombre/Apellido no coinciden)
-	        // Devolvemos -2 para que la vista pida confirmación para "pisar" los datos antiguos
-	        return -2;
+	        // Mismo DNI -> Reactivación automática
+	        // Usamos el método update del DAO para persistir los cambios del objeto recuperado
+	    	existente.setActivo(true);
+            return dao.update(existente);
 	    }
 
-	    // --- CASO 3: EL CLIENTE YA EXISTE Y ESTÁ ACTIVO ---
-	    if (existente.isActivo()) {
-	    	if (mismosDatosPersonales) {
-	            return -1;   // Es el mismo cliente (Aviso: "Este cliente ya existe")
-	        } else {
-	            return -100; // Es otro cliente (Aviso: "DNI registrado a nombre de...")
-	        }
-	    }
-
-	    return -1; // Fallback de seguridad
+	    // --- CASO 3: CLIENTE CON ESE DNI ACTIVO ---
+	    return -1; 
 	}
-
-	@Override
-    public TCliente getUltimoDuplicado() {
-        return this.ultimoDuplicado;
-    }
 	
 	@Override
 	public TCliente read(int id) {
@@ -130,33 +90,4 @@ public class SAClienteImp implements SACliente {
 		return toa.getMejorCliente();
 	}
 
-	@Override
-	public int reactivate(TCliente tCliente) {
-	    int res = -1;
-	    DAOCliente dao = FactoriaIntegracion.getInstance().crearDAOCliente();
-	    
-	    // Leemos el empleado que ya existe por su DNI
-	    TCliente existente = dao.readByDNI(tCliente.getDNI());
-	    
-	    if (existente != null) {
-	        
-	        // Actualizamos los datos del cliente existente con los nuevos del formulario
-	    	existente.setNombre(tCliente.getNombre());
-	    	existente.setApellidos(tCliente.getApellidos());
-	    	existente.setTelefono(tCliente.getTelefono());
-	        
-	        // Cambiamos el estado a ACTIVO
-	    	existente.setActivo(true);
-	        
-	        // Persistimos los cambios en el JSON a través del DAO
-	        // El método update del DAO busca por ID y sobreescribe
-	        res = dao.update(existente);
-	        
-	        // Si el update fue bien, devolvemos el ID del cliente reactivado
-	        if (res > 0) {
-	            res = existente.getId();
-	        }
-	    }
-	    return res;
-	}
 }

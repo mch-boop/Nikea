@@ -7,14 +7,7 @@ public class Eventos {
     public static final int ALTA_CLIENTE = 101;
     public static final int RES_ALTA_CLIENTE_OK = 1011;
     public static final int RES_ALTA_CLIENTE_KO = 1010;
-    public static final int RES_ALTA_CLIENTE_KO_TELEFONO = 10101;
-    public static final int RES_ALTA_CLIENTE_KO_APELLIDO = 10102;
-    public static final int RES_ALTA_CLIENTE_KO_NOMBRE = 10103;
-    public static final int RES_ALTA_CLIENTE_KO_DNI = 10104;
-    public static final int RES_ALTA_CLIENTE_YA_EXISTE_MISMO = 101051;
-    public static final int RES_ALTA_CLIENTE_YA_EXISTE_DISTINTO = 101052;
-    public static final int REACTIVAR_CLIENTE = 10111;
-    public static final int RES_ALTA_CLIENTE_CONFIRMAR_REACTIVACION = 101111;
+    public static final int RES_ALTA_CLIENTE_YA_EXISTE = 10100;
 
     public static final int BAJA_CLIENTE = 102;
     public static final int RES_BAJA_CLIENTE_OK = 1021;
