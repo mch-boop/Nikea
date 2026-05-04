@@ -47,6 +47,7 @@ public class VistaModificarServicio extends JDialog implements IGUI {
 	private JTextField txtStockAct;
 	private JTextField txtPrecioActualAct;
 	private JTextField txtTipoAct;
+	private JLabel lblMarca;
 	private JTextField txtMarcaAct;
 	private JComboBox<String> comboMarcas;
 	private Map<String, Integer> marcasMap;
@@ -218,11 +219,17 @@ public class VistaModificarServicio extends JDialog implements IGUI {
 
 		gbc.gridy = 6;
 		gbc.gridx = 0;
-		panelDatos.add(new JLabel("Marca:"), gbc);
+		lblMarca = new JLabel("Marca:");
+		panelDatos.add(lblMarca, gbc);
 		gbc.gridx = 1;
 		panelDatos.add(txtMarcaAct, gbc);
 		gbc.gridx = 2;
 		panelDatos.add(comboMarcas, gbc);
+		
+		// Inicialmente visible (para Artículos)
+		lblMarca.setVisible(true);
+		txtMarcaAct.setVisible(true);
+		comboMarcas.setVisible(true);
 
 		JPanel panelBotones = new JPanel();
 		btnModificar = new JButton("GUARDAR CAMBIOS");
@@ -313,14 +320,20 @@ public class VistaModificarServicio extends JDialog implements IGUI {
 
 				comboTipo.setSelectedIndex(servicioEncontrado.getTipo() != null && servicioEncontrado.getTipo() == 2 ? 1 : 0);
 
-				// Habilitar/deshabilitar comboMarcas según el tipo
+				// Mostrar/ocultar y habilitar/deshabilitar comboMarcas según el tipo
 				if (servicioEncontrado.getTipo() == 1) {
+					lblMarca.setVisible(true);
+					txtMarcaAct.setVisible(true);
+					comboMarcas.setVisible(true);
 					comboMarcas.setEnabled(true);
 					// Seleccionar la marca actual si existe
 					if (servicioEncontrado.getMarca() != null) {
 						comboMarcas.setSelectedItem(servicioEncontrado.getMarca());
 					}
 				} else {
+					lblMarca.setVisible(false);
+					txtMarcaAct.setVisible(false);
+					comboMarcas.setVisible(false);
 					comboMarcas.setEnabled(false);
 					comboMarcas.setSelectedIndex(-1);
 				}
@@ -396,6 +409,11 @@ public class VistaModificarServicio extends JDialog implements IGUI {
 		txtTipoAct.setText("");
 		txtMarcaAct.setText("");
 		comboMarcas.setSelectedIndex(-1);
+		
+		// Mostrar marca por defecto (asumiendo que por defecto es Artículo)
+		lblMarca.setVisible(true);
+		txtMarcaAct.setVisible(true);
+		comboMarcas.setVisible(true);
 	}
 
 	private void limpiarTodo() {
