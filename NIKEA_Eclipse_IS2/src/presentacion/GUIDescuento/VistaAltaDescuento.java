@@ -238,7 +238,7 @@ public class VistaAltaDescuento extends JDialog implements IGUI {
                     break;
 
                 case Eventos.RES_ALTA_DESCUENTO_KO:
-                    JOptionPane.showMessageDialog(this, "Error al reactivar usuario.", "Error Grave", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "Error al reactivar descuento.", "Error Grave", JOptionPane.ERROR_MESSAGE);
                     SwingUtilities.invokeLater(() -> txtCodigo.requestFocus());
                     break;
 

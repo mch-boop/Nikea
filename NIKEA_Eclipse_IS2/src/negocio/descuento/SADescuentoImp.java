@@ -2,6 +2,8 @@ package negocio.descuento;
 
 import integracion.factoria.FactoriaIntegracion;
 import integracion.descuento.DAODescuento;
+
+import java.util.ArrayList;
 import java.util.Collection;
 
 public class SADescuentoImp implements SADescuento {
@@ -28,9 +30,9 @@ public class SADescuentoImp implements SADescuento {
             return -1;
         } else {
             // Si es inactivo, comparamos si los datos son iguales para reactivación automática
-            if (existente.isTipo() == td.isTipo() && 
-                existente.getPorcentaje() == td.getPorcentaje() &&
-                existente.getCantidad() == td.getCantidad()) {
+            if (existente.isTipo() == td.isTipo() &&
+            	Double.compare(existente.getPorcentaje(), td.getPorcentaje()) == 0 &&
+                Double.compare(existente.getCantidad(), td.getCantidad()) == 0) {
                 
                 existente.setActivo(true);
                 existente.setNombre(td.getNombre());
@@ -38,7 +40,6 @@ public class SADescuentoImp implements SADescuento {
                 return existente.getId();
             }
             
-            // Si los datos cambian, guardamos el nuevo para que la vista pida confirmación
             this.ultimoDuplicado = td;
             this.ultimoDuplicado.setId(existente.getId()); // Arrastramos el ID viejo
             return -2;
@@ -68,9 +69,15 @@ public class SADescuentoImp implements SADescuento {
         return td;
     }
 
+ // En SADescuentoImp
     @Override
     public Collection<TDescuento> readAll() {
-        return FactoriaIntegracion.getInstance().crearDAODescuento().readAll();
+        Collection<TDescuento> todos = FactoriaIntegracion.getInstance().crearDAODescuento().readAll();
+        Collection<TDescuento> activos = new ArrayList<>();
+        for (TDescuento d : todos) {
+            if (d.isActivo()) activos.add(d);
+        }
+        return activos;
     }
 
     @Override
