@@ -159,5 +159,29 @@
         "stock": 10,
         "nombre": "montaje sofa ILKET",
         "activo": true
+    },
+    {
+        "descripcion": "Es de madera",
+        "precioActual": 25,
+        "marca": "El Corte Inglés",
+        "tipo": 1,
+        "ventas": 0,
+        "id": 15,
+        "stock": 15,
+        "idMarca": 4,
+        "nombre": "Silla",
+        "activo": true
+    },
+    {
+        "descripcion": "De plastico o algo",
+        "precioActual": 10,
+        "marca": "Muebles SA",
+        "tipo": 1,
+        "ventas": 0,
+        "id": 16,
+        "stock": 30,
+        "idMarca": 11,
+        "nombre": "Mesa",
+        "activo": true
     }
 ]

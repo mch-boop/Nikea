@@ -3,6 +3,7 @@ package presentacion.GUIDescuento;
 import java.awt.*;
 import javax.swing.*;
 
+import negocio.descuento.TDescuento;
 import presentacion.IGUI;
 import presentacion.controlador.Controlador;
 import presentacion.controlador.Eventos;
@@ -10,13 +11,13 @@ import presentacion.controlador.Eventos;
 @SuppressWarnings("serial")
 public class VistaBajaDescuento extends JDialog implements IGUI {
 
-	// ATRIBUTOS
+    // ATRIBUTOS
     private JTextField txtId;
     private JButton btnAceptar, btnCancelar;
 
     // CONSTRUCTORA
     public VistaBajaDescuento() {
-    	super(null, "Baja de Descuento", ModalityType.APPLICATION_MODAL);
+        super(null, "Baja de Descuento", ModalityType.APPLICATION_MODAL);
         setTitle("Baja de Descuento");
         
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -62,8 +63,7 @@ public class VistaBajaDescuento extends JDialog implements IGUI {
 
             try {
                 int id = Integer.parseInt(idStr);
-                // Llamada al controlador para el borrado lógico
-                Controlador.getInstance().accion(Eventos.BAJA_DESCUENTO, id);
+                Controlador.getInstance().accion(Eventos.BUSCAR_PARA_BAJA_DESCUENTO, id);
             } catch (NumberFormatException nfe) {
                 JOptionPane.showMessageDialog(this, "El ID debe ser un número entero.", "Error de formato", JOptionPane.ERROR_MESSAGE);
             }
@@ -87,15 +87,45 @@ public class VistaBajaDescuento extends JDialog implements IGUI {
     public void actualizar(int evento, Object datos) {
         SwingUtilities.invokeLater(() -> {
             switch (evento) {
+                
+                case Eventos.RES_BUSCAR_PARA_BAJA_DESCUENTO_OK:
+                    TDescuento td = (TDescuento) datos;
+                    
+                    String mensaje = "¿Seguro que quiere dar de baja este descuento?\n\n" +
+                                     "ID: " + td.getId() + "\n" +
+                                     "Código: " + td.getCodigo() + "\n" +
+                                     "Porcentaje: " + td.getPorcentaje() + "%\n" +
+                                     "Activo: " + (td.isActivo() ? "Sí" : "No");
+
+                    int confirm = JOptionPane.showConfirmDialog(
+                            this, 
+                            mensaje, 
+                            "Confirmar Baja", 
+                            JOptionPane.YES_NO_OPTION, 
+                            JOptionPane.QUESTION_MESSAGE
+                    );
+
+                    if (confirm == JOptionPane.YES_OPTION) {
+                        Controlador.getInstance().accion(Eventos.BAJA_DESCUENTO, td.getId());
+                    } else {
+                        limpiarCampos();
+                    }
+                    break;
+
+                case Eventos.RES_BUSCAR_PARA_BAJA_DESCUENTO_KO:
+                    JOptionPane.showMessageDialog(this, "No se encontró ningún descuento activo con ese ID.", "No encontrado", JOptionPane.WARNING_MESSAGE);
+                    limpiarCampos();
+                    break;
+
                 case Eventos.RES_BAJA_DESCUENTO_OK:
                     JOptionPane.showMessageDialog(this, "Descuento con ID " + datos + " dado de baja correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-                    txtId.setText("");
+                    limpiarCampos();
                     dispose();
                     break;
 
                 case Eventos.RES_BAJA_DESCUENTO_KO:
-                    JOptionPane.showMessageDialog(this, "No se pudo eliminar el descuento. Verifica que el ID exista y esté activo.", "Error", JOptionPane.ERROR_MESSAGE);
-                    SwingUtilities.invokeLater(() -> txtId.requestFocus());
+                    JOptionPane.showMessageDialog(this, "Hubo un error interno al intentar dar de baja el descuento.", "Error", JOptionPane.ERROR_MESSAGE);
+                    limpiarCampos();
                     break;
 
                 default:
@@ -104,8 +134,6 @@ public class VistaBajaDescuento extends JDialog implements IGUI {
         });
     }
     
-    // reset
-    
     @Override
     public void setVisible(boolean b) {
         if (b) limpiarCampos();
@@ -113,8 +141,8 @@ public class VistaBajaDescuento extends JDialog implements IGUI {
     }
     
     private void limpiarCampos() {
-    	txtId.setText("");
-    	txtId.requestFocus();
-    	pack();
+        txtId.setText("");
+        txtId.requestFocus();
+        pack();
     }
 }

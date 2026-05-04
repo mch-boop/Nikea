@@ -96,7 +96,7 @@
         "porcentaje": 12,
         "cantidad": 100,
         "nombre": "",
-        "activo": true
+        "activo": false
     },
     {
         "codigo": "123",
@@ -106,5 +106,41 @@
         "cantidad": 100,
         "nombre": "",
         "activo": true
+    },
+    {
+        "codigo": "GANGA",
+        "tipo": true,
+        "id": 13,
+        "porcentaje": 99,
+        "cantidad": 10,
+        "nombre": "Es una gangaaaaaa",
+        "activo": true
+    },
+    {
+        "codigo": "NO-GANGA",
+        "tipo": true,
+        "id": 14,
+        "porcentaje": 1,
+        "cantidad": 100,
+        "nombre": "Es meh",
+        "activo": false
+    },
+    {
+        "codigo": "PruebaCierre",
+        "tipo": true,
+        "id": 15,
+        "porcentaje": 12,
+        "cantidad": 100,
+        "nombre": "algo",
+        "activo": true
+    },
+    {
+        "codigo": "Pruebaaasdas",
+        "tipo": true,
+        "id": 16,
+        "porcentaje": 13,
+        "cantidad": 100,
+        "nombre": "asdads",
+        "activo": false
     }
 ]

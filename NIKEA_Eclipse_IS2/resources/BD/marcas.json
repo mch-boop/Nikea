@@ -104,5 +104,14 @@
         "idMarca": 12,
         "nombre": "Temu2",
         "activo": true
+    },
+    {
+        "especialidades": [
+            "DECORACION",
+            "JARDIN_EXTERIOR"
+        ],
+        "idMarca": 13,
+        "nombre": "Gnomo de Jardin",
+        "activo": true
     }
 ]

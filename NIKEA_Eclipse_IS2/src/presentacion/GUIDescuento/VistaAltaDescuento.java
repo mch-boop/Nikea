@@ -107,7 +107,7 @@ public class VistaAltaDescuento extends JDialog implements IGUI {
 
         // escripción
         gbc.gridx = 0; gbc.gridy = 1;
-        formPanel.add(new JLabel("Descripción:"), gbc);
+        formPanel.add(new JLabel("Descripción (Opcional):"), gbc);
         gbc.gridx = 1;
         formPanel.add(scrollDesc, gbc);
 

@@ -811,11 +811,30 @@ public class ControladorImp extends Controlador {
 				break;
 			}
 
+			case Eventos.BUSCAR_PARA_BAJA_DESCUENTO: {
+				int id = (int) datos;
+				SADescuento saDescuento = FactoriaAbstractaNegocio.getInstance().crearSADescuento();
+				
+				TDescuento td = saDescuento.read(id);
+				
+				IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.BAJA_DESCUENTO);
+				
+				if (td != null && td.isActivo()) {
+					vista.actualizar(Eventos.RES_BUSCAR_PARA_BAJA_DESCUENTO_OK, td);
+				} else {
+					vista.actualizar(Eventos.RES_BUSCAR_PARA_BAJA_DESCUENTO_KO, null);
+				}
+				break;
+			}
+
 			case Eventos.BAJA_DESCUENTO: {
 				int id = (int) datos;
 				SADescuento saDescuento = FactoriaAbstractaNegocio.getInstance().crearSADescuento();
+				
 				int res = saDescuento.delete(id);
+				
 				IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(evento);
+				
 				if (res >= 0) {
 					vista.actualizar(Eventos.RES_BAJA_DESCUENTO_OK, res);
 				} else {

@@ -177,6 +177,9 @@ public class Eventos {
     public static final int RES_MODIFICAR_DESCUENTO_KO_PORCENTAJE = 40303;
 
     public static final int BAJA_DESCUENTO = 404;
+    public static final int BUSCAR_PARA_BAJA_DESCUENTO = 40411;
+    public static final int RES_BUSCAR_PARA_BAJA_DESCUENTO_OK = 404111;
+    public static final int RES_BUSCAR_PARA_BAJA_DESCUENTO_KO = 404110;
     public static final int RES_BAJA_DESCUENTO_OK = 4041;
     public static final int RES_BAJA_DESCUENTO_KO = 4040;
 
