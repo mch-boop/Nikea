@@ -29,6 +29,7 @@ public class VistaMostrarArticulosPorMarca extends JDialog implements IGUI {
     public VistaMostrarArticulosPorMarca() {
         super(null, "Artículos por Marca", ModalityType.APPLICATION_MODAL);
         setTitle("Artículos por Marca");
+        
         initGUI();
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
@@ -67,6 +68,7 @@ public class VistaMostrarArticulosPorMarca extends JDialog implements IGUI {
         JScrollPane scroll = new JScrollPane(tablaArticulos);
         scroll.setBorder(BorderFactory.createTitledBorder("Artículos de la Marca"));
         scroll.setPreferredSize(new Dimension(700, 400));
+        scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 
         // panel sur
         JPanel panelSur = new JPanel();
@@ -93,7 +95,10 @@ public class VistaMostrarArticulosPorMarca extends JDialog implements IGUI {
             }
         });
 
-        btnCancelar.addActionListener(e -> dispose());
+        btnCancelar.addActionListener(e -> {
+        	setVisible(false);
+        	dispose();
+    	});
 
         // montaje
 
@@ -109,9 +114,7 @@ public class VistaMostrarArticulosPorMarca extends JDialog implements IGUI {
     @Override
     @SuppressWarnings("unchecked")
     public void actualizar(int evento, Object datos) {
-
         SwingUtilities.invokeLater(() -> {
-
             switch (evento) {
 
                 case Eventos.RES_MOSTRAR_ARTICULOS_POR_MARCA_OK:
@@ -140,6 +143,7 @@ public class VistaMostrarArticulosPorMarca extends JDialog implements IGUI {
                     break;
                 
                 case Eventos.RES_MOSTRAR_ARTICULOS_POR_MARCA_KO_NO_HAY_ARTICULOS:
+                	modeloTabla.setRowCount(0);
                 	JOptionPane.showMessageDialog(this,
                             "No hay artículos para esta marca",
                             "Información",

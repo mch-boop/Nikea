@@ -410,7 +410,7 @@ public class ControladorImp extends Controlador {
 			SAServicio saServicio = FactoriaAbstractaNegocio.getInstance().crearSAServicio();
 			Collection<TArticulo> res = saServicio.readArticulosPorMarca(idMarca);
 
-			IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.MODIFICAR_SERVICIO);
+			IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.MOSTRAR_ARTICULOS_POR_MARCA);
 
 			if (res == null) {
 				vista.actualizar(Eventos.RES_MOSTRAR_ARTICULOS_POR_MARCA_KO_NO_EXISTE_MARCA, null);

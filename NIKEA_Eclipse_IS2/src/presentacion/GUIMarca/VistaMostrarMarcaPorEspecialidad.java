@@ -151,6 +151,7 @@ public class VistaMostrarMarcaPorEspecialidad extends JDialog implements IGUI {
 	                break;
 	
 	            default:
+	            	modeloTabla.setRowCount(0);
 	            	System.err.println("Evento no reconocido en mostrar todos de Marca: " + evento);
 	                break;
 	        }
