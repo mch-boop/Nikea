@@ -56,7 +56,7 @@ public class SAFacturaImp implements SAFactura {
 
 		servicioAMontador.clear();
 
-		return facturaActual.getId() + 1;
+		return Eventos.RES_INICIAR_VENTA_OK;
 
 	}
 
@@ -135,7 +135,7 @@ public class SAFacturaImp implements SAFactura {
 			return -4;
 		}
 
-		TLineaFactura existente = facturaActual.buscarLinea(linea.getIdProducto());
+		TLineaFactura existente = buscarLinea(facturaActual, linea.getIdProducto());
 
 		// Si el producto ya está añadido, aumentamos la cantidad
 		if (existente != null) {
@@ -144,11 +144,11 @@ public class SAFacturaImp implements SAFactura {
 		// De lo contrario, añadimos la nueva linea de factura
 		else {
 			TLineaFactura nuevaLinea = new TLineaFactura();
-			nuevaLinea.setIdProducto(servicio.getId());
+			nuevaLinea.setIdServicio(servicio.getId());
 			nuevaLinea.setCantidad(linea.getCantidad());
 			nuevaLinea.setPrecioUnitario(servicio.getPrecioActual());
 
-			facturaActual.addLinea(nuevaLinea);
+			addLinea(facturaActual, nuevaLinea);
 		}
 		return 1;
 	}
@@ -164,7 +164,7 @@ public class SAFacturaImp implements SAFactura {
 			return 0;
 		}
 
-		TLineaFactura existente = facturaActual.buscarLinea(linea.getIdProducto());
+		TLineaFactura existente = buscarLinea(facturaActual, linea.getIdProducto());
 
 		// Si el producto no existe, delvolvemos false
 		if (existente == null) {
@@ -177,7 +177,7 @@ public class SAFacturaImp implements SAFactura {
 		if (nuevaCantidad < 0) {
 			return -3;
 		} else if (nuevaCantidad == 0) {
-			facturaActual.removeLinea(existente);
+			facturaActual.getLineas().remove(existente);
 		} else {
 			existente.setCantidad(nuevaCantidad);
 		}
@@ -383,5 +383,28 @@ public class SAFacturaImp implements SAFactura {
 	 public Map<String, Double> getVentasPorMarca() {
 		System.out.println("Falta en SAFacturaImp");
 	    return null;
+	}
+	
+	// Métodos auxiliares
+	private TLineaFactura buscarLinea(TFactura factura, int idProducto) {
+
+	    for (TLineaFactura l : factura.getLineas()) {
+	        if (l.getIdProducto() == idProducto) {
+	            return l;
+	        }
+	    }
+
+	    return null;
+	}
+	
+	private void addLinea(TFactura factura, TLineaFactura nueva) {
+
+	    TLineaFactura existente = buscarLinea(factura, nueva.getIdProducto());
+
+	    if (existente != null) {
+	        existente.setCantidad(existente.getCantidad() + nueva.getCantidad());
+	    } else {
+	        factura.getLineas().add(nueva);
+	    }
 	}
 }

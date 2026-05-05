@@ -84,7 +84,7 @@ public class VistaEliminarServicioFactura extends JFrame implements IGUI {
                 }
 
                 TLineaFactura tLinea = new TLineaFactura();
-                tLinea.setIdProducto(idServicio);
+                tLinea.setIdServicio(idServicio);
                 tLinea.setCantidad(cantidad);
 
                 Controlador.getInstance().accion(Eventos.ELIMINAR_SERVICIO, tLinea);

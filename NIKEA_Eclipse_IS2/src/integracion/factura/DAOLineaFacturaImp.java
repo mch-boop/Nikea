@@ -114,7 +114,7 @@ public class DAOLineaFacturaImp implements DAOLineaFactura {
 				TLineaFactura l = new TLineaFactura();
 
 				l.setIdFactura(obj.getInt("idFactura"));
-				l.setIdProducto(obj.getInt("idProducto"));
+				l.setIdServicio(obj.getInt("idProducto"));
 				l.setCantidad(obj.getInt("cantidad"));
 				l.setPrecioUnitario(obj.getDouble("precioUnitario"));
 
