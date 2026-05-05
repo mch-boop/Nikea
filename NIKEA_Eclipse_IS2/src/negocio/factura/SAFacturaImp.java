@@ -1,6 +1,8 @@
 package negocio.factura;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -193,12 +195,19 @@ public class SAFacturaImp implements SAFactura {
 		if (facturaActual.getLineas() == null || facturaActual.getLineas().isEmpty())
 			return Eventos.RES_CERRAR_VENTA_KO_SIN_LINEAS;
 
+		Date fecha = normalizarFecha(factura.getFecha());
+		
 		if (factura.getFecha() == null)
 			return Eventos.RES_CERRAR_VENTA_KO_FECHA_INVALIDA;
 
+		Date hoy = normalizarFecha(new Date());
+
+		    if (fecha.after(hoy))
+		        return Eventos.RES_CERRAR_VENTA_KO_FECHA_INVALIDA;
 		DAOCliente daoCliente = FactoriaAbstractaIntegracion.getInstance().crearDAOCliente();
 		DAODescuento daoDescuento = FactoriaAbstractaIntegracion.getInstance().crearDAODescuento();
 
+		if(factura.getIdCliente() < 0) return Eventos.RES_CERRAR_VENTA_KO_CLIENTE_NO_EXISTE;
 		TCliente cliente = daoCliente.read(factura.getIdCliente());
 		if (cliente == null)
 			return Eventos.RES_CERRAR_VENTA_KO_CLIENTE_NO_EXISTE;
@@ -207,7 +216,7 @@ public class SAFacturaImp implements SAFactura {
 			return Eventos.RES_CERRAR_VENTA_KO_CLIENTE_INACTIVO;
 
 		int idDesc = factura.getIdDescuento();
-		if (idDesc != 0) {
+		if (idDesc > 0) {
 
 			TDescuento descuento = daoDescuento.read(idDesc);
 
@@ -217,18 +226,13 @@ public class SAFacturaImp implements SAFactura {
 			if (!descuento.isActivo())
 				return Eventos.RES_CERRAR_VENTA_KO_DESCUENTO_INACTIVO;
 		}
+		else return Eventos.RES_CERRAR_VENTA_KO_DESCUENTO_NO_EXISTE;
 
 		facturaActual.setIdCliente(factura.getIdCliente());
 		facturaActual.setIdDescuento(factura.getIdDescuento());
 		facturaActual.setFecha(factura.getFecha());
 
-		double total = 0;
-
-		for (TLineaFactura l : facturaActual.getLineas()) {
-			total += l.getCantidad() * l.getPrecioUnitario();
-		}
-
-		facturaActual.setTotal(total);
+		facturaActual.setTotal(facturaActual.getImporte());
 		facturaActual.setCerrada(true);
 
 		DAOFactura dao = FactoriaAbstractaIntegracion.getInstance().crearDAOFactura();
@@ -249,6 +253,21 @@ public class SAFacturaImp implements SAFactura {
 		servicioAMontador.clear();
 
 		return id;
+	}
+
+	private Date normalizarFecha(Date fecha) {
+
+	    if (fecha == null) return null;
+
+	    Calendar cal = Calendar.getInstance();
+	    cal.setTime(fecha);
+
+	    cal.set(Calendar.HOUR_OF_DAY, 0);
+	    cal.set(Calendar.MINUTE, 0);
+	    cal.set(Calendar.SECOND, 0);
+	    cal.set(Calendar.MILLISECOND, 0);
+
+	    return cal.getTime();
 	}
 
 	@Override
@@ -407,4 +426,6 @@ public class SAFacturaImp implements SAFactura {
 	        factura.getLineas().add(nueva);
 	    }
 	}
+	
+	
 }
