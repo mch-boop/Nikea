@@ -113,12 +113,26 @@ public class VistaAnadirEmpleado extends JDialog implements IGUI {
 						txtNombre.requestFocus();
 						return;
 					}
+					if (txtApellido.getText().trim().isEmpty()) {
+						JOptionPane.showMessageDialog(null, "Error: Los apellidos son un campo obligatorio.", "Faltan datos",
+								JOptionPane.WARNING_MESSAGE);
+						txtNombre.requestFocus();
+						return;
+					}
 					if (txtDNI.getText().trim().isEmpty()) {
 						JOptionPane.showMessageDialog(null, "Error: El DNI es un campo obligatorio.", "Faltan datos",
 								JOptionPane.WARNING_MESSAGE);
 						txtDNI.requestFocus();
 						return;
 					}
+					// Validación del DNI
+		            if (!validarDNI(txtDNI.getText().trim())) {
+		                JOptionPane.showMessageDialog(null, 
+		                    "El formato del DNI no es válido.\nDebe tener 8 números y una letra (ej: 12345678Z).", 
+		                    "DNI Incorrecto", JOptionPane.ERROR_MESSAGE);
+		                txtDNI.requestFocus();
+		                return;
+		            }
 					TEmpleado te;
 
 					// Decisión de instanciación del Transfer según el RadioButton
@@ -200,6 +214,23 @@ public class VistaAnadirEmpleado extends JDialog implements IGUI {
 		pack();
 		setResizable(false); // Recomendado para que no se desajuste al redimensionar
 		setLocationRelativeTo(null); // Centrar en pantalla
+	}
+	
+	private boolean validarDNI(String dni) {
+	    // Formato básico: 8 números y una letra (sin espacios ni guiones)
+	    if (dni == null || !dni.matches("^[0-9]{8}[A-Z]$")) {
+	        return false;
+	    }
+	    return true; 
+	    /*
+	    // Cálculo de la letra
+	    String letras = "TRWAGMYFPDXBNJZSQVHLCKE";
+	    int numero = Integer.parseInt(dni.substring(0, 8));
+	    char letraEsperada = letras.charAt(numero % 23);
+	    char letraIntroducida = dni.charAt(8);
+
+	    return letraEsperada == letraIntroducida;
+	    */
 	}
 
 	@Override

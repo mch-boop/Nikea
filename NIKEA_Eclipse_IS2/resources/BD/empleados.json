@@ -57,5 +57,15 @@
         "dni": "777H",
         "numeroVentas": 0,
         "activo": true
+    },
+    {
+        "tipo": 1,
+        "apellido": "Bullock",
+        "sueldo": 1200,
+        "id": 7,
+        "nombre": "Sandra",
+        "dni": "12345678Z",
+        "numeroVentas": 0,
+        "activo": true
     }
 ]
