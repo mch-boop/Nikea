@@ -162,7 +162,7 @@ public class VistaAnadirMarca extends JDialog implements IGUI {
 
                 case Eventos.RES_ALTA_MARCA_YA_EXISTE:
                     JOptionPane.showMessageDialog(this,
-                            "Ya existe una marca con ese nombre.",
+                            "Ya existe una marca con ese nombre. El nombre de la Marca es único.",
                             "Aviso",
                             JOptionPane.WARNING_MESSAGE);
                     txtNombre.requestFocus();
@@ -170,7 +170,7 @@ public class VistaAnadirMarca extends JDialog implements IGUI {
 
                 case Eventos.RES_ALTA_MARCA_REACTIVADA:
                     JOptionPane.showMessageDialog(this,
-                            "La marca existía pero estaba inactiva. Se ha reactivado correctamente.");
+                            "La marca existía pero estaba inactiva. Se ha reactivado correctamente con los datos anteriores.");
                     limpiarCampos();
                     break;
 
@@ -184,14 +184,16 @@ public class VistaAnadirMarca extends JDialog implements IGUI {
 
                 case Eventos.RES_ALTA_MARCA_KO:
                     JOptionPane.showMessageDialog(this,
-                            "Error en el sistema.",
+                            "Error en el alta de la marca.",
                             "Error",
                             JOptionPane.ERROR_MESSAGE);
                     break;
 
                 default:
                     JOptionPane.showMessageDialog(this,
-                            "Error no identificado.");
+                            "Error no identificado.", 
+                            "Error",
+                            JOptionPane.ERROR_MESSAGE);
                     break;
             }
         });
