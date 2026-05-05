@@ -1,7 +1,5 @@
 package negocio.cliente;
 
-import org.json.JSONObject;
-
 public class TCliente {
 	
 	// ATRIBUTOS
@@ -27,18 +25,7 @@ public class TCliente {
         this.telefono = telefono;
         this.activo = activo;
     }
-    
-    // Métodos traducción de/a JSON
-    public JSONObject asJSON() {
-        JSONObject obj = new JSONObject();
-        obj.put("id", this.idCliente);
-        obj.put("nombre", this.nombre);
-        obj.put("apellidos", this.apellidos);
-        obj.put("DNI", this.DNI);
-        obj.put("teléfono", this.telefono);
-        obj.put("activo", this.activo);
-        return obj;
-    }
+ 
     
 	// Getters
 	public String getNombre() { return this.nombre; }
@@ -55,11 +42,4 @@ public class TCliente {
 	public void setTelefono(int tfno) { this.telefono = tfno; }
 	public void setId(int id) { this.idCliente = id; }
 	public void setActivo(boolean ac) { this.activo = ac; }
-	
-	@Override
-    public String toString() {
-        return "TEmpleado [ID=" + idCliente + ", DNI=" + DNI + ", Nombre=" + nombre + 
-               ", Apellido=" + apellidos + ", Telefono=" + telefono + 
-               ", Activo=" + activo + "]";
-    }
 }

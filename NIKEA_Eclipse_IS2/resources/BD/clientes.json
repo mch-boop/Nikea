@@ -8,11 +8,11 @@
         "activo": false
     },
     {
-        "apellidos": "Clientón",
-        "teléfono": 76,
+        "apellidos": "de prueba",
+        "teléfono": 171717171,
         "id": 2,
         "nombre": "Cliente",
-        "DNI": "jeje",
+        "DNI": "999111888G",
         "activo": true
     },
     {
@@ -133,6 +133,14 @@
         "id": 17,
         "nombre": "cliente",
         "DNI": "jojo",
+        "activo": true
+    },
+    {
+        "apellidos": "Morales",
+        "teléfono": 888828212,
+        "id": 18,
+        "nombre": "David",
+        "DNI": "51497239G",
         "activo": true
     }
 ]

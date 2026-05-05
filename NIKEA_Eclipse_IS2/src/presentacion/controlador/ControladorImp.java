@@ -89,7 +89,7 @@ public class ControladorImp extends Controlador {
 
 			IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.BUSCAR_CLIENTE);
 
-			if (cli != null && cli.isActivo()) {
+			if (cli != null) {
 				vista.actualizar(Eventos.RES_BUSCAR_CLIENTE_OK, cli);
 			} else {
 				vista.actualizar(Eventos.RES_BUSCAR_CLIENTE_KO, id);
@@ -103,7 +103,7 @@ public class ControladorImp extends Controlador {
 
 			IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(evento);
 
-			if (clientes != null && !clientes.isEmpty()) {
+			if (clientes != null) {
 				vista.actualizar(Eventos.RES_MOSTRAR_CLIENTES_OK, clientes);
 			} else {
 				vista.actualizar(Eventos.RES_MOSTRAR_CLIENTES_KO, null);
@@ -139,20 +139,6 @@ public class ControladorImp extends Controlador {
 				vista.actualizar(Eventos.RES_MODIFICAR_CLIENTE_KO_NO_EXISTE, tc);
 			} else {
 				vista.actualizar(Eventos.RES_MODIFICAR_CLIENTE_KO_DATOS_INVALIDOS, tc);
-			}
-			break;
-		}
-
-		case Eventos.MOSTRAR_MEJOR_CLIENTE: {
-			SACliente saCli = FactoriaAbstractaNegocio.getInstance().crearSACliente();
-			TCliente mejor = saCli.getMejorCliente();
-
-			IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(evento);
-
-			if (mejor != null) {
-				vista.actualizar(Eventos.RES_MOSTRAR_MEJOR_CLIENTE_OK, mejor);
-			} else {
-				vista.actualizar(Eventos.RES_MOSTRAR_MEJOR_CLIENTE_KO, null);
 			}
 			break;
 		}

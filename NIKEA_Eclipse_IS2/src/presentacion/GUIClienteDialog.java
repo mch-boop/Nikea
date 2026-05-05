@@ -21,34 +21,32 @@ public class GUIClienteDialog extends JDialog {
 	public GUIClienteDialog(JFrame owner) {
 	    super(owner, "Gestión de Cliente", false);
 	    setResizable(false); 
-	    setSize(800, 150); 
-	    setLocationRelativeTo(owner);
 	    setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 	    
 	    initGUI();
+	    setLocationRelativeTo(owner);
 	}
 	
 	// MÉTODO INITGUI
 	
 	private void initGUI() {
-		JPanel panel = new JPanel(new GridLayout(2, 3, 10, 10));
+		JPanel panel = new JPanel(new GridLayout(1, 5, 10, 10));
 	    panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
 	    JButton btnAlta          = new JButton("Alta Cliente");
 	    JButton btnBaja          = new JButton("Baja Cliente");
 	    JButton btnModificar     = new JButton("Modificar Cliente");
 	    JButton btnListar        = new JButton("Listar Clientes");
-	    JButton btnMostrarMejor  = new JButton("Mejor Cliente");
 	    JButton btnBuscar        = new JButton("Buscar Cliente");
 
-	    JButton[] botones = {btnAlta, btnBaja, btnModificar, btnBuscar, btnListar, btnMostrarMejor, };
+	    JButton[] botones = {btnAlta, btnBaja, btnModificar, btnBuscar, btnListar };
 	    for (JButton b : botones) {
 	        b.setFocusPainted(false);
 	        panel.add(b);
 	    }
 
 	    add(panel, BorderLayout.CENTER);
-        
+        pack();
 
         // Listeners de los botones.
         btnAlta.addActionListener(e -> {
@@ -74,11 +72,7 @@ public class GUIClienteDialog extends JDialog {
         btnListar.addActionListener(e -> { 
             Controlador.getInstance().accion(Eventos.MOSTRAR_CLIENTES, null);
         });
-        
-        btnMostrarMejor.addActionListener(e -> { 
-            Controlador.getInstance().accion(Eventos.MOSTRAR_MEJOR_CLIENTE, null);
-        });
-        
+                
 	}
 
 	private void abrirVistaBloqueante(JDialog vista) {

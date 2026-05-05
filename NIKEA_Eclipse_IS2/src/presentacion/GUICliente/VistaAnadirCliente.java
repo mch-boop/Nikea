@@ -103,11 +103,19 @@ public class VistaAnadirCliente extends JDialog implements IGUI {
 						txtDNI.requestFocus();
 						return;
 					}
+					if (!esFormatoDNIValido(txtDNI.getText().trim())) {
+					    mostrarError("DNI inválido. Formato: 8 dígitos + 1 letra", txtDNI);
+					    return;
+					}
 					if (txtTelefono.getText().trim().isEmpty()) {
 						JOptionPane.showMessageDialog(null, "Error: El teléfono es un campo obligatorio.",
 								"Faltan datos", JOptionPane.WARNING_MESSAGE);
 						txtTelefono.requestFocus();
 						return;
+					}
+					if (!esFormatoTelefonoValido(txtTelefono.getText().trim())) {
+					    mostrarError("Teléfono inválido. Debe tener 9 dígitos", txtTelefono);
+					    return;
 					}
 
 					int tfno;
@@ -244,6 +252,19 @@ public class VistaAnadirCliente extends JDialog implements IGUI {
 		});
 	}
 
+	// Métodos auxiliares:
+	
+	private boolean esFormatoDNIValido(String dni) {
+		String regex_dni = "^[0-9]{8}[A-Za-z]$";
+		return dni.matches(regex_dni);
+	}
+
+	private boolean esFormatoTelefonoValido(String telefono) {
+		String regex_telefono = "^[0-9]{9}$";
+		return telefono.matches(regex_telefono);
+
+	}
+	
 	// reset
 
 	@Override

@@ -44,7 +44,7 @@ public class DAOClienteImp implements DAOCliente {
         File file = new File(PATH);
         
         // Si no tenemos fichero devolvemos la lista vacía.
-        if (!file.exists()) return lista;
+        if (!file.exists() || file.length() == 0) return lista;
 
         try (FileInputStream is = new FileInputStream(file)) {
             JSONTokener tokener = new JSONTokener(is);
@@ -103,7 +103,7 @@ public class DAOClienteImp implements DAOCliente {
     	JSONArray array = new JSONArray();
         for (TCliente c : lista) {
             // Cada objeto genera su propio JSONObject
-            array.put(c.asJSON());
+            array.put(asJSON(c));
         }
 
         try (FileOutputStream os = new FileOutputStream(new File(PATH))) {
@@ -111,6 +111,18 @@ public class DAOClienteImp implements DAOCliente {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+	
+	// Método auxiliar para convertir los transfers a json:
+	public JSONObject asJSON(TCliente tc) {
+        JSONObject obj = new JSONObject();
+        obj.put("id", tc.getId());
+        obj.put("nombre", tc.getNombre());
+        obj.put("apellidos", tc.getApellidos());
+        obj.put("DNI", tc.getDNI());
+        obj.put("teléfono", tc.getTelefono());
+        obj.put("activo", tc.isActivo());
+        return obj;
     }
 	
 }

@@ -4,7 +4,6 @@ import java.util.Collection;
 
 import integracion.cliente.DAOCliente;
 import integracion.factoria.FactoriaAbstractaIntegracion;
-import negocio.TOAResumenMensual;
 
 public class SAClienteImp implements SACliente {
 	// MÉTODOS DE LA INTERFAZ
@@ -46,7 +45,8 @@ public class SAClienteImp implements SACliente {
 	@Override
 	public TCliente read(int id) {
 		DAOCliente dao = FactoriaAbstractaIntegracion.getInstance().crearDAOCliente();
-		return dao.read(id);
+		TCliente tc = dao.read(id);
+		return (tc.isActivo() ? tc : null);
 	}
 
 	@Override
@@ -81,13 +81,7 @@ public class SAClienteImp implements SACliente {
 	@Override
 	public Collection<TCliente> readAll() {
 		DAOCliente dao = FactoriaAbstractaIntegracion.getInstance().crearDAOCliente();
-		return dao.readAll();
+		Collection<TCliente> clientes = dao.readAll();
+		return  (clientes.isEmpty() ? null : clientes);
 	}
-
-	@Override
-	public TCliente getMejorCliente() {
-		TOAResumenMensual toa = FactoriaAbstractaIntegracion.getInstance().crearTOAResumenMensual();
-		return toa.getMejorCliente();
-	}
-
 }

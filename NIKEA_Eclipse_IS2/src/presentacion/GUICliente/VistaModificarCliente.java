@@ -45,7 +45,7 @@ public class VistaModificarCliente extends JDialog implements IGUI {
         txtId = new JTextField(20);	        // El ID es obligatorio para saber a quién modificar
         btnBuscar = new JButton("BUSCAR");
         btnCancelar = new JButton("CANCELAR");
-        pBusqueda.add(new JLabel("ID Cliente a modificar:"));
+        pBusqueda.add(new JLabel("ID:"));
         pBusqueda.add(txtId);
         pBusqueda.add(btnBuscar);
         pBusqueda.add(btnCancelar);
@@ -192,6 +192,10 @@ public class VistaModificarCliente extends JDialog implements IGUI {
 	                // Telefono 
 	                if (!txtTelefono.getText().trim().isEmpty()) {
 	                	int tfno = Integer.valueOf(txtTelefono.getText().trim());
+	                	if (!esFormatoTelefonoValido(txtTelefono.getText().trim())) {
+						    mostrarError("Teléfono inválido. Debe tener 9 dígitos", txtTelefono);
+						    return;
+						}
 	                	if (tfno <= 0) {
 	                		JOptionPane.showMessageDialog(null, "El teléfono debe ser un número positivo.", "Error", JOptionPane.ERROR_MESSAGE);
 	                        txtTelefono.requestFocus();
@@ -204,10 +208,21 @@ public class VistaModificarCliente extends JDialog implements IGUI {
 	                
 	                // DNI 
 	                if (!txtDNI.getText().trim().isEmpty()) {
+	                	if (!esFormatoDNIValido(txtDNI.getText().trim())) {
+						    mostrarError("DNI inválido. Formato: 8 dígitos + 1 letra", txtDNI);
+						    return;
+						}
 	                	tc.setDNI(txtDNI.getText().trim());
 	                } else {
 	                	tc.setDNI(null); // Valor centinela: "No modificar DNI"
 	                }
+	                
+	                if (tc.getNombre() == null && tc.getApellidos() == null && tc.getTelefono() == -1 && tc.getDNI() == null) {
+	                	JOptionPane.showMessageDialog(null, "Alguno de los campos debe estar rellenado.", "Error", JOptionPane.ERROR_MESSAGE);
+                        txtNombre.requestFocus();
+                        return;
+	                }
+	                	
 	
 	                // Cuando se haya llegado al listener de btnModificar es porque ya hemos pasado por 
 	                // la primera llamada a actualizar y por tanto hemos recibido e inicializado clienteEncontrado.
@@ -264,7 +279,7 @@ public class VistaModificarCliente extends JDialog implements IGUI {
             case Eventos.RES_BUSCAR_CLIENTE_PARA_MODIFICAR_OK:
             	clienteEncontrado = (TCliente) datos;
             	limpiarCampos();
-            	
+            	            	
             	// Rellenar datos actuales
                 txtNombreAct.setText(clienteEncontrado.getNombre());
                 txtApellidoAct.setText(clienteEncontrado.getApellidos());
@@ -274,6 +289,7 @@ public class VistaModificarCliente extends JDialog implements IGUI {
             	// Mostramos el panel y ajustamos la ventana
                 panelEdicion.setVisible(true);
                 txtId.setEditable(false);
+                pBotones.setVisible(false);
                 pack();
                 setLocationRelativeTo(null);
                 break;
@@ -281,19 +297,23 @@ public class VistaModificarCliente extends JDialog implements IGUI {
             case Eventos.RES_MODIFICAR_CLIENTE_OK:
                 JOptionPane.showMessageDialog(this, "Cliente modificado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
                 
-                // Aquí sí queremos ocultar el panel y resetear todo para buscar a otro cliente
                 panelEdicion.setVisible(false);
                 pBotones.setVisible(true);
                 txtId.setEditable(true);
                 txtId.setText("");
+                limpiarCampos();
                 pack();
                 setLocationRelativeTo(null);
                 break;
                 
             case Eventos.RES_MODIFICAR_CLIENTE_KO_NO_EXISTE:
                 JOptionPane.showMessageDialog(this, "Error: No se encontró ningún cliente con el ID especificado.", "Error", JOptionPane.ERROR_MESSAGE);
-                txtId.requestFocus();
+                
+                panelEdicion.setVisible(false);
                 pBotones.setVisible(true);
+                txtId.setEditable(true);
+                txtId.setText("");
+                limpiarCampos();
                 pack();
                 setLocationRelativeTo(null);
                 break;
@@ -305,6 +325,22 @@ public class VistaModificarCliente extends JDialog implements IGUI {
         }
     }
 
+    // Métodos auxiliares:
+	
+ 	private boolean esFormatoDNIValido(String dni) {
+ 		String regex_dni = "^[0-9]{8}[A-Za-z]$";
+ 		return dni.matches(regex_dni);
+ 	}
+
+ 	private boolean esFormatoTelefonoValido(String telefono) {
+ 		String regex_telefono = "^[0-9]{9}$";
+ 		return telefono.matches(regex_telefono);
+ 	}
+ 	
+ 	private void mostrarError(String msj, JTextField campo) {
+        JOptionPane.showMessageDialog(VistaModificarCliente.this, msj, "Faltan datos", JOptionPane.WARNING_MESSAGE);
+        campo.requestFocus();
+    }
     
     // reset
     
@@ -313,10 +349,10 @@ public class VistaModificarCliente extends JDialog implements IGUI {
         if (b) {
             // Restaurar estado inicial cuando se abre la ventana
             limpiarCampos();
-            panelEdicion.setVisible(false);  // ✓ AÑADIR ESTA LÍNEA
-            pBotones.setVisible(true);       // ✓ AÑADIR ESTA LÍNEA
-            txtId.setEditable(true);         // ✓ AÑADIR ESTA LÍNEA
-            txtId.setText("");               // ✓ AÑADIR ESTA LÍNEA
+            panelEdicion.setVisible(false);  
+            pBotones.setVisible(true);      
+            txtId.setEditable(true);         
+            txtId.setText("");               
         }
         pack();
         super.setVisible(b);

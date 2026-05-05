@@ -19,7 +19,6 @@ public class FactoriaPresentacion extends FactoriaAbstractaPresentacion {
 	private static VistaModificarCliente vistaModificarCliente;
 	private static VistaBuscarCliente vistaBuscarCliente;
 	private static VistaMostrarClientes vistaMostrarClientes;
-	private static VistaMostrarMejorCliente vistaMostrarMejorCliente;
 
 	// ATRIBUTOS PARA SINGLETON (EMPLEADO)
 
@@ -98,11 +97,6 @@ public class FactoriaPresentacion extends FactoriaAbstractaPresentacion {
 					vistaMostrarClientes = new VistaMostrarClientes();
 				}
 				return vistaMostrarClientes;
-			case Eventos.MOSTRAR_MEJOR_CLIENTE:
-				if (vistaMostrarMejorCliente == null) {
-					vistaMostrarMejorCliente = new VistaMostrarMejorCliente();
-				}
-				return vistaMostrarMejorCliente;
 			case Eventos.BUSCAR_CLIENTE_PARA_MODIFICAR:
 				if (vistaModificarCliente == null) {
 					vistaModificarCliente = new VistaModificarCliente();
