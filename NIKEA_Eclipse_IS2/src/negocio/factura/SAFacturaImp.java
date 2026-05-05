@@ -70,21 +70,19 @@ public class SAFacturaImp implements SAFactura {
 
 		facturaActual.getLineas().add(linea);
 
-		// if (esMontaje(servicio)) {
+		if (esMontaje(servicio)) {
 
-		Integer idMontador1 = obtenerMontadorDisponible();
+		    Integer idMontador1 = obtenerMontadorDisponible();
+		    if (idMontador1 == null) return false;
 
-		if (idMontador1 == null)
-			return false;
+		    servicioAMontador.put(servicio.getId(), idMontador1);
 
-		servicioAMontador.put(servicio.getId(), idMontador1);
+		    TMontadorMontaje tm = new TMontadorMontaje(idMontador1, servicio.getId());
 
-		TMontadorMontaje tm = new TMontadorMontaje(idMontador1, servicio.getId());
-
-		if (!daoMontaje.existeVinculacion(tm)) {
-			daoMontaje.vincular(tm);
+		    if (!daoMontaje.existeVinculacion(tm)) {
+		        daoMontaje.vincular(tm);
+		    }
 		}
-		// }
 		return true;
 
 	}
@@ -195,19 +193,17 @@ public class SAFacturaImp implements SAFactura {
 		if (facturaActual.getLineas() == null || facturaActual.getLineas().isEmpty())
 			return Eventos.RES_CERRAR_VENTA_KO_SIN_LINEAS;
 
-		Date fecha = normalizarFecha(factura.getFecha());
-		
 		if (factura.getFecha() == null)
-			return Eventos.RES_CERRAR_VENTA_KO_FECHA_INVALIDA;
+		    return Eventos.RES_CERRAR_VENTA_KO_FECHA_INVALIDA;
 
+		Date fecha = normalizarFecha(factura.getFecha());
 		Date hoy = normalizarFecha(new Date());
 
-		    if (fecha.after(hoy))
-		        return Eventos.RES_CERRAR_VENTA_KO_FECHA_INVALIDA;
+		if (fecha.after(hoy))
+		    return Eventos.RES_CERRAR_VENTA_KO_FECHA_INVALIDA;
 		DAOCliente daoCliente = FactoriaAbstractaIntegracion.getInstance().crearDAOCliente();
 		DAODescuento daoDescuento = FactoriaAbstractaIntegracion.getInstance().crearDAODescuento();
 
-		if(factura.getIdCliente() < 0) return Eventos.RES_CERRAR_VENTA_KO_CLIENTE_NO_EXISTE;
 		TCliente cliente = daoCliente.read(factura.getIdCliente());
 		if (cliente == null)
 			return Eventos.RES_CERRAR_VENTA_KO_CLIENTE_NO_EXISTE;
@@ -226,13 +222,18 @@ public class SAFacturaImp implements SAFactura {
 			if (!descuento.isActivo())
 				return Eventos.RES_CERRAR_VENTA_KO_DESCUENTO_INACTIVO;
 		}
-		else return Eventos.RES_CERRAR_VENTA_KO_DESCUENTO_NO_EXISTE;
 
 		facturaActual.setIdCliente(factura.getIdCliente());
 		facturaActual.setIdDescuento(factura.getIdDescuento());
 		facturaActual.setFecha(factura.getFecha());
 
-		facturaActual.setTotal(facturaActual.getImporte());
+		double total = 0;
+
+		for (TLineaFactura l : facturaActual.getLineas()) {
+		    total += l.getCantidad() * l.getPrecioUnitario();
+		}
+
+		facturaActual.setTotal(total);
 		facturaActual.setCerrada(true);
 
 		DAOFactura dao = FactoriaAbstractaIntegracion.getInstance().crearDAOFactura();
