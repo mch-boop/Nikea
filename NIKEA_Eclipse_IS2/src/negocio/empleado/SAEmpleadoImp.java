@@ -99,11 +99,7 @@ public class SAEmpleadoImp implements SAEmpleado {
 	@Override
 	public int delete(int id) {
 		DAOEmpleado dao = FactoriaIntegracion.getInstance().crearDAOEmpleado();
-        TEmpleado te = dao.read(id);
-        
-        if (te == null) return -3; // No existe
-        if (!te.isActivo()) return -4; // Ya está inactivo
-        
+        TEmpleado te = dao.read(id);        
         te.setActivo(false); // BORRADO LÓGICO
         return dao.update(te); // Persistimos el cambio en el JSON
 	}
@@ -258,6 +254,19 @@ public class SAEmpleadoImp implements SAEmpleado {
 	    if (!te.isActivo()) return -4; // Ya está inactivo
 	    
 	    return 1; // Es apto
+	}
+	
+	@Override
+	public TEmpleado readActive(int id) {
+	    DAOEmpleado dao = FactoriaIntegracion.getInstance().crearDAOEmpleado();
+	    TEmpleado te = dao.read(id);
+	    
+	    // Para las vistas de consulta/modificación, un empleado que no está activo "no existe".
+	    if (te != null && te.isActivo()) {
+	        return te;
+	    }
+	    
+	    return null;
 	}
 	
 }

@@ -534,40 +534,39 @@ public class ControladorImp extends Controlador {
 		}
 
 		case Eventos.BUSCAR_EMPLEADO_PARA_MODIFICAR: {
-			Integer id = (Integer) datos;
-			SAEmpleado sa = FactoriaAbstractaNegocio.getInstance().crearSAEmpleado();
-			TEmpleado emp = sa.read(id);
+		    Integer id = (Integer) datos;
+		    SAEmpleado sa = FactoriaAbstractaNegocio.getInstance().crearSAEmpleado();
+		    
+		    // El SA ahora devuelve el Transfer solo si existe y está activo, 
+		    // de lo contrario devuelve null.
+		    TEmpleado emp = sa.readActive(id); 
 
-			IGUI vBuscarId = FactoriaAbstractaPresentacion.getInstance()
-					.createVista(Eventos.VENTANA_BUSCAR_ID_EMPLEADO);
-			IGUI vModificar = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.MODIFICAR_EMPLEADO);
+		    IGUI vBuscarId = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.VENTANA_BUSCAR_ID_EMPLEADO);
+		    IGUI vModificar = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.MODIFICAR_EMPLEADO);
 
-			if (emp != null && emp.isActivo()) {
-				vBuscarId.actualizar(Eventos.RES_BUSCAR_EMPLEADO_PARA_MODIFICAR_OK, id);
-				// Pasamos los datos a la de Modificar
-				vModificar.actualizar(Eventos.RES_BUSCAR_EMPLEADO_PARA_MODIFICAR_OK, emp);
-			} else {
-				// Si no existe o está inactivo, avisamos a la pequeña para que muestre error
-				vBuscarId.actualizar(Eventos.RES_BUSCAR_EMPLEADO_PARA_MODIFICAR_KO, id);
-			}
-			break;
+		    if (emp != null) {
+		        vBuscarId.actualizar(Eventos.RES_BUSCAR_EMPLEADO_PARA_MODIFICAR_OK, id);
+		        vModificar.actualizar(Eventos.RES_BUSCAR_EMPLEADO_PARA_MODIFICAR_OK, emp);
+		    } else {
+		        vBuscarId.actualizar(Eventos.RES_BUSCAR_EMPLEADO_PARA_MODIFICAR_KO, id);
+		    }
+		    break;
 		}
 
 		case Eventos.BUSCAR_EMPLEADO: {
-			Integer id = (Integer) datos;
-			SAEmpleado saEmp = FactoriaAbstractaNegocio.getInstance().crearSAEmpleado();
-			TEmpleado empleado = saEmp.read(id);
+		    Integer id = (Integer) datos;
+		    SAEmpleado saEmp = FactoriaAbstractaNegocio.getInstance().crearSAEmpleado();
+		    
+		    TEmpleado empleado = saEmp.readActive(id);
 
-			IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.BUSCAR_EMPLEADO);
+		    IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.BUSCAR_EMPLEADO);
 
-			// Si el empleado es null O no está activo, mandamos KO (No existe)
-			if (empleado != null && empleado.isActivo()) {
-				vista.actualizar(Eventos.RES_BUSCAR_EMPLEADO_OK, empleado);
-			} else {
-				// Se trata igual que si no existiera
-				vista.actualizar(Eventos.RES_BUSCAR_EMPLEADO_KO, id);
-			}
-			break;
+		    if (empleado != null) {
+		        vista.actualizar(Eventos.RES_BUSCAR_EMPLEADO_OK, empleado);
+		    } else {
+		        vista.actualizar(Eventos.RES_BUSCAR_EMPLEADO_KO, id);
+		    }
+		    break;
 		}
 
 		case Eventos.MOSTRAR_EMPLEADOS: {
