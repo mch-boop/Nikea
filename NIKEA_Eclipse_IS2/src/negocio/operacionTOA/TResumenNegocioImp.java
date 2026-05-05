@@ -2,24 +2,24 @@ package negocio.operacionTOA;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 import negocio.cliente.TCliente;
 import negocio.factura.TFactura;
-import negocio.marca.TMarca;
 import negocio.servicio.TServicio;
 
 public class TResumenNegocioImp implements TResumenNegocio {
 	private Collection<TCliente> clientes;
 	private Collection<TServicio> servicios;
 	private List<TFactura> facturas;
-	private Collection<TMarca> marcas;
+	private Collection<String> marcas;
 
 	public TResumenNegocioImp(Collection<TCliente> clientes, Collection<TServicio> servicios, List<TFactura> facturas,
-			Collection<TMarca> marcas) {
+			Set<String> marcas2) {
 		this.clientes = clientes;
 		this.servicios = servicios;
 		this.facturas = facturas;
-		this.marcas = marcas;
+		this.marcas = marcas2;
 	}
 
 	// getters
@@ -47,5 +47,5 @@ public class TResumenNegocioImp implements TResumenNegocio {
     public Collection<TCliente> getClientes() { return clientes; }
     public Collection<TServicio> getServicios() { return servicios; }
     public List<TFactura> getFacturas() { return facturas; }
-    public Collection<TMarca> getMarcas() { return marcas; }
+    public Collection<String> getMarcas() { return marcas; }
 }
