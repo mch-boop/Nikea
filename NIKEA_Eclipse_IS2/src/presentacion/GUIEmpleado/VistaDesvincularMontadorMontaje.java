@@ -2,19 +2,23 @@ package presentacion.GUIEmpleado;
 
 import javax.swing.*;
 import java.awt.*;
+
 import presentacion.IGUI;
 import presentacion.controlador.Controlador;
 import presentacion.controlador.Eventos;
 
 @SuppressWarnings("serial")
-public class VistaDesvincularMontador extends JFrame implements IGUI {
+public class VistaDesvincularMontadorMontaje extends JDialog implements IGUI {
 
 	// ATRIBUTOS
+	
     private JTextField txtIdMontador, txtIdMontaje;
     private JButton btnDesvincular, btnCancelar;
 
     // CONSTRUCTORA
-    public VistaDesvincularMontador() {
+    
+    public VistaDesvincularMontadorMontaje() {
+    	super(null, "Desvincular Montador de Montaje", ModalityType.APPLICATION_MODAL);
         setTitle("Desvincular Montador de Montaje");
         initGUI();
         // Al ser Singleton, solo escondemos la ventana

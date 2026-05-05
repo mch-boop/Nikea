@@ -2,19 +2,23 @@ package presentacion.GUIEmpleado;
 
 import javax.swing.*;
 import java.awt.*;
+
 import presentacion.IGUI;
 import presentacion.controlador.Controlador;
 import presentacion.controlador.Eventos;
 
 @SuppressWarnings("serial")
-public class VistaVincularMontador extends JFrame implements IGUI {
+public class VistaVincularMontadorMontaje extends JDialog implements IGUI {
 
 	// ATRIBUTOS 
+	
     private JTextField txtIdMontador, txtIdMontaje;
     private JButton btnVincular, btnCancelar;
 
     // CONSTRUCTORA
-    public VistaVincularMontador() {
+    
+    public VistaVincularMontadorMontaje() {
+    	super(null, "Vincular Montador a Montaje", ModalityType.APPLICATION_MODAL);
         setTitle("Vincular Montador a Montaje");
         initGUI();
         setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);

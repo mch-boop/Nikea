@@ -6,6 +6,8 @@ import negocio.descuento.SADescuento;
 import negocio.descuento.SADescuentoImp;
 import negocio.empleado.SAEmpleado;
 import negocio.empleado.SAEmpleadoImp;
+import negocio.empleado.SAMontadorMontaje;
+import negocio.empleado.SAMontadorMontajeImp;
 import negocio.factura.SAFactura;
 import negocio.factura.SAFacturaImp;
 import negocio.marca.SAMarca;
@@ -45,6 +47,11 @@ public class FactoriaNegocio extends FactoriaAbstractaNegocio {
 	@Override
 	public SAServicio crearSAServicio() {
 		return new SAServicioImp();
+	}
+	
+	@Override
+	public SAMontadorMontaje crearSAMontadorMontaje() {
+		return new SAMontadorMontajeImp();
 	}
 
 }

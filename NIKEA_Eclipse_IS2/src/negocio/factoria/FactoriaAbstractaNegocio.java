@@ -3,6 +3,7 @@ package negocio.factoria;
 import negocio.cliente.SACliente;
 import negocio.descuento.SADescuento;
 import negocio.empleado.SAEmpleado;
+import negocio.empleado.SAMontadorMontaje;
 import negocio.factura.SAFactura;
 import negocio.marca.SAMarca;
 import negocio.servicio.SAServicio;
@@ -25,4 +26,5 @@ public abstract class FactoriaAbstractaNegocio {
 	public abstract SAFactura crearSAFactura();
 	public abstract SAMarca crearSAMarca();
 	public abstract SAServicio crearSAServicio();
+	public abstract SAMontadorMontaje crearSAMontadorMontaje();
 }

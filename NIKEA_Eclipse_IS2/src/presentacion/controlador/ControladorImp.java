@@ -9,7 +9,9 @@ import negocio.cliente.TCliente;
 import negocio.descuento.SADescuento;
 import negocio.descuento.TDescuento;
 import negocio.empleado.SAEmpleado;
+import negocio.empleado.SAMontadorMontaje;
 import negocio.empleado.TEmpleado;
+import negocio.empleado.TMontadorMontaje;
 import negocio.factoria.FactoriaAbstractaNegocio;
 import negocio.factura.SAFactura;
 import negocio.factura.TFactura;
@@ -571,6 +573,44 @@ public class ControladorImp extends Controlador {
 				vista.actualizar(Eventos.RES_MOSTRAR_EMPLEADOS_OK, empleados);
 			} else {
 				vista.actualizar(Eventos.RES_MOSTRAR_EMPLEADOS_KO, null);
+			}
+			break;
+		}
+		
+		// EVENTOS DE MONTADOR-MONTAJE
+		
+		case Eventos.VINCULAR_MONTADOR_MONTAJE: {
+			TMontadorMontaje tmm = (TMontadorMontaje) datos;
+			SAMontadorMontaje saMN = FactoriaAbstractaNegocio.getInstance().crearSAMontadorMontaje();
+			int res = saMN.vincular(tmm);
+
+			IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(evento);
+			
+			if (res > 0) {
+				vista.actualizar(Eventos.RES_VINCULAR_MONTADOR_OK, res);
+			} else if (res == -1) {
+				vista.actualizar(Eventos.RES_VINCULAR_MONTADOR_KO_NO_EXISTE_EMPLEADO, null);
+			} else {
+				vista.actualizar(Eventos.RES_VINCULAR_MONTADOR_KO, null);
+			}
+			break;
+		}
+		
+		case Eventos.DESVINCULAR_MONTADOR_MONTAJE: {
+			TMontadorMontaje tmm = (TMontadorMontaje) datos;
+			SAMontadorMontaje saMN = FactoriaAbstractaNegocio.getInstance().crearSAMontadorMontaje();
+			int res = saMN.desvincular(tmm);
+
+			IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(evento);
+			
+			if (res > 0) {
+				vista.actualizar(Eventos.RES_DESVINCULAR_MONTADOR_OK, res);
+			} else if (res == -1) {
+				vista.actualizar(Eventos.RES_DESVINCULAR_MONTADOR_KO_RELACION_NO_EXISTE, null);
+			} else if (res == -2) {
+				vista.actualizar(Eventos.RES_DESVINCULAR_MONTADOR_KO_ID_NO_ENCONTRADO, null);
+			} else {
+				vista.actualizar(Eventos.RES_VINCULAR_MONTADOR_KO, null);
 			}
 			break;
 		}

@@ -28,6 +28,11 @@ public class FactoriaPresentacion extends FactoriaAbstractaPresentacion {
 	private static VistaModificarEmpleado vistaModificarEmpleado;
 	private static VistaBuscarEmpleado vistaBuscarEmpleado;
 	private static VistaMostrarEmpleados vistaMostrarEmpleado;
+	
+	// ATRIBUTOS PARA SINGLETON (RELACIÓN M A N)
+	
+	private static VistaVincularMontadorMontaje vistaVincularMontadorMontaje;
+	private static VistaDesvincularMontadorMontaje vistaDesvincularMontadorMontaje;
 
 	// ATRIBUTOS PARA SINGLETON (FACTURA)
 
@@ -136,6 +141,19 @@ public class FactoriaPresentacion extends FactoriaAbstractaPresentacion {
 				}
 				return vistaMostrarEmpleado;
 
+			// VISTAS DE LA RELACIÓN M A N
+			
+			case Eventos.VINCULAR_MONTADOR_MONTAJE:
+				if (vistaVincularMontadorMontaje == null) {
+					vistaVincularMontadorMontaje = new VistaVincularMontadorMontaje();
+				}
+				return vistaVincularMontadorMontaje;
+			case Eventos.DESVINCULAR_MONTADOR_MONTAJE:
+				if (vistaDesvincularMontadorMontaje == null) {
+					vistaDesvincularMontadorMontaje = new VistaDesvincularMontadorMontaje();
+				}
+				return vistaDesvincularMontadorMontaje;
+			
 			// VISTAS DE FACTURA
 
 			case Eventos.INICIAR_VENTA:
