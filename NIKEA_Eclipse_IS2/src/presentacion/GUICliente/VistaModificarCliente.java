@@ -166,7 +166,7 @@ public class VistaModificarCliente extends JDialog implements IGUI {
         
         // Listener de botón Modificar.
         btnModificar.addActionListener(new ActionListener() {
-            @SuppressWarnings("null")
+            
 			@Override
             public void actionPerformed(ActionEvent e) {
                 try {

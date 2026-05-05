@@ -1,7 +1,5 @@
 package negocio.empleado;
 
-import org.json.JSONObject;
-
 public class TEmpleado {
 
     // Atributos 

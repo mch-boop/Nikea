@@ -1,10 +1,7 @@
 package launcher;
 
 import javax.swing.SwingUtilities;
-
-import presentacion.factoria.*;
 import presentacion.GUIMain;
-import presentacion.controlador.Controlador;
 
 public class Main {
 
