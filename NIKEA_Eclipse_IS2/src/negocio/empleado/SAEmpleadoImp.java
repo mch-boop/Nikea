@@ -250,4 +250,14 @@ public class SAEmpleadoImp implements SAEmpleado {
 	    return res;
 	}
 	
+	public int readToDelete(Integer id) {
+		DAOEmpleado dao = FactoriaIntegracion.getInstance().crearDAOEmpleado();
+	    TEmpleado te = dao.read(id);
+	    
+	    if (te == null) return -3;      // No existe
+	    if (!te.isActivo()) return -4; // Ya está inactivo
+	    
+	    return 1; // Es apto
+	}
+	
 }

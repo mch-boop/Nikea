@@ -473,24 +473,30 @@ public class ControladorImp extends Controlador {
 		}
 
 		case Eventos.BAJA_EMPLEADO: {
-			Integer id = (Integer) datos;
-			SAEmpleado saEmp = FactoriaAbstractaNegocio.getInstance().crearSAEmpleado();
+		    Integer id = (Integer) datos;
+		    SAEmpleado saEmp = FactoriaAbstractaNegocio.getInstance().crearSAEmpleado();
 
-			TEmpleado emp = saEmp.read(id);
+		    // El SA ya hace las comprobaciones (si es null devuelve -3, si es inactivo -4)
+		    int res = saEmp.readToDelete(id); 
 
-			IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.BAJA_EMPLEADO);
+		    IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.BAJA_EMPLEADO);
 
-			if (emp == null) {
-				// El empleado no existe en el sistema
-				vista.actualizar(Eventos.RES_BAJA_EMPLEADO_KO_NO_EXISTE, id);
-			} else if (!emp.isActivo()) {
-				// El empleado existe pero ya está de baja
-				vista.actualizar(Eventos.RES_BAJA_EMPLEADO_KO_YA_INACTIVO, id);
-			} else {
-				// El empleado existe y está activo: mandamos una vista para confirmar la baja
-				vista.actualizar(Eventos.RES_BAJA_EMPLEADO_OK, emp);
-			}
-			break;
+		    if (res > 0) {
+		        vista.actualizar(Eventos.RES_BAJA_EMPLEADO_OK, saEmp.read(id));
+		    } else {
+		        switch (res) {
+		            case -3: // No existe
+		                vista.actualizar(Eventos.RES_BAJA_EMPLEADO_KO_NO_EXISTE, id);
+		                break;
+		            case -4: // Ya está inactivo
+		                vista.actualizar(Eventos.RES_BAJA_EMPLEADO_KO_YA_INACTIVO, id);
+		                break;
+		            default: // Error de escritura/persistencias
+		                vista.actualizar(Eventos.RES_BAJA_EMPLEADO_KO, id);
+		                break;
+		        }
+		    }
+		    break;
 		}
 
 		case Eventos.CONFIRMAR_BAJA_EMPLEADO: {

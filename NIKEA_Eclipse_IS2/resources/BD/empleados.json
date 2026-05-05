@@ -66,6 +66,6 @@
         "nombre": "Sandra",
         "dni": "12345678Z",
         "numeroVentas": 0,
-        "activo": true
+        "activo": false
     }
 ]
