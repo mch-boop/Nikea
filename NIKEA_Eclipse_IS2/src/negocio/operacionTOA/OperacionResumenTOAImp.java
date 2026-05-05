@@ -32,7 +32,7 @@ public class OperacionResumenTOAImp implements OperacionResumenTOA {
 		clienteDAO = FactoriaAbstractaIntegracion.getInstance().crearDAOCliente();
 		servicioDAO = FactoriaAbstractaIntegracion.getInstance().crearDAOServicio();
 
-		List<TFactura> facturas = facturaDAO.readByMes(mes, anio);
+		List<TFactura> facturas = facturaDAO.readByMonth(mes, anio);
 
 		// Clientes
 		Collection<TCliente> clientes = clienteDAO.readAll();

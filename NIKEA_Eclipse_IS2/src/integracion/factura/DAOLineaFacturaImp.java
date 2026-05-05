@@ -17,7 +17,7 @@ public class DAOLineaFacturaImp implements DAOLineaFactura {
 	private final String PATH = "resources/BD/lineasFactura.json";
 
 	@Override
-	public void crear(TLineaFactura lineaFactura) {
+	public void create(TLineaFactura lineaFactura) {
 		List<TLineaFactura> lista = leerTodas();
 
 		lista.add(lineaFactura);
@@ -27,7 +27,7 @@ public class DAOLineaFacturaImp implements DAOLineaFactura {
 	}
 
 	@Override
-	public List<TLineaFactura> leerPorFactura(int idFactura) {
+	public List<TLineaFactura> read(int idFactura) {
 
 		List<TLineaFactura> res = new ArrayList<>();
 
@@ -42,7 +42,7 @@ public class DAOLineaFacturaImp implements DAOLineaFactura {
 	}
 
 	@Override
-	public TLineaFactura leerPorLinea(Integer idFactura, Integer idProducto) {
+	public TLineaFactura readLine(Integer idFactura, Integer idProducto) {
 
 		for (TLineaFactura l : leerTodas()) {
 
@@ -56,7 +56,7 @@ public class DAOLineaFacturaImp implements DAOLineaFactura {
 	}
 
 	@Override
-	public void actualizar(TLineaFactura lineaFactura) {
+	public void update(TLineaFactura lineaFactura) {
 
 		List<TLineaFactura> lista = leerTodas();
 
@@ -75,7 +75,7 @@ public class DAOLineaFacturaImp implements DAOLineaFactura {
 	}
 
 	@Override
-	public void eliminar(Integer idFactura, Integer idProducto) {
+	public void deleteLine(Integer idFactura, Integer idProducto) {
 
 		List<TLineaFactura> lista = leerTodas();
 
@@ -85,7 +85,7 @@ public class DAOLineaFacturaImp implements DAOLineaFactura {
 	}
 
 	@Override
-	public void eliminarPorFactura(Integer idFactura) {
+	public void deleteAll(Integer idFactura) {
 
 		List<TLineaFactura> lista = leerTodas();
 

@@ -234,12 +234,12 @@ public class SAFacturaImp implements SAFactura {
 		DAOFactura dao = FactoriaAbstractaIntegracion.getInstance().crearDAOFactura();
 		DAOLineaFactura daoLinea = FactoriaAbstractaIntegracion.getInstance().crearDAOLineaFactura();
 
-		int id = dao.crear(facturaActual);
+		int id = dao.create(facturaActual);
 		facturaActual.setId(id);
 
 		for (TLineaFactura l : facturaActual.getLineas()) {
 			l.setIdFactura(id);
-			daoLinea.crear(l);
+			daoLinea.create(l);
 		}
 //para obtener el mejor articulo en sevicios
 		SAServicio saServicio = FactoriaAbstractaNegocio.getInstance().crearSAServicio();
@@ -258,13 +258,13 @@ public class SAFacturaImp implements SAFactura {
 			return null;
 		}
 
-		TFactura factura = FactoriaAbstractaIntegracion.getInstance().crearDAOFactura().leerPorId(idFactura);
+		TFactura factura = FactoriaAbstractaIntegracion.getInstance().crearDAOFactura().read(idFactura);
 
 		if (factura == null) {
 			return null;
 		}
 
-		factura.setLineas(FactoriaAbstractaIntegracion.getInstance().crearDAOLineaFactura().leerPorFactura(idFactura));
+		factura.setLineas(FactoriaAbstractaIntegracion.getInstance().crearDAOLineaFactura().read(idFactura));
 
 		return factura;
 	}
@@ -272,7 +272,7 @@ public class SAFacturaImp implements SAFactura {
 	@Override
 	public List<TFactura> mostrarTodas() {
 
-		return FactoriaAbstractaIntegracion.getInstance().crearDAOFactura().leerTodas();
+		return FactoriaAbstractaIntegracion.getInstance().crearDAOFactura().readAll();
 	}
 
 	@Override
@@ -288,11 +288,11 @@ public class SAFacturaImp implements SAFactura {
 		}
 
 		List<TFactura> facturas = FactoriaAbstractaIntegracion.getInstance().crearDAOFactura()
-				.leerPorCliente(idCliente);
+				.readByClient(idCliente);
 
 		DAOLineaFactura linea = FactoriaAbstractaIntegracion.getInstance().crearDAOLineaFactura();
 		for (TFactura f : facturas) {
-			f.setLineas(linea.leerPorFactura(f.getId()));
+			f.setLineas(linea.read(f.getId()));
 		}
 		return facturas;
 	}
@@ -367,7 +367,7 @@ public class SAFacturaImp implements SAFactura {
 		factura.setTotal(importeBase - cantidadDescontada);
 
 		DAOFactura daoFactura = FactoriaAbstractaIntegracion.getInstance().crearDAOFactura();
-		boolean actualizado = daoFactura.actualizar(factura);
+		boolean actualizado = daoFactura.update(factura);
 
 		if (actualizado) {
 			return 1;

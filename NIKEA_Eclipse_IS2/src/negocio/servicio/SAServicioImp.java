@@ -189,11 +189,11 @@ public class SAServicioImp implements SAServicio {
             }
         }
 
-        for (TFactura factura : daoFactura.leerTodas()) {
+        for (TFactura factura : daoFactura.readAll()) {
             Collection<TLineaFactura> lineas = factura.getLineas();
 
             if (lineas == null || lineas.isEmpty()) {
-                lineas = daoLinea.leerPorFactura(factura.getId());
+                lineas = daoLinea.read(factura.getId());
             }
 
             for (TLineaFactura linea : lineas) {

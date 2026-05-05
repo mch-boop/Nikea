@@ -4,7 +4,10 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -19,18 +22,12 @@ public class DAOFacturaImp implements DAOFactura {
 	private final String PATH = "resources/BD/facturas.json";
 
 	@Override
-	public int crear(TFactura factura) {
-		List<TFactura> lista = (List<TFactura>) leerTodas();
+	public int create(TFactura factura) {
+		List<TFactura> lista = readAll();
 
-		int maxId = 0;
-		for (TFactura f : lista) {
-			if (f.getId() > maxId) {
-				maxId = f.getId();
-			}
-		}
+		factura.setId(lista.size()+1);
+        lista.add(factura);
 
-		factura.setId(maxId + 1);
-		lista.add(factura);
 
 		guardarEnArchivo(lista);
 
@@ -38,8 +35,8 @@ public class DAOFacturaImp implements DAOFactura {
 	}
 
 	@Override
-	public TFactura leerPorId(int id) {
-		for (TFactura f : leerTodas()) {
+	public TFactura read(int id) {
+		for (TFactura f : readAll()) {
 			if (f.getId() == id) {
 				return f;
 			}
@@ -48,11 +45,11 @@ public class DAOFacturaImp implements DAOFactura {
 	}
 
 	@Override
-	public List<TFactura> leerTodas() {
+	public List<TFactura> readAll() {
 		List<TFactura> lista = new ArrayList<>();
 		File file = new File(PATH);
 
-		if (!file.exists())
+		if (!file.exists()|| file.length() == 0)
 			return lista;
 
 		try (FileInputStream is = new FileInputStream(file)) {
@@ -90,8 +87,8 @@ public class DAOFacturaImp implements DAOFactura {
 	}
 
 	@Override
-	public boolean actualizar(TFactura factura) {
-		List<TFactura> lista = (List<TFactura>) leerTodas();
+	public boolean update(TFactura factura) {
+		List<TFactura> lista = readAll();
 
 		for (int i = 0; i < lista.size(); i++) {
 
@@ -106,8 +103,8 @@ public class DAOFacturaImp implements DAOFactura {
 	}
 
 	@Override
-	public void eliminar(int id) {
-		List<TFactura> lista = (List<TFactura>) leerTodas();
+	public void delete(int id) {
+		List<TFactura> lista = readAll();
 
 		lista.removeIf(f -> f.getId() == id);
 
@@ -116,10 +113,10 @@ public class DAOFacturaImp implements DAOFactura {
 	}
 
 	@Override
-	public List<TFactura> leerPorCliente(int idCliente) {
+	public List<TFactura> readByClient(int idCliente) {
 		List<TFactura> res = new ArrayList<>();
 
-		for (TFactura f : leerTodas()) {
+		for (TFactura f : readAll()) {
 			if (f.getIdCliente() == idCliente) {
 				res.add(f);
 			}
@@ -129,7 +126,7 @@ public class DAOFacturaImp implements DAOFactura {
 	}
 
 	@Override
-	public List<TFactura> leerPorRangoFechas(String fechaInicio, String fechaFin) {
+	public List<TFactura> readByDateRange(String fechaInicio, String fechaFin) {
 	    List<TFactura> res = new ArrayList<>();
 
 	    try {
@@ -138,7 +135,7 @@ public class DAOFacturaImp implements DAOFactura {
 	        Date inicio = sdf.parse(fechaInicio);
 	        Date fin = sdf.parse(fechaFin);
 
-	        for (TFactura f : leerTodas()) {
+	        for (TFactura f : readAll()) {
 	            Date fecha = f.getFecha();
 
 	            if (!fecha.before(inicio) && !fecha.after(fin)) {
@@ -152,25 +149,28 @@ public class DAOFacturaImp implements DAOFactura {
 
 	    return res;
 	}
+	
+	@Override
+	public List<TFactura> readByMonth(int month, int year) {
+
+	    LocalDate startDate = LocalDate.of(year, month, 1);
+
+	    LocalDate endDate = startDate.withDayOfMonth(startDate.lengthOfMonth());
+
+	    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+	    String start = startDate.format(formatter);
+	    String end = endDate.format(formatter);
+
+	    return readByDateRange(start, end);
+	}
 
 	private void guardarEnArchivo(List<TFactura> lista) {
 
 		JSONArray array = new JSONArray();
 
 		for (TFactura f : lista) {
-
-			JSONObject obj = new JSONObject();
-
-			obj.put("id", f.getId());
-			obj.put("idVendedor", f.getIdVendedor());
-			obj.put("idCliente", f.getIdCliente());
-			obj.put("idDescuento", f.getIdDescuento());
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-			obj.put("fecha", sdf.format(f.getFecha()));
-			obj.put("total", f.getTotal());
-			obj.put("cerrada", f.isCerrada());
-
-			array.put(obj);
+			array.put(asJSON(f));
 		}
 
 		try (FileOutputStream os = new FileOutputStream(new File(PATH))) {
@@ -180,14 +180,22 @@ public class DAOFacturaImp implements DAOFactura {
 		}
 	}
 
-	@Override
-	public List<TFactura> readByMes(int mes, int anio) {
+	private JSONObject asJSON(TFactura f) {
 
-	    String mesStr = (mes < 10 ? "0" : "") + mes;
+	    JSONObject obj = new JSONObject();
 
-	    String inicio = anio + "-" + mesStr + "-01";
-	    String fin = anio + "-" + mesStr + "-31";
+	    obj.put("id", f.getId());
+	    obj.put("idVendedor", f.getIdVendedor());
+	    obj.put("idCliente", f.getIdCliente());
+	    obj.put("idDescuento", f.getIdDescuento());
 
-	    return leerPorRangoFechas(inicio, fin);
+	    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+	    obj.put("fecha", sdf.format(f.getFecha()));
+
+	    obj.put("total", f.getTotal());
+	    obj.put("cerrada", f.isCerrada());
+
+	    return obj;
 	}
+	
 }
