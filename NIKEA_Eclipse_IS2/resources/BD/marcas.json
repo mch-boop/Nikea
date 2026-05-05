@@ -2,13 +2,12 @@
     {
         "especialidades": [
             "ELECTRODOMESTICOS",
-            "TECNOLOGIA",
-            "DECORACION",
-            "OFICINA"
+            "OFICINA",
+            "TECNOLOGIA"
         ],
         "idMarca": 1,
         "nombre": "Nokia",
-        "activo": false
+        "activo": true
     },
     {
         "especialidades": ["OFICINA"],

@@ -1,7 +1,6 @@
 package negocio.marca;
 
 import java.util.Collection;
-import java.util.List;
 
 public interface SAMarca {
 	
@@ -11,8 +10,6 @@ public interface SAMarca {
 	public Collection<TMarca> update_listar();
 	public int delete (int id);
 	public Collection<TMarca> readAll();
-	
-	// auxiliares
-	public boolean isReactivada();
-	public List<TMarca> getTop5Marcas();
+	public Collection<TMarca> readPorEspecialidad(TMarca.Especialidad esp);
+
 }

@@ -1,43 +1,31 @@
 package negocio.marca;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import integracion.marca.DAOMarca;
-import integracion.servicio.DAOServicio;
-import negocio.factoria.FactoriaAbstractaNegocio;
-import negocio.factura.SAFactura;
-import negocio.factura.TFactura;
-import negocio.factura.TLineaFactura;
-import negocio.servicio.SAServicio;
-import negocio.servicio.TArticulo;
 import integracion.factoria.FactoriaAbstractaIntegracion;
-import integracion.factura.DAOFactura;
 
 public class SAMarcaImp implements SAMarca {
 
-	private boolean reactivada;
-	
 	@Override
 	public int create(TMarca tm) {
 
 		DAOMarca dao = FactoriaAbstractaIntegracion.getInstance().crearDAOMarca(); 
-		reactivada = false;
 		
 		// Buscamos si ya existe el nombre en el sistema
 		TMarca existente = dao.readByNombre(tm.getNombre().trim());
+		
+		/*
+		 * -1 	-> Ya existente y activa
+		 * -100 -> Ya existente pero inactiva
+		 */
 		
         if (existente != null) {
             if (!existente.isActivo()) {
                 // Reactivamos
                 existente.setActivo(true);
-                existente.setEspecialidades(tm.getEspecialidades());
-                
-                reactivada = true;
-                return dao.update(existente);
+                dao.update(existente); // Actualizo en el DAO para guardarlo en el archivo
+                return -100;
             }
             return -1; // ya existe activa
         }
@@ -45,30 +33,38 @@ public class SAMarcaImp implements SAMarca {
         tm.setActivo(true);
         return dao.create(tm);
 	}
-	
-	public boolean isReactivada() { return reactivada; }
 
 	@Override
 	public TMarca read(int id) {
 		DAOMarca dao = FactoriaAbstractaIntegracion.getInstance().crearDAOMarca();
-	    return dao.read(id);
+		TMarca tm = dao.read(id);
+		if (tm == null) return null;
+		if (tm.isActivo()) return tm;
+		else return null;
 	}
 
 	@Override
 	public int update(TMarca tm) {
         DAOMarca dao = FactoriaAbstractaIntegracion.getInstance().crearDAOMarca();
 
+        /*
+         * -1 	-> No existe
+         * -2 	-> Existe pero inactivo
+         * -3	-> Nombre duplicado
+         */
+        
         TMarca existente = dao.read(tm.getId());
         if (existente == null) return -1; 
         if (!existente.isActivo()) return -2;
 
         // Comprobar nombre duplicado
-        TMarca otra = dao.readByNombre(tm.getNombre());
+        TMarca otra = dao.readByNombre(tm.getNombre().trim());
         if (otra != null && otra.getId() != tm.getId()) return -3;
 
         existente.setActivo(true);
-        if (tm.getNombre() != null)
-            existente.setNombre(tm.getNombre());
+        if (tm.getNombre().trim() != null) {
+            existente.setNombre(tm.getNombre().trim());
+        }
         if (tm.getEspecialidades() != null)
             existente.setEspecialidades(tm.getEspecialidades());
        
@@ -102,27 +98,8 @@ public class SAMarcaImp implements SAMarca {
 	            .toList();
 	}
 
-	
-	// CASOS DE USO EXTRA
-	
 	@Override
-	public List<TMarca> getTop5Marcas() {
-		SAFactura saFactura = FactoriaAbstractaNegocio.getInstance().crearSAFactura();
-	    Map<String, Double> ventas = saFactura.getVentasPorMarca();
-	    Collection<TMarca> marcas = readAll();
-
-	    return marcas.stream()
-	        .filter(TMarca::isActivo)
-	        .filter(m -> ventas.containsKey(m.getNombre()))
-	        .sorted((m1, m2) -> Double.compare(
-	            ventas.get(m2.getNombre()),
-	            ventas.get(m1.getNombre())
-	        )).limit(5).toList();
-	}
-	
-	public Collection<String> articulosMarca() {
-		SAServicio todos = FactoriaAbstractaNegocio.getInstance().crearSAServicio();
-		List<TArticulo> art = (List<TArticulo>) todos.readAllArticulos();
-		return art.stream().map(s -> s.getNombre()).toList();
+	public Collection<TMarca> readPorEspecialidad(TMarca.Especialidad esp) {
+		return readAll().stream().filter(s -> s.getEspecialidades().contains(esp)).toList();
 	}
 }

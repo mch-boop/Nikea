@@ -204,7 +204,6 @@ public class Eventos {
     public static final int RES_BAJA_MARCA_KO_ID_FORMATO = 50202;
     public static final int CONFIRMAR_BAJA_MARCA = 512;
     public static final int RES_BAJA_MARCA_CONFIRMADA = 5121;
-    public static final int RES_BAJA_MARCA_KO_YA_INACTIVO = 51201;
     public static final int RES_BAJA_MARCA_KO_NO_EXISTE = 51202;
     public static final int RES_BAJA_MARCA_KO_TIENE_ARTICULOS = 51203;
 
@@ -212,7 +211,9 @@ public class Eventos {
     public static final int RES_MODIFICAR_MARCA_OK = 5031;
     public static final int RES_MODIFICAR_MARCA_KO = 5030;
     public static final int RES_MODIFICAR_MARCA_KO_NO_EXISTE = 50301;
-    public static final int RES_MODIFICAR_MARCA_KO_DATOS_INVALIDOS = 50302;
+    public static final int RES_MODIFICAR_MARCA_KO_INACTIVO = 50302;
+    public static final int RES_MODIFICAR_MARCA_KO_NOMBRE_DUPLICADO = 50303;
+    public static final int RES_MODIFICAR_MARCA_KO_DATOS_INVALIDOS = 50304;
     public static final int BUSCAR_MARCA_PARA_MODIFICAR = 5032;
     public static final int RES_BUSCAR_MARCA_PARA_MODIFICAR_OK = 50321;
     public static final int RES_BUSCAR_MARCA_PARA_MODIFICAR_KO = 50320;
@@ -226,9 +227,9 @@ public class Eventos {
     public static final int RES_MOSTRAR_MARCAS_OK = 5051;
     public static final int RES_MOSTRAR_MARCAS_KO = 5050;
 
-    public static final int MOSTRAR_RANKING_MARCA = 506;
-    public static final int RES_MOSTRAR_RANKING_MARCA_OK = 5061;
-    public static final int RES_MOSTRAR_RANKING_MARCA_KO = 5060;
+    public static final int MOSTRAR_MARCAS_POR_ESPECIALIDAD = 506;
+    public static final int RES_MOSTRAR_MARCAS_POR_ESPECIALIDAD_OK = 5061;
+    public static final int RES_MOSTRAR_MARCAS_POR_ESPECIALIDAD_KO = 5060;
 
     // EVENTOS DE SERVICIO
 
@@ -271,4 +272,8 @@ public class Eventos {
     public static final int RES_CARGAR_MARCAS_PARA_SERVICIO_OK = 6081;
     public static final int RES_CARGAR_MARCAS_PARA_SERVICIO_KO = 6080;
 
+    
+    // TOA RESUMEN MENSUAL
+    
+    public static final int MOSTRAR_RESUMEN_MENSUAL = 700;
 }

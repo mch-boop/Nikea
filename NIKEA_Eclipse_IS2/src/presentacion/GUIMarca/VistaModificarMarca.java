@@ -18,7 +18,7 @@ public class VistaModificarMarca extends JDialog implements IGUI {
 
     // ATRIBUTOS
 
-    private JTextField txtId, txtNombre, txtNombreAct;
+    private JTextField txtId, txtNombreAct;
     private JButton btnBuscar, btnModificar, btnCancelar;
     private JPanel panelEdicion, pBotones;
     private TMarca marcaEncontrada;
@@ -109,7 +109,6 @@ public class VistaModificarMarca extends JDialog implements IGUI {
         gbc.insets = new Insets(5,5,5,5);
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
-        txtNombre = new JTextField(20);
         txtNombreAct = new JTextField(20);
         txtNombreAct.setEditable(false);
 
@@ -143,7 +142,6 @@ public class VistaModificarMarca extends JDialog implements IGUI {
         gbc.gridy = 0;
         gbc.gridx = 0; form.add(new JLabel("Nombre actual:"), gbc);
         gbc.gridx = 1; form.add(txtNombreAct, gbc);
-        gbc.gridx = 2; form.add(txtNombre, gbc);
 
         // especialidades
         gbc.gridy = 1;
@@ -161,12 +159,9 @@ public class VistaModificarMarca extends JDialog implements IGUI {
             if (marcaEncontrada == null) return;
             TMarca tm = new TMarca();
             tm.setId(marcaEncontrada.getId());
-
-            // nombre
-            if (!txtNombre.getText().trim().isEmpty())
-                tm.setNombre(txtNombre.getText().trim());
-            else
-                tm.setNombre(null);
+            
+            // el nombre no puede cambiar
+            tm.setNombre(marcaEncontrada.getNombre());
 
             // especialidades nuevas
             boolean algunaSeleccionada = false;
@@ -236,6 +231,7 @@ public class VistaModificarMarca extends JDialog implements IGUI {
                 }
 
                 panelEdicion.setVisible(true);
+                pBotones.setVisible(false);
                 txtId.setEditable(false);
                 pack();
                 break;
@@ -247,6 +243,7 @@ public class VistaModificarMarca extends JDialog implements IGUI {
                 panelEdicion.setVisible(false);
                 txtId.setText("");
                 txtId.setEditable(true);
+                pBotones.setVisible(true);
                 pack();
                 break;
 
@@ -254,6 +251,7 @@ public class VistaModificarMarca extends JDialog implements IGUI {
 
                 JOptionPane.showMessageDialog(this, "La marca no existe", "Error",
                         JOptionPane.ERROR_MESSAGE);
+                pBotones.setVisible(true);
                 break;
         }
     }
@@ -285,7 +283,6 @@ public class VistaModificarMarca extends JDialog implements IGUI {
         txtId.setText("");
         txtId.setEditable(true);
 
-        txtNombre.setText("");
         txtNombreAct.setText("");
 
         marcaEncontrada = null;
@@ -295,10 +292,8 @@ public class VistaModificarMarca extends JDialog implements IGUI {
             checkAct.get(e).setSelected(false);
             checkNueva.get(e).setSelected(false);
         }
-        if (pBotones != null) {
-            pBotones.setVisible(true);
-        }
-
+        pBotones.setVisible(true);
+        
         revalidate();
         repaint();
         pack();

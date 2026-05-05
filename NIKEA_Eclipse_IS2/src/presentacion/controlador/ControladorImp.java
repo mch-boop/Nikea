@@ -1,7 +1,6 @@
 package presentacion.controlador;
 
 import java.util.Collection;
-import java.util.List;
 
 import javax.swing.JFrame;
 
@@ -584,12 +583,11 @@ public class ControladorImp extends Controlador {
 				IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(evento);
 
 				if (res > 0) {
-					if (saMarca.isReactivada())
-						vista.actualizar(Eventos.RES_ALTA_MARCA_REACTIVADA, tMarca);
-					else
-						vista.actualizar(Eventos.RES_ALTA_MARCA_OK, res);
+					vista.actualizar(Eventos.RES_ALTA_MARCA_OK, res);
 				} else if (res == -1) {
 					vista.actualizar(Eventos.RES_ALTA_MARCA_YA_EXISTE, tMarca);
+				} else if (res == -100) {
+					vista.actualizar(Eventos.RES_ALTA_MARCA_REACTIVADA, res);
 				} else {
 					vista.actualizar(Eventos.RES_ALTA_MARCA_KO, res);
 				}
@@ -603,7 +601,7 @@ public class ControladorImp extends Controlador {
 				TMarca tm = saMarca.read(id);
 				IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(evento);
 
-				if (tm != null && tm.isActivo()) {
+				if (tm != null) {
 					vista.actualizar(Eventos.RES_BUSCAR_MARCA_OK, tm);
 				} else {
 					vista.actualizar(Eventos.RES_BUSCAR_MARCA_KO, null);
@@ -619,14 +617,10 @@ public class ControladorImp extends Controlador {
 				IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(evento);
 
 				if (tm != null) {
-					if (tm.isActivo()) {
-						if (!tm.getListaArticulos().isEmpty()) {
-							vista.actualizar(Eventos.RES_BAJA_MARCA_KO_TIENE_ARTICULOS, null);
-						} else {
-							vista.actualizar(Eventos.RES_BAJA_MARCA_OK, tm);
-						}
+					if (!tm.getListaArticulos().isEmpty()) {
+						vista.actualizar(Eventos.RES_BAJA_MARCA_KO_TIENE_ARTICULOS, null);
 					} else {
-						vista.actualizar(Eventos.RES_BAJA_MARCA_KO_YA_INACTIVO, id);
+						vista.actualizar(Eventos.RES_BAJA_MARCA_OK, tm);
 					} 
 				} else {
 					vista.actualizar(Eventos.RES_BAJA_MARCA_KO_NO_EXISTE, id);
@@ -657,7 +651,7 @@ public class ControladorImp extends Controlador {
 
 				IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.MODIFICAR_MARCA);
 
-				if (tm != null && tm.isActivo()) {
+				if (tm != null) {
 					vista.actualizar(Eventos.RES_BUSCAR_MARCA_PARA_MODIFICAR_OK, tm);
 				} else {
 					vista.actualizar(Eventos.RES_MODIFICAR_MARCA_KO_NO_EXISTE, id);
@@ -676,6 +670,10 @@ public class ControladorImp extends Controlador {
 					vista.actualizar(Eventos.RES_MODIFICAR_MARCA_OK, res);
 				} else if (res == -1) {
 					vista.actualizar(Eventos.RES_MODIFICAR_MARCA_KO_NO_EXISTE, tm);
+				} else if (res == -2) {
+					vista.actualizar(Eventos.RES_MODIFICAR_MARCA_KO_INACTIVO, tm);
+				} else if (res == -3) {
+					vista.actualizar(Eventos.RES_MODIFICAR_MARCA_KO_NOMBRE_DUPLICADO, tm);
 				} else {
 					vista.actualizar(Eventos.RES_MODIFICAR_MARCA_KO_DATOS_INVALIDOS, tm);
 				}
@@ -696,20 +694,6 @@ public class ControladorImp extends Controlador {
 				break;
 			}
 
-			case Eventos.MOSTRAR_RANKING_MARCA: {
-				SAMarca saMarca = FactoriaAbstractaNegocio.getInstance().crearSAMarca();
-				List<TMarca> lista = saMarca.getTop5Marcas();
-
-				IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(evento);
-
-				if (lista != null) {
-					vista.actualizar(Eventos.RES_MOSTRAR_RANKING_MARCA_OK, lista);
-				} else {
-					vista.actualizar(Eventos.RES_MOSTRAR_RANKING_MARCA_KO, null);
-				}
-				break;
-			}
-
 			case Eventos.CARGAR_MARCAS_PARA_SERVICIO: {
 				SAMarca saMarca = FactoriaAbstractaNegocio.getInstance().crearSAMarca();
 				Collection<TMarca> lista = saMarca.readAll();
@@ -720,6 +704,21 @@ public class ControladorImp extends Controlador {
 					vista.actualizar(Eventos.RES_CARGAR_MARCAS_PARA_SERVICIO_OK, lista);
 				} else {
 					vista.actualizar(Eventos.RES_CARGAR_MARCAS_PARA_SERVICIO_KO, null);
+				}
+				break;
+			}
+			
+			case Eventos.MOSTRAR_MARCAS_POR_ESPECIALIDAD: {
+				TMarca.Especialidad esp = (TMarca.Especialidad) datos;
+				SAMarca saMarca = FactoriaAbstractaNegocio.getInstance().crearSAMarca();
+				Collection<TMarca> lista = saMarca.readPorEspecialidad(esp);
+				
+				IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(evento);
+
+				if (lista != null) {
+					vista.actualizar(Eventos.RES_MOSTRAR_MARCAS_POR_ESPECIALIDAD_OK, lista);
+				} else {
+					vista.actualizar(Eventos.RES_MOSTRAR_MARCAS_POR_ESPECIALIDAD_KO, null);
 				}
 				break;
 			}

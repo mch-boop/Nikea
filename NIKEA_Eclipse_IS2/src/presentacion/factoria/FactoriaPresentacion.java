@@ -36,8 +36,10 @@ public class FactoriaPresentacion extends FactoriaAbstractaPresentacion {
 	private static VistaCerrarVenta vistaCerrar;
 	private static VistaMostrarFacturas vistaMostrarFacturas;
 	private static VistaAnnadirServicioFactura vistaAnnadirServicio;
-	private static VistaEliminarServicioFactura vistaEliminarServicioFactura;	private static VistaMostrarFacturaPorId vistaMostrarFacturaPorId;
+	private static VistaEliminarServicioFactura vistaEliminarServicioFactura;	
+	private static VistaMostrarFacturaPorId vistaMostrarFacturaPorId;
 	private static VistaMostrarFacturasCliente vistaMostrarFacturasCliente;
+	
 	// ATRIBUTOS PARA SINGLETON (MARCA)
 
 	private static VistaAnadirMarca vistaAnadirMarca;
@@ -45,7 +47,7 @@ public class FactoriaPresentacion extends FactoriaAbstractaPresentacion {
 	private static VistaModificarMarca vistaModificarMarca;
 	private static VistaBuscarMarca vistaBuscarMarca;
 	private static VistaMostrarMarcas vistaMostrarMarcas;
-	private static VistaMostrarMejorMarca vistaMostrarMejorMarca;
+	private static VistaMostrarMarcaPorEspecialidad vistaMostrarMejorMarca;
 
 	// ATRIBUTOS PARA SINGLETON (DESCUENTO)
 
@@ -204,9 +206,9 @@ public class FactoriaPresentacion extends FactoriaAbstractaPresentacion {
 					vistaMostrarMarcas = new VistaMostrarMarcas();
 				}
 				return vistaMostrarMarcas;
-			case Eventos.MOSTRAR_RANKING_MARCA:
+			case Eventos.MOSTRAR_MARCAS_POR_ESPECIALIDAD:
 				if (vistaMostrarMejorMarca == null) {
-					vistaMostrarMejorMarca = new VistaMostrarMejorMarca();
+					vistaMostrarMejorMarca = new VistaMostrarMarcaPorEspecialidad();
 				}
 				return vistaMostrarMejorMarca;
 

@@ -123,20 +123,13 @@ public class VistaEliminarMarca extends JDialog implements IGUI {
 
                 case Eventos.RES_BAJA_MARCA_KO_NO_EXISTE:
                     JOptionPane.showMessageDialog( this,
-                            "Error: No existe ninguna marca con el ID: " + datos,
+                            "Error: No existe ninguna marca activa con el ID: " + datos,
                             "Error",
                             JOptionPane.ERROR_MESSAGE
                     );
                     txtId.requestFocus();
                     break;
 
-                case Eventos.RES_BAJA_MARCA_KO_YA_INACTIVO:
-                    JOptionPane.showMessageDialog( this, 
-                            "La marca ya se encuentra en estado inactivo.",
-                            "Aviso",
-                            JOptionPane.WARNING_MESSAGE
-                    );
-                    break;
 
                 case Eventos.RES_BAJA_MARCA_KO_ID_FORMATO:
                     JOptionPane.showMessageDialog(

@@ -42,6 +42,7 @@ public class GUIFacturaDialog extends JDialog {
         JButton btnBuscar = new JButton("Buscar factura");
         JButton btnListar = new JButton("Listar facturas");
         JButton btnListarCliente = new JButton("Listar facturas de cliente");
+        JButton btnResumenMensual = new JButton("Resumen mensual");
 
         JButton[] botones = { btnIniciar, btnAnnadir, btnEliminar, btnCerrar, btnBuscar, btnListar, btnListarCliente };
         for (JButton b : botones) {
@@ -84,6 +85,11 @@ public class GUIFacturaDialog extends JDialog {
 
         btnListarCliente.addActionListener(e -> {
             IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.MOSTRAR_FACTURAS_CLIENTE);
+            abrirVistaBloqueante((JFrame) vista);
+        });
+        
+        btnResumenMensual.addActionListener(e -> {
+            IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.MOSTRAR_RESUMEN_MENSUAL);
             abrirVistaBloqueante((JFrame) vista);
         });
     }

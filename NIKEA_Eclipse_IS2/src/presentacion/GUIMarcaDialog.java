@@ -34,7 +34,7 @@ public class GUIMarcaDialog extends JDialog {
         JButton btnMostrarId     = new JButton("Buscar Marca");
         JButton btnMostrarTodos  = new JButton("Listar Marcas");
         JButton btnModificar     = new JButton("Modificar Marca");
-        JButton btnRanking       = new JButton("Mostrar Ranking de Marcas");
+        JButton btnRanking       = new JButton("Mostrar Marca por especialidad");
 
         JButton[] botones = {btnAlta, btnBaja, btnModificar, btnMostrarId, btnMostrarTodos, btnRanking};
         for (JButton b : botones) {
@@ -71,7 +71,7 @@ public class GUIMarcaDialog extends JDialog {
         });
         
         btnRanking.addActionListener(e -> { 
-            IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.MOSTRAR_RANKING_MARCA);
+            IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.MOSTRAR_MARCAS_POR_ESPECIALIDAD);
             abrirVistaBloqueante((JDialog) vista);
         });
     }
