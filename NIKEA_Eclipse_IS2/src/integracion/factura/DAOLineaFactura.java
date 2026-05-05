@@ -16,5 +16,7 @@ public interface DAOLineaFactura {
     public void deleteLine(Integer idFactura, Integer idProducto); //borrar una linea concreta de una factura
     
     public void deleteAll(Integer idFactura); //eliminar una por una todas las lineas de la factura
+    
+    public List<TLineaFactura> readAll();
 }
 
