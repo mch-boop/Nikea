@@ -8,91 +8,106 @@ import java.util.Collection;
 
 public class SADescuentoImp implements SADescuento {
 
-    private TDescuento ultimoDuplicado;
+	private TDescuento ultimoDuplicado;
 
-    @Override
-    public int create(TDescuento td) {
-        DAODescuento dao = FactoriaIntegracion.getInstance().crearDAODescuento();
-        TDescuento existente = dao.readByCodigo(td.getCodigo());
-        
-        this.ultimoDuplicado = null;
+	@Override
+	public int create(TDescuento td) {
+		DAODescuento dao = FactoriaIntegracion.getInstance().crearDAODescuento();
+		TDescuento existente = dao.readByCodigo(td.getCodigo());
 
-        if (td.getCodigo() == null || td.getCodigo().trim().isEmpty()) return -3;
-        if (td.getPorcentaje() <= 0 || td.getPorcentaje() > 100) return -4;
+		this.ultimoDuplicado = null;
 
-        if (existente == null) {
-            return dao.create(td);
-        }
+		if (td.getCodigo() == null || td.getCodigo().trim().isEmpty())
+			return -3;
+		if (td.getPorcentaje() <= 0 || td.getPorcentaje() > 100)
+			return -4;
 
-        this.ultimoDuplicado = existente;
+		if (existente == null) {
+			return dao.create(td);
+		}
 
-        if (existente.isActivo()) {
-            return -1;
-        } else {
-            // Si es inactivo, comparamos si los datos son iguales para reactivación automática
-            if (existente.isTipo() == td.isTipo() &&
-            	Double.compare(existente.getPorcentaje(), td.getPorcentaje()) == 0 &&
-                Double.compare(existente.getCantidad(), td.getCantidad()) == 0) {
-                
-                existente.setActivo(true);
-                existente.setNombre(td.getNombre());
-                dao.update(existente);
-                return existente.getId();
-            }
-            
-            this.ultimoDuplicado = td;
-            this.ultimoDuplicado.setId(existente.getId()); // Arrastramos el ID viejo
-            return -2;
-        }
-    }
+		this.ultimoDuplicado = existente;
 
-    @Override
-    public int reactivate(TDescuento td) {
-        DAODescuento dao = FactoriaIntegracion.getInstance().crearDAODescuento();
-        td.setActivo(true); // Nos aseguramos de que va activo
-        return dao.update(td);
-    }
+		if (existente.isActivo()) {
+			return -1;
+		} else {
+			if (existente.isTipo() == td.isTipo() && Double.compare(existente.getPorcentaje(), td.getPorcentaje()) == 0
+					&& Double.compare(existente.getCantidad(), td.getCantidad()) == 0) {
 
-    @Override
-    public int update(TDescuento td) {
-        DAODescuento dao = FactoriaIntegracion.getInstance().crearDAODescuento();
-        if (td.getCodigo() == null || td.getCodigo().trim().isEmpty()) return -3;
-        if (td.getPorcentaje() <= 0 || td.getPorcentaje() > 100) return -4;
-        
-        return dao.update(td);
-    }
+				existente.setActivo(true);
+				existente.setNombre(td.getNombre());
+				dao.update(existente);
+				return existente.getId();
+			}
 
-    @Override
-    public TDescuento read(int id) {
-        TDescuento td = FactoriaIntegracion.getInstance().crearDAODescuento().read(id);
-        if (td != null && !td.isActivo()) return null;
-        return td;
-    }
+			this.ultimoDuplicado = td;
+			this.ultimoDuplicado.setId(existente.getId()); // Arrastramos el ID viejo
+			return -2;
+		}
+	}
 
- // En SADescuentoImp
-    @Override
-    public Collection<TDescuento> readAll() {
-        Collection<TDescuento> todos = FactoriaIntegracion.getInstance().crearDAODescuento().readAll();
-        Collection<TDescuento> activos = new ArrayList<>();
-        for (TDescuento d : todos) {
-            if (d.isActivo()) activos.add(d);
-        }
-        return activos;
-    }
+	@Override
+	public int reactivate(TDescuento td) {
+		DAODescuento dao = FactoriaIntegracion.getInstance().crearDAODescuento();
+		td.setActivo(true);
+		return dao.update(td);
+	}
 
-    @Override
-    public TDescuento getUltimoDuplicado() {
-        return this.ultimoDuplicado;
-    }
-    
-    @Override
-    public int delete(int id) {
-        DAODescuento dao = FactoriaIntegracion.getInstance().crearDAODescuento();
-        TDescuento td = dao.read(id);
-        if (td != null && td.isActivo()) {
-            td.setActivo(false);
-            return dao.update(td);
-        }
-        return -1;
-    }
+	@Override
+	public int update(TDescuento td) {
+		DAODescuento dao = FactoriaIntegracion.getInstance().crearDAODescuento();
+		if (td.getCodigo() == null || td.getCodigo().trim().isEmpty())
+			return -3;
+		if (td.getPorcentaje() <= 0 || td.getPorcentaje() > 100)
+			return -4;
+
+		TDescuento existente = dao.read(td.getId());
+		if (existente == null || !existente.isActivo()) {
+			return -1;
+		}
+
+		return dao.update(td);
+	}
+
+	@Override
+	public TDescuento read(int id) {
+		TDescuento td = FactoriaIntegracion.getInstance().crearDAODescuento().read(id);
+
+		if (td != null && !td.isActivo()) {
+			return null;
+		}
+		return td;
+	}
+
+	@Override
+	public Collection<TDescuento> readAll() {
+		Collection<TDescuento> todos = FactoriaIntegracion.getInstance().crearDAODescuento().readAll();
+		Collection<TDescuento> activos = new ArrayList<>();
+
+		if (todos != null) {
+			for (TDescuento d : todos) {
+				if (d.isActivo())
+					activos.add(d);
+			}
+		}
+
+		return activos.isEmpty() ? null : activos;
+	}
+
+	@Override
+	public TDescuento getUltimoDuplicado() {
+		return this.ultimoDuplicado;
+	}
+
+	@Override
+	public int delete(int id) {
+		DAODescuento dao = FactoriaIntegracion.getInstance().crearDAODescuento();
+		TDescuento td = dao.read(id);
+
+		if (td != null && td.isActivo()) {
+			td.setActivo(false);
+			return dao.update(td);
+		}
+		return -1;
+	}
 }
