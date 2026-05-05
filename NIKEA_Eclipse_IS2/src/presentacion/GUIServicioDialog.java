@@ -41,8 +41,9 @@ public class GUIServicioDialog extends JDialog {
 		JButton btnBuscar    = new JButton("Buscar Servicio");
 		JButton btnMostrar   = new JButton("Listar Servicios");
 		JButton btnMejor     = new JButton("Mejor Artículo");
+		JButton btnArticulosMarca = new JButton("Listar Artículos por Marca");
 
-		JButton[] botones = { btnAlta, btnBaja, btnModificar, btnBuscar, btnMostrar, btnMejor };
+		JButton[] botones = { btnAlta, btnBaja, btnModificar, btnBuscar, btnMostrar, btnMejor, btnArticulosMarca };
 		
 		for (JButton b : botones) {
 			b.setFocusPainted(false);
@@ -85,6 +86,11 @@ public class GUIServicioDialog extends JDialog {
 			if (vista instanceof VistaMostrarMejorArticulo) {
 				((VistaMostrarMejorArticulo) vista).cargarMejorArticulo();
 			}
+			abrirVistaBloqueante((JDialog) vista);
+		});
+		
+		btnArticulosMarca.addActionListener(e -> { 
+			IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.MOSTRAR_ARTICULOS_POR_MARCA);
 			abrirVistaBloqueante((JDialog) vista);
 		});
 	}

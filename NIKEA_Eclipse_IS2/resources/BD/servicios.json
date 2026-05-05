@@ -8,7 +8,7 @@
         "stock": 1,
         "idMarca": 0,
         "nombre": "LOL",
-        "activo": false
+        "activo": true
     },
     {
         "descripcion": "a",

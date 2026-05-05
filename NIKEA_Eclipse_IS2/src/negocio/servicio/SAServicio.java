@@ -1,7 +1,6 @@
 package negocio.servicio;
 
 import java.util.Collection;
-import java.util.List;
 
 public interface SAServicio {
 
@@ -11,7 +10,9 @@ public interface SAServicio {
 	public Collection<TServicio> readAll();
 	public int update(TServicio ts);
 	public TServicio getUltimoDuplicado();
+	
+	// CU extras
     public TServicio getMejorArticulo();
     public Collection<TArticulo> readAllArticulos();
-    public List<String> obtenerArticulosActivosPorMarca(String nombre);
+    public Collection<TArticulo> readArticulosPorMarca(int idMarca);
 }

@@ -66,6 +66,7 @@ public class FactoriaPresentacion extends FactoriaAbstractaPresentacion {
 	private static VistaModificarServicio vistaModificarServicio;
 	private static VistaMostrarServicios vistaMostrarServicios;
 	private static VistaMostrarMejorArticulo vistaMostrarMejorArticulo;
+	private static VistaMostrarArticulosPorMarca vistaMostrarArticulosPorMarca;
 
 	public IGUI createVista(int idEvento) {
 		switch (idEvento) {
@@ -277,12 +278,16 @@ public class FactoriaPresentacion extends FactoriaAbstractaPresentacion {
 					vistaModificarServicio = new VistaModificarServicio();
 				}
 				return vistaModificarServicio;
-
 			case Eventos.MOSTRAR_SERVICIOS:
 				if (vistaMostrarServicios == null) {
 					vistaMostrarServicios = new VistaMostrarServicios();
 				}
 				return vistaMostrarServicios;
+			case Eventos.MOSTRAR_ARTICULOS_POR_MARCA:
+				if (vistaMostrarArticulosPorMarca == null) {
+					vistaMostrarArticulosPorMarca = new VistaMostrarArticulosPorMarca();
+				}
+				return vistaMostrarArticulosPorMarca;
 
 			default:
 				// Error inesperado.

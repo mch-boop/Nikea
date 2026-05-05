@@ -6,10 +6,10 @@ import integracion.factura.DAOFactura;
 import integracion.servicio.DAOServicio;
 import negocio.factura.TFactura;
 import negocio.factura.TLineaFactura;
+import negocio.marca.TMarca;
 
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class SAServicioImp implements SAServicio {
@@ -150,16 +150,27 @@ public class SAServicioImp implements SAServicio {
     public Collection<TArticulo> readAllArticulos() {
     	Collection<TServicio> lista = readAll();
     	return lista.stream()
-    		    .filter(s -> s.getTipo() == 2)
+    		    .filter(s -> s.getTipo() == 1 && s.isActivo())
     		    .map(s -> (TArticulo) s).toList();
     }
     
     @Override
-    public List<String> obtenerArticulosActivosPorMarca(String nombre) {
+    public Collection<TArticulo> readArticulosPorMarca(int idMarca) {
     	Collection<TArticulo> lista = readAllArticulos();
+    	if (idMarca != 0) {
+    		TMarca marca = FactoriaIntegracion.getInstance().crearDAOMarca().read(idMarca);
+    		if (marca == null || !marca.isActivo()) {
+            	return null; // La consulta no tiene sentido
+            }
+    	}
+    	
+    	for (TArticulo t : lista.stream()
+    		    .filter(s -> s.getMarcaId() == idMarca)
+    		    .toList())
+    		System.out.println(t.getNombre());
     	return lista.stream()
-    		    .filter(s -> nombre.equals(s.getMarca()))
-    		    .map(s -> s.getNombre()).toList();
+    		    .filter(s -> s.getMarcaId() == idMarca)
+    		    .toList();
     }
     
     // Para obtener el mejor artículo

@@ -272,6 +272,11 @@ public class Eventos {
     public static final int RES_CARGAR_MARCAS_PARA_SERVICIO_OK = 6081;
     public static final int RES_CARGAR_MARCAS_PARA_SERVICIO_KO = 6080;
 
+    public static final int MOSTRAR_ARTICULOS_POR_MARCA = 609;
+    public static final int RES_MOSTRAR_ARTICULOS_POR_MARCA_OK = 6091;
+    public static final int RES_MOSTRAR_ARTICULOS_POR_MARCA_KO = 6090;
+    public static final int RES_MOSTRAR_ARTICULOS_POR_MARCA_KO_NO_HAY_ARTICULOS = 60901;
+    public static final int RES_MOSTRAR_ARTICULOS_POR_MARCA_KO_NO_EXISTE_MARCA = 60902;
     
     // TOA RESUMEN MENSUAL
     

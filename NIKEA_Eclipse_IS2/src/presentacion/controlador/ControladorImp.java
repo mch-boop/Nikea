@@ -190,6 +190,50 @@ public class ControladorImp extends Controlador {
 				}
 				break;
 			}
+			
+			case Eventos.BUSCAR_FACTURA: {
+				Integer id = (Integer) datos;
+				SAFactura saFactura = FactoriaAbstractaNegocio.getInstance().crearSAFactura();
+				TFactura factura = saFactura.mostrarPorId(id);
+
+				IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(evento);
+
+				if (factura != null) {
+					vista.actualizar(Eventos.RES_BUSCAR_FACTURA_OK, factura);
+				} else {
+					vista.actualizar(Eventos.RES_BUSCAR_FACTURA_KO, id);
+				}
+				break;
+			}
+
+			case Eventos.MOSTRAR_FACTURAS: {
+				SAFactura saFactura = FactoriaAbstractaNegocio.getInstance().crearSAFactura();
+				Collection<TFactura> facturas = saFactura.mostrarTodas();
+
+				IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(evento);
+
+				if (facturas != null) {
+					vista.actualizar(Eventos.RES_MOSTRAR_FACTURAS_OK, facturas);
+				} else {
+					vista.actualizar(Eventos.RES_MOSTRAR_FACTURAS_KO, null);
+				}
+				break;
+			}
+
+			case Eventos.MOSTRAR_FACTURAS_CLIENTE: {
+				Integer idCliente = (Integer) datos;
+				SAFactura saFactura = FactoriaAbstractaNegocio.getInstance().crearSAFactura();
+				Collection<TFactura> facturasCliente = saFactura.mostrarPorCliente(idCliente);
+
+				IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(evento);
+
+				if (facturasCliente != null) {
+					vista.actualizar(Eventos.RES_MOSTRAR_FACTURAS_CLIENTE_OK, facturasCliente);
+				} else {
+					vista.actualizar(Eventos.RES_MOSTRAR_FACTURAS_CLIENTE_KO, idCliente);
+				}
+				break;
+			}
 
 			case Eventos.ANNADIR_SERVICIO: {
 				TLineaFactura tLinea = (TLineaFactura) datos;
@@ -236,51 +280,8 @@ public class ControladorImp extends Controlador {
 				break;
 			}
 
-			case Eventos.BUSCAR_FACTURA: {
-				Integer id = (Integer) datos;
-				SAFactura saFactura = FactoriaAbstractaNegocio.getInstance().crearSAFactura();
-				TFactura factura = saFactura.mostrarPorId(id);
-
-				IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(evento);
-
-				if (factura != null) {
-					vista.actualizar(Eventos.RES_BUSCAR_FACTURA_OK, factura);
-				} else {
-					vista.actualizar(Eventos.RES_BUSCAR_FACTURA_KO, id);
-				}
-				break;
-			}
-
-			case Eventos.MOSTRAR_FACTURAS: {
-				SAFactura saFactura = FactoriaAbstractaNegocio.getInstance().crearSAFactura();
-				Collection<TFactura> facturas = saFactura.mostrarTodas();
-
-				IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(evento);
-
-				if (facturas != null) {
-					vista.actualizar(Eventos.RES_MOSTRAR_FACTURAS_OK, facturas);
-				} else {
-					vista.actualizar(Eventos.RES_MOSTRAR_FACTURAS_KO, null);
-				}
-				break;
-			}
-
-			case Eventos.MOSTRAR_FACTURAS_CLIENTE: {
-				Integer idCliente = (Integer) datos;
-				SAFactura saFactura = FactoriaAbstractaNegocio.getInstance().crearSAFactura();
-				Collection<TFactura> facturasCliente = saFactura.mostrarPorCliente(idCliente);
-
-				IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(evento);
-
-				if (facturasCliente != null) {
-					vista.actualizar(Eventos.RES_MOSTRAR_FACTURAS_CLIENTE_OK, facturasCliente);
-				} else {
-					vista.actualizar(Eventos.RES_MOSTRAR_FACTURAS_CLIENTE_KO, idCliente);
-				}
-				break;
-			}
-
 			// EVENTOS DE SERVICIO
+			
 			case Eventos.ALTA_SERVICIO: {
 				TServicio tServicio = (TServicio) datos;
 				SAServicio saServicio = FactoriaAbstractaNegocio.getInstance().crearSAServicio();
@@ -400,6 +401,23 @@ public class ControladorImp extends Controlador {
 					vista.actualizar(Eventos.RES_MODIFICAR_SERVICIO_OK, res);
 				} else {
 					vista.actualizar(Eventos.RES_MODIFICAR_SERVICIO_KO, tServicio);
+				}
+				break;
+			}
+			
+			case Eventos.MOSTRAR_ARTICULOS_POR_MARCA: {
+				Integer idMarca = (Integer) datos;
+				SAServicio saServicio = FactoriaAbstractaNegocio.getInstance().crearSAServicio();
+				Collection<TArticulo> res = saServicio.readArticulosPorMarca(idMarca);
+				
+				IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.MODIFICAR_SERVICIO);
+				
+				if (res == null) {
+					vista.actualizar(Eventos.RES_MOSTRAR_ARTICULOS_POR_MARCA_KO_NO_EXISTE_MARCA, null);
+				} else if (res.isEmpty()) {
+					vista.actualizar(Eventos.RES_MOSTRAR_ARTICULOS_POR_MARCA_KO_NO_HAY_ARTICULOS, null);
+				} else {
+					vista.actualizar(Eventos.RES_MOSTRAR_ARTICULOS_POR_MARCA_OK, res);
 				}
 				break;
 			}
