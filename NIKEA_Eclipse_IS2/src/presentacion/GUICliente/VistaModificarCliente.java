@@ -245,7 +245,6 @@ public class VistaModificarCliente extends JDialog implements IGUI {
                     txtTelefono.requestFocus();
                  }
                 
-                pBotones.setVisible(true);
                 pack();
                 setLocationRelativeTo(null);
             }

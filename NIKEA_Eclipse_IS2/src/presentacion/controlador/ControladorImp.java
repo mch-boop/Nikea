@@ -120,7 +120,7 @@ public class ControladorImp extends Controlador {
 
 			IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.MODIFICAR_CLIENTE);
 
-			if (tc != null && tc.isActivo()) {
+			if (tc != null) {
 				vista.actualizar(Eventos.RES_BUSCAR_CLIENTE_PARA_MODIFICAR_OK, tc);
 			} else {
 				vista.actualizar(Eventos.RES_MODIFICAR_CLIENTE_KO_NO_EXISTE, id);

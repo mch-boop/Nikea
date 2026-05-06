@@ -1,5 +1,6 @@
 package negocio.cliente;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import integracion.cliente.DAOCliente;
@@ -82,6 +83,10 @@ public class SAClienteImp implements SACliente {
 	public Collection<TCliente> readAll() {
 		DAOCliente dao = FactoriaAbstractaIntegracion.getInstance().crearDAOCliente();
 		Collection<TCliente> clientes = dao.readAll();
-		return  (clientes.isEmpty() ? null : clientes);
+		Collection<TCliente> salida = new ArrayList<TCliente>();
+		for(TCliente c : clientes)
+			if (c.isActivo()) salida.add(c);
+		
+		return  (salida.isEmpty() ? null : salida);
 	}
 }
