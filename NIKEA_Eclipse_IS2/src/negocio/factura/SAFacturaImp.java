@@ -1,5 +1,6 @@
 package negocio.factura;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -197,11 +198,15 @@ public class SAFacturaImp implements SAFactura {
 		if (factura.getFecha() == null)
 			return Eventos.RES_CERRAR_VENTA_KO_FECHA_INVALIDA;
 
-		Date fecha = normalizarFecha(factura.getFecha());
-		Date hoy = normalizarFecha(new Date());
+		LocalDate fecha = factura.getFecha();
+		LocalDate hoy = LocalDate.now();
 
-		if (fecha.after(hoy))
-			return Eventos.RES_CERRAR_VENTA_KO_FECHA_INVALIDA;
+		if (fecha == null)
+		    return Eventos.RES_CERRAR_VENTA_KO_FECHA_INVALIDA;
+
+		if (fecha.isAfter(hoy))
+		    return Eventos.RES_CERRAR_VENTA_KO_FECHA_INVALIDA;
+		
 		DAOCliente daoCliente = FactoriaAbstractaIntegracion.getInstance().crearDAOCliente();
 		DAODescuento daoDescuento = FactoriaAbstractaIntegracion.getInstance().crearDAODescuento();
 

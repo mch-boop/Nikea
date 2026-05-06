@@ -15,6 +15,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
+import integracion.factoria.FactoriaAbstractaIntegracion;
 import negocio.factura.TFactura;
 
 public class DAOFacturaImp implements DAOFactura {
@@ -25,9 +26,8 @@ public class DAOFacturaImp implements DAOFactura {
 	public int create(TFactura factura) {
 		List<TFactura> lista = readAll();
 
-		factura.setId(lista.size()+1);
-        lista.add(factura);
-
+		factura.setId(lista.size() + 1);
+		lista.add(factura);
 
 		guardarEnArchivo(lista);
 
@@ -46,16 +46,18 @@ public class DAOFacturaImp implements DAOFactura {
 
 	@Override
 	public List<TFactura> readAll() {
+
 		List<TFactura> lista = new ArrayList<>();
 		File file = new File(PATH);
 
-		if (!file.exists()|| file.length() == 0)
+		if (!file.exists() || file.length() == 0)
 			return lista;
+
+		DAOLineaFactura daoLinea = FactoriaAbstractaIntegracion.getInstance().crearDAOLineaFactura();
 
 		try (FileInputStream is = new FileInputStream(file)) {
 
-			JSONTokener tokener = new JSONTokener(is);
-			JSONArray array = new JSONArray(tokener);
+			JSONArray array = new JSONArray(new JSONTokener(is));
 
 			for (int i = 0; i < array.length(); i++) {
 
@@ -67,14 +69,14 @@ public class DAOFacturaImp implements DAOFactura {
 				f.setIdVendedor(obj.getInt("idVendedor"));
 				f.setIdCliente(obj.optInt("idCliente", 0));
 				f.setIdDescuento(obj.optInt("idDescuento", 0));
-				try {
-				    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-				    f.setFecha(sdf.parse(obj.getString("fecha")));
-				} catch (Exception e) {
-				    e.printStackTrace();
-				}
+
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+				f.setFecha(LocalDate.parse(obj.getString("fecha")));
+
 				f.setTotal(obj.getDouble("total"));
 				f.setCerrada(obj.getBoolean("cerrada"));
+
+				f.setLineas(daoLinea.read(f.getId()));
 
 				lista.add(f);
 			}
@@ -126,41 +128,19 @@ public class DAOFacturaImp implements DAOFactura {
 	}
 
 	@Override
-	public List<TFactura> readByDateRange(String fechaInicio, String fechaFin) {
-	    List<TFactura> res = new ArrayList<>();
+	public List<TFactura> readByDateRange(LocalDate inicio, LocalDate fin) {
 
-	    try {
-	        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-
-	        Date inicio = sdf.parse(fechaInicio);
-	        Date fin = sdf.parse(fechaFin);
-
-	        for (TFactura f : readAll()) {
-	            Date fecha = f.getFecha();
-
-	            if (!fecha.before(inicio) && !fecha.after(fin)) {
-	                res.add(f);
-	            }
-	        }
-
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	    }
-
-	    return res;
+	    return readAll().stream()
+	        .filter(f -> !f.getFecha().isBefore(inicio)
+	                  && !f.getFecha().isAfter(fin))
+	        .toList();
 	}
-	
+
 	@Override
 	public List<TFactura> readByMonth(int month, int year) {
 
-	    LocalDate startDate = LocalDate.of(year, month, 1);
-
-	    LocalDate endDate = startDate.withDayOfMonth(startDate.lengthOfMonth());
-
-	    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-
-	    String start = startDate.format(formatter);
-	    String end = endDate.format(formatter);
+	    LocalDate start = LocalDate.of(year, month, 1);
+	    LocalDate end = start.withDayOfMonth(start.lengthOfMonth());
 
 	    return readByDateRange(start, end);
 	}
@@ -182,20 +162,20 @@ public class DAOFacturaImp implements DAOFactura {
 
 	private JSONObject asJSON(TFactura f) {
 
-	    JSONObject obj = new JSONObject();
+		JSONObject obj = new JSONObject();
 
-	    obj.put("id", f.getId());
-	    obj.put("idVendedor", f.getIdVendedor());
-	    obj.put("idCliente", f.getIdCliente());
-	    obj.put("idDescuento", f.getIdDescuento());
+		obj.put("id", f.getId());
+		obj.put("idVendedor", f.getIdVendedor());
+		obj.put("idCliente", f.getIdCliente());
+		obj.put("idDescuento", f.getIdDescuento());
 
-	    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-	    obj.put("fecha", sdf.format(f.getFecha()));
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		obj.put("fecha", sdf.format(f.getFecha()));
 
-	    obj.put("total", f.getTotal());
-	    obj.put("cerrada", f.isCerrada());
+		obj.put("total", f.getTotal());
+		obj.put("cerrada", f.isCerrada());
 
-	    return obj;
+		return obj;
 	}
-	
+
 }
