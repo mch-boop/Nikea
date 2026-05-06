@@ -1,6 +1,5 @@
 package negocio.factura;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -11,7 +10,7 @@ public class TFactura {
     private int idVendedor;
     private int idCliente;
     private int idDescuento;
-    private LocalDate fecha;
+    private Date fecha;
 
     private double total;
     private boolean cerrada;
@@ -59,11 +58,11 @@ public class TFactura {
         this.idDescuento = idDescuento;
     }
 
-    public LocalDate getFecha() {
+    public Date getFecha() {
         return fecha;
     }
 
-    public void setFecha(LocalDate date) {
+    public void setFecha(Date date) {
         this.fecha = date;
     }
 
