@@ -92,23 +92,16 @@ public class VistaMostrarClientes extends JDialog implements IGUI {
 	                JOptionPane.showMessageDialog(this, "No hay clientes registrados en el sistema.", "Información", JOptionPane.INFORMATION_MESSAGE);
 	            } else {
 	            	
-	                boolean hayActivos = false;
 	                for (TCliente tc : lista) {
-	                    if (tc.isActivo()) { // Solo mostramos si el estado es activo
-	                        Object[] fila = {
-	                            tc.getId(),
-	                            tc.getDNI(),
-	                            tc.getNombre() + " " + tc.getApellidos(),
-	                            tc.getTelefono(),
-	                        };
-	                        modeloTabla.addRow(fila);
-	                        hayActivos = true;
-	                    }
+                        Object[] fila = {
+                            tc.getId(),
+                            tc.getDNI(),
+                            tc.getNombre() + " " + tc.getApellidos(),
+                            tc.getTelefono(),
+                        };
+                        modeloTabla.addRow(fila);	                    
 	                }
 	                
-	                if (!hayActivos) {
-	                    JOptionPane.showMessageDialog(this, "No hay clientes activos para mostrar.", "Información", JOptionPane.INFORMATION_MESSAGE);
-	                } 
 	            	setVisible(true);
 	            }
 	            break;
