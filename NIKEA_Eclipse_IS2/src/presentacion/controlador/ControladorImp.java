@@ -278,7 +278,7 @@ public class ControladorImp extends Controlador {
 			if (res > 0) {
 				vista.actualizar(Eventos.RES_ALTA_SERVICIO_OK, res);
 			} else if (res == -1 || res == -100 || res == -2 || res == -3 || res == -300) {
-				vista.actualizar(Eventos.RES_ALTA_SERVICIO_YA_EXISTE, saServicio.getUltimoDuplicado());
+				vista.actualizar(Eventos.RES_ALTA_SERVICIO_YA_EXISTE, tServicio);
 			} else {
 				vista.actualizar(Eventos.RES_ALTA_SERVICIO_KO, tServicio);
 			}
@@ -287,28 +287,31 @@ public class ControladorImp extends Controlador {
 		case Eventos.BAJA_SERVICIO: {
 			Integer id = (Integer) datos;
 			SAServicio saServicio = FactoriaAbstractaNegocio.getInstance().crearSAServicio();
-			TServicio servicio = saServicio.read(id);
+			int estado = saServicio.readToDelete(id);
+			java.util.Optional<TServicio> servicio = saServicio.readActive(id);
 
 			IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(evento);
 
-			if (servicio == null) {
+			if (estado == -3) {
 				vista.actualizar(Eventos.RES_BAJA_SERVICIO_KO_NO_EXISTE, id);
-			} else if (!servicio.isActivo()) {
+			} else if (estado == -4) {
 				vista.actualizar(Eventos.RES_BAJA_SERVICIO_KO, id);
+			} else if (servicio.isPresent()) {
+				vista.actualizar(Eventos.RES_BAJA_SERVICIO_OK, servicio.get());
 			} else {
-				vista.actualizar(Eventos.RES_BAJA_SERVICIO_OK, servicio);
+				vista.actualizar(Eventos.RES_BAJA_SERVICIO_KO, id);
 			}
 			break;
 		}
 		case Eventos.BUSCAR_SERVICIO: {
 			Integer id = (Integer) datos;
 			SAServicio saServicio = FactoriaAbstractaNegocio.getInstance().crearSAServicio();
-			TServicio servicio = saServicio.read(id);
+			java.util.Optional<TServicio> servicio = saServicio.readActive(id);
 
 			IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.BUSCAR_SERVICIO);
 
-			if (servicio != null && servicio.isActivo()) {
-				vista.actualizar(Eventos.RES_BUSCAR_SERVICIO_OK, servicio);
+			if (servicio.isPresent()) {
+				vista.actualizar(Eventos.RES_BUSCAR_SERVICIO_OK, servicio.get());
 			} else {
 				vista.actualizar(Eventos.RES_BUSCAR_SERVICIO_KO, id);
 			}
@@ -320,12 +323,12 @@ public class ControladorImp extends Controlador {
 		case Eventos.BUSCAR_SERVICIO_PARA_MODIFICAR: {
 			Integer id = (Integer) datos;
 			SAServicio saServicio = FactoriaAbstractaNegocio.getInstance().crearSAServicio();
-			TServicio servicio = saServicio.read(id);
+			java.util.Optional<TServicio> servicio = saServicio.readActive(id);
 
 			IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.MODIFICAR_SERVICIO);
 
-			if (servicio != null && servicio.isActivo()) {
-				vista.actualizar(Eventos.RES_BUSCAR_SERVICIO_PARA_MODIFICAR_OK, servicio);
+			if (servicio.isPresent()) {
+				vista.actualizar(Eventos.RES_BUSCAR_SERVICIO_PARA_MODIFICAR_OK, servicio.get());
 				((JFrame) vista).setVisible(true);
 				((JFrame) vista).toFront();
 			} else {
@@ -349,12 +352,12 @@ public class ControladorImp extends Controlador {
 		}
 		case Eventos.MOSTRAR_MEJOR_ARTICULO: {
 			SAServicio saCli = FactoriaAbstractaNegocio.getInstance().crearSAServicio();
-			TServicio servicio = saCli.getMejorArticulo();
+			java.util.Optional<TArticulo> servicio = saCli.getMejorArticulo();
 
 			IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(evento);
 
-			if (servicio instanceof TArticulo) {
-				vista.actualizar(Eventos.RES_MOSTRAR_MEJOR_ARTICULO_OK, (TArticulo) servicio);
+			if (servicio.isPresent()) {
+				vista.actualizar(Eventos.RES_MOSTRAR_MEJOR_ARTICULO_OK, servicio.get());
 			} else {
 				vista.actualizar(Eventos.RES_MOSTRAR_MEJOR_ARTICULO_KO, null);
 			}
@@ -398,9 +401,7 @@ public class ControladorImp extends Controlador {
 
 			IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.MOSTRAR_ARTICULOS_POR_MARCA);
 
-			if (res == null) {
-				vista.actualizar(Eventos.RES_MOSTRAR_ARTICULOS_POR_MARCA_KO_NO_EXISTE_MARCA, null);
-			} else if (res.isEmpty()) {
+			if (res.isEmpty()) {
 				vista.actualizar(Eventos.RES_MOSTRAR_ARTICULOS_POR_MARCA_KO_NO_HAY_ARTICULOS, null);
 			} else {
 				vista.actualizar(Eventos.RES_MOSTRAR_ARTICULOS_POR_MARCA_OK, res);

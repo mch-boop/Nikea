@@ -103,7 +103,7 @@
         "id": 9,
         "stock": 1,
         "idMarca": 0,
-        "nombre": "Sex",
+        "nombre": "martillo",
         "activo": true
     },
     {
@@ -182,6 +182,42 @@
         "stock": 30,
         "idMarca": 11,
         "nombre": "Mesa",
+        "activo": true
+    },
+    {
+        "descripcion": "burro metalico colgar ropa",
+        "precioActual": 30,
+        "marca": "Muebles SA",
+        "tipo": 1,
+        "ventas": 0,
+        "id": 17,
+        "stock": 100,
+        "idMarca": 11,
+        "nombre": "Burro ropa",
+        "activo": true
+    },
+    {
+        "descripcion": "perchas negras terciopeladas",
+        "precioActual": 1,
+        "marca": "El Corte Inglés",
+        "tipo": 1,
+        "ventas": 0,
+        "id": 18,
+        "stock": 1000,
+        "idMarca": 4,
+        "nombre": "perchas tercipelo",
+        "activo": true
+    },
+    {
+        "descripcion": "cuadro AOT season 3 20x30",
+        "precioActual": 8,
+        "marca": "Decoracasa",
+        "tipo": 1,
+        "ventas": 0,
+        "id": 19,
+        "stock": 35,
+        "idMarca": 7,
+        "nombre": "cuadro AOT",
         "activo": true
     }
 ]
