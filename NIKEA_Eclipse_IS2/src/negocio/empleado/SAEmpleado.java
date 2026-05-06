@@ -11,7 +11,6 @@ public interface SAEmpleado {
     public TEmpleado readActive(int id); 
     public int update(TEmpleado te);
     public int reactivate(TEmpleado tEmpleado);
-    public TEmpleado getUltimoDuplicado();
     public TEmpleado read(int id);
     public Collection<TEmpleado> readAll();
     

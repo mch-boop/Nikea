@@ -255,21 +255,17 @@ public class VistaAnadirEmpleado extends JDialog implements IGUI {
 					break;
 
 				case Eventos.RES_ALTA_EMPLEADO_YA_EXISTE_DISTINTO:
-					// El SA nos confirmó que el DNI es de otra persona
-					TEmpleado dup = (TEmpleado) datos;
-					JOptionPane.showMessageDialog(VistaAnadirEmpleado.this,
-							"El DNI introducido ya pertenece a: " + dup.getNombre() + " " + dup.getApellido(),
-							"Conflicto de Identidad", JOptionPane.ERROR_MESSAGE);
-					VistaAnadirEmpleado.this.txtDNI.requestFocus();
-					break;
+				    JOptionPane.showMessageDialog(VistaAnadirEmpleado.this,
+				        "El DNI introducido ya está registrado en el sistema.",
+				        "DNI duplicado",
+				        JOptionPane.ERROR_MESSAGE);
+				    break;
 
 				case Eventos.RES_ALTA_EMPLEADO_CONFIRMAR_REACTIVACION:
 					// El empleado existe inactivo con datos distintos (Caso -2)
 					TEmpleado empReac = (TEmpleado) datos;
 
-					String mensaje = "ATENCION: Conflicto de identidad en el histórico.\n\n" + "El DNI "
-							+ empReac.getDNI() + " ya existe en la base de datos asociado al empleado: "
-							+ empReac.getNombre() + " " + empReac.getApellido() + ".\n\n" + "Actualmente el empleado está dado de baja.\n"
+					String mensaje = "ATENCION: Conflicto de identidad en el histórico.\n\n" + "Ya existe un empleado con ese DNI en estado inactivo.\n"
 							+ "¿Desea reactivar la ficha existente y actualizarla con los nuevos datos introducidos?\n";
 
 					int respReac = JOptionPane.showConfirmDialog(VistaAnadirEmpleado.this, mensaje,
@@ -312,18 +308,11 @@ public class VistaAnadirEmpleado extends JDialog implements IGUI {
 					break;
 
 				case Eventos.RES_ALTA_EMPLEADO_CAMBIO_TIPO_REQUERIDO_INACTIVO:
-					// El empleado fue borrado con otro cargo
-					TEmpleado inactivo = (TEmpleado) datos;
-					String tipoOriginal = (inactivo.getTipo() == 1) ? "Vendedor" : "Montador";
-
 					JOptionPane.showMessageDialog(VistaAnadirEmpleado.this,
-							"El empleado existe en el histórico como inactivo con el cargo de: " + tipoOriginal
-									+ ".\n\n" + "PASOS A SEGUIR:\n"
-									+ "1. Vuelva a darle de alta seleccionando el tipo '" + tipoOriginal
-									+ "' para reactivarlo.\n"
-									+ "2. Una vez reactivado, use el botón 'Actualizar Empleado' para cambiar su cargo actual.",
+							"El empleado existe en el histórico como inactivo con un cargo distinto al introducido.\n\n" + "PASOS A SEGUIR:\n"
+									+ "1. Vuelva a darle de alta seleccionando el cargo actual para reactivarlo.\n"
+									+ "2. Una vez reactivado, use el botón 'Actualizar Empleado' para cambiar su cargo al deseado.",
 							"Reactivación Requerida", JOptionPane.WARNING_MESSAGE);
-					limpiarCampos(); 
 					break;
 
 				case Eventos.RES_ALTA_EMPLEADO_KO:
