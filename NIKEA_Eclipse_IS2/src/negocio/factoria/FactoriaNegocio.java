@@ -12,6 +12,8 @@ import negocio.factura.SAFactura;
 import negocio.factura.SAFacturaImp;
 import negocio.marca.SAMarca;
 import negocio.marca.SAMarcaImp;
+import negocio.operacionTOA.OperacionResumenTOA;
+import negocio.operacionTOA.OperacionResumenTOAImp;
 import negocio.servicio.SAServicio;
 import negocio.servicio.SAServicioImp;
 
@@ -52,6 +54,11 @@ public class FactoriaNegocio extends FactoriaAbstractaNegocio {
 	@Override
 	public SAMontadorMontaje crearSAMontadorMontaje() {
 		return new SAMontadorMontajeImp();
+	}
+
+	@Override
+	public OperacionResumenTOA crearOperacionResumenTOA() {
+		return new OperacionResumenTOAImp();
 	}
 
 }

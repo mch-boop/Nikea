@@ -18,6 +18,9 @@ import negocio.factura.TFactura;
 import negocio.factura.TLineaFactura;
 import negocio.marca.SAMarca;
 import negocio.marca.TMarca;
+import negocio.operacionTOA.OperacionResumenTOA;
+import negocio.operacionTOA.TResumenNegocio;
+import negocio.operacionTOA.TResumenNegocioImp;
 import negocio.servicio.SAServicio;
 import negocio.servicio.TArticulo;
 import negocio.servicio.TServicio;
@@ -944,7 +947,27 @@ public class ControladorImp extends Controlador {
 			}
 			break;
 		}
+		
+		case Eventos.MOSTRAR_RESUMEN_MENSUAL: {
 
+		    int[] datosIn = (int[]) datos;
+		    int mes = datosIn[0];
+		    int anio = datosIn[1];
+
+		    OperacionResumenTOA op = FactoriaAbstractaNegocio.getInstance().crearOperacionResumenTOA();
+
+		    TResumenNegocio res = op.resumenShop(mes, anio);
+
+		    IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(evento);
+
+		    if (res != null) {
+		        vista.actualizar(Eventos.RES_RESUMEN_MENSUAL_OK, res);
+		    } else {
+		        vista.actualizar(Eventos.RES_RESUMEN_MENSUAL_KO, null);
+		    }
+
+		    break;
+		}
 		// DEFAULT
 		default:
 			System.err.println("Evento no reconocido: " + evento);
