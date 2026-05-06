@@ -133,5 +133,14 @@
         "idCliente": 5,
         "idVendedor": 7,
         "id": 15
+    },
+    {
+        "fecha": "2026-05-06",
+        "total": 87,
+        "cerrada": true,
+        "idDescuento": 2,
+        "idCliente": 3,
+        "idVendedor": 1,
+        "id": 16
     }
 ]
