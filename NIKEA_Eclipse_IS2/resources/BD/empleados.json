@@ -67,5 +67,25 @@
         "dni": "12345678Z",
         "numeroVentas": 0,
         "activo": true
+    },
+    {
+        "tipo": 1,
+        "apellido": "Hernandez",
+        "sueldo": 1200,
+        "id": 8,
+        "nombre": "Pipo",
+        "dni": "12345678A",
+        "numeroVentas": 0,
+        "activo": false
+    },
+    {
+        "tipo": 1,
+        "apellido": "Garcia Garcia",
+        "sueldo": 1200,
+        "id": 9,
+        "nombre": "Alfonso",
+        "dni": "12345678B",
+        "numeroVentas": 0,
+        "activo": true
     }
 ]

@@ -411,47 +411,45 @@ public class ControladorImp extends Controlador {
 		// EVENTOS DE EMPLEADO
 
 		case Eventos.ALTA_EMPLEADO: {
-			TEmpleado tEmpleado = (TEmpleado) datos;
-			SAEmpleado saEmpleado = FactoriaAbstractaNegocio.getInstance().crearSAEmpleado();
+		    TEmpleado tEmpleado = (TEmpleado) datos;
+		    SAEmpleado saEmpleado = FactoriaAbstractaNegocio.getInstance().crearSAEmpleado();
 
-			// El create devuelve el ID (>0) o un código de error (<0)
-			int res = saEmpleado.create(tEmpleado);
+		    int res = saEmpleado.create(tEmpleado);
 
-			IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(evento);
+		    IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(evento);
 
-			if (res > 0) {
-				// Alta o reactivación exitosa
-				vista.actualizar(Eventos.RES_ALTA_EMPLEADO_OK, res);
-			} else {
-				switch (res) {
-				case -1: // Ya existe y está activo
-					vista.actualizar(Eventos.RES_ALTA_EMPLEADO_YA_EXISTE_MISMO, saEmpleado.getUltimoDuplicado());
-					break;
+		    if (res > 0) {
+		        vista.actualizar(Eventos.RES_ALTA_EMPLEADO_OK, res);
+		    } 
+		    else {
+		        switch (res) {
 
-				case -100: // Existe activo pero es OTRA persona (DNI ocupado)
-					vista.actualizar(Eventos.RES_ALTA_EMPLEADO_YA_EXISTE_DISTINTO, saEmpleado.getUltimoDuplicado());
-					break;
+		            case -1: // ya existe activo (mismo empleado)
+		                vista.actualizar(Eventos.RES_ALTA_EMPLEADO_YA_EXISTE_MISMO, null);
+		                break;
 
-				case -2: // Existe inactivo con datos distintos
-					vista.actualizar(Eventos.RES_ALTA_EMPLEADO_CONFIRMAR_REACTIVACION, saEmpleado.getUltimoDuplicado());
-					break;
+		            case -100: // DNI ya registrado (otra persona)
+		                vista.actualizar(Eventos.RES_ALTA_EMPLEADO_YA_EXISTE_DISTINTO, null);
+		                break;
 
-				case -3: // Existe inactivo, mismos datos pero distinto tipo
-					vista.actualizar(Eventos.RES_ALTA_EMPLEADO_CAMBIO_TIPO_REQUERIDO_INACTIVO,
-							saEmpleado.getUltimoDuplicado());
-					break;
+		            case -2: // existe inactivo con datos distintos
+		                vista.actualizar(Eventos.RES_ALTA_EMPLEADO_CONFIRMAR_REACTIVACION, tEmpleado);
+		                break;
 
-				case -300: // Activo, mismo nombre, distinto tipo
-					vista.actualizar(Eventos.RES_ALTA_EMPLEADO_CAMBIO_TIPO_REQUERIDO_ACTIVO,
-							saEmpleado.getUltimoDuplicado());
-					break;
+		            case -3: // inactivo mismo nombre distinto tipo
+		                vista.actualizar(Eventos.RES_ALTA_EMPLEADO_CAMBIO_TIPO_REQUERIDO_INACTIVO, null);
+		                break;
 
-				default: // Error genérico o fallo de persistencia
-					vista.actualizar(Eventos.RES_ALTA_EMPLEADO_KO, res);
-					break;
-				}
-			}
-			break;
+		            case -300: // activo mismo nombre distinto tipo
+		                vista.actualizar(Eventos.RES_ALTA_EMPLEADO_CAMBIO_TIPO_REQUERIDO_ACTIVO, null);
+		                break;
+
+		            default:
+		                vista.actualizar(Eventos.RES_ALTA_EMPLEADO_KO, tEmpleado);
+		                break;
+		        }
+		    }
+		    break;
 		}
 
 		case Eventos.REACTIVAR_EMPLEADO: {

@@ -8,8 +8,6 @@ import integracion.empleado.DAOMontadorMontaje; // DAO para la tabla intermedia 
 import java.util.Collection;
 
 public class SAEmpleadoImp implements SAEmpleado {
-	
-	private TEmpleado ultimoDuplicado;
 
 	// Métodos de CU Básicos
 	
@@ -20,8 +18,6 @@ public class SAEmpleadoImp implements SAEmpleado {
 	    
 	    // Buscamos si ya existe el DNI en el sistema
 	    TEmpleado existente = dao.readByDNI(te.getDNI());
-	    
-	    this.ultimoDuplicado = null;
 
 	    /*
 	     * Códigos de retorno:
@@ -29,7 +25,7 @@ public class SAEmpleadoImp implements SAEmpleado {
 	     * -1   -> Ya existe activo con los MISMOS datos (mismo nombre/apellido)
 	     * -100 -> Ya existe activo pero con DISTINTOS datos (DNI de otra persona)
 	     * -2   -> Existe inactivo pero los datos no coinciden (pedir confirmación de reactivación)
-	     * -3  -> Existe inactivo, mismos datos pero distinto TIPO (vendedor/montador)
+	     * -3   -> Existe inactivo, mismos datos pero distinto TIPO (vendedor/montador)
 	     * -300 -> Existe activo, mismos datos pero distinto TIPO (vendedor/montador)
 	     */
 
@@ -37,9 +33,6 @@ public class SAEmpleadoImp implements SAEmpleado {
 	    if (existente == null) {
 	        return dao.create(te);
 	    }
-	    
-	    // Si existe (activo o inactivo), lo guardamos para que el Controlador y Vista lo consulten
-	    this.ultimoDuplicado = existente;
 
 	    // COMPARACIÓN DE DATOS
 	    boolean mismoNombre = existente.getNombre() != null &&
@@ -51,7 +44,6 @@ public class SAEmpleadoImp implements SAEmpleado {
 
 	    boolean mismosDatosPersonales = mismoNombre && mismoApellido;
 	    
-
 	    // CASO 2: EL EMPLEADO EXISTE PERO ESTÁ INACTIVO
 	    if (!existente.isActivo()) {
 	        
@@ -76,26 +68,22 @@ public class SAEmpleadoImp implements SAEmpleado {
 
 	    // CASO 3: EL EMPLEADO YA EXISTE Y ESTÁ ACTIVO
 	    if (existente.isActivo()) {
+	    	
 	    	// Mismos datos pero distinto tipo (No se puede reactivar cambiando el rol directamente)
-			    if (mismosDatosPersonales && existente.getTipo() != te.getTipo()) {
-		            return -300;
-		        } 
-			    
-		        if (mismosDatosPersonales) {
-		            return -1;   // Es el mismo empleado 
-		        } else {
-		            return -100; // Es otro empleado (Aviso: "DNI registrado a nombre de...")
-		        }
+	        if (mismosDatosPersonales && existente.getTipo() != te.getTipo()) {
+	            return -300;
+	        } 
+		    
+	        if (mismosDatosPersonales) {
+	            return -1;   // Es el mismo empleado 
+	        } else {
+	            return -100; // Es otro empleado (Aviso: "DNI registrado a nombre de...")
+	        }
 	    }
 
 	    return -1; // Fallback de seguridad
 	}
 	
-	@Override
-    public TEmpleado getUltimoDuplicado() {
-        return this.ultimoDuplicado;
-    }
-
 	@Override
 	public int delete(int id) {
 		DAOEmpleado dao = FactoriaIntegracion.getInstance().crearDAOEmpleado();
