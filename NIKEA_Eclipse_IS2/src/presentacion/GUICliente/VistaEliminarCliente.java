@@ -59,17 +59,22 @@ public class VistaEliminarCliente extends JDialog implements IGUI {
                 try {
                     String textoId = txtId.getText();
                     if (textoId.isEmpty()) {
-                        JOptionPane.showMessageDialog(null, "No se ha completado el campo ID Cliente.", "Error", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(VistaEliminarCliente.this, "No se ha completado el campo ID Cliente.", "Error", JOptionPane.ERROR_MESSAGE);
                         txtId.requestFocus();
                     } else {
                     	// Leemos la entrada.
                         int id = Integer.parseInt(textoId);
+                        if (id <= 0) {
+                        	JOptionPane.showMessageDialog(VistaEliminarCliente.this, "El id debe ser un número positivo.", "Error", JOptionPane.ERROR_MESSAGE);
+                            txtId.requestFocus();
+                            return;
+                        }
                         // Enviamos el ID al controlador, primero lo buscamos para pedir confirmación y luego eliminamos.
                         Controlador.getInstance().accion(Eventos.BAJA_CLIENTE, id);
                     }
                 } catch (NumberFormatException ex) {
                     // Si el ID no es numérico, enviamos evento de error de formato
-                    JOptionPane.showMessageDialog(null, "El ID debe ser un número válido.", "Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(VistaEliminarCliente.this, "El ID debe ser un número válido.", "Error", JOptionPane.ERROR_MESSAGE);
                     txtId.requestFocus();
                 }
             }
@@ -109,7 +114,7 @@ public class VistaEliminarCliente extends JDialog implements IGUI {
                     String info = "ID: " + tc.getId() + "\nNombre: " + tc.getNombre() + 
                                   " " + tc.getApellidos() + "\nDNI: " + tc.getDNI();
                     
-                    int respuesta = JOptionPane.showConfirmDialog(this, 
+                    int respuesta = JOptionPane.showConfirmDialog(VistaEliminarCliente.this, 
                         "Se ha encontrado el siguiente cliente activo:\n\n" + info + 
                         "\n\n¿Está seguro de que desea darlo de baja?",
                         "Confirmar Baja", 
@@ -123,29 +128,18 @@ public class VistaEliminarCliente extends JDialog implements IGUI {
                     break;
 
                 case Eventos.RES_BAJA_CLIENTE_CONFIRMADA:
-                    JOptionPane.showMessageDialog(this, "El cliente con ID " + datos + " se ha dado de baja correctamente.");
+                    JOptionPane.showMessageDialog(VistaEliminarCliente.this, "El cliente con ID " + datos + " se ha dado de baja correctamente.");
                     txtId.setText("");
                     break;
 
                 case Eventos.RES_BAJA_CLIENTE_KO_NO_EXISTE:
-                    JOptionPane.showMessageDialog(this, "Error: No existe ningún cliente con el ID: " + datos, "Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(VistaEliminarCliente.this, "Error: No existe ningún cliente con el ID: " + datos, "Error", JOptionPane.ERROR_MESSAGE);
                     txtId.requestFocus();
                     break;
 
                 case Eventos.RES_BAJA_CLIENTE_KO_YA_INACTIVO:
-                    JOptionPane.showMessageDialog(this, "El cliente ya se encuentra en estado inactivo.", "Aviso", JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(VistaEliminarCliente.this, "El cliente ya se encuentra en estado inactivo.", "Aviso", JOptionPane.WARNING_MESSAGE);
                     break;
-
-                case Eventos.RES_BAJA_CLIENTE_KO_ID_FORMATO:
-                    JOptionPane.showMessageDialog(this, "El ID debe ser un número entero válido.", "Error de Formato", JOptionPane.ERROR_MESSAGE);
-                    txtId.requestFocus();
-                    break;
-
-                case Eventos.RES_BAJA_CLIENTE_KO_ID_VACIO:
-                    JOptionPane.showMessageDialog(this, "El campo ID no puede estar vacío.", "Error", JOptionPane.WARNING_MESSAGE);
-                    txtId.requestFocus();
-                    break;
-
             }
         });
     }

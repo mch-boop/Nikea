@@ -84,21 +84,21 @@ public class VistaBuscarCliente extends JDialog implements IGUI {
                     String textoId = txtId.getText();
                     // Comprobamos que se ha rellenado el campo.
                     if (textoId.trim().isEmpty()) {
-                        JOptionPane.showMessageDialog(null, "Error: debe introducir un id.", "Faltan datos", JOptionPane.WARNING_MESSAGE);
+                        JOptionPane.showMessageDialog(VistaBuscarCliente.this, "Error: debe introducir un id.", "Faltan datos", JOptionPane.WARNING_MESSAGE);
                         txtId.requestFocus();
                         return;
                     }
                     else {
                         int id = Integer.parseInt(textoId);
                         if (id <= 0) {
-                        	JOptionPane.showMessageDialog(null, "El id debe ser un número positivo.", "Error", JOptionPane.ERROR_MESSAGE);
+                        	JOptionPane.showMessageDialog(VistaBuscarCliente.this, "El id debe ser un número positivo.", "Error", JOptionPane.ERROR_MESSAGE);
                             txtId.requestFocus();
                             return;
                         }
                         Controlador.getInstance().accion(Eventos.BUSCAR_CLIENTE, id);
                     }
                 } catch (NumberFormatException ex) { 	// Lanzo error si no se ha podido parsear el número.
-                    JOptionPane.showMessageDialog(null, "El ID debe ser un número entero.", "Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(VistaBuscarCliente.this, "El ID debe ser un número entero.", "Error", JOptionPane.ERROR_MESSAGE);
                     txtId.requestFocus();	// El cursor se pone en el JTextField.
                 }
             }
@@ -157,7 +157,7 @@ public class VistaBuscarCliente extends JDialog implements IGUI {
                 sb.append("DNI:      ").append(tc.getDNI()).append("\n");
                 sb.append("Nombre:   ").append(tc.getNombre()).append("\n");
                 sb.append("Apellidos: ").append(tc.getApellidos()).append("\n");
-                sb.append("Teléfono:   ").append(tc.getTelefono()).append("\n");
+                sb.append("Teléfono:   ").append(String.format("%09d", tc.getTelefono())).append("\n");
                 
                 areaDetalles.setText(sb.toString());
                 this.pack();
@@ -168,12 +168,12 @@ public class VistaBuscarCliente extends JDialog implements IGUI {
             case Eventos.RES_BUSCAR_CLIENTE_KO:
                 areaDetalles.setText("");
                 areaDetalles.setPreferredSize(new Dimension(363, 200));
-                JOptionPane.showMessageDialog(this, "No se ha encontrado ningún cliente con el ID: " + datos, "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(VistaBuscarCliente.this, "No se ha encontrado ningún cliente con el ID: " + datos, "Error", JOptionPane.ERROR_MESSAGE);
                 txtId.requestFocus();
                 break;
 
             default:
-                JOptionPane.showMessageDialog(this, "Error inesperado al consultar.", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(VistaBuscarCliente.this, "Error inesperado al consultar.", "Error", JOptionPane.ERROR_MESSAGE);
                 break;
         }
     }

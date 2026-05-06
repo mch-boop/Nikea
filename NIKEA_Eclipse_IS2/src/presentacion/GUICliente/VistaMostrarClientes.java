@@ -89,7 +89,7 @@ public class VistaMostrarClientes extends JDialog implements IGUI {
 	            modeloTabla.setRowCount(0); // Limpiar tabla antes de cargar
 	            
 	            if (lista.isEmpty()) {
-	                JOptionPane.showMessageDialog(this, "No hay clientes registrados en el sistema.", "Información", JOptionPane.INFORMATION_MESSAGE);
+	                JOptionPane.showMessageDialog(VistaMostrarClientes.this, "No hay clientes registrados en el sistema.", "Información", JOptionPane.INFORMATION_MESSAGE);
 	            } else {
 	            	
 	                for (TCliente tc : lista) {
@@ -97,7 +97,7 @@ public class VistaMostrarClientes extends JDialog implements IGUI {
                             tc.getId(),
                             tc.getDNI(),
                             tc.getNombre() + " " + tc.getApellidos(),
-                            tc.getTelefono(),
+                            String.format("%09d", tc.getTelefono()),
                         };
                         modeloTabla.addRow(fila);	                    
 	                }
@@ -108,7 +108,7 @@ public class VistaMostrarClientes extends JDialog implements IGUI {
 	
 	        case Eventos.RES_MOSTRAR_CLIENTES_KO:
 	            modeloTabla.setRowCount(0);
-	            JOptionPane.showMessageDialog(this, "Error al recuperar la lista de clientes.", "Error", JOptionPane.ERROR_MESSAGE);
+	            JOptionPane.showMessageDialog(VistaMostrarClientes.this, "Error al recuperar la lista de clientes.", "Error", JOptionPane.ERROR_MESSAGE);
 	            break;
 	
 	            default:

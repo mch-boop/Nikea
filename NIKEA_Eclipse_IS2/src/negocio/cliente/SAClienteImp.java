@@ -16,15 +16,7 @@ public class SAClienteImp implements SACliente {
 		
 		// Buscamos si ya existe el DNI en el sistema
 		TCliente existente = dao.readByDNI(tc.getDNI());
-		
-		/*
-	     * Códigos de retorno:
-	     * > 0  -> Alta correcta / Reactivación automática exitosa
-	     * -1   -> Ya existe activo con los MISMOS datos (mismo nombre/apellido)
-	     * -100 -> Ya existe activo pero con DISTINTOS datos (DNI de otra persona)
-	     * -2   -> Existe inactivo pero los datos no coinciden (pedir confirmación de reactivación)
-	     */
-		
+				
 		// Caso 1: no existe en el sistema, alta en el sistema.
 		if (existente == null) { 
 			return dao.create(tc); 
@@ -47,6 +39,7 @@ public class SAClienteImp implements SACliente {
 	public TCliente read(int id) {
 		DAOCliente dao = FactoriaAbstractaIntegracion.getInstance().crearDAOCliente();
 		TCliente tc = dao.read(id);
+		if (tc == null) return tc;
 		return (tc.isActivo() ? tc : null);
 	}
 
@@ -87,6 +80,6 @@ public class SAClienteImp implements SACliente {
 		for(TCliente c : clientes)
 			if (c.isActivo()) salida.add(c);
 		
-		return  (salida.isEmpty() ? null : salida);
+		return  salida;
 	}
 }

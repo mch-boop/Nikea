@@ -139,8 +139,6 @@ public class ControladorImp extends Controlador {
 				vista.actualizar(Eventos.RES_MODIFICAR_CLIENTE_OK, res);
 			} else if (res == -1) {
 				vista.actualizar(Eventos.RES_MODIFICAR_CLIENTE_KO_NO_EXISTE, tc);
-			} else {
-				vista.actualizar(Eventos.RES_MODIFICAR_CLIENTE_KO_DATOS_INVALIDOS, tc);
 			}
 			break;
 		}
