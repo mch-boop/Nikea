@@ -1,41 +1,40 @@
 [
     {
         "tipo": 1,
-        "apellido": "Lopez",
+        "apellido": "López",
         "sueldo": 1200,
         "id": 1,
         "nombre": "Ana",
-        "dni": "111A",
-        "numeroVentas": 0,
+        "dni": "12345678Z",
+        "numeroVentas": 5,
+        "activo": true
+    },
+    {
+        "tipo": 2,
+        "apellido": "Gómez",
+        "sueldo": 1800,
+        "id": 2,
+        "nombre": "Luis",
+        "dni": "87654321X",
+        "activo": true
+    },
+    {
+        "tipo": 1,
+        "apellido": "Martínez",
+        "sueldo": 1250,
+        "id": 3,
+        "nombre": "Carlos",
+        "dni": "11223344A",
+        "numeroVentas": 2,
         "activo": false
     },
     {
         "tipo": 2,
-        "apellido": "Gomez",
-        "sueldo": 1800,
-        "id": 2,
-        "nombre": "Luis",
-        "dni": "222B",
-        "activo": true
-    },
-    {
-        "tipo": 1,
-        "apellido": "Bing",
-        "sueldo": 1200,
-        "id": 3,
-        "nombre": "West",
-        "dni": "444D",
-        "numeroVentas": 0,
-        "activo": true
-    },
-    {
-        "tipo": 1,
-        "apellido": "",
-        "sueldo": 1000000,
+        "apellido": "Fernández",
+        "sueldo": 2000,
         "id": 4,
-        "nombre": "Vicente",
-        "dni": "555E",
-        "numeroVentas": 0,
+        "nombre": "Elena",
+        "dni": "55667788B",
         "activo": true
     },
     {
@@ -43,49 +42,56 @@
         "apellido": "Santos",
         "sueldo": 1200,
         "id": 5,
-        "nombre": "Baran",
-        "dni": "444R",
+        "nombre": "Marta",
+        "dni": "66778899C",
         "numeroVentas": 0,
+        "activo": true
+    },
+    {
+        "tipo": 1,
+        "apellido": "Ruiz",
+        "sueldo": 1300,
+        "id": 6,
+        "nombre": "Pedro",
+        "dni": "99887766D",
+        "numeroVentas": 1,
         "activo": false
     },
     {
-        "tipo": 1,
-        "apellido": "San",
-        "sueldo": 1200,
-        "id": 6,
-        "nombre": "Sepi",
-        "dni": "777H",
-        "numeroVentas": 0,
-        "activo": true
-    },
-    {
-        "tipo": 1,
-        "apellido": "Bullock",
-        "sueldo": 1200,
+        "tipo": 2,
+        "apellido": "Hernández",
+        "sueldo": 1900,
         "id": 7,
-        "nombre": "Sandra",
-        "dni": "12345678Z",
-        "numeroVentas": 0,
+        "nombre": "Lucía",
+        "dni": "22334455E",
         "activo": true
     },
     {
         "tipo": 1,
-        "apellido": "Hernandez",
+        "apellido": "García",
         "sueldo": 1200,
         "id": 8,
-        "nombre": "Pipo",
-        "dni": "12345678A",
-        "numeroVentas": 0,
-        "activo": false
+        "nombre": "Sergio",
+        "dni": "33445566F",
+        "numeroVentas": 3,
+        "activo": true
     },
     {
-        "tipo": 1,
-        "apellido": "Garcia Garcia",
-        "sueldo": 1200,
+        "tipo": 2,
+        "apellido": "Torres",
+        "sueldo": 2100,
         "id": 9,
-        "nombre": "Alfonso",
-        "dni": "12345678B",
-        "numeroVentas": 0,
+        "nombre": "Raúl",
+        "dni": "44556677G",
+        "activo": false
+    },	
+	{
+        "tipo": 2,
+        "apellido": "Moafi",
+        "sueldo": 5100,
+        "id": 10,
+        "nombre": "Isa",
+        "dni": "06020800K",
         "activo": true
-    }
+	}
 ]
