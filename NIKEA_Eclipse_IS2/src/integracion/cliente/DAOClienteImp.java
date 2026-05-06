@@ -114,7 +114,7 @@ public class DAOClienteImp implements DAOCliente {
     }
 	
 	// Método auxiliar para convertir los transfers a json:
-	public JSONObject asJSON(TCliente tc) {
+	private JSONObject asJSON(TCliente tc) {
         JSONObject obj = new JSONObject();
         obj.put("id", tc.getId());
         obj.put("nombre", tc.getNombre());
