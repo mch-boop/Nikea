@@ -169,9 +169,16 @@ public class VistaCerrarVenta extends JFrame implements IGUI {
 			switch (evento) {
 
 			case Eventos.RES_CERRAR_VENTA_OK:
-				JOptionPane.showMessageDialog(this, "Venta cerrada correctamente con ID: " + (Integer) datos);
-				setVisible(false);
-				break;
+				
+
+				    JOptionPane.showMessageDialog(
+				        VistaCerrarVenta.this,
+				        "Venta cerrada correctamente con ID: " + datos
+				    );
+
+				    VistaCerrarVenta.this.setVisible(false);
+				    VistaCerrarVenta.this.dispose();
+				    break;
 
 			case Eventos.RES_CERRAR_VENTA_KO:
 
