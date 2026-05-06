@@ -5,6 +5,8 @@ import java.awt.geom.RoundRectangle2D;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
+import presentacion.controlador.ControladorImp;
+import presentacion.controlador.Eventos;
 import presentacion.operacionResumenTOA.VistaOperacionResumen;
 
 @SuppressWarnings("serial")
@@ -60,7 +62,7 @@ public class GUIMain extends JFrame {
 		btnServicios.addActionListener(e -> abrirVentanaBloqueante(new GUIServicioDialog(this)));
 		btnMarcas.addActionListener(e -> abrirVentanaBloqueante(new GUIMarcaDialog(this)));
 		btnDescuentos.addActionListener(e -> abrirVentanaBloqueante(new GUIDescuentoDialog(this)));
-		btnResumen.addActionListener(e -> abrirVentanaBloqueante(new VistaOperacionResumen()));
+		btnResumen.addActionListener(e -> abrirVentanaBloqueante(new GUIResumenDialog(this)));
 		// ORGANIZACIÓN DEL LAYOUT
 
 		// Fila Superior

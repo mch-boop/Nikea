@@ -9,6 +9,7 @@ import presentacion.GUIFactura.*;
 import presentacion.GUIMarca.*;
 import presentacion.GUIServicio.*;
 import presentacion.controlador.Eventos;
+import presentacion.operacionResumenTOA.VistaOperacionResumen;
 
 public class FactoriaPresentacion extends FactoriaAbstractaPresentacion {
 
@@ -71,6 +72,9 @@ public class FactoriaPresentacion extends FactoriaAbstractaPresentacion {
 	private static VistaMostrarServicios vistaMostrarServicios;
 	private static VistaMostrarMejorArticulo vistaMostrarMejorArticulo;
 	private static VistaMostrarArticulosPorMarca vistaMostrarArticulosPorMarca;
+	
+	// ATRIBUTOS PARA SINGLETON (RESUMEN MENSUAL)
+	private static VistaOperacionResumen vistaOperacionResumen;
 
 	public IGUI createVista(int idEvento) {
 		switch (idEvento) {
@@ -300,7 +304,11 @@ public class FactoriaPresentacion extends FactoriaAbstractaPresentacion {
 					vistaMostrarArticulosPorMarca = new VistaMostrarArticulosPorMarca();
 				}
 				return vistaMostrarArticulosPorMarca;
-
+			case Eventos.MOSTRAR_RESUMEN_MENSUAL:
+				if(vistaOperacionResumen == null) {
+					vistaOperacionResumen = new VistaOperacionResumen();
+				}
+				return vistaOperacionResumen;
 			default:
 				// Error inesperado.
 				return null;
