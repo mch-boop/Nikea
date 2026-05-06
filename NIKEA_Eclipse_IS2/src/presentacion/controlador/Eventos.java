@@ -274,4 +274,6 @@ public class Eventos {
     // TOA RESUMEN MENSUAL
     
     public static final int MOSTRAR_RESUMEN_MENSUAL = 700;
+    public static final int RES_RESUMEN_MENSUAL_OK = 7001;
+    public static final int RES_RESUMEN_MENSUAL_KO = 7000;
 }
