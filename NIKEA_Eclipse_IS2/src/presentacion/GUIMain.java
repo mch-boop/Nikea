@@ -60,7 +60,7 @@ public class GUIMain extends JFrame {
 		btnServicios.addActionListener(e -> abrirVentanaBloqueante(new GUIServicioDialog(this)));
 		btnMarcas.addActionListener(e -> abrirVentanaBloqueante(new GUIMarcaDialog(this)));
 		btnDescuentos.addActionListener(e -> abrirVentanaBloqueante(new GUIDescuentoDialog(this)));
-		btnResumen.addActionListener(e -> abrirVentanaBloqueante(new VistaOperacionResumen(this)));
+		btnResumen.addActionListener(e -> abrirVentanaBloqueante(new VistaOperacionResumen()));
 		// ORGANIZACIÓN DEL LAYOUT
 
 		// Fila Superior
