@@ -234,7 +234,7 @@ public class VistaAltaServicio extends JDialog implements IGUI {
                         return;
                     }
 
-                    int precio = ((Number) spPrecio.getValue()).intValue();
+                    double precio = (Double) spPrecio.getValue();
                     if (precio == 0) {
                         JOptionPane.showMessageDialog(null, "Error: El precio actual debe ser mayor que 0.", "Faltan datos", JOptionPane.WARNING_MESSAGE);
                         spPrecio.requestFocus();
@@ -273,6 +273,7 @@ public class VistaAltaServicio extends JDialog implements IGUI {
     public void actualizar(int evento, Object datos) {
         SwingUtilities.invokeLater(() -> {
             switch (evento) {
+            
                 case Eventos.RES_CARGAR_MARCAS_PARA_SERVICIO_OK:
                     @SuppressWarnings("unchecked")
                     Collection<Object> listaMarcas = (Collection<Object>) datos;
@@ -327,16 +328,101 @@ public class VistaAltaServicio extends JDialog implements IGUI {
                     limpiarCampos();
                     JOptionPane.showMessageDialog(this, "Servicio creado con ID: " + datos, "Éxito", JOptionPane.INFORMATION_MESSAGE);
                     break;
-                case Eventos.RES_ALTA_SERVICIO_YA_EXISTE:
-                    if (datos instanceof TServicio) {
-                        TServicio duplicado = (TServicio) datos;
-                        JOptionPane.showMessageDialog(this,
-                                "Ya existe un servicio con ese nombre: " + duplicado.getNombre(),
-                                "Aviso",
-                                JOptionPane.WARNING_MESSAGE);
-                    } else {
-                        JOptionPane.showMessageDialog(this, "El servicio ya existe.", "Aviso", JOptionPane.WARNING_MESSAGE);
+                    
+                case Eventos.RES_ALTA_SERVICIO_YA_EXISTE_MISMO:
+                    JOptionPane.showMessageDialog(
+                            this,
+                            "El servicio ya existe en el sistema.",
+                            "Aviso",
+                            JOptionPane.WARNING_MESSAGE);
+                    limpiarCampos();
+                    break;
+
+
+                case Eventos.RES_ALTA_SERVICIO_YA_EXISTE_DISTINTO:
+                    JOptionPane.showMessageDialog(
+                            this,
+                            "Ya existe un servicio activo registrado con ese nombre.",
+                            "Conflicto",
+                            JOptionPane.ERROR_MESSAGE);
+                    break;
+
+
+                case Eventos.RES_ALTA_SERVICIO_REACTIVAR:
+
+                    // El servicio existe inactivo con datos distintos (Caso -2)
+                    String mensaje = "ATENCION: Conflicto en el histórico.\n\n"
+                            + "Ya existe un servicio con ese nombre en estado inactivo.\n"
+                            + "¿Desea reactivar la ficha existente y actualizarla con los nuevos datos introducidos?\n";
+
+                    int respReac = JOptionPane.showConfirmDialog(
+                            VistaAltaServicio.this,
+                            mensaje,
+                            "Reactivación de Servicio",
+                            JOptionPane.YES_NO_OPTION,
+                            JOptionPane.WARNING_MESSAGE);
+
+                    if (respReac == JOptionPane.YES_OPTION) {
+
+                        // Creamos el transfer correcto según el tipo seleccionado
+                        TServicio nuevoServicio;
+
+                        if (rbArticulo.isSelected()) {
+                            nuevoServicio = new TArticulo();
+                            nuevoServicio.setTipo(1);
+                        } 
+                        else {
+                            nuevoServicio = new TMontaje();
+                            nuevoServicio.setTipo(2);
+                        }
+
+                        // Recogemos los datos actuales de la vista
+                        nuevoServicio.setNombre(txtNombre.getText().trim());
+                        nuevoServicio.setDescripcion(txtDescripcion.getText().trim());
+                        nuevoServicio.setPrecioActual((Double) spPrecio.getValue());
+                        nuevoServicio.setStock((Integer) spStock.getValue());
+                        nuevoServicio.setActivo(true);
+
+                        // Marca asociada (solo para artículos)
+                        if (nuevoServicio.getTipo() == 1) {
+
+                            String marcaSeleccionada = (String) comboMarcas.getSelectedItem();
+                            Integer idMarca = marcasMap.get(marcaSeleccionada);
+
+                            if (idMarca != null) {
+                                ((TArticulo) nuevoServicio).setMarcaId(idMarca);
+                            }
+                        }
+
+                        // Enviamos los nuevos datos al controlador
+                        Controlador.getInstance().accion(Eventos.REACTIVAR_SERVICIO, nuevoServicio);
+
+                        limpiarCampos();
                     }
+
+                    break;
+
+
+                case Eventos.RES_ALTA_SERVICIO_CAMBIO_TIPO_REQUERIDO_INACTIVO:
+
+                    JOptionPane.showMessageDialog(
+                            this,
+                            "Existe un servicio inactivo con el mismo nombre pero distinto tipo.\n"
+                            + "Reactívelo primero y luego modifique el tipo.",
+                            "Cambio de tipo",
+                            JOptionPane.WARNING_MESSAGE);
+                    	
+                    break;
+
+
+                case Eventos.RES_ALTA_SERVICIO_CAMBIO_TIPO_REQUERIDO_ACTIVO:
+
+                    JOptionPane.showMessageDialog(
+                            this,
+                            "Ya existe un servicio activo con el mismo nombre pero distinto tipo.",
+                            "Cambio de tipo",
+                            JOptionPane.WARNING_MESSAGE);
+                    limpiarCampos();
                     break;
                 case Eventos.RES_ALTA_SERVICIO_KO:
                     JOptionPane.showMessageDialog(this, "No se ha podido dar de alta el servicio.", "Error", JOptionPane.ERROR_MESSAGE);

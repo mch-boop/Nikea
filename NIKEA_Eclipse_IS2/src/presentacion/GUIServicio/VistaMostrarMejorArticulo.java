@@ -104,6 +104,8 @@ public class VistaMostrarMejorArticulo extends JDialog implements IGUI {
 	                	tc.getPrecioActual(),
 	                	tc.getMarca()
 	                });
+	                this.setVisible(true);
+	                this.toFront();
 	                break;
 
 	            case Eventos.RES_MOSTRAR_MEJOR_ARTICULO_KO:

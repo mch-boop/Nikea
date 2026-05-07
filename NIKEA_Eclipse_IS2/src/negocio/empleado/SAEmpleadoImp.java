@@ -47,21 +47,20 @@ public class SAEmpleadoImp implements SAEmpleado {
 	    // CASO 2: EL EMPLEADO EXISTE PERO ESTÁ INACTIVO
 	    if (!existente.isActivo()) {
 	        
-	        // A) Mismos datos pero distinto tipo (No se puede reactivar cambiando el rol directamente)
+	        // Mismos datos pero distinto tipo (No se puede reactivar cambiando el rol directamente)
 	        if (mismosDatosPersonales && existente.getTipo() != te.getTipo()) {
 	            return -3;
 	        }
 
-	        // B) Mismos datos + mismo tipo -> Reactivación automática
+	        // Mismos datos + mismo tipo -> Reactivación automática
 	        if (mismosDatosPersonales) {
 	            existente.setActivo(true);
-	            existente.setSueldo(te.getSueldo()); // Actualizamos el sueldo al nuevo valor
-	            
+	            existente.setSueldo(te.getSueldo()); 
 	            // Usamos el método update del DAO para persistir los cambios del objeto recuperado
 	            return dao.update(existente);
 	        }
 
-	        // C) Existe inactivo pero con datos distintos (Nombre/Apellido no coinciden)
+	        // Existe inactivo pero con datos distintos (Nombre/Apellido no coinciden)
 	        // Devolvemos -2 para que la vista pida confirmación para "pisar" los datos antiguos
 	        return -2;
 	    }
@@ -77,7 +76,7 @@ public class SAEmpleadoImp implements SAEmpleado {
 	        if (mismosDatosPersonales) {
 	            return -1;   // Es el mismo empleado 
 	        } else {
-	            return -100; // Es otro empleado (Aviso: "DNI registrado a nombre de...")
+	            return -100; // Es otro empleado 
 	        }
 	    }
 

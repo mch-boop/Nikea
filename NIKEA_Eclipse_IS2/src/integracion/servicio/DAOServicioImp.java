@@ -140,7 +140,7 @@ public class DAOServicioImp implements DAOServicio {
         servicio.setNombre(obj.has("nombre") && !obj.isNull("nombre") ? obj.getString("nombre") : null);
         servicio.setDescripcion(obj.has("descripcion") && !obj.isNull("descripcion") ? obj.getString("descripcion") : null);
         servicio.setStock(obj.has("stock") && !obj.isNull("stock") ? obj.getInt("stock") : null);
-        servicio.setPrecioActual(obj.has("precioActual") && !obj.isNull("precioActual") ? obj.getInt("precioActual") : null);
+        servicio.setPrecioActual(obj.has("precioActual") && !obj.isNull("precioActual") ? obj.getDouble("precioActual") : null);
         servicio.setActivo(obj.has("activo") && !obj.isNull("activo") ? obj.getBoolean("activo") : true);
         servicio.setTipo(obj.has("tipo") && !obj.isNull("tipo") ? obj.getInt("tipo") : null);
         servicio.setMarca(obj.has("marca") && !obj.isNull("marca") ? obj.getString("marca") : null);

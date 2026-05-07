@@ -229,7 +229,13 @@ public class Eventos {
     public static final int ALTA_SERVICIO = 601;
     public static final int RES_ALTA_SERVICIO_OK = 6011;
     public static final int RES_ALTA_SERVICIO_KO = 6010;
-    public static final int RES_ALTA_SERVICIO_YA_EXISTE = 60105;
+    public static final int RES_ALTA_SERVICIO_YA_EXISTE_MISMO = 60105;
+    public static final int RES_ALTA_SERVICIO_YA_EXISTE_DISTINTO = 60106;
+    public static final int RES_ALTA_SERVICIO_CONFIRMAR_REACTIVACION = 60107;
+    public static final int RES_ALTA_SERVICIO_CAMBIO_TIPO_REQUERIDO_INACTIVO = 60108;
+    public static final int RES_ALTA_SERVICIO_CAMBIO_TIPO_REQUERIDO_ACTIVO = 60109;
+    public static final int RES_ALTA_SERVICIO_REACTIVAR = 60110;
+    public static final int REACTIVAR_SERVICIO = 60111;
 
     public static final int BAJA_SERVICIO = 602;
     public static final int RES_BAJA_SERVICIO_OK = 6021;
