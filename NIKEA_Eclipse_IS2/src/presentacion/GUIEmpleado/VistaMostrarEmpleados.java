@@ -89,24 +89,16 @@ public class VistaMostrarEmpleados extends JDialog implements IGUI {
             if (lista.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "No hay empleados registrados en el sistema.", "Información", JOptionPane.INFORMATION_MESSAGE);
             } else {
-                boolean hayActivos = false;
                 for (TEmpleado te : lista) {
-                    if (te.isActivo()) { // Solo mostramos si el estado es activo
-                        Object[] fila = {
-                            te.getId(),
-                            te.getDNI(),
-                            te.getNombre() + " " + te.getApellido(),
-                            te.getTipo() == 1 ? "Vendedor" : "Montador",
-                            String.format("%.2f", te.getSueldo())
-                        };
-                        modeloTabla.addRow(fila);
-                        hayActivos = true;
-                    }
+                    Object[] fila = {
+                        te.getId(),
+                        te.getDNI(),
+                        te.getNombre() + " " + te.getApellido(),
+                        te.getTipo() == 1 ? "Vendedor" : "Montador",
+                        String.format("%.2f", te.getSueldo())
+                    };
+                    modeloTabla.addRow(fila); 
                 }
-                
-                if (!hayActivos) {
-                    JOptionPane.showMessageDialog(this, "No hay empleados activos para mostrar.", "Información", JOptionPane.INFORMATION_MESSAGE);
-                } 
             }
             this.setVisible(true);
 			this.toFront();
