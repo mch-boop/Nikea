@@ -141,7 +141,7 @@ public class VistaMostrarFacturaPorId extends JDialog implements IGUI {
                     sb.append("Cliente:     ").append(factura.getIdCliente()).append("\n");
                     sb.append("Descuento:   ").append(factura.getIdDescuento()).append("\n");
                     sb.append("Fecha:       ").append(sdf.format(factura.getFecha())).append("\n");
-                    sb.append("Total:       ").append(factura.getTotal()).append("\n");
+                    sb.append("Total:       ").append(String.format(java.util.Locale.US, "%.2f", factura.getTotal())).append("\n");
                     sb.append("Cerrada:     ").append(factura.isCerrada()).append("\n\n");
                     sb.append("Líneas de factura:\n");
 

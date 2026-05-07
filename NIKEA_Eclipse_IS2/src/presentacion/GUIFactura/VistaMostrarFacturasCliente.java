@@ -188,7 +188,7 @@ public class VistaMostrarFacturasCliente extends JDialog implements IGUI {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         for (TFactura f : facturas) {
             modelo.addRow(
-                    new Object[] { f.getId(), f.getIdCliente(), f.getIdVendedor(), sdf.format(f.getFecha()), f.getTotal() });
+                    new Object[] { f.getId(), f.getIdCliente(), f.getIdVendedor(), sdf.format(f.getFecha()), String.format(java.util.Locale.US, "%.2f", f.getTotal()) });
         }
 
         // Seleccionar la primera fila automáticamente para mostrar sus líneas

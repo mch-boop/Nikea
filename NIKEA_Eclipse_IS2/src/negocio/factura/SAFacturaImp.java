@@ -412,6 +412,22 @@ public class SAFacturaImp implements SAFactura {
 		boolean actualizado = daoFactura.update(factura);
 
 		if (actualizado) {
+			int idProductoDescuento = 0;
+
+			TLineaFactura lineaDescuento = new TLineaFactura();
+			lineaDescuento.setIdFactura(idFactura);
+			lineaDescuento.setIdServicio(idProductoDescuento);
+			lineaDescuento.setCantidad(-1);
+			lineaDescuento.setPrecioUnitario(cantidadDescontada);
+
+			DAOLineaFactura daoLinea = FactoriaAbstractaIntegracion.getInstance().crearDAOLineaFactura();
+
+			if (daoLinea.readLine(idFactura, idProductoDescuento) != null) {
+				daoLinea.update(lineaDescuento);
+			} else {
+				daoLinea.create(lineaDescuento);
+			}
+
 			return 1;
 		} else {
 			return -4;

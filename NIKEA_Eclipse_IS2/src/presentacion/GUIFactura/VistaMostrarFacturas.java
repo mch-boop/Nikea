@@ -133,7 +133,7 @@ public class VistaMostrarFacturas extends JDialog implements IGUI {
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		for (TFactura f : facturas) {
 			modelo.addRow(new Object[] { f.getId(), f.getIdCliente(), f.getIdVendedor(), sdf.format(f.getFecha()),
-					f.getTotal() });
+					String.format(java.util.Locale.US, "%.2f", f.getTotal()) });
 		}
 
 		tabla.setRowSelectionInterval(0, 0);
