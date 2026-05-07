@@ -26,7 +26,7 @@ public class VistaMostrarFacturasCliente extends JDialog implements IGUI {
     private List<TFactura> facturasCliente;
 
     public VistaMostrarFacturasCliente() {
-        setTitle("Mostrar Facturas de Cliente");
+        super(null, "Mostrar Facturas de Cliente", ModalityType.APPLICATION_MODAL);
         initGUI();
 
         this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);

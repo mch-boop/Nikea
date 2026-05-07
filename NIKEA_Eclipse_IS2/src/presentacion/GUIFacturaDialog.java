@@ -119,13 +119,8 @@ public class GUIFacturaDialog extends JDialog {
     private void abrirVistaBloqueante(JDialog ventana) {
 
         ventana.setModal(true);
+        ventana.setLocationRelativeTo(this);
         ventana.setVisible(true);
-
-        ventana.addWindowListener(new java.awt.event.WindowAdapter() {
-            @Override
-            public void windowClosed(java.awt.event.WindowEvent e) {
-                GUIFacturaDialog.this.toFront();
-            }
-        });
+        this.toFront();
     }
 }

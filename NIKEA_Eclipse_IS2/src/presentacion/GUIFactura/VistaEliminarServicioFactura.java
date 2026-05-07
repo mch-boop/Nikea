@@ -16,7 +16,7 @@ public class VistaEliminarServicioFactura extends JDialog implements IGUI {
     private JButton btnAceptar, btnCancelar;
 
     public VistaEliminarServicioFactura() {
-        setTitle("Eliminar Servicio");
+        super(null, "Eliminar Servicio", ModalityType.APPLICATION_MODAL);
         initGUI();
 
         this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);

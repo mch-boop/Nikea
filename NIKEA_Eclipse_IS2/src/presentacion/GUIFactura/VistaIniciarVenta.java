@@ -2,6 +2,7 @@ package presentacion.GUIFactura;
 
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Dialog.ModalityType;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -30,8 +31,16 @@ public class VistaIniciarVenta extends JDialog implements IGUI {
 	private JButton btnAceptar, btnCancelar;
 
 	public VistaIniciarVenta() {
-		setTitle("Iniciar Venta");
+		super(null, "Iniciar Venta", ModalityType.APPLICATION_MODAL);
 		initGUI();
+
+		this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+		this.addWindowListener(new java.awt.event.WindowAdapter() {
+			@Override
+			public void windowClosing(java.awt.event.WindowEvent e) {
+				limpiarCampos();
+			}
+		});
 	}
 
 	private void limpiarCampos() {

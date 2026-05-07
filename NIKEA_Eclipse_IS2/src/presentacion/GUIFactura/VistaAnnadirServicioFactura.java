@@ -17,7 +17,6 @@ public class VistaAnnadirServicioFactura extends JDialog implements IGUI {
 
     public VistaAnnadirServicioFactura() {
     	super(null, "Añadir Servicio", ModalityType.APPLICATION_MODAL);
-        setTitle("Añadir Servicio");
         initGUI();
 
         this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);

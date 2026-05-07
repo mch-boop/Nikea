@@ -19,8 +19,16 @@ public class VistaCerrarVenta extends JDialog implements IGUI {
 
 	// CONSTRUCTORA
 	public VistaCerrarVenta() {
-		setTitle("Cerrar Venta");
+		super(null, "Cerrar Venta", ModalityType.APPLICATION_MODAL);
 		initGUI();
+
+		this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+		this.addWindowListener(new java.awt.event.WindowAdapter() {
+			@Override
+			public void windowClosing(java.awt.event.WindowEvent e) {
+				limpiarCampos();
+			}
+		});
 	}
 
 	// Limpia los campos
