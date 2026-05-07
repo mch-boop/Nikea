@@ -51,11 +51,11 @@ public class VistaAnadirCliente extends JDialog implements IGUI {
 		txtDNI.setText("");
 		txtTelefono.setText("");
 	}
-	
+
 	private void mostrarError(String msj, JTextField campo) {
-        JOptionPane.showMessageDialog(VistaAnadirCliente.this, msj, "Faltan datos", JOptionPane.WARNING_MESSAGE);
-        campo.requestFocus();
-    }
+		JOptionPane.showMessageDialog(VistaAnadirCliente.this, msj, "Faltan datos", JOptionPane.WARNING_MESSAGE);
+		campo.requestFocus();
+	}
 
 	// MÉTODO INITGUI.
 	private void initGUI() {
@@ -86,41 +86,44 @@ public class VistaAnadirCliente extends JDialog implements IGUI {
 
 					// Validación previa de los campos.
 					if (txtNombre.getText().trim().isEmpty()) {
-						JOptionPane.showMessageDialog(VistaAnadirCliente.this, "Error: El nombre es un campo obligatorio.", "Faltan datos",
+						JOptionPane.showMessageDialog(VistaAnadirCliente.this,
+								"Error: El nombre es un campo obligatorio.", "Faltan datos",
 								JOptionPane.WARNING_MESSAGE);
 						txtNombre.requestFocus();
 						return;
 					}
 					if (txtApellido.getText().trim().isEmpty()) {
-						JOptionPane.showMessageDialog(VistaAnadirCliente.this, "Error: Los apellidos son un campo obligatorio.",
-								"Faltan datos", JOptionPane.WARNING_MESSAGE);
+						JOptionPane.showMessageDialog(VistaAnadirCliente.this,
+								"Error: Los apellidos son un campo obligatorio.", "Faltan datos",
+								JOptionPane.WARNING_MESSAGE);
 						txtApellido.requestFocus();
 						return;
 					}
 					if (txtDNI.getText().trim().isEmpty()) {
-						JOptionPane.showMessageDialog(VistaAnadirCliente.this, "Error: El DNI es un campo obligatorio.", "Faltan datos",
-								JOptionPane.WARNING_MESSAGE);
+						JOptionPane.showMessageDialog(VistaAnadirCliente.this, "Error: El DNI es un campo obligatorio.",
+								"Faltan datos", JOptionPane.WARNING_MESSAGE);
 						txtDNI.requestFocus();
 						return;
 					}
 					if (!esFormatoDNIValido(txtDNI.getText().trim())) {
-					    mostrarError("DNI inválido. Formato: 8 dígitos + 1 mayúscula", txtDNI);
-					    return;
+						mostrarError("DNI inválido. Formato: 8 dígitos + 1 mayúscula", txtDNI);
+						return;
 					}
 					if (txtTelefono.getText().trim().isEmpty()) {
-						JOptionPane.showMessageDialog(VistaAnadirCliente.this, "Error: El teléfono es un campo obligatorio.",
-								"Faltan datos", JOptionPane.WARNING_MESSAGE);
+						JOptionPane.showMessageDialog(VistaAnadirCliente.this,
+								"Error: El teléfono es un campo obligatorio.", "Faltan datos",
+								JOptionPane.WARNING_MESSAGE);
 						txtTelefono.requestFocus();
 						return;
 					}
 					if (!esFormatoTelefonoValido(txtTelefono.getText().trim())) {
-					    mostrarError("Teléfono inválido. Debe tener 9 dígitos", txtTelefono);
-					    return;
+						mostrarError("Teléfono inválido. Debe tener 9 dígitos", txtTelefono);
+						return;
 					}
 
 					int tfno;
 					try {
-						
+
 						long telLong = Long.parseLong(txtTelefono.getText());
 
 						if (telLong <= 0) {
@@ -234,8 +237,8 @@ public class VistaAnadirCliente extends JDialog implements IGUI {
 
 				case Eventos.RES_ALTA_CLIENTE_YA_EXISTE:
 					// El SA ya nos confirmó que nombre y apellido coinciden
-					JOptionPane.showMessageDialog(VistaAnadirCliente.this, "Ya existe un cliente con ese DNI en el sistema.",
-							"Aviso", JOptionPane.WARNING_MESSAGE);
+					JOptionPane.showMessageDialog(VistaAnadirCliente.this,
+							"Ya existe un cliente con ese DNI en el sistema.", "Aviso", JOptionPane.WARNING_MESSAGE);
 					VistaAnadirCliente.this.txtDNI.requestFocus();
 					break;
 
@@ -253,7 +256,7 @@ public class VistaAnadirCliente extends JDialog implements IGUI {
 	}
 
 	// Métodos auxiliares:
-	
+
 	private boolean esFormatoDNIValido(String dni) {
 		String regex_dni = "^[0-9]{8}[A-Z]$";
 		return dni.matches(regex_dni);
@@ -264,7 +267,7 @@ public class VistaAnadirCliente extends JDialog implements IGUI {
 		return telefono.matches(regex_telefono);
 
 	}
-	
+
 	// reset
 
 	@Override

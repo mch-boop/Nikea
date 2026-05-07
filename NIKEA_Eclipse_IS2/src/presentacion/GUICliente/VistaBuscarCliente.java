@@ -65,7 +65,8 @@ public class VistaBuscarCliente extends JDialog implements IGUI {
         areaDetalles.setBorder(BorderFactory.createTitledBorder("Detalles del Cliente"));
         areaDetalles.setFont(new Font("Monospaced", Font.PLAIN, 13));
         areaDetalles.setPreferredSize(new Dimension(363, 200));
-        // Lo meto en un JScrollPane para que se pueda ir scrolleando la información mostrada.
+		// Lo meto en un JScrollPane para que se pueda ir scrolleando la información
+		// mostrada.
         JScrollPane scroll = new JScrollPane(areaDetalles);
         
         // Panel de botones inferiores

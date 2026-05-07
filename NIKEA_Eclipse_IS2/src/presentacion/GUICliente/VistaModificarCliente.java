@@ -14,359 +14,378 @@ import presentacion.controlador.Eventos;
 public class VistaModificarCliente extends JDialog implements IGUI {
 
 	// ATRIBUTOS
-	
-    private JTextField txtId, txtNombre, txtApellido, txtTelefono, txtDNI;
-    private JTextField txtNombreAct, txtApellidoAct, txtTelefonoAct, txtDNIAct;
-    private JButton btnBuscar, btnModificar, btnCancelar, btnCancelarModif;
-    private JPanel panelEdicion, pBotones;
-    private TCliente clienteEncontrado;
 
-    // CONSTRUCTORA
-    
-    public VistaModificarCliente() {
-    	super(null, "Modificar Cliente", ModalityType.APPLICATION_MODAL);
-        setTitle("Modificar Cliente");
-        
-        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        initGUI();
-    }
+	private JTextField txtId, txtNombre, txtApellido, txtTelefono, txtDNI;
+	private JTextField txtNombreAct, txtApellidoAct, txtTelefonoAct, txtDNIAct;
+	private JButton btnBuscar, btnModificar, btnCancelar, btnCancelarModif;
+	private JPanel panelEdicion, pBotones;
+	private TCliente clienteEncontrado;
 
-    
-    // MÉTODOS
-    
-    private void initGUI() {
-    	// Creo panel principal.
-        JPanel mainPanel = new JPanel();
-        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
-        mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-        
-        // Panel de búsqueda.
-        JPanel pBusqueda = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        txtId = new JTextField(20);	        // El ID es obligatorio para saber a quién modificar
-        btnBuscar = new JButton("BUSCAR");
-        btnCancelar = new JButton("CANCELAR");
-        pBusqueda.add(new JLabel("ID:"));
-        pBusqueda.add(txtId);
-        pBusqueda.add(btnBuscar);
-        pBusqueda.add(btnCancelar);
-        
-        // Listener de botón Cancelar
-        btnCancelar.addActionListener(e -> {
-        	// Cerrar ventana.
-        	
-            setVisible(false);
-            
-        });
-        
-        btnBuscar.addActionListener(e -> {
-        	try {
-                if (txtId.getText().isEmpty()) {
-                    JOptionPane.showMessageDialog(VistaModificarCliente.this, "El ID es obligatorio para identificar al cliente.", "Error", JOptionPane.ERROR_MESSAGE);
-                }
-                else {
-	                int id = (Integer.parseInt(txtId.getText()));
-	                pBotones.setVisible(false);
-	                Controlador.getInstance().accion(Eventos.BUSCAR_CLIENTE_PARA_MODIFICAR, id);
-	            }
-            } catch (NumberFormatException ex) {
-                JOptionPane.showMessageDialog(VistaModificarCliente.this, "Asegúrese de que el ID sea un número válido.");
-            }
-        });
-        
-        // Label de título.
-        JLabel lblTitulo = new JLabel("Introduzca los datos del Cliente a modificar:");
-        lblTitulo.setAlignmentX(Component.CENTER_ALIGNMENT);
-        
-        // Panel de botones
-        pBotones = new JPanel();
-        pBotones.add(btnBuscar); pBotones.add(btnCancelar);
-        
-        // Creo panel de Edición.
-        crearPanelEdicion();
-        
-        // Añadir componentes al panel principal
-        mainPanel.add(lblTitulo);
-        mainPanel.add(pBusqueda);
-        mainPanel.add(Box.createRigidArea(new Dimension(0, 10)));
-        mainPanel.add(pBotones);
-        mainPanel.add(panelEdicion);
-        
-        
-        getContentPane().add(mainPanel);
-        pack();
-        setResizable(false);
-        setLocationRelativeTo(null);
-    }
-    
-    // Método auxiliar
-    void crearPanelEdicion() {
-    	// Panel de edición.
-        panelEdicion = new JPanel();
-        panelEdicion.setLayout(new BoxLayout(panelEdicion, BoxLayout.Y_AXIS));
-        panelEdicion.setBorder(BorderFactory.createTitledBorder("Información del Cliente"));
-        panelEdicion.setVisible(false); // Se activará al buscar con éxito
-        
-        JPanel panelDatos = new JPanel(new GridBagLayout());
-        
-        // Campos de cambio.
-        txtNombre = new JTextField(20);
-        txtApellido = new JTextField(20);
-        txtTelefono = new JTextField(20);
-        txtDNI = new JTextField(20);
-        
-        txtNombre.setToolTipText("Deje este campo vacío para conservar el nombre actual");
-        txtApellido.setToolTipText("Deje este campo vacío para conservar el apellido actual");
-        txtTelefono.setToolTipText("Deje este campo vacío para conservar el telefono actual");
-        txtDNI.setToolTipText("Deje este campo vacío para conservar el DNI actual");
-        
-        // Inicializar campos actuales (bloqueados)
-        txtNombreAct = new JTextField(15); txtNombreAct.setEditable(false);
-        txtApellidoAct = new JTextField(15); txtApellidoAct.setEditable(false);
-        txtTelefonoAct = new JTextField(15); txtTelefonoAct.setEditable(false);
-        txtDNIAct = new JTextField(15); txtDNIAct.setEditable(false);
-        
-        // Ahora configuramos el panel de edición.
-        // Layout del formulario (3 columnas: Etiqueta | Actual | Nuevo)
-        GridBagConstraints ajuste = new GridBagConstraints();
-        ajuste.fill = GridBagConstraints.HORIZONTAL;
-        ajuste.insets = new Insets(5, 5, 5, 5);
+	// CONSTRUCTORA
 
-        // Cabeceras de columna
-        ajuste.gridy = 0; ajuste.gridx = 1; 
-        panelDatos.add(new JLabel("Dato actual"), ajuste);
-        ajuste.gridx = 2; 
-        panelDatos.add(new JLabel("Dato nuevo"), ajuste);
+	public VistaModificarCliente() {
+		super(null, "Modificar Cliente", ModalityType.APPLICATION_MODAL);
+		setTitle("Modificar Cliente");
 
-        // Fila 1: Nombre
-        ajuste.gridy = 1; ajuste.gridx = 0; panelDatos.add(new JLabel("Nombre:"), ajuste);
-        ajuste.gridx = 1; panelDatos.add(txtNombreAct, ajuste);
-        ajuste.gridx = 2; panelDatos.add(txtNombre, ajuste);
+		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		initGUI();
+	}
 
-        // Fila 2: Apellido
-        ajuste.gridy = 2; ajuste.gridx = 0; panelDatos.add(new JLabel("Apellidos:"), ajuste);
-        ajuste.gridx = 1; panelDatos.add(txtApellidoAct, ajuste);
-        ajuste.gridx = 2; panelDatos.add(txtApellido, ajuste);
+	// MÉTODOS
 
-        // Fila 3: Teléfono
-        ajuste.gridy = 3; ajuste.gridx = 0; panelDatos.add(new JLabel("Teléfono:"), ajuste);
-        ajuste.gridx = 1; panelDatos.add(txtTelefonoAct, ajuste);
-        ajuste.gridx = 2; panelDatos.add(txtTelefono, ajuste);
+	private void initGUI() {
+		// Creo panel principal.
+		JPanel mainPanel = new JPanel();
+		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+		mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
-        // Fila 4: DNI
-        ajuste.gridy = 4; ajuste.gridx = 0; panelDatos.add(new JLabel("DNI:"), ajuste);
-        ajuste.gridx = 1; panelDatos.add(txtDNIAct, ajuste);
-        ajuste.gridx = 2; panelDatos.add(txtDNI, ajuste);
-        
-        
-        // Panel de botones
-        JPanel panelBotones = new JPanel();
-        btnModificar = new JButton("GUARDAR CAMBIOS");
-        btnCancelarModif = new JButton("CANCELAR");
-             
-        
-        // Listener de botón Modificar.
-        btnModificar.addActionListener(new ActionListener() {
-            
+		// Panel de búsqueda.
+		JPanel pBusqueda = new JPanel(new FlowLayout(FlowLayout.CENTER));
+		txtId = new JTextField(20); // El ID es obligatorio para saber a quién modificar
+		btnBuscar = new JButton("BUSCAR");
+		btnCancelar = new JButton("CANCELAR");
+		pBusqueda.add(new JLabel("ID:"));
+		pBusqueda.add(txtId);
+		pBusqueda.add(btnBuscar);
+		pBusqueda.add(btnCancelar);
+
+		// Listener de botón Cancelar
+		btnCancelar.addActionListener(e -> {
+			// Cerrar ventana.
+
+			setVisible(false);
+
+		});
+
+		btnBuscar.addActionListener(e -> {
+			try {
+				if (txtId.getText().isEmpty()) {
+					JOptionPane.showMessageDialog(VistaModificarCliente.this,
+							"El ID es obligatorio para identificar al cliente.", "Error", JOptionPane.ERROR_MESSAGE);
+				} else {
+					int id = (Integer.parseInt(txtId.getText()));
+					pBotones.setVisible(false);
+					Controlador.getInstance().accion(Eventos.BUSCAR_CLIENTE_PARA_MODIFICAR, id);
+				}
+			} catch (NumberFormatException ex) {
+				JOptionPane.showMessageDialog(VistaModificarCliente.this,
+						"Asegúrese de que el ID sea un número válido.");
+			}
+		});
+
+		// Label de título.
+		JLabel lblTitulo = new JLabel("Introduzca los datos del Cliente a modificar:");
+		lblTitulo.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+		// Panel de botones
+		pBotones = new JPanel();
+		pBotones.add(btnBuscar);
+		pBotones.add(btnCancelar);
+
+		// Creo panel de Edición.
+		crearPanelEdicion();
+
+		// Añadir componentes al panel principal
+		mainPanel.add(lblTitulo);
+		mainPanel.add(pBusqueda);
+		mainPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+		mainPanel.add(pBotones);
+		mainPanel.add(panelEdicion);
+
+		getContentPane().add(mainPanel);
+		pack();
+		setResizable(false);
+		setLocationRelativeTo(null);
+	}
+
+	// Método auxiliar
+	void crearPanelEdicion() {
+		// Panel de edición.
+		panelEdicion = new JPanel();
+		panelEdicion.setLayout(new BoxLayout(panelEdicion, BoxLayout.Y_AXIS));
+		panelEdicion.setBorder(BorderFactory.createTitledBorder("Información del Cliente"));
+		panelEdicion.setVisible(false); // Se activará al buscar con éxito
+
+		JPanel panelDatos = new JPanel(new GridBagLayout());
+
+		// Campos de cambio.
+		txtNombre = new JTextField(20);
+		txtApellido = new JTextField(20);
+		txtTelefono = new JTextField(20);
+		txtDNI = new JTextField(20);
+
+		txtNombre.setToolTipText("Deje este campo vacío para conservar el nombre actual");
+		txtApellido.setToolTipText("Deje este campo vacío para conservar el apellido actual");
+		txtTelefono.setToolTipText("Deje este campo vacío para conservar el telefono actual");
+		txtDNI.setToolTipText("Deje este campo vacío para conservar el DNI actual");
+
+		// Inicializar campos actuales (bloqueados)
+		txtNombreAct = new JTextField(15);
+		txtNombreAct.setEditable(false);
+		txtApellidoAct = new JTextField(15);
+		txtApellidoAct.setEditable(false);
+		txtTelefonoAct = new JTextField(15);
+		txtTelefonoAct.setEditable(false);
+		txtDNIAct = new JTextField(15);
+		txtDNIAct.setEditable(false);
+
+		// Ahora configuramos el panel de edición.
+		// Layout del formulario (3 columnas: Etiqueta | Actual | Nuevo)
+		GridBagConstraints ajuste = new GridBagConstraints();
+		ajuste.fill = GridBagConstraints.HORIZONTAL;
+		ajuste.insets = new Insets(5, 5, 5, 5);
+
+		// Cabeceras de columna
+		ajuste.gridy = 0;
+		ajuste.gridx = 1;
+		panelDatos.add(new JLabel("Dato actual"), ajuste);
+		ajuste.gridx = 2;
+		panelDatos.add(new JLabel("Dato nuevo"), ajuste);
+
+		// Fila 1: Nombre
+		ajuste.gridy = 1;
+		ajuste.gridx = 0;
+		panelDatos.add(new JLabel("Nombre:"), ajuste);
+		ajuste.gridx = 1;
+		panelDatos.add(txtNombreAct, ajuste);
+		ajuste.gridx = 2;
+		panelDatos.add(txtNombre, ajuste);
+
+		// Fila 2: Apellido
+		ajuste.gridy = 2;
+		ajuste.gridx = 0;
+		panelDatos.add(new JLabel("Apellidos:"), ajuste);
+		ajuste.gridx = 1;
+		panelDatos.add(txtApellidoAct, ajuste);
+		ajuste.gridx = 2;
+		panelDatos.add(txtApellido, ajuste);
+
+		// Fila 3: Teléfono
+		ajuste.gridy = 3;
+		ajuste.gridx = 0;
+		panelDatos.add(new JLabel("Teléfono:"), ajuste);
+		ajuste.gridx = 1;
+		panelDatos.add(txtTelefonoAct, ajuste);
+		ajuste.gridx = 2;
+		panelDatos.add(txtTelefono, ajuste);
+
+		// Fila 4: DNI
+		ajuste.gridy = 4;
+		ajuste.gridx = 0;
+		panelDatos.add(new JLabel("DNI:"), ajuste);
+		ajuste.gridx = 1;
+		panelDatos.add(txtDNIAct, ajuste);
+		ajuste.gridx = 2;
+		panelDatos.add(txtDNI, ajuste);
+
+		// Panel de botones
+		JPanel panelBotones = new JPanel();
+		btnModificar = new JButton("GUARDAR CAMBIOS");
+		btnCancelarModif = new JButton("CANCELAR");
+
+		// Listener de botón Modificar.
+		btnModificar.addActionListener(new ActionListener() {
+
 			@Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                	TCliente tc = new TCliente();
-                    tc.setId(Integer.parseInt(txtId.getText()));
-                    
-	                // Solo enviamos datos si el usuario escribió algo
-	                
-	                // Nombre
-	                if (!txtNombre.getText().trim().isEmpty()) {
-	                	tc.setNombre(txtNombre.getText().trim());
-	                } else {
-	                	tc.setNombre(null);  // Valor centinela: "No modificar nombre"
-	                }
-	
-	                // Apellido
-	                if (!txtApellido.getText().trim().isEmpty()) {
-	                	tc.setApellidos(txtApellido.getText().trim());
-	                } else {
-	                	tc.setApellidos(null); // Valor centinela: "No modificar apellidos"
-	                }
-	
-	                // Telefono 
-	                if (!txtTelefono.getText().trim().isEmpty()) {
-	                	int tfno = Integer.valueOf(txtTelefono.getText().trim());
-	                	if (tfno <= 0) {
-	                		JOptionPane.showMessageDialog(VistaModificarCliente.this, "El teléfono debe ser un número positivo.", "Error", JOptionPane.ERROR_MESSAGE);
-	                        txtTelefono.requestFocus();
-	                        return;
-	                	}
-	                	else if (!esFormatoTelefonoValido(txtTelefono.getText().trim())) {
-						    mostrarError("Teléfono inválido. Debe tener 9 dígitos", txtTelefono);
-						    return;
+			public void actionPerformed(ActionEvent e) {
+				try {
+					TCliente tc = new TCliente();
+					tc.setId(Integer.parseInt(txtId.getText()));
+
+					// Solo enviamos datos si el usuario escribió algo
+
+					// Nombre
+					if (!txtNombre.getText().trim().isEmpty()) {
+						tc.setNombre(txtNombre.getText().trim());
+					} else {
+						tc.setNombre(null); // Valor centinela: "No modificar nombre"
+					}
+
+					// Apellido
+					if (!txtApellido.getText().trim().isEmpty()) {
+						tc.setApellidos(txtApellido.getText().trim());
+					} else {
+						tc.setApellidos(null); // Valor centinela: "No modificar apellidos"
+					}
+
+					// Telefono
+					if (!txtTelefono.getText().trim().isEmpty()) {
+						int tfno = Integer.valueOf(txtTelefono.getText().trim());
+						if (tfno <= 0) {
+							JOptionPane.showMessageDialog(VistaModificarCliente.this,
+									"El teléfono debe ser un número positivo.", "Error", JOptionPane.ERROR_MESSAGE);
+							txtTelefono.requestFocus();
+							return;
+						} else if (!esFormatoTelefonoValido(txtTelefono.getText().trim())) {
+							mostrarError("Teléfono inválido. Debe tener 9 dígitos", txtTelefono);
+							return;
+						} else
+							tc.setTelefono(tfno);
+					} else {
+						tc.setTelefono(-1); // Valor centinela: "No modificar teléfono"
+					}
+
+					// DNI
+					if (!txtDNI.getText().trim().isEmpty()) {
+						if (!esFormatoDNIValido(txtDNI.getText().trim())) {
+							mostrarError("DNI inválido. Formato: 8 dígitos + 1 mayúscula", txtDNI);
+							return;
 						}
-	                	else tc.setTelefono(tfno);
-	                } else {
-	                	tc.setTelefono(-1); // Valor centinela: "No modificar teléfono"
-	                }
-	                
-	                // DNI 
-	                if (!txtDNI.getText().trim().isEmpty()) {
-	                	if (!esFormatoDNIValido(txtDNI.getText().trim())) {
-						    mostrarError("DNI inválido. Formato: 8 dígitos + 1 mayúscula", txtDNI);
-						    return;
-						}
-	                	tc.setDNI(txtDNI.getText().trim());
-	                } else {
-	                	tc.setDNI(null); // Valor centinela: "No modificar DNI"
-	                }
-	                
-	                if (tc.getNombre() == null && tc.getApellidos() == null && tc.getTelefono() == -1 && tc.getDNI() == null) {
-	                	JOptionPane.showMessageDialog(VistaModificarCliente.this, "Alguno de los campos debe estar rellenado.", "Error", JOptionPane.ERROR_MESSAGE);
-                        txtNombre.requestFocus();
-                        return;
-	                }
-	                	
-	
-	                // Cuando se haya llegado al listener de btnModificar es porque ya hemos pasado por 
-	                // la primera llamada a actualizar y por tanto hemos recibido e inicializado clienteEncontrado.
-	                String info = "ID: " + clienteEncontrado.getId() + "\nNombre: " + clienteEncontrado.getNombre() + " " 
-	                        + clienteEncontrado.getApellidos() + "\nDNI: " + clienteEncontrado.getDNI();
-	                        
-                    int respuesta = JOptionPane.showConfirmDialog(VistaModificarCliente.this, 
-                        "¿Está seguro de que desea modificar este cliente?:\n\n" + info ,
-                        "Confirmar Modificación:", 
-                        JOptionPane.YES_NO_OPTION, 
-                        JOptionPane.WARNING_MESSAGE);
-                    
-                    
-                    if (respuesta == JOptionPane.YES_OPTION) {
-                        Controlador.getInstance().accion(Eventos.MODIFICAR_CLIENTE, tc);
-                    }
-	            }
-                 catch (NumberFormatException ex) {
-                    JOptionPane.showMessageDialog(VistaModificarCliente.this, "Asegúrese de que el teléfono sea un número válido.", "Error", JOptionPane.ERROR_MESSAGE);
-                    txtTelefono.requestFocus();
-                 }
-                
-                pack();
-                setLocationRelativeTo(null);
-            }
-        });
-        
-        // Listener de botón CancelarModif
-        btnCancelarModif.addActionListener(e -> {
-        	// Cierro el panel de edición.
-            txtId.setEditable(true);  
-        	txtId.setText("");
-        	limpiarCampos();
-        	panelEdicion.setVisible(false);
-        	pBotones.setVisible(true);
-            pack();
-            setLocationRelativeTo(null);
-        });
-        
-        panelBotones.add(btnModificar); 
-        panelBotones.add(btnCancelarModif);
-        
-        
-        panelEdicion.add(panelDatos);
-        panelEdicion.add(panelBotones);  
-    }
-    
-    // Datos es la id del cliente.
-    @Override
-    public void actualizar(int evento, Object datos) {
-        switch (evento) {
+						tc.setDNI(txtDNI.getText().trim());
+					} else {
+						tc.setDNI(null); // Valor centinela: "No modificar DNI"
+					}
 
-            case Eventos.RES_BUSCAR_CLIENTE_PARA_MODIFICAR_OK:
-            	clienteEncontrado = (TCliente) datos;
-            	limpiarCampos();
-            	            	
-            	// Rellenar datos actuales
-                txtNombreAct.setText(clienteEncontrado.getNombre());
-                txtApellidoAct.setText(clienteEncontrado.getApellidos());
-                txtTelefonoAct.setText(String.valueOf(clienteEncontrado.getTelefono()));
-                txtDNIAct.setText(clienteEncontrado.getDNI());
-                
-            	// Mostramos el panel y ajustamos la ventana
-                panelEdicion.setVisible(true);
-                txtId.setEditable(false);
-                pBotones.setVisible(false);
-                pack();
-                setLocationRelativeTo(null);
-                break;
-                
-            case Eventos.RES_MODIFICAR_CLIENTE_OK:
-                JOptionPane.showMessageDialog(VistaModificarCliente.this, "Cliente modificado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-                
-                panelEdicion.setVisible(false);
-                pBotones.setVisible(true);
-                txtId.setEditable(true);
-                txtId.setText("");
-                limpiarCampos();
-                pack();
-                setLocationRelativeTo(null);
-                break;
-                
-            case Eventos.RES_MODIFICAR_CLIENTE_KO_NO_EXISTE:
-                JOptionPane.showMessageDialog(VistaModificarCliente.this, "Error: No se encontró ningún cliente con el ID especificado.", "Error", JOptionPane.ERROR_MESSAGE);
-                
-                panelEdicion.setVisible(false);
-                pBotones.setVisible(true);
-                txtId.setEditable(true);
-                txtId.setText("");
-                limpiarCampos();
-                pack();
-                setLocationRelativeTo(null);
-                break;
+					if (tc.getNombre() == null && tc.getApellidos() == null && tc.getTelefono() == -1
+							&& tc.getDNI() == null) {
+						JOptionPane.showMessageDialog(VistaModificarCliente.this,
+								"Alguno de los campos debe estar rellenado.", "Error", JOptionPane.ERROR_MESSAGE);
+						txtNombre.requestFocus();
+						return;
+					}
 
+					// Cuando se haya llegado al listener de btnModificar es porque ya hemos pasado
+					// por
+					// la primera llamada a actualizar y por tanto hemos recibido e inicializado
+					// clienteEncontrado.
+					String info = "ID: " + clienteEncontrado.getId() + "\nNombre: " + clienteEncontrado.getNombre()
+							+ " " + clienteEncontrado.getApellidos() + "\nDNI: " + clienteEncontrado.getDNI();
 
-        }
-    }
+					int respuesta = JOptionPane.showConfirmDialog(VistaModificarCliente.this,
+							"¿Está seguro de que desea modificar este cliente?:\n\n" + info, "Confirmar Modificación:",
+							JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
 
-    // Métodos auxiliares:
-	
- 	private boolean esFormatoDNIValido(String dni) {
- 		String regex_dni = "^[0-9]{8}[A-Z]$";
- 		return dni.matches(regex_dni);
- 	}
+					if (respuesta == JOptionPane.YES_OPTION) {
+						Controlador.getInstance().accion(Eventos.MODIFICAR_CLIENTE, tc);
+					}
+				} catch (NumberFormatException ex) {
+					JOptionPane.showMessageDialog(VistaModificarCliente.this,
+							"Asegúrese de que el teléfono sea un número válido.", "Error", JOptionPane.ERROR_MESSAGE);
+					txtTelefono.requestFocus();
+				}
 
- 	private boolean esFormatoTelefonoValido(String telefono) {
- 		String regex_telefono = "^[0-9]{9}$";
- 		return telefono.matches(regex_telefono);
- 	}
- 	
- 	private void mostrarError(String msj, JTextField campo) {
-        JOptionPane.showMessageDialog(VistaModificarCliente.this, msj, "Faltan datos", JOptionPane.WARNING_MESSAGE);
-        campo.requestFocus();
-    }
-    
-    // reset
-    
-    @Override
-    public void setVisible(boolean b) {
-        if (b) {
-            // Restaurar estado inicial cuando se abre la ventana
-            limpiarCampos();
-            panelEdicion.setVisible(false);  
-            pBotones.setVisible(true);      
-            txtId.setEditable(true);         
-            txtId.setText("");               
-        }
-        pack();
-        super.setVisible(b);
-    }
+				pack();
+				setLocationRelativeTo(null);
+			}
+		});
 
-    private void limpiarCampos() {
-        txtNombre.setText("");
-        txtApellido.setText("");
-        txtTelefono.setText("");
-        txtDNI.setText("");
-        
-        // Limpiar también los campos de solo lectura
-        txtNombreAct.setText("");
-        txtApellidoAct.setText("");
-        txtTelefonoAct.setText("");
-        txtDNIAct.setText("");
-        
-        pack(); 
-        setLocationRelativeTo(null);
-    }
+		// Listener de botón CancelarModif
+		btnCancelarModif.addActionListener(e -> {
+			// Cierro el panel de edición.
+			txtId.setEditable(true);
+			txtId.setText("");
+			limpiarCampos();
+			panelEdicion.setVisible(false);
+			pBotones.setVisible(true);
+			pack();
+			setLocationRelativeTo(null);
+		});
+
+		panelBotones.add(btnModificar);
+		panelBotones.add(btnCancelarModif);
+
+		panelEdicion.add(panelDatos);
+		panelEdicion.add(panelBotones);
+	}
+
+	// Datos es la id del cliente.
+	@Override
+	public void actualizar(int evento, Object datos) {
+		switch (evento) {
+
+		case Eventos.RES_BUSCAR_CLIENTE_PARA_MODIFICAR_OK:
+			clienteEncontrado = (TCliente) datos;
+			limpiarCampos();
+
+			// Rellenar datos actuales
+			txtNombreAct.setText(clienteEncontrado.getNombre());
+			txtApellidoAct.setText(clienteEncontrado.getApellidos());
+			txtTelefonoAct.setText(String.valueOf(clienteEncontrado.getTelefono()));
+			txtDNIAct.setText(clienteEncontrado.getDNI());
+
+			// Mostramos el panel y ajustamos la ventana
+			panelEdicion.setVisible(true);
+			txtId.setEditable(false);
+			pBotones.setVisible(false);
+			pack();
+			setLocationRelativeTo(null);
+			break;
+
+		case Eventos.RES_MODIFICAR_CLIENTE_OK:
+			JOptionPane.showMessageDialog(VistaModificarCliente.this, "Cliente modificado correctamente.", "Éxito",
+					JOptionPane.INFORMATION_MESSAGE);
+
+			panelEdicion.setVisible(false);
+			pBotones.setVisible(true);
+			txtId.setEditable(true);
+			txtId.setText("");
+			limpiarCampos();
+			pack();
+			setLocationRelativeTo(null);
+			break;
+
+		case Eventos.RES_MODIFICAR_CLIENTE_KO_NO_EXISTE:
+			JOptionPane.showMessageDialog(VistaModificarCliente.this,
+					"Error: No se encontró ningún cliente con el ID especificado.", "Error", JOptionPane.ERROR_MESSAGE);
+
+			panelEdicion.setVisible(false);
+			pBotones.setVisible(true);
+			txtId.setEditable(true);
+			txtId.setText("");
+			limpiarCampos();
+			pack();
+			setLocationRelativeTo(null);
+			break;
+
+		}
+	}
+
+	// Métodos auxiliares:
+
+	private boolean esFormatoDNIValido(String dni) {
+		String regex_dni = "^[0-9]{8}[A-Z]$";
+		return dni.matches(regex_dni);
+	}
+
+	private boolean esFormatoTelefonoValido(String telefono) {
+		String regex_telefono = "^[0-9]{9}$";
+		return telefono.matches(regex_telefono);
+	}
+
+	private void mostrarError(String msj, JTextField campo) {
+		JOptionPane.showMessageDialog(VistaModificarCliente.this, msj, "Faltan datos", JOptionPane.WARNING_MESSAGE);
+		campo.requestFocus();
+	}
+
+	// reset
+
+	@Override
+	public void setVisible(boolean b) {
+		if (b) {
+			// Restaurar estado inicial cuando se abre la ventana
+			limpiarCampos();
+			panelEdicion.setVisible(false);
+			pBotones.setVisible(true);
+			txtId.setEditable(true);
+			txtId.setText("");
+		}
+		pack();
+		super.setVisible(b);
+	}
+
+	private void limpiarCampos() {
+		txtNombre.setText("");
+		txtApellido.setText("");
+		txtTelefono.setText("");
+		txtDNI.setText("");
+
+		// Limpiar también los campos de solo lectura
+		txtNombreAct.setText("");
+		txtApellidoAct.setText("");
+		txtTelefonoAct.setText("");
+		txtDNIAct.setText("");
+
+		pack();
+		setLocationRelativeTo(null);
+	}
 }
