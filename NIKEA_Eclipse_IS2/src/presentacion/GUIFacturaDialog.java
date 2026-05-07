@@ -1,83 +1,110 @@
 package presentacion;
 
-import java.awt.BorderLayout;
-import java.awt.GridLayout;
-import java.awt.Window;
-
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+import javax.swing.*;
+import java.awt.*;
 
 import presentacion.controlador.Controlador;
 import presentacion.controlador.Eventos;
 import presentacion.factoria.FactoriaAbstractaPresentacion;
 
-@SuppressWarnings({ "serial", "this-escape" })
+@SuppressWarnings("serial")
 public class GUIFacturaDialog extends JDialog {
 
     // CONSTRUCTORA
 
     public GUIFacturaDialog(JFrame owner) {
-        super(owner, "Gestión de Factura", false);
+        super(owner, "Gestión de Facturas", false);
         setResizable(false);
-        setSize(800, 200);
-        setLocationRelativeTo(owner);
         setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 
         initGUI();
+        setLocationRelativeTo(owner);
     }
 
     // MÉTODOS
 
     private void initGUI() {
-        JPanel panel = new JPanel(new GridLayout(4, 2, 10, 10));
-        panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
+        JPanel mainPanel = new JPanel();
+        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+        mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+
+        // Botones
         JButton btnIniciar = new JButton("Iniciar venta");
         JButton btnAnnadir = new JButton("Añadir servicio");
         JButton btnEliminar = new JButton("Eliminar servicio");
         JButton btnCerrar = new JButton("Cerrar venta");
+
         JButton btnBuscar = new JButton("Buscar factura");
         JButton btnListar = new JButton("Listar facturas");
-        JButton btnListarCliente = new JButton("Listar facturas de cliente");
+        JButton btnListarCliente = new JButton("Facturas de cliente");
         JButton btnResumenMensual = new JButton("Resumen mensual");
 
-        JButton[] botones = { btnIniciar, btnAnnadir, btnEliminar, btnCerrar, btnBuscar, btnListar, btnListarCliente,
-                btnResumenMensual };
+        JButton[] botones = {
+                btnIniciar, btnAnnadir, btnEliminar, btnCerrar,
+                btnBuscar, btnListar, btnListarCliente, btnResumenMensual
+        };
+
+        Dimension size = new Dimension(220, 40);
+
         for (JButton b : botones) {
             b.setFocusPainted(false);
-            panel.add(b);
+            b.setPreferredSize(size);
+            b.setMaximumSize(size);
+            b.setMinimumSize(size);
         }
 
-        add(panel, BorderLayout.CENTER);
+        // FILA 1 (4 botones)
+        JPanel fila1 = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
+        fila1.add(btnIniciar);
+        fila1.add(btnAnnadir);
+        fila1.add(btnEliminar);
+        fila1.add(btnCerrar);
 
-        // Listeners
+        // FILA 2 (4 botones)
+        JPanel fila2 = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
+        fila2.add(btnBuscar);
+        fila2.add(btnListar);
+        fila2.add(btnListarCliente);
+        fila2.add(btnResumenMensual);
+
+        mainPanel.add(fila1);
+        mainPanel.add(fila2);
+
+        add(mainPanel, BorderLayout.CENTER);
+        pack();
+        setLocationRelativeTo(null);
+
+        // LISTENERS
 
         btnIniciar.addActionListener(e -> {
-            IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.INICIAR_VENTA);
-            abrirVistaBloqueante((JFrame) vista);
+            IGUI vista = FactoriaAbstractaPresentacion.getInstance()
+                    .createVista(Eventos.INICIAR_VENTA);
+            abrirVistaBloqueante((JDialog) vista);
         });
 
         btnAnnadir.addActionListener(e -> {
-            IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.ANNADIR_SERVICIO);
-            abrirVistaBloqueante((JFrame) vista);
+            IGUI vista = FactoriaAbstractaPresentacion.getInstance()
+                    .createVista(Eventos.ANNADIR_SERVICIO);
+            abrirVistaBloqueante((JDialog) vista);
         });
 
         btnEliminar.addActionListener(e -> {
-            IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.ELIMINAR_SERVICIO);
-            abrirVistaBloqueante((JFrame) vista);
+            IGUI vista = FactoriaAbstractaPresentacion.getInstance()
+                    .createVista(Eventos.ELIMINAR_SERVICIO);
+            abrirVistaBloqueante((JDialog) vista);
         });
 
         btnCerrar.addActionListener(e -> {
-            IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.CERRAR_VENTA);
-            abrirVistaBloqueante((JFrame) vista);
+            IGUI vista = FactoriaAbstractaPresentacion.getInstance()
+                    .createVista(Eventos.CERRAR_VENTA);
+            abrirVistaBloqueante((JDialog) vista);
         });
 
         btnBuscar.addActionListener(e -> {
-            IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.BUSCAR_FACTURA);
-            abrirVistaBloqueante((JFrame) vista);
+            IGUI vista = FactoriaAbstractaPresentacion.getInstance()
+                    .createVista(Eventos.BUSCAR_FACTURA);
+            abrirVistaBloqueante((JDialog) vista);
         });
 
         btnListar.addActionListener(e -> {
@@ -85,30 +112,28 @@ public class GUIFacturaDialog extends JDialog {
         });
 
         btnListarCliente.addActionListener(e -> {
-            IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.MOSTRAR_FACTURAS_CLIENTE);
-            abrirVistaBloqueante((JFrame) vista);
+            IGUI vista = FactoriaAbstractaPresentacion.getInstance()
+                    .createVista(Eventos.MOSTRAR_FACTURAS_CLIENTE);
+            abrirVistaBloqueante((JDialog) vista);
         });
-        
+
         btnResumenMensual.addActionListener(e -> {
-            IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.MOSTRAR_RESUMEN_MENSUAL);
-            abrirVistaBloqueante((JFrame) vista);
+            IGUI vista = FactoriaAbstractaPresentacion.getInstance()
+                    .createVista(Eventos.MOSTRAR_RESUMEN_MENSUAL);
+            abrirVistaBloqueante((JDialog) vista);
         });
     }
 
-    private void abrirVistaBloqueante(Window ventanaSecundaria) {
-        this.setEnabled(false);
-        ventanaSecundaria.addWindowListener(new java.awt.event.WindowAdapter() {
+    private void abrirVistaBloqueante(JDialog ventana) {
+
+        ventana.setModal(true);
+        ventana.setVisible(true);
+
+        ventana.addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
             public void windowClosed(java.awt.event.WindowEvent e) {
-                GUIFacturaDialog.this.setEnabled(true);
                 GUIFacturaDialog.this.toFront();
             }
-
-            @Override
-            public void windowClosing(java.awt.event.WindowEvent e) {
-                GUIFacturaDialog.this.setEnabled(true);
-            }
         });
-        ventanaSecundaria.setVisible(true);
     }
 }
