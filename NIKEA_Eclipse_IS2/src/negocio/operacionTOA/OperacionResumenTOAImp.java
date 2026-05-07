@@ -47,6 +47,6 @@ public class OperacionResumenTOAImp implements OperacionResumenTOA {
 		Set<String> marcas = serviciosFiltrados.stream().map(TServicio::getMarca).collect(Collectors.toSet());
 
 		// Construcción
-		return new TResumenNegocioImp(clientesFiltrados, serviciosFiltrados, facturas, marcas);
+		return new TResumenNegocio(clientesFiltrados, serviciosFiltrados, facturas, marcas);
 	}
 }
