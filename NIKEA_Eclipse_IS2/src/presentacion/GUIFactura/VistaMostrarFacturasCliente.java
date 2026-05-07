@@ -206,7 +206,8 @@ public class VistaMostrarFacturasCliente extends JDialog implements IGUI {
 
         for (TLineaFactura l : lineas) {
             modeloLineas.addRow(
-                    new Object[] { l.getIdProducto(), l.getCantidad(), l.getPrecioUnitario(), l.getSubtotal() });
+                    new Object[] { l.getIdServicio(), l.getCantidad(), l.getPrecioUnitario(),
+                            l.getCantidad() * l.getPrecioUnitario() });
         }
     }
 

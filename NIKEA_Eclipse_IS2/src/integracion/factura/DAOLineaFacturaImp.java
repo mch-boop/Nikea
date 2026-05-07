@@ -46,7 +46,7 @@ public class DAOLineaFacturaImp implements DAOLineaFactura {
 
 		for (TLineaFactura l : readAll()) {
 
-			if (l.getIdFactura() == idFactura && l.getIdProducto() == idProducto) {
+			if (l.getIdFactura() == idFactura && l.getIdServicio() == idProducto) {
 
 				return l;
 			}
@@ -64,7 +64,7 @@ public class DAOLineaFacturaImp implements DAOLineaFactura {
 
 			TLineaFactura l = lista.get(i);
 
-			if (l.getIdFactura() == lineaFactura.getIdFactura() && l.getIdProducto() == lineaFactura.getIdProducto()) {
+			if (l.getIdFactura() == lineaFactura.getIdFactura() && l.getIdServicio() == lineaFactura.getIdServicio()) {
 
 				lista.set(i, lineaFactura);
 				break;
@@ -79,7 +79,7 @@ public class DAOLineaFacturaImp implements DAOLineaFactura {
 
 		List<TLineaFactura> lista = readAll();
 
-		lista.removeIf(l -> l.getIdFactura() == idFactura && l.getIdProducto() == idProducto);
+		lista.removeIf(l -> l.getIdFactura() == idFactura && l.getIdServicio() == idProducto);
 
 		guardar(lista);
 	}
@@ -137,7 +137,7 @@ public class DAOLineaFacturaImp implements DAOLineaFactura {
 			JSONObject obj = new JSONObject();
 
 			obj.put("idFactura", l.getIdFactura());
-			obj.put("idProducto", l.getIdProducto());
+			obj.put("idProducto", l.getIdServicio());
 			obj.put("cantidad", l.getCantidad());
 			obj.put("precioUnitario", l.getPrecioUnitario());
 

@@ -118,11 +118,11 @@ public class SAFacturaImp implements SAFactura {
 			return -1;
 		}
 
-		if (linea.getIdProducto() <= 0 || linea.getCantidad() <= 0) {
+		if (linea.getIdServicio() <= 0 || linea.getCantidad() <= 0) {
 			return 0;
 		}
 
-		TServicio servicio = FactoriaAbstractaIntegracion.getInstance().crearDAOServicio().read(linea.getIdProducto());
+		TServicio servicio = FactoriaAbstractaIntegracion.getInstance().crearDAOServicio().read(linea.getIdServicio());
 
 		if (servicio == null) {
 			return -2;
@@ -136,7 +136,7 @@ public class SAFacturaImp implements SAFactura {
 			return -4;
 		}
 
-		TLineaFactura existente = buscarLinea(facturaActual, linea.getIdProducto());
+		TLineaFactura existente = buscarLinea(facturaActual, linea.getIdServicio());
 
 		// Si el producto ya está añadido, aumentamos la cantidad
 		if (existente != null) {
@@ -161,11 +161,11 @@ public class SAFacturaImp implements SAFactura {
 			return -1;
 		}
 
-		if (linea.getIdProducto() <= 0 || linea.getCantidad() <= 0) {
+		if (linea.getIdServicio() <= 0 || linea.getCantidad() <= 0) {
 			return 0;
 		}
 
-		TLineaFactura existente = buscarLinea(facturaActual, linea.getIdProducto());
+		TLineaFactura existente = buscarLinea(facturaActual, linea.getIdServicio());
 
 		// Si el producto no existe, delvolvemos false
 		if (existente == null) {
@@ -380,19 +380,21 @@ public class SAFacturaImp implements SAFactura {
 		}
 
 		boolean cumpleRequisitos = false;
+		double importeBase = 0.0;
+		int cantidadProductos = 0;
+
+		if (factura.getLineas() != null) {
+			for (TLineaFactura lf : factura.getLineas()) {
+				importeBase += lf.getCantidad() * lf.getPrecioUnitario();
+				cantidadProductos += lf.getCantidad();
+			}
+		}
 
 		if (descuento.isTipo()) {
-			double importeTotal = factura.getImporte();
-			if (importeTotal >= descuento.getCantidad()) {
+			if (importeBase >= descuento.getCantidad()) {
 				cumpleRequisitos = true;
 			}
 		} else {
-			int cantidadProductos = 0;
-			if (factura.getLineas() != null) {
-				for (TLineaFactura lf : factura.getLineas()) {
-					cantidadProductos += lf.getCantidad();
-				}
-			}
 			if (cantidadProductos >= descuento.getCantidad()) {
 				cumpleRequisitos = true;
 			}
@@ -404,7 +406,6 @@ public class SAFacturaImp implements SAFactura {
 
 		factura.setIdDescuento(idDescuento);
 
-		double importeBase = factura.getImporte();
 		double cantidadDescontada = importeBase * ((double) descuento.getPorcentaje() / 100.0);
 		factura.setTotal(importeBase - cantidadDescontada);
 
@@ -446,7 +447,7 @@ public class SAFacturaImp implements SAFactura {
 	private TLineaFactura buscarLinea(TFactura factura, int idProducto) {
 
 		for (TLineaFactura l : factura.getLineas()) {
-			if (l.getIdProducto() == idProducto) {
+			if (l.getIdServicio() == idProducto) {
 				return l;
 			}
 		}
@@ -456,7 +457,7 @@ public class SAFacturaImp implements SAFactura {
 
 	private void addLinea(TFactura factura, TLineaFactura nueva) {
 
-		TLineaFactura existente = buscarLinea(factura, nueva.getIdProducto());
+		TLineaFactura existente = buscarLinea(factura, nueva.getIdServicio());
 
 		if (existente != null) {
 			existente.setCantidad(existente.getCantidad() + nueva.getCantidad());

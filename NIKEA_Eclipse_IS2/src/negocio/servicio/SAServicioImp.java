@@ -252,7 +252,7 @@ public class SAServicioImp implements SAServicio {
 
 	        for (TLineaFactura linea : lineas) {
 
-	            TServicio servicio = daoServicio.read(linea.getIdProducto());
+	            TServicio servicio = daoServicio.read(linea.getIdServicio());
 
 	            if (servicio != null
 	                    && servicio.isActivo()
