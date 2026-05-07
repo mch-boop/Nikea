@@ -2,8 +2,6 @@ package presentacion.controlador;
 
 import java.util.Collection;
 
-import javax.swing.JFrame;
-
 import negocio.cliente.SACliente;
 import negocio.cliente.TCliente;
 import negocio.descuento.SADescuento;
@@ -20,7 +18,6 @@ import negocio.marca.SAMarca;
 import negocio.marca.TMarca;
 import negocio.operacionTOA.OperacionResumenTOA;
 import negocio.operacionTOA.TResumenNegocio;
-import negocio.operacionTOA.TResumenNegocioImp;
 import negocio.servicio.SAServicio;
 import negocio.servicio.TArticulo;
 import negocio.servicio.TServicio;
