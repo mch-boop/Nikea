@@ -1,146 +1,56 @@
 [
     {
-        "codigo": "uno",
-        "tipo": false,
+        "codigo": "UNO",
+        "tipo": true,
         "id": 1,
-        "porcentaje": 1,
-        "cantidad": 1,
-        "nombre": "1",
-        "activo": false
-    },
-    {
-        "codigo": "dos",
-        "tipo": true,
-        "id": 2,
-        "porcentaje": 2,
+        "porcentaje": 10,
         "cantidad": 100,
-        "nombre": "2",
+        "nombre": "Primer descuento",
         "activo": true
     },
     {
-        "codigo": "tres",
+        "codigo": "DOS",
         "tipo": false,
-        "id": 3,
-        "porcentaje": 3,
-        "cantidad": 30,
-        "nombre": "3",
+        "id": 2,
+        "porcentaje": 20,
+        "cantidad": 2,
+        "nombre": "Segundo descuento",
         "activo": true
     },
     {
-        "codigo": "4",
+        "codigo": "TRES",
         "tipo": true,
+        "id": 3,
+        "porcentaje": 30,
+        "cantidad": 30,
+        "nombre": "Tercer descuento",
+        "activo": true
+    },
+    {
+        "codigo": "Prueba_BAJA",
+        "tipo": false,
         "id": 4,
-        "porcentaje": 4,
-        "cantidad": 4,
-        "nombre": "4",
+        "porcentaje": 50,
+        "cantidad": 14,
+        "nombre": "Descuento para baja",
         "activo": false
     },
     {
-        "codigo": "03-CHUPI",
+        "codigo": "Prueba_modif",
         "tipo": false,
         "id": 5,
         "porcentaje": 90,
-        "cantidad": 9,
-        "nombre": "El mejor descuento que has visto jamás ;)",
-        "activo": false
+        "cantidad": 7,
+        "nombre": "Modificado",
+        "activo": true
     },
     {
-        "codigo": "DESC314",
-        "tipo": true,
-        "id": 6,
-        "porcentaje": 10,
-        "cantidad": 100,
-        "nombre": "Has descubierto que pi = 3,14 :D",
-        "activo": false
-    },
-    {
-        "codigo": "oxo",
+        "codigo": "Annadir_a_factura",
         "tipo": false,
-        "id": 7,
-        "porcentaje": 8,
-        "cantidad": 8,
-        "nombre": "OxO",
-        "activo": true
-    },
-    {
-        "codigo": "Prueba",
-        "tipo": true,
-        "id": 8,
+        "id": 6,
         "porcentaje": 50,
-        "cantidad": 100,
-        "nombre": "Prueba para factura con id 10",
+        "cantidad": 1,
+        "nombre": "Descuento para aplicar a una factura",
         "activo": true
-    },
-    {
-        "codigo": "1234",
-        "tipo": true,
-        "id": 9,
-        "porcentaje": 65,
-        "cantidad": 50,
-        "nombre": "1234",
-        "activo": true
-    },
-    {
-        "codigo": "1",
-        "tipo": true,
-        "id": 10,
-        "porcentaje": 1,
-        "cantidad": 100,
-        "nombre": "1",
-        "activo": false
-    },
-    {
-        "codigo": "as",
-        "tipo": true,
-        "id": 11,
-        "porcentaje": 12,
-        "cantidad": 100,
-        "nombre": "",
-        "activo": false
-    },
-    {
-        "codigo": "123",
-        "tipo": true,
-        "id": 12,
-        "porcentaje": 12,
-        "cantidad": 100,
-        "nombre": "asd",
-        "activo": true
-    },
-    {
-        "codigo": "GANGA",
-        "tipo": true,
-        "id": 13,
-        "porcentaje": 99,
-        "cantidad": 10,
-        "nombre": "Es una gangaaaaaa",
-        "activo": true
-    },
-    {
-        "codigo": "NO-GANGA",
-        "tipo": true,
-        "id": 14,
-        "porcentaje": 1,
-        "cantidad": 100,
-        "nombre": "Es meh",
-        "activo": false
-    },
-    {
-        "codigo": "PruebaCierre",
-        "tipo": true,
-        "id": 15,
-        "porcentaje": 12,
-        "cantidad": 100,
-        "nombre": "algo",
-        "activo": true
-    },
-    {
-        "codigo": "Pruebaaasdas",
-        "tipo": true,
-        "id": 16,
-        "porcentaje": 13,
-        "cantidad": 100,
-        "nombre": "asdads",
-        "activo": false
     }
 ]

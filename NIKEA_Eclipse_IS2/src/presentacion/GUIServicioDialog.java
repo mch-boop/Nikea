@@ -1,58 +1,80 @@
 package presentacion;
 
-import java.awt.BorderLayout;
-import java.awt.GridLayout;
+import javax.swing.*;
+import java.awt.*;
 
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-
-import presentacion.GUIServicio.VistaMostrarMejorArticulo;
-import presentacion.GUIServicio.VistaMostrarServicios;
+import presentacion.controlador.Controlador;
 import presentacion.controlador.Eventos;
 import presentacion.factoria.FactoriaAbstractaPresentacion;
 
 @SuppressWarnings("serial")
 public class GUIServicioDialog extends JDialog {
-	
+
 	// CONSTRUCTORA
 
-    public GUIServicioDialog(JFrame owner) {
-        super(owner, "Gestión de Servicios", false);
-        setResizable(false); 
-        setSize(800, 150);
-        initGUI();
-        setLocationRelativeTo(owner);
-        setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-    }
-    
-	// MÉTODOS
-	
-	private void initGUI() {
-		
-		JPanel panel = new JPanel(new GridLayout(2, 3, 10, 10));
-		panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+	public GUIServicioDialog(JFrame owner) {
+		super(owner, "Gestión de Servicios", false);
+		setResizable(false);
+		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 
-		JButton btnAlta      = new JButton("Alta Servicio");
-		JButton btnBaja      = new JButton("Baja Servicio");
+		initGUI();
+
+		pack();
+		setLocationRelativeTo(null);
+	}
+
+	// MÉTODOS
+
+	private void initGUI() {
+
+		JPanel mainPanel = new JPanel();
+		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+		mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+
+		// BOTONES
+		JButton btnAlta = new JButton("Alta Servicio");
+		JButton btnBaja = new JButton("Baja Servicio");
 		JButton btnModificar = new JButton("Modificar Servicio");
-		JButton btnBuscar    = new JButton("Buscar Servicio");
-		JButton btnMostrar   = new JButton("Listar Servicios");
-		JButton btnMejor     = new JButton("Mejor Artículo");
-		JButton btnArticulosMarca = new JButton("Listar Artículos por Marca");
+		JButton btnBuscar = new JButton("Buscar Servicio");
+		JButton btnMostrar = new JButton("Listar Servicios");
+		JButton btnMejor = new JButton("Mejor Artículo");
+		JButton btnArticulosMarca = new JButton("Artículos por Marca");
 
 		JButton[] botones = { btnAlta, btnBaja, btnModificar, btnBuscar, btnMostrar, btnMejor, btnArticulosMarca };
-		
+
+		Dimension size = new Dimension(220, 40);
+
 		for (JButton b : botones) {
 			b.setFocusPainted(false);
-			panel.add(b);
+			b.setPreferredSize(size);
+			b.setMaximumSize(size);
+			b.setMinimumSize(size);
 		}
 
-		add(panel, BorderLayout.CENTER);
+		// FILA 1 (3 botones)
+		JPanel fila1 = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
+		fila1.add(btnAlta);
+		fila1.add(btnBaja);
+		fila1.add(btnModificar);
 
-		// Listeners de los botones
+		// FILA 2 (3 botones)
+		JPanel fila2 = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
+		fila2.add(btnBuscar);
+		fila2.add(btnMostrar);
+		fila2.add(btnMejor);
+
+		// FILA 3 (1 centrado)
+		JPanel fila3 = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
+		fila3.add(btnArticulosMarca);
+
+		mainPanel.add(fila1);
+		mainPanel.add(fila2);
+		mainPanel.add(fila3);
+
+		add(mainPanel, BorderLayout.CENTER);
+
+		// LISTENERS
+
 		btnAlta.addActionListener(e -> {
 			IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.ALTA_SERVICIO);
 			abrirVistaBloqueante((JDialog) vista);
@@ -63,7 +85,7 @@ public class GUIServicioDialog extends JDialog {
 			abrirVistaBloqueante((JDialog) vista);
 		});
 
-		btnModificar.addActionListener(e -> { 
+		btnModificar.addActionListener(e -> {
 			IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.MODIFICAR_SERVICIO);
 			abrirVistaBloqueante((JDialog) vista);
 		});
@@ -74,29 +96,21 @@ public class GUIServicioDialog extends JDialog {
 		});
 
 		btnMostrar.addActionListener(e -> {
-			IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.MOSTRAR_SERVICIOS);
-			if (vista instanceof VistaMostrarServicios) {
-				((VistaMostrarServicios) vista).cargarServicios();
-			}
-			abrirVistaBloqueante((JDialog) vista);
+			Controlador.getInstance().accion(Eventos.MOSTRAR_SERVICIOS, null);
 		});
 
-		btnMejor.addActionListener(e -> { 
-			IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.MOSTRAR_MEJOR_ARTICULO);
-			if (vista instanceof VistaMostrarMejorArticulo) {
-				((VistaMostrarMejorArticulo) vista).cargarMejorArticulo();
-			}
-			abrirVistaBloqueante((JDialog) vista);
+		btnMejor.addActionListener(e -> {
+			Controlador.getInstance().accion(Eventos.MOSTRAR_MEJOR_ARTICULO, null);
 		});
-		
-		btnArticulosMarca.addActionListener(e -> { 
+
+		btnArticulosMarca.addActionListener(e -> {
 			IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.MOSTRAR_ARTICULOS_POR_MARCA);
 			abrirVistaBloqueante((JDialog) vista);
 		});
 	}
 
 	private void abrirVistaBloqueante(JDialog vista) {
-    	vista.setModal(true);
-    	vista.setVisible(true);
-    }
+		vista.setModal(true);
+		vista.setVisible(true);
+	}
 }
