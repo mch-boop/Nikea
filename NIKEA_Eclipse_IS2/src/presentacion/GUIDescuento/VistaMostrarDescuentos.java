@@ -27,7 +27,7 @@ public class VistaMostrarDescuentos extends JDialog implements IGUI {
 	private void initGUI() {
 		setLayout(new BorderLayout(10, 10));
 
-		String[] columnas = { "ID", "Código", "Nombre/Desc.", "Porcentaje (%)", "Tipo", "Mínimo/Cant." };
+		String[] columnas = { "ID", "Código", "Descripción", "Porcentaje (%)", "Tipo", "Mínimo/Cant." };
 
 		modelo = new DefaultTableModel(columnas, 0) {
 			@Override
