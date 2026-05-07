@@ -52,5 +52,23 @@
         "cantidad": 1,
         "nombre": "Descuento para aplicar a una factura",
         "activo": true
+    },
+    {
+        "codigo": "CARNAVAL",
+        "tipo": true,
+        "id": 7,
+        "porcentaje": 18,
+        "cantidad": 100,
+        "nombre": "",
+        "activo": true
+    },
+    {
+        "codigo": "CARNIVAL",
+        "tipo": false,
+        "id": 8,
+        "porcentaje": 15,
+        "cantidad": 10,
+        "nombre": "",
+        "activo": false
     }
 ]

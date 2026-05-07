@@ -7,7 +7,7 @@ public interface SADescuento {
     public int delete(int id);
     public int update(TDescuento td);
     public int reactivate(TDescuento td);
-    public TDescuento getUltimoDuplicado();
     public TDescuento read(int id);
     public Collection<TDescuento> readAll();
+	TDescuento readByCodigo(String codigo);
 }

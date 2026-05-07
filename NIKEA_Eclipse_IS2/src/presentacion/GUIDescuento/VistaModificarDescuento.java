@@ -28,6 +28,8 @@ public class VistaModificarDescuento extends JDialog implements IGUI {
 	private static final String CARD_FORMULARIO = "formulario";
 
 	private int idActual = -1;
+	// Guardamos el objeto original para los placeholders y comparación
+	private TDescuento descuentoOriginal;
 
 	// === CONSTRUCTORA ===
 	public VistaModificarDescuento() {
@@ -36,6 +38,30 @@ public class VistaModificarDescuento extends JDialog implements IGUI {
 
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		initGUI();
+	}
+
+	// === MÉTODOS DE PLACEHOLDER ===
+	public void configurarPlaceholder(JTextField textField, String texto) {
+		textField.setText(texto);
+		textField.setForeground(Color.GRAY);
+
+		textField.addFocusListener(new java.awt.event.FocusAdapter() {
+			@Override
+			public void focusGained(java.awt.event.FocusEvent e) {
+				if (textField.getText().equals(texto)) {
+					textField.setText("");
+					textField.setForeground(Color.BLACK);
+				}
+			}
+
+			@Override
+			public void focusLost(java.awt.event.FocusEvent e) {
+				if (textField.getText().isEmpty()) {
+					textField.setText(texto);
+					textField.setForeground(Color.GRAY);
+				}
+			}
+		});
 	}
 
 	// === INICIALIZACIÓN ===
@@ -118,15 +144,12 @@ public class VistaModificarDescuento extends JDialog implements IGUI {
 
 		// Campos
 		txtCodigo = new JTextField(20);
-		txtCodigo.setForeground(Color.BLACK);
+		txtDescuento = new JTextField(20);
 
 		areaDescripcion = new JTextArea(3, 20);
 		areaDescripcion.setLineWrap(true);
 		areaDescripcion.setWrapStyleWord(true);
 		JScrollPane scrollDesc = new JScrollPane(areaDescripcion);
-
-		txtDescuento = new JTextField(20);
-		txtDescuento.setForeground(Color.BLACK);
 
 		// Spinners
 		SpinnerNumberModel importeModel = new SpinnerNumberModel(100.0, 0.0, 1000000.0, 10.0);
@@ -139,21 +162,16 @@ public class VistaModificarDescuento extends JDialog implements IGUI {
 		productosMin = new JSpinner(productosModel);
 		((JSpinner.NumberEditor) productosMin.getEditor()).getTextField().setColumns(10);
 
-		// Panel
 		panelDinamico = new JPanel(new CardLayout());
-
 		JPanel cardImporte = new JPanel();
 		cardImporte.add(new JLabel("Importe mínimo (€):"));
 		cardImporte.add(importeMin);
-
 		JPanel cardProductos = new JPanel();
 		cardProductos.add(new JLabel("Productos mínimos (uds):"));
 		cardProductos.add(productosMin);
-
 		panelDinamico.add(cardImporte, "IMPORTE");
 		panelDinamico.add(cardProductos, "PRODUCTOS");
 
-		// Radio buttons
 		rbImporte = new JRadioButton("Por importe", true);
 		rbProductos = new JRadioButton("Por cantidad");
 		ButtonGroup group = new ButtonGroup();
@@ -164,47 +182,26 @@ public class VistaModificarDescuento extends JDialog implements IGUI {
 		rbImporte.addActionListener(e -> cl.show(panelDinamico, "IMPORTE"));
 		rbProductos.addActionListener(e -> cl.show(panelDinamico, "PRODUCTOS"));
 
-		// Grid del formulario
 		JPanel formPanel = new JPanel(new GridBagLayout());
 		GridBagConstraints gbc = new GridBagConstraints();
 		gbc.fill = GridBagConstraints.HORIZONTAL;
 		gbc.insets = new Insets(5, 5, 5, 5);
 		gbc.anchor = GridBagConstraints.NORTHWEST;
 
-		gbc.gridx = 0;
-		gbc.gridy = 0;
-		formPanel.add(new JLabel("Código:"), gbc);
-		gbc.gridx = 1;
-		formPanel.add(txtCodigo, gbc);
-
-		gbc.gridx = 0;
-		gbc.gridy = 1;
-		formPanel.add(new JLabel("Descripción (Opcional):"), gbc);
-		gbc.gridx = 1;
-		formPanel.add(scrollDesc, gbc);
-
-		gbc.gridx = 0;
-		gbc.gridy = 2;
-		formPanel.add(new JLabel("Descuento (%):"), gbc);
-		gbc.gridx = 1;
-		formPanel.add(txtDescuento, gbc);
+		gbc.gridx = 0; gbc.gridy = 0; formPanel.add(new JLabel("Código:"), gbc);
+		gbc.gridx = 1; formPanel.add(txtCodigo, gbc);
+		gbc.gridx = 0; gbc.gridy = 1; formPanel.add(new JLabel("Descripción:"), gbc);
+		gbc.gridx = 1; formPanel.add(scrollDesc, gbc);
+		gbc.gridx = 0; gbc.gridy = 2; formPanel.add(new JLabel("Descuento (%):"), gbc);
+		gbc.gridx = 1; formPanel.add(txtDescuento, gbc);
 
 		JPanel panelRadio = new JPanel();
-		panelRadio.add(rbImporte);
-		panelRadio.add(rbProductos);
-		gbc.gridx = 0;
-		gbc.gridy = 3;
-		formPanel.add(new JLabel("Tipo:"), gbc);
-		gbc.gridx = 1;
-		formPanel.add(panelRadio, gbc);
+		panelRadio.add(rbImporte); panelRadio.add(rbProductos);
+		gbc.gridx = 0; gbc.gridy = 3; formPanel.add(new JLabel("Tipo:"), gbc);
+		gbc.gridx = 1; formPanel.add(panelRadio, gbc);
+		gbc.gridx = 0; gbc.gridy = 4; formPanel.add(new JLabel("Condición:"), gbc);
+		gbc.gridx = 1; formPanel.add(panelDinamico, gbc);
 
-		gbc.gridx = 0;
-		gbc.gridy = 4;
-		formPanel.add(new JLabel("Condición:"), gbc);
-		gbc.gridx = 1;
-		formPanel.add(panelDinamico, gbc);
-
-		// Botones
 		btnGuardar = new JButton("GUARDAR");
 		btnCancelarForm = new JButton("CANCELAR");
 
@@ -217,41 +214,49 @@ public class VistaModificarDescuento extends JDialog implements IGUI {
 
 		btnGuardar.addActionListener(e -> {
 			try {
-				if (txtCodigo.getText().trim().isEmpty()) {
-					JOptionPane.showMessageDialog(this, "El código es obligatorio.", "Faltan datos",
-							JOptionPane.WARNING_MESSAGE);
-					txtCodigo.requestFocusInWindow();
-					return;
-				}
-				if (txtDescuento.getText().trim().isEmpty()) {
-					JOptionPane.showMessageDialog(this, "Debe indicar un porcentaje.", "Faltan datos",
-							JOptionPane.WARNING_MESSAGE);
-					txtDescuento.requestFocusInWindow();
-					return;
-				}
+				// Lógica de Placeholder: si el texto es el placeholder o vacío, se usa el original
+				String finalCodigo = (txtCodigo.getText().equals(descuentoOriginal.getCodigo()) || txtCodigo.getText().isEmpty()) 
+						? descuentoOriginal.getCodigo() : txtCodigo.getText().trim();
+				
+				String finalDescuentoStr = (txtDescuento.getText().equals(String.valueOf(descuentoOriginal.getPorcentaje())) || txtDescuento.getText().isEmpty())
+						? String.valueOf(descuentoOriginal.getPorcentaje()) : txtDescuento.getText().trim();
+				
+				String finalNombre = areaDescripcion.getText().trim().isEmpty() ? descuentoOriginal.getNombre() : areaDescripcion.getText().trim();
 
 				boolean esImporte = rbImporte.isSelected();
-				TDescuento td = new TDescuento(esImporte);
-				td.setId(idActual);
-				td.setCodigo(txtCodigo.getText().trim());
-				td.setNombre(areaDescripcion.getText().trim());
-				td.setPorcentaje(Integer.parseInt(txtDescuento.getText().trim()));
-				td.setActivo(true);
+				double finalCondicion = esImporte ? (Double) importeMin.getValue() : (Integer) productosMin.getValue();
 
-				if (esImporte) {
-					td.setImporteMin((Double) importeMin.getValue());
-				} else {
-					td.setProductosMin((Integer) productosMin.getValue());
+				// Ventana de Confirmación con el resumen de datos
+				String resumen = String.format(
+					"¿Desea confirmar los siguientes cambios?\n\n" +
+					"ID: %d\n" +
+					"Código: %s\n" +
+					"Descripción: %s\n" +
+					"Descuento: %s%%\n" +
+					"Tipo: %s\n" +
+					"Condición: %.2f",
+					idActual, finalCodigo, finalNombre, finalDescuentoStr, 
+					(esImporte ? "Importe Mínimo" : "Cantidad Mínima"), finalCondicion
+				);
+
+				int confirm = JOptionPane.showConfirmDialog(this, resumen, "Confirmar Modificación", JOptionPane.YES_NO_OPTION);
+				
+				if (confirm == JOptionPane.YES_OPTION) {
+					TDescuento td = new TDescuento(esImporte);
+					td.setId(idActual);
+					td.setCodigo(finalCodigo);
+					td.setNombre(finalNombre);
+					td.setPorcentaje(Integer.parseInt(finalDescuentoStr));
+					td.setActivo(true);
+
+					if (esImporte) td.setImporteMin((Double) importeMin.getValue());
+					else td.setProductosMin((Integer) productosMin.getValue());
+
+					Controlador.getInstance().accion(Eventos.MODIFICAR_DESCUENTO, td);
 				}
 
-				Controlador.getInstance().accion(Eventos.MODIFICAR_DESCUENTO, td);
-
 			} catch (NumberFormatException nfe) {
-				JOptionPane.showMessageDialog(this, "El descuento debe ser un número entero (ej: 15).",
-						"Error de formato", JOptionPane.ERROR_MESSAGE);
-				txtDescuento.requestFocusInWindow();
-			} catch (Exception ex) {
-				JOptionPane.showMessageDialog(this, "Error inesperado: " + ex.getMessage());
+				JOptionPane.showMessageDialog(this, "El descuento debe ser un número entero.", "Error de formato", JOptionPane.ERROR_MESSAGE);
 			}
 		});
 
@@ -265,18 +270,18 @@ public class VistaModificarDescuento extends JDialog implements IGUI {
 
 		return mainPanel;
 	}
- 
+
 	// === CARGAR DESCUENTO ===
 	private void cargarDescuento(TDescuento td) {
+		this.descuentoOriginal = td;
 		idActual = td.getId();
 
-		txtCodigo.setText(td.getCodigo());
-		txtCodigo.setForeground(Color.BLACK);
-
-		txtDescuento.setText(String.valueOf(td.getPorcentaje()));
-		txtDescuento.setForeground(Color.BLACK);
-
-		areaDescripcion.setText(td.getNombre());
+		// Configuramos placeholders con los datos actuales
+		configurarPlaceholder(txtCodigo, td.getCodigo());
+		configurarPlaceholder(txtDescuento, String.valueOf(td.getPorcentaje()));
+		
+		areaDescripcion.setText(""); // Se deja vacío para que escriba si quiere, si no se mantiene el nombre en el guardado
+		areaDescripcion.setToolTipText("Actual: " + td.getNombre());
 
 		CardLayout cl = (CardLayout) panelDinamico.getLayout();
 		if (td.isTipo()) {
@@ -294,73 +299,37 @@ public class VistaModificarDescuento extends JDialog implements IGUI {
 		setLocationRelativeTo(null);
 	}
 
-	// === ACTUALIZAR===
 	@Override
 	public void actualizar(int evento, Object datos) {
 		SwingUtilities.invokeLater(() -> {
 			switch (evento) {
-
 			case Eventos.RES_CARGAR_DESCUENTO_MOD_OK:
 				cargarDescuento((TDescuento) datos);
 				break;
-
 			case Eventos.RES_CARGAR_DESCUENTO_MOD_KO:
-				JOptionPane.showMessageDialog(this, "No se encontró ningún descuento activo con ese ID.",
-						"No encontrado", JOptionPane.WARNING_MESSAGE);
-				SwingUtilities.invokeLater(() -> txtIdBuscar.requestFocus());
+				JOptionPane.showMessageDialog(this, "No se encontró ningún descuento activo con ese ID.");
 				break;
-
 			case Eventos.RES_MODIFICAR_DESCUENTO_OK:
-				JOptionPane.showMessageDialog(this, "Descuento modificado correctamente. ID: " + datos, "Éxito",
-						JOptionPane.INFORMATION_MESSAGE);
-				idActual = -1;
-				txtIdBuscar.setText("");
-				cardLayout.show(cardPanel, CARD_BUSQUEDA);
-				pack();
-				setLocationRelativeTo(null);
+				JOptionPane.showMessageDialog(this, "Modificado con éxito.");
+				limpiarCampos();
 				break;
-
-			case Eventos.RES_MODIFICAR_DESCUENTO_NO_ENCONTRADO:
-				JOptionPane.showMessageDialog(this, "No se encontró el descuento a modificar.", "Error",
-						JOptionPane.ERROR_MESSAGE);
-				SwingUtilities.invokeLater(() -> txtIdBuscar.requestFocus());
-				break;
-
-			case Eventos.RES_MODIFICAR_DESCUENTO_KO_CODIGO:
-				JOptionPane.showMessageDialog(this, "El código no es válido o está vacío.", "Error",
-						JOptionPane.ERROR_MESSAGE);
-				SwingUtilities.invokeLater(() -> txtCodigo.requestFocus());
-				break;
-
-			case Eventos.RES_MODIFICAR_DESCUENTO_KO_PORCENTAJE:
-				JOptionPane.showMessageDialog(this, "El porcentaje debe estar entre 1 y 100.", "Error",
-						JOptionPane.ERROR_MESSAGE);
-				SwingUtilities.invokeLater(() -> txtDescuento.requestFocus());
-				break;
-
 			case Eventos.RES_MODIFICAR_DESCUENTO_KO:
-				JOptionPane.showMessageDialog(this, "Error al guardar los cambios.", "Error grave",
-						JOptionPane.ERROR_MESSAGE);
-				SwingUtilities.invokeLater(() -> txtCodigo.requestFocus());
-				break;
-
-			default:
+				JOptionPane.showMessageDialog(this, "Error al guardar los cambios.");
 				break;
 			}
 		});
 	}
 
-	// === RESET ===
 	@Override
 	public void setVisible(boolean b) {
-		if (b)
-			limpiarCampos();
+		if (b) limpiarCampos();
 		super.setVisible(b);
 	}
 
 	private void limpiarCampos() {
 		txtIdBuscar.setText("");
 		idActual = -1;
+		descuentoOriginal = null;
 		cardLayout.show(cardPanel, CARD_BUSQUEDA);
 		pack();
 		setLocationRelativeTo(null);

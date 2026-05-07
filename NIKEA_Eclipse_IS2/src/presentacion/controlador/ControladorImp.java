@@ -224,7 +224,7 @@ public class ControladorImp extends Controlador {
 			}
 			break;
 		}
-		
+
 		// EVENTOS DE SERVICIO
 
 		case Eventos.ANNADIR_SERVICIO: {
@@ -271,8 +271,6 @@ public class ControladorImp extends Controlador {
 			}
 			break;
 		}
-
-		
 
 		case Eventos.ALTA_SERVICIO: {
 			TServicio tServicio = (TServicio) datos;
@@ -394,20 +392,20 @@ public class ControladorImp extends Controlador {
 			}
 			break;
 		}
-		
+
 		case Eventos.MOSTRAR_MEJOR_ARTICULO: {
-		    SAServicio saCli = FactoriaAbstractaNegocio.getInstance().crearSAServicio();
+			SAServicio saCli = FactoriaAbstractaNegocio.getInstance().crearSAServicio();
 
-		    TArticulo servicio = saCli.getMejorArticulo();
+			TArticulo servicio = saCli.getMejorArticulo();
 
-		    IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(evento);
+			IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(evento);
 
-		    if (servicio != null) {
-		        vista.actualizar(Eventos.RES_MOSTRAR_MEJOR_ARTICULO_OK, servicio);
-		    } else {
-		        vista.actualizar(Eventos.RES_MOSTRAR_MEJOR_ARTICULO_KO, null);
-		    }
-		    break;
+			if (servicio != null) {
+				vista.actualizar(Eventos.RES_MOSTRAR_MEJOR_ARTICULO_OK, servicio);
+			} else {
+				vista.actualizar(Eventos.RES_MOSTRAR_MEJOR_ARTICULO_KO, null);
+			}
+			break;
 		}
 
 		case Eventos.MOSTRAR_SERVICIOS: {
@@ -825,20 +823,27 @@ public class ControladorImp extends Controlador {
 
 			if (res > 0) {
 				vista.actualizar(Eventos.RES_ALTA_DESCUENTO_OK, res);
+
 			} else {
 				switch (res) {
+
 				case -1:
-					vista.actualizar(Eventos.RES_ALTA_DESCUENTO_YA_EXISTE, saDescuento.getUltimoDuplicado());
+					vista.actualizar(Eventos.RES_ALTA_DESCUENTO_YA_EXISTE,
+							saDescuento.readByCodigo(tDescuento.getCodigo()));
 					break;
+
 				case -2:
 					vista.actualizar(Eventos.RES_ALTA_DESCUENTO_CONFIRMAR_REACTIVACION, tDescuento);
 					break;
+
 				case -3:
 					vista.actualizar(Eventos.RES_ALTA_DESCUENTO_KO_CODIGO, tDescuento);
 					break;
+
 				case -4:
 					vista.actualizar(Eventos.RES_ALTA_DESCUENTO_KO_PORCENTAJE, tDescuento);
 					break;
+
 				default:
 					vista.actualizar(Eventos.RES_ALTA_DESCUENTO_KO, res);
 					break;
@@ -854,10 +859,11 @@ public class ControladorImp extends Controlador {
 			int res = saDescuento.reactivate(tDescuento);
 
 			IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.ALTA_DESCUENTO);
-			if (res >= 0) {
+
+			if (res > 0) {
 				vista.actualizar(Eventos.RES_ALTA_DESCUENTO_OK, res);
 			} else {
-				vista.actualizar(Eventos.RES_ALTA_DESCUENTO_KO, res);
+				vista.actualizar(Eventos.RES_ALTA_DESCUENTO_KO, null);
 			}
 			break;
 		}
