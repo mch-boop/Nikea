@@ -223,6 +223,8 @@ public class ControladorImp extends Controlador {
 			}
 			break;
 		}
+		
+		// EVENTOS DE SERVICIO
 
 		case Eventos.ANNADIR_SERVICIO: {
 			TLineaFactura tLinea = (TLineaFactura) datos;
@@ -269,7 +271,7 @@ public class ControladorImp extends Controlador {
 			break;
 		}
 
-		// EVENTOS DE SERVICIO
+		
 
 		case Eventos.ALTA_SERVICIO: {
 			TServicio tServicio = (TServicio) datos;
