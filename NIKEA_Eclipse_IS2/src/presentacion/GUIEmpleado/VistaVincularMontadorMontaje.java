@@ -95,9 +95,25 @@ public class VistaVincularMontadorMontaje extends JDialog implements IGUI {
                     JOptionPane.showMessageDialog(this, "Vinculación realizada con éxito.");
                     txtIdMontador.setText(""); 
                     break;
-                case Eventos.RES_VINCULAR_MONTADOR_KO_NO_EXISTE_EMPLEADO:
+                case -1:
                     JOptionPane.showMessageDialog(this, "Error: El Montador con ID " + datos + " no existe.", "Error", JOptionPane.ERROR_MESSAGE);
                     break;
+                case -2:
+                    JOptionPane.showMessageDialog(this, "Error: la vinculación ya existe.");
+                    break;
+
+                case -4:
+                    JOptionPane.showMessageDialog(this, "Error: el empleado no es un montador.");
+                    break;
+
+                case -5:
+                    JOptionPane.showMessageDialog(this, "Error: el montaje no existe.");
+                    break;
+
+                default:
+                    JOptionPane.showMessageDialog(this, "Error desconocido.");
+                    break;
+                	
             }
         });
     }
