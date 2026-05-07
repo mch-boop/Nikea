@@ -1,6 +1,9 @@
 package presentacion.GUIEmpleado;
 
 import javax.swing.*;
+
+import negocio.empleado.TMontadorMontaje;
+
 import java.awt.*;
 
 import presentacion.IGUI;
@@ -53,10 +56,14 @@ public class VistaVincularMontadorMontaje extends JDialog implements IGUI {
             try {
                 int idMontador = Integer.parseInt(txtIdMontador.getText().trim());
                 int idMontaje = Integer.parseInt(txtIdMontaje.getText().trim());
-                
-                // OArray con ambos IDs
-                int[] datos = {idMontador, idMontaje};
-                Controlador.getInstance().accion(Eventos.VINCULAR_MONTADOR_MONTAJE, datos);
+
+                TMontadorMontaje tmm = new TMontadorMontaje(idMontador, idMontaje);
+
+                Controlador.getInstance().accion(
+                    Eventos.VINCULAR_MONTADOR_MONTAJE,
+                    tmm
+                );
+
             } catch (NumberFormatException ex) {
                 JOptionPane.showMessageDialog(this, "Los IDs deben ser números enteros.");
             }

@@ -106,8 +106,18 @@ public class DAOMontadorMontajeImp implements DAOMontadorMontaje {
             array.put(obj);
         }
 
-        try (FileOutputStream os = new FileOutputStream(new File(PATH))) {
-            os.write(array.toString(4).getBytes(StandardCharsets.UTF_8));
+        try {
+
+            File file = new File(PATH);
+
+            // Crear carpetas si no existen
+            file.getParentFile().mkdirs();
+
+            try (FileOutputStream os = new FileOutputStream(file)) {
+
+                os.write(array.toString(4).getBytes(StandardCharsets.UTF_8));
+            }
+
         } catch (Exception ex) {
             ex.printStackTrace();
         }
