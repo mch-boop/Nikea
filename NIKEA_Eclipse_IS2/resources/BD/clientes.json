@@ -1,8 +1,8 @@
 [
     {
-        "apellidos": "Morales",
+        "apellidos": "Morales Bravo",
         "id": 1,
-        "telefono": 1,
+        "telefono": 999827388,
         "nombre": "David",
         "DNI": "17717171H",
         "activo": true
@@ -37,6 +37,22 @@
         "telefono": 9382616,
         "nombre": "Peter",
         "DNI": "72839482U",
+        "activo": true
+    },
+    {
+        "apellidos": "López Fernández",
+        "id": 6,
+        "telefono": 933847700,
+        "nombre": "Pepa",
+        "DNI": "73382928U",
+        "activo": true
+    },
+    {
+        "apellidos": "Gamo Ramirez",
+        "id": 7,
+        "telefono": 544157744,
+        "nombre": "Martina",
+        "DNI": "82739984I",
         "activo": true
     }
 ]
