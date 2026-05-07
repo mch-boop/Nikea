@@ -7,7 +7,6 @@ import integracion.marca.DAOMarca;
 import integracion.factura.DAOFactura;
 import integracion.factura.DAOLineaFactura;
 import integracion.empleado.DAOMontadorMontaje;
-import integracion.servicio.DAOMontaje;
 import integracion.servicio.DAOServicio;
 import negocio.operacionTOA.OperacionResumenTOA;
 
@@ -22,8 +21,6 @@ public abstract class FactoriaAbstractaIntegracion {
     }
 
     public abstract DAOCliente crearDAOCliente();
-
-    public abstract DAOMontaje crearDAOMontaje();
 
     public abstract DAOEmpleado crearDAOEmpleado();
 

@@ -14,8 +14,5 @@ public interface SAEmpleado {
     public TEmpleado read(int id);
     public Collection<TEmpleado> readAll();
     
-    // Métodos para la relación M:N (Montador-Montaje)
-    public int vincularMontadorAMontaje(TMontadorMontaje tmm);
-    public int desvincularMontadorDeMontaje(TMontadorMontaje tmm);
 	
 }

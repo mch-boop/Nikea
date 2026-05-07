@@ -82,6 +82,9 @@ public class Eventos {
     public static final int RES_VINCULAR_MONTADOR_OK = 2061;
     public static final int RES_VINCULAR_MONTADOR_KO = 2060;
     public static final int RES_VINCULAR_MONTADOR_KO_NO_EXISTE_EMPLEADO = 20601;
+    public static final int RES_VINCULAR_MONTADOR_KO_YA_EXISTE = 20602;
+    public static final int RES_VINCULAR_MONTADOR_KO_NO_ES_MONTADOR = 20603;
+    public static final int RES_VINCULAR_MONTADOR_KO_MONTAJE_NO_EXISTE = 20604;
 
     public static final int DESVINCULAR_MONTADOR_MONTAJE = 207;
     public static final int RES_DESVINCULAR_MONTADOR_OK = 2071;

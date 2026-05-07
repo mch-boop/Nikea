@@ -1,7 +1,6 @@
 package negocio.servicio;
 
 import java.util.Collection;
-import java.util.Optional;
 
 public interface SAServicio {
 
