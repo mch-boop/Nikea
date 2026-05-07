@@ -91,29 +91,59 @@ public class VistaVincularMontadorMontaje extends JDialog implements IGUI {
     public void actualizar(int evento, Object datos) {
         SwingUtilities.invokeLater(() -> {
             switch (evento) {
-                case Eventos.RES_VINCULAR_MONTADOR_OK:
-                    JOptionPane.showMessageDialog(this, "Vinculación realizada con éxito.");
-                    txtIdMontador.setText(""); 
-                    break;
-                case -1:
-                    JOptionPane.showMessageDialog(this, "Error: El Montador con ID " + datos + " no existe.", "Error", JOptionPane.ERROR_MESSAGE);
-                    break;
-                case -2:
-                    JOptionPane.showMessageDialog(this, "Error: la vinculación ya existe.");
-                    break;
 
-                case -4:
-                    JOptionPane.showMessageDialog(this, "Error: el empleado no es un montador.");
-                    break;
+            case Eventos.RES_VINCULAR_MONTADOR_OK:
+                JOptionPane.showMessageDialog(this, "Vinculación realizada con éxito.");
+                txtIdMontador.setText("");
+                txtIdMontaje.setText("");
+                break;
 
-                case -5:
-                    JOptionPane.showMessageDialog(this, "Error: el montaje no existe.");
-                    break;
+            case Eventos.RES_VINCULAR_MONTADOR_KO_NO_EXISTE_EMPLEADO:
+                JOptionPane.showMessageDialog(this,
+                        "Error: el montador con ID " + datos + " no existe o no está activo.",
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE);
+                txtIdMontador.setText("");
+                break;
 
-                default:
-                    JOptionPane.showMessageDialog(this, "Error desconocido.");
-                    break;
-                	
+            case Eventos.RES_VINCULAR_MONTADOR_KO_YA_EXISTE:
+                JOptionPane.showMessageDialog(this,
+                        "Error: la vinculación ya existe.",
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE);
+                txtIdMontador.setText("");
+                txtIdMontaje.setText("");
+                break;
+
+            case Eventos.RES_VINCULAR_MONTADOR_KO_NO_ES_MONTADOR:
+                JOptionPane.showMessageDialog(this,
+                        "Error: el empleado no es un montador.",
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE);
+                txtIdMontador.setText("");
+                break;
+
+            case Eventos.RES_VINCULAR_MONTADOR_KO_MONTAJE_NO_EXISTE:
+                JOptionPane.showMessageDialog(this,
+                        "Error: el montaje con ID " + datos + " no existe.",
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE);
+                txtIdMontaje.setText("");
+                break;
+
+            case Eventos.RES_VINCULAR_MONTADOR_KO:
+                JOptionPane.showMessageDialog(this,
+                        "Error al realizar la vinculación.",
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE);
+                break;
+
+            default:
+                JOptionPane.showMessageDialog(this,
+                        "Error desconocido.",
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE);
+                break;
             }
         });
     }

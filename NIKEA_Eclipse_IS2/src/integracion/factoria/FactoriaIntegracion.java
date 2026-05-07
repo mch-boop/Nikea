@@ -14,8 +14,6 @@ import integracion.empleado.DAOEmpleado;
 import integracion.empleado.DAOEmpleadoImp;
 import integracion.empleado.DAOMontadorMontaje;
 import integracion.empleado.DAOMontadorMontajeImp;
-import integracion.servicio.DAOMontaje;
-import integracion.servicio.DAOMontajeImp;
 import integracion.servicio.DAOServicio;
 import integracion.servicio.DAOServicioImp;
 import negocio.operacionTOA.OperacionResumenTOA;
@@ -32,11 +30,6 @@ public class FactoriaIntegracion extends FactoriaAbstractaIntegracion {
     public DAOMontadorMontaje crearDAOMontadorMontaje() {
         return new DAOMontadorMontajeImp();
     }
-
-	@Override
-	public DAOMontaje crearDAOMontaje() {
-		return new DAOMontajeImp();
-	}
 
 	@Override
 	public DAOCliente crearDAOCliente() {

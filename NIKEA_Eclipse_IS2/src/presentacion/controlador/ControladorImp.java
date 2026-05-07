@@ -626,20 +626,45 @@ public class ControladorImp extends Controlador {
 		// EVENTOS DE MONTADOR-MONTAJE
 
 		case Eventos.VINCULAR_MONTADOR_MONTAJE: {
-			TMontadorMontaje tmm = (TMontadorMontaje) datos;
-			SAMontadorMontaje saMN = FactoriaAbstractaNegocio.getInstance().crearSAMontadorMontaje();
-			int res = saMN.vincular(tmm);
+		    TMontadorMontaje tmm = (TMontadorMontaje) datos;
+		    SAMontadorMontaje saMN = FactoriaAbstractaNegocio.getInstance().crearSAMontadorMontaje();
 
-			IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(evento);
+		    int res = saMN.vincular(tmm);
 
-			if (res > 0) {
-				vista.actualizar(Eventos.RES_VINCULAR_MONTADOR_OK, res);
-			} else if (res == -1) {
-				vista.actualizar(Eventos.RES_VINCULAR_MONTADOR_KO_NO_EXISTE_EMPLEADO, null);
-			} else {
-				vista.actualizar(Eventos.RES_VINCULAR_MONTADOR_KO, null);
-			}
-			break;
+		    IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(evento);
+
+		    if (res > 0) {
+		        vista.actualizar(Eventos.RES_VINCULAR_MONTADOR_OK, res);
+
+		    } else {
+		        switch (res) {
+
+		        case -1:
+		            vista.actualizar(Eventos.RES_VINCULAR_MONTADOR_KO_NO_EXISTE_EMPLEADO, tmm.getIdMontador());
+		            break;
+
+		        case -2:
+		            vista.actualizar(Eventos.RES_VINCULAR_MONTADOR_KO_YA_EXISTE, tmm);
+		            break;
+
+		        case -4:
+		            vista.actualizar(Eventos.RES_VINCULAR_MONTADOR_KO_NO_ES_MONTADOR, tmm.getIdMontador());
+		            break;
+
+		        case -5:
+		            vista.actualizar(Eventos.RES_VINCULAR_MONTADOR_KO_MONTAJE_NO_EXISTE, tmm.getIdMontaje());
+		            break;
+
+		        case -3:
+		            vista.actualizar(Eventos.RES_VINCULAR_MONTADOR_KO, null);
+		            break;
+
+		        default:
+		            vista.actualizar(Eventos.RES_VINCULAR_MONTADOR_KO, null);
+		            break;
+		        }
+		    }
+		    break;
 		}
 
 		case Eventos.DESVINCULAR_MONTADOR_MONTAJE: {
