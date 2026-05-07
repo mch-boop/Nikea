@@ -1,8 +1,6 @@
 package presentacion.GUIFactura;
 
 import java.awt.*;
-import java.awt.Dialog.ModalityType;
-
 import javax.swing.*;
 
 import presentacion.IGUI;
