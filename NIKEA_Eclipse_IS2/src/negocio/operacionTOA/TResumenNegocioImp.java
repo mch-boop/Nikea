@@ -43,9 +43,4 @@ public class TResumenNegocioImp implements TResumenNegocio {
         return marcas != null ? marcas.size() : 0;
     }
 	
-	// Getters
-    public Collection<TCliente> getClientes() { return clientes; }
-    public Collection<TServicio> getServicios() { return servicios; }
-    public List<TFactura> getFacturas() { return facturas; }
-    public Collection<String> getMarcas() { return marcas; }
 }

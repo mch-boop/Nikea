@@ -94,8 +94,7 @@ public class VistaBajaDescuento extends JDialog implements IGUI {
                     String mensaje = "¿Seguro que quiere dar de baja este descuento?\n\n" +
                                      "ID: " + td.getId() + "\n" +
                                      "Código: " + td.getCodigo() + "\n" +
-                                     "Porcentaje: " + td.getPorcentaje() + "%\n" +
-                                     "Activo: " + (td.isActivo() ? "Sí" : "No");
+                                     "Porcentaje: " + td.getPorcentaje() + "%\n";
 
                     int confirm = JOptionPane.showConfirmDialog(
                             this, 

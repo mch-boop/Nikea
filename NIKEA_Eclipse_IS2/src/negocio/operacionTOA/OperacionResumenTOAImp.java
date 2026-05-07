@@ -6,10 +6,8 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import integracion.cliente.DAOCliente;
-import integracion.empleado.DAOEmpleado;
 import integracion.factoria.FactoriaAbstractaIntegracion;
 import integracion.factura.DAOFactura;
-import integracion.marca.DAOMarca;
 import integracion.servicio.DAOServicio;
 import negocio.cliente.TCliente;
 import negocio.factura.TFactura;

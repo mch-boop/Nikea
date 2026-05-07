@@ -25,7 +25,7 @@ import negocio.factura.TLineaFactura;
 import presentacion.IGUI;
 import presentacion.controlador.Eventos;
 
-@SuppressWarnings({ "serial", "this-escape" })
+@SuppressWarnings({ "serial" })
 public class VistaMostrarFacturas extends JDialog implements IGUI {
 
 	private JTable tabla;
