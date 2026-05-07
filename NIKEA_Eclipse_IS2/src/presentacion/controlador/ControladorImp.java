@@ -306,7 +306,7 @@ public class ControladorImp extends Controlador {
 			}
 			break;
 		}
-		
+
 		case Eventos.REACTIVAR_SERVICIO: {
 			TServicio tServicio = (TServicio) datos;
 			SAServicio saServicio = FactoriaAbstractaNegocio.getInstance().crearSAServicio();
@@ -327,8 +327,9 @@ public class ControladorImp extends Controlador {
 		case Eventos.BAJA_SERVICIO: {
 			Integer id = (Integer) datos;
 			SAServicio saServicio = FactoriaAbstractaNegocio.getInstance().crearSAServicio();
+
 			int estado = saServicio.readToDelete(id);
-			java.util.Optional<TServicio> servicio = saServicio.readActive(id);
+			TServicio servicio = saServicio.readActive(id);
 
 			IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(evento);
 
@@ -336,45 +337,45 @@ public class ControladorImp extends Controlador {
 				vista.actualizar(Eventos.RES_BAJA_SERVICIO_KO_NO_EXISTE, id);
 			} else if (estado == -4) {
 				vista.actualizar(Eventos.RES_BAJA_SERVICIO_KO, id);
-			} else if (servicio.isPresent()) {
-				vista.actualizar(Eventos.RES_BAJA_SERVICIO_OK, servicio.get());
+			} else if (servicio != null) {
+				vista.actualizar(Eventos.RES_BAJA_SERVICIO_OK, servicio);
 			} else {
 				vista.actualizar(Eventos.RES_BAJA_SERVICIO_KO, id);
 			}
 			break;
 		}
-		
+
 		case Eventos.BUSCAR_SERVICIO: {
 			Integer id = (Integer) datos;
 			SAServicio saServicio = FactoriaAbstractaNegocio.getInstance().crearSAServicio();
-			java.util.Optional<TServicio> servicio = saServicio.readActive(id);
+
+			TServicio servicio = saServicio.readActive(id);
 
 			IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.BUSCAR_SERVICIO);
 
-			if (servicio.isPresent()) {
-				vista.actualizar(Eventos.RES_BUSCAR_SERVICIO_OK, servicio.get());
+			if (servicio != null) {
+				vista.actualizar(Eventos.RES_BUSCAR_SERVICIO_OK, servicio);
 			} else {
 				vista.actualizar(Eventos.RES_BUSCAR_SERVICIO_KO, id);
 			}
 
-			((JFrame) vista).setVisible(true);
 			break;
 		}
 
 		case Eventos.BUSCAR_SERVICIO_PARA_MODIFICAR: {
 			Integer id = (Integer) datos;
 			SAServicio saServicio = FactoriaAbstractaNegocio.getInstance().crearSAServicio();
-			java.util.Optional<TServicio> servicio = saServicio.readActive(id);
+
+			TServicio servicio = saServicio.readActive(id);
 
 			IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.MODIFICAR_SERVICIO);
 
-			if (servicio.isPresent()) {
-				vista.actualizar(Eventos.RES_BUSCAR_SERVICIO_PARA_MODIFICAR_OK, servicio.get());
-				((JFrame) vista).setVisible(true);
-				((JFrame) vista).toFront();
+			if (servicio != null) {
+				vista.actualizar(Eventos.RES_BUSCAR_SERVICIO_PARA_MODIFICAR_OK, servicio);
 			} else {
 				vista.actualizar(Eventos.RES_BUSCAR_SERVICIO_PARA_MODIFICAR_KO, id);
 			}
+
 			break;
 		}
 
@@ -391,18 +392,20 @@ public class ControladorImp extends Controlador {
 			}
 			break;
 		}
+		
 		case Eventos.MOSTRAR_MEJOR_ARTICULO: {
-			SAServicio saCli = FactoriaAbstractaNegocio.getInstance().crearSAServicio();
-			java.util.Optional<TArticulo> servicio = saCli.getMejorArticulo();
+		    SAServicio saCli = FactoriaAbstractaNegocio.getInstance().crearSAServicio();
 
-			IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(evento);
+		    TArticulo servicio = saCli.getMejorArticulo();
 
-			if (servicio.isPresent()) {
-				vista.actualizar(Eventos.RES_MOSTRAR_MEJOR_ARTICULO_OK, servicio.get());
-			} else {
-				vista.actualizar(Eventos.RES_MOSTRAR_MEJOR_ARTICULO_KO, null);
-			}
-			break;
+		    IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(evento);
+
+		    if (servicio != null) {
+		        vista.actualizar(Eventos.RES_MOSTRAR_MEJOR_ARTICULO_OK, servicio);
+		    } else {
+		        vista.actualizar(Eventos.RES_MOSTRAR_MEJOR_ARTICULO_KO, null);
+		    }
+		    break;
 		}
 
 		case Eventos.MOSTRAR_SERVICIOS: {

@@ -344,6 +344,7 @@ public class VistaModificarServicio extends JDialog implements IGUI {
 					panelEdicion.setVisible(true);
 					pBotones.setVisible(false);
 					ajustarVentana();
+				    this.toFront();
 					break;
 
 				case Eventos.RES_BUSCAR_SERVICIO_PARA_MODIFICAR_KO:

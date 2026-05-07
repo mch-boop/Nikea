@@ -335,6 +335,7 @@ public class VistaAltaServicio extends JDialog implements IGUI {
                             "El servicio ya existe en el sistema.",
                             "Aviso",
                             JOptionPane.WARNING_MESSAGE);
+                    limpiarCampos();
                     break;
 
 
@@ -410,7 +411,7 @@ public class VistaAltaServicio extends JDialog implements IGUI {
                             + "Reactívelo primero y luego modifique el tipo.",
                             "Cambio de tipo",
                             JOptionPane.WARNING_MESSAGE);
-
+                    	
                     break;
 
 
@@ -421,7 +422,7 @@ public class VistaAltaServicio extends JDialog implements IGUI {
                             "Ya existe un servicio activo con el mismo nombre pero distinto tipo.",
                             "Cambio de tipo",
                             JOptionPane.WARNING_MESSAGE);
-
+                    limpiarCampos();
                     break;
                 case Eventos.RES_ALTA_SERVICIO_KO:
                     JOptionPane.showMessageDialog(this, "No se ha podido dar de alta el servicio.", "Error", JOptionPane.ERROR_MESSAGE);

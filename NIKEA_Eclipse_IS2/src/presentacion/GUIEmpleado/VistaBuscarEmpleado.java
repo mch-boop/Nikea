@@ -157,6 +157,7 @@ public class VistaBuscarEmpleado extends JDialog implements IGUI {
                     areaDetalles.setText(sb.toString());
                     this.pack();
                     areaDetalles.setCaretPosition(0);
+                    this.setVisible(true);
                     this.toFront();
                     break;
 

@@ -172,12 +172,13 @@ public class SAServicioImp implements SAServicio {
 	}
 
 	@Override
-	public Optional<TServicio> readActive(int id) {
-		TServicio servicio = read(id);
-		if (servicio != null && servicio.isActivo()) {
-			return Optional.of(servicio);
-		}
-		return Optional.empty();
+	public TServicio readActive(int id) {
+	    DAOServicio dao = FactoriaIntegracion.getInstance().crearDAOServicio();
+	    TServicio ts = dao.read(id);
+	    if (ts != null && ts.isActivo()) {
+	        return ts;
+	    }
+	    return null;
 	}
 
 	@Override
@@ -223,68 +224,82 @@ public class SAServicioImp implements SAServicio {
 
 	// Para obtener el mejor artículo
 
-	public Optional<TArticulo> getMejorArticulo() {
-		DAOFactura daoFactura = FactoriaIntegracion.getInstance().crearDAOFactura();
-		DAOLineaFactura daoLinea = FactoriaIntegracion.getInstance().crearDAOLineaFactura();
-		DAOServicio daoServicio = FactoriaIntegracion.getInstance().crearDAOServicio();
+	@Override
+	public TArticulo getMejorArticulo() {
 
-		Map<Integer, Integer> ventasPorArticulo = new HashMap<>();
-		Map<Integer, TArticulo> articulosActivos = new HashMap<>();
+	    DAOFactura daoFactura = FactoriaIntegracion.getInstance().crearDAOFactura();
+	    DAOLineaFactura daoLinea = FactoriaIntegracion.getInstance().crearDAOLineaFactura();
+	    DAOServicio daoServicio = FactoriaIntegracion.getInstance().crearDAOServicio();
 
-		for (TServicio servicio : daoServicio.readAll()) {
-			if (servicio instanceof TArticulo && servicio.isActivo()) {
-				articulosActivos.put(servicio.getId(), (TArticulo) servicio);
-			}
-		}
+	    Map<Integer, Integer> ventasPorArticulo = new HashMap<>();
+	    Map<Integer, TArticulo> articulosActivos = new HashMap<>();
 
-		for (TFactura factura : daoFactura.readAll()) {
-			Collection<TLineaFactura> lineas = factura.getLineas();
+	    // Cargar artículos activos
+	    for (TServicio servicio : daoServicio.readAll()) {
+	        if (servicio.isActivo() && servicio.getTipo() == 1) {
+	            TArticulo art = (TArticulo) servicio;
+	            articulosActivos.put(art.getId(), art);
+	        }
+	    }
 
-			if (lineas == null || lineas.isEmpty()) {
-				lineas = daoLinea.read(factura.getId());
-			}
+	    // Calcular ventas
+	    for (TFactura factura : daoFactura.readAll()) {
 
-			for (TLineaFactura linea : lineas) {
-				TServicio servicio = daoServicio.read(linea.getIdProducto());
-				if (servicio instanceof TArticulo && servicio.isActivo()) {
-					int idArticulo = servicio.getId();
-					ventasPorArticulo.put(idArticulo,
-							ventasPorArticulo.getOrDefault(idArticulo, 0) + linea.getCantidad());
-				}
-			}
-		}
+	        Collection<TLineaFactura> lineas = factura.getLineas();
 
-		for (Map.Entry<Integer, TArticulo> entry : articulosActivos.entrySet()) {
-			Integer idArticulo = entry.getKey();
-			TArticulo articulo = entry.getValue();
-			articulo.setVentas(ventasPorArticulo.getOrDefault(idArticulo, 0));
-			daoServicio.update(articulo);
-		}
+	        if (lineas == null || lineas.isEmpty()) {
+	            lineas = daoLinea.read(factura.getId());
+	        }
 
-		Optional<Integer> idMejorArticulo = getMaxEntero(ventasPorArticulo);
-		if (idMejorArticulo.isEmpty()) {
-			return Optional.empty();
-		}
+	        for (TLineaFactura linea : lineas) {
 
-		TServicio mejor = daoServicio.read(idMejorArticulo.get());
-		if (mejor instanceof TArticulo) {
-			return Optional.of((TArticulo) mejor);
-		}
+	            TServicio servicio = daoServicio.read(linea.getIdProducto());
 
-		return Optional.empty();
-	}
+	            if (servicio != null
+	                    && servicio.isActivo()
+	                    && servicio.getTipo() == 1) {
 
-	private Optional<Integer> getMaxEntero(Map<Integer, Integer> mapa) {
-		Integer best = null;
-		int max = -1;
+	                int idArticulo = servicio.getId();
 
-		for (Map.Entry<Integer, Integer> entry : mapa.entrySet()) {
-			if (entry.getValue() > max) {
-				max = entry.getValue();
-				best = entry.getKey();
-			}
-		}
+	                ventasPorArticulo.put(
+	                        idArticulo,
+	                        ventasPorArticulo.getOrDefault(idArticulo, 0) + linea.getCantidad()
+	                );
+	            }
+	        }
+	    }
 
-		return Optional.ofNullable(best);
+	    // Actualizar ventas en BD
+	    for (Map.Entry<Integer, TArticulo> entry : articulosActivos.entrySet()) {
+	        Integer id = entry.getKey();
+	        TArticulo art = entry.getValue();
+
+	        art.setVentas(ventasPorArticulo.getOrDefault(id, 0));
+	        daoServicio.update(art);
+	    }
+
+	    // Buscar máximo
+	    Integer idMejor = null;
+	    int max = -1;
+
+	    for (Map.Entry<Integer, Integer> entry : ventasPorArticulo.entrySet()) {
+	        if (entry.getValue() > max) {
+	            max = entry.getValue();
+	            idMejor = entry.getKey();
+	        }
+	    }
+
+	    // Resultado final
+	    if (idMejor == null) {
+	        return null;
+	    }
+
+	    TServicio mejor = daoServicio.read(idMejor);
+
+	    if (mejor != null && mejor.getTipo() == 1 && mejor.isActivo()) {
+	        return (TArticulo) mejor;
+	    }
+
+	    return null;
 	}
 }
