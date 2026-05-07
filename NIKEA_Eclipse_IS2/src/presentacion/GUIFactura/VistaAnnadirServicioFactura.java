@@ -1,6 +1,8 @@
 package presentacion.GUIFactura;
 
 import java.awt.*;
+import java.awt.Dialog.ModalityType;
+
 import javax.swing.*;
 
 import presentacion.IGUI;
@@ -16,6 +18,7 @@ public class VistaAnnadirServicioFactura extends JDialog implements IGUI {
     private JButton btnAceptar, btnCancelar;
 
     public VistaAnnadirServicioFactura() {
+    	super(null, "Añadir Servicio", ModalityType.APPLICATION_MODAL);
         setTitle("Añadir Servicio");
         initGUI();
 
