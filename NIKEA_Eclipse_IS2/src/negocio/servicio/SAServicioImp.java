@@ -9,8 +9,10 @@ import negocio.factura.TLineaFactura;
 import negocio.marca.TMarca;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 public class SAServicioImp implements SAServicio {
 
@@ -138,6 +140,27 @@ public class SAServicioImp implements SAServicio {
     }
 
     @Override
+    public Optional<TServicio> readActive(int id) {
+        TServicio servicio = read(id);
+        if (servicio != null && servicio.isActivo()) {
+            return Optional.of(servicio);
+        }
+        return Optional.empty();
+    }
+
+    @Override
+    public int readToDelete(int id) {
+        TServicio servicio = read(id);
+        if (servicio == null) {
+            return -3;
+        }
+        if (!servicio.isActivo()) {
+            return -4;
+        }
+        return 1;
+    }
+
+    @Override
     public Collection<TServicio> readAll() {
         DAOServicio dao = FactoriaIntegracion.getInstance().crearDAOServicio();
         return dao.readAll();
@@ -160,7 +183,7 @@ public class SAServicioImp implements SAServicio {
     	if (idMarca != 0) {
     		TMarca marca = FactoriaIntegracion.getInstance().crearDAOMarca().read(idMarca);
     		if (marca == null || !marca.isActivo()) {
-            	return null; // La consulta no tiene sentido
+                	return Collections.emptyList();
             }
     	}
     	
@@ -175,7 +198,7 @@ public class SAServicioImp implements SAServicio {
     
     // Para obtener el mejor artículo
     
-    public TServicio getMejorArticulo() {
+    public Optional<TArticulo> getMejorArticulo() {
         DAOFactura daoFactura = FactoriaIntegracion.getInstance().crearDAOFactura();
         DAOLineaFactura daoLinea = FactoriaIntegracion.getInstance().crearDAOLineaFactura();
         DAOServicio daoServicio = FactoriaIntegracion.getInstance().crearDAOServicio();
@@ -213,11 +236,21 @@ public class SAServicioImp implements SAServicio {
             daoServicio.update(articulo);
         }
 
-        Integer idMejorArticulo = getMaxEntero(ventasPorArticulo);
-        return idMejorArticulo != null ? daoServicio.read(idMejorArticulo) : null;
+
+        Optional<Integer> idMejorArticulo = getMaxEntero(ventasPorArticulo);
+        if (idMejorArticulo.isEmpty()) {
+            return Optional.empty();
+        }
+
+        TServicio mejor = daoServicio.read(idMejorArticulo.get());
+        if (mejor instanceof TArticulo) {
+            return Optional.of((TArticulo) mejor);
+        }
+
+        return Optional.empty();
 	}
 
-    private Integer getMaxEntero(Map<Integer, Integer> mapa) {
+    private Optional<Integer> getMaxEntero(Map<Integer, Integer> mapa) {
         Integer best = null;
         int max = -1;
 
@@ -228,6 +261,6 @@ public class SAServicioImp implements SAServicio {
             }
         }
 
-        return best;
+        return Optional.ofNullable(best);
     }
 }

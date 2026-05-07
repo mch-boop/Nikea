@@ -18,6 +18,9 @@ import negocio.factura.TFactura;
 import negocio.factura.TLineaFactura;
 import negocio.marca.SAMarca;
 import negocio.marca.TMarca;
+import negocio.operacionTOA.OperacionResumenTOA;
+import negocio.operacionTOA.TResumenNegocio;
+import negocio.operacionTOA.TResumenNegocioImp;
 import negocio.servicio.SAServicio;
 import negocio.servicio.TArticulo;
 import negocio.servicio.TServicio;
@@ -278,7 +281,7 @@ public class ControladorImp extends Controlador {
 			if (res > 0) {
 				vista.actualizar(Eventos.RES_ALTA_SERVICIO_OK, res);
 			} else if (res == -1 || res == -100 || res == -2 || res == -3 || res == -300) {
-				vista.actualizar(Eventos.RES_ALTA_SERVICIO_YA_EXISTE, saServicio.getUltimoDuplicado());
+				vista.actualizar(Eventos.RES_ALTA_SERVICIO_YA_EXISTE, tServicio);
 			} else {
 				vista.actualizar(Eventos.RES_ALTA_SERVICIO_KO, tServicio);
 			}
@@ -287,28 +290,31 @@ public class ControladorImp extends Controlador {
 		case Eventos.BAJA_SERVICIO: {
 			Integer id = (Integer) datos;
 			SAServicio saServicio = FactoriaAbstractaNegocio.getInstance().crearSAServicio();
-			TServicio servicio = saServicio.read(id);
+			int estado = saServicio.readToDelete(id);
+			java.util.Optional<TServicio> servicio = saServicio.readActive(id);
 
 			IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(evento);
 
-			if (servicio == null) {
+			if (estado == -3) {
 				vista.actualizar(Eventos.RES_BAJA_SERVICIO_KO_NO_EXISTE, id);
-			} else if (!servicio.isActivo()) {
+			} else if (estado == -4) {
 				vista.actualizar(Eventos.RES_BAJA_SERVICIO_KO, id);
+			} else if (servicio.isPresent()) {
+				vista.actualizar(Eventos.RES_BAJA_SERVICIO_OK, servicio.get());
 			} else {
-				vista.actualizar(Eventos.RES_BAJA_SERVICIO_OK, servicio);
+				vista.actualizar(Eventos.RES_BAJA_SERVICIO_KO, id);
 			}
 			break;
 		}
 		case Eventos.BUSCAR_SERVICIO: {
 			Integer id = (Integer) datos;
 			SAServicio saServicio = FactoriaAbstractaNegocio.getInstance().crearSAServicio();
-			TServicio servicio = saServicio.read(id);
+			java.util.Optional<TServicio> servicio = saServicio.readActive(id);
 
 			IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.BUSCAR_SERVICIO);
 
-			if (servicio != null && servicio.isActivo()) {
-				vista.actualizar(Eventos.RES_BUSCAR_SERVICIO_OK, servicio);
+			if (servicio.isPresent()) {
+				vista.actualizar(Eventos.RES_BUSCAR_SERVICIO_OK, servicio.get());
 			} else {
 				vista.actualizar(Eventos.RES_BUSCAR_SERVICIO_KO, id);
 			}
@@ -320,12 +326,12 @@ public class ControladorImp extends Controlador {
 		case Eventos.BUSCAR_SERVICIO_PARA_MODIFICAR: {
 			Integer id = (Integer) datos;
 			SAServicio saServicio = FactoriaAbstractaNegocio.getInstance().crearSAServicio();
-			TServicio servicio = saServicio.read(id);
+			java.util.Optional<TServicio> servicio = saServicio.readActive(id);
 
 			IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.MODIFICAR_SERVICIO);
 
-			if (servicio != null && servicio.isActivo()) {
-				vista.actualizar(Eventos.RES_BUSCAR_SERVICIO_PARA_MODIFICAR_OK, servicio);
+			if (servicio.isPresent()) {
+				vista.actualizar(Eventos.RES_BUSCAR_SERVICIO_PARA_MODIFICAR_OK, servicio.get());
 				((JFrame) vista).setVisible(true);
 				((JFrame) vista).toFront();
 			} else {
@@ -349,12 +355,12 @@ public class ControladorImp extends Controlador {
 		}
 		case Eventos.MOSTRAR_MEJOR_ARTICULO: {
 			SAServicio saCli = FactoriaAbstractaNegocio.getInstance().crearSAServicio();
-			TServicio servicio = saCli.getMejorArticulo();
+			java.util.Optional<TArticulo> servicio = saCli.getMejorArticulo();
 
 			IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(evento);
 
-			if (servicio instanceof TArticulo) {
-				vista.actualizar(Eventos.RES_MOSTRAR_MEJOR_ARTICULO_OK, (TArticulo) servicio);
+			if (servicio.isPresent()) {
+				vista.actualizar(Eventos.RES_MOSTRAR_MEJOR_ARTICULO_OK, servicio.get());
 			} else {
 				vista.actualizar(Eventos.RES_MOSTRAR_MEJOR_ARTICULO_KO, null);
 			}
@@ -398,9 +404,7 @@ public class ControladorImp extends Controlador {
 
 			IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.MOSTRAR_ARTICULOS_POR_MARCA);
 
-			if (res == null) {
-				vista.actualizar(Eventos.RES_MOSTRAR_ARTICULOS_POR_MARCA_KO_NO_EXISTE_MARCA, null);
-			} else if (res.isEmpty()) {
+			if (res.isEmpty()) {
 				vista.actualizar(Eventos.RES_MOSTRAR_ARTICULOS_POR_MARCA_KO_NO_HAY_ARTICULOS, null);
 			} else {
 				vista.actualizar(Eventos.RES_MOSTRAR_ARTICULOS_POR_MARCA_OK, res);
@@ -943,7 +947,27 @@ public class ControladorImp extends Controlador {
 			}
 			break;
 		}
+		
+		case Eventos.MOSTRAR_RESUMEN_MENSUAL: {
 
+		    int[] datosIn = (int[]) datos;
+		    int mes = datosIn[0];
+		    int anio = datosIn[1];
+
+		    OperacionResumenTOA op = FactoriaAbstractaNegocio.getInstance().crearOperacionResumenTOA();
+
+		    TResumenNegocio res = op.resumenShop(mes, anio);
+
+		    IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(evento);
+
+		    if (res != null) {
+		        vista.actualizar(Eventos.RES_RESUMEN_MENSUAL_OK, res);
+		    } else {
+		        vista.actualizar(Eventos.RES_RESUMEN_MENSUAL_KO, null);
+		    }
+
+		    break;
+		}
 		// DEFAULT
 		default:
 			System.err.println("Evento no reconocido: " + evento);

@@ -16,7 +16,7 @@ import org.json.JSONObject;
 
 public class DAOMontadorMontajeImp implements DAOMontadorMontaje {
 	
-	private final String PATH = "montajes_empleados.json";
+	private final String PATH = "resources/BD/montajes_empleados.json";
 
 	@Override
 	public int vincular(TMontadorMontaje tmm) {

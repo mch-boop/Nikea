@@ -5,6 +5,10 @@ import java.awt.geom.RoundRectangle2D;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
+import presentacion.controlador.ControladorImp;
+import presentacion.controlador.Eventos;
+import presentacion.operacionResumenTOA.VistaOperacionResumen;
+
 @SuppressWarnings("serial")
 public class GUIMain extends JFrame {
 
@@ -45,7 +49,7 @@ public class GUIMain extends JFrame {
 		JButton btnServicios  = crearBotonNikea("SERVICIO");
 		JButton btnMarcas     = crearBotonNikea("MARCA");
 		JButton btnDescuentos = crearBotonNikea("DESCUENTO");
-
+		JButton btnResumen    = crearBotonNikea("RESUMEN MES");
 		// Logo central 
 		ImagePanel logoPanel = new ImagePanel("resources/Icons/logo.png");
 
@@ -58,7 +62,7 @@ public class GUIMain extends JFrame {
 		btnServicios.addActionListener(e -> abrirVentanaBloqueante(new GUIServicioDialog(this)));
 		btnMarcas.addActionListener(e -> abrirVentanaBloqueante(new GUIMarcaDialog(this)));
 		btnDescuentos.addActionListener(e -> abrirVentanaBloqueante(new GUIDescuentoDialog(this)));
-
+		btnResumen.addActionListener(e -> abrirVentanaBloqueante(new GUIResumenDialog(this)));
 		// ORGANIZACIÓN DEL LAYOUT
 
 		// Fila Superior
@@ -81,13 +85,14 @@ public class GUIMain extends JFrame {
 		add(logoPanel, gbc);
 
 		// Fila Inferior
-		JPanel rowBottom = new JPanel(new GridLayout(1, 3, 30, 0));
+		JPanel rowBottom = new JPanel(new GridLayout(1, 4, 20, 0));
 		rowBottom.setOpaque(false);
-		rowBottom.setBorder(new EmptyBorder(20, 50, 20, 50));
+		rowBottom.setBorder(new EmptyBorder(20, 40, 20, 40));
 		rowBottom.add(btnServicios);
 		rowBottom.add(btnMarcas);
 		rowBottom.add(btnDescuentos);
-
+		rowBottom.add(btnResumen);
+		
 		gbc.gridy = 2;
 		gbc.weighty = 0.2;
 		gbc.insets = new Insets(0, 0, 0, 0);

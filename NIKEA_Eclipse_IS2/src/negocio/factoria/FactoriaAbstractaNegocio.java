@@ -7,6 +7,7 @@ import negocio.empleado.SAMontadorMontaje;
 import negocio.factura.SAFactura;
 import negocio.marca.SAMarca;
 import negocio.servicio.SAServicio;
+import negocio.operacionTOA.OperacionResumenTOA;
 
 public abstract class FactoriaAbstractaNegocio {
 	
@@ -27,4 +28,5 @@ public abstract class FactoriaAbstractaNegocio {
 	public abstract SAMarca crearSAMarca();
 	public abstract SAServicio crearSAServicio();
 	public abstract SAMontadorMontaje crearSAMontadorMontaje();
+	public abstract OperacionResumenTOA crearOperacionResumenTOA();
 }
