@@ -2,8 +2,6 @@ package presentacion.controlador;
 
 import java.util.Collection;
 
-import javax.swing.JFrame;
-
 import negocio.cliente.SACliente;
 import negocio.cliente.TCliente;
 import negocio.descuento.SADescuento;
@@ -20,7 +18,6 @@ import negocio.marca.SAMarca;
 import negocio.marca.TMarca;
 import negocio.operacionTOA.OperacionResumenTOA;
 import negocio.operacionTOA.TResumenNegocio;
-import negocio.operacionTOA.TResumenNegocioImp;
 import negocio.servicio.SAServicio;
 import negocio.servicio.TArticulo;
 import negocio.servicio.TServicio;
@@ -224,7 +221,7 @@ public class ControladorImp extends Controlador {
 			}
 			break;
 		}
-		
+
 		// EVENTOS DE SERVICIO
 
 		case Eventos.ANNADIR_SERVICIO: {
@@ -271,8 +268,6 @@ public class ControladorImp extends Controlador {
 			}
 			break;
 		}
-
-		
 
 		case Eventos.ALTA_SERVICIO: {
 			TServicio tServicio = (TServicio) datos;
@@ -394,20 +389,20 @@ public class ControladorImp extends Controlador {
 			}
 			break;
 		}
-		
+
 		case Eventos.MOSTRAR_MEJOR_ARTICULO: {
-		    SAServicio saCli = FactoriaAbstractaNegocio.getInstance().crearSAServicio();
+			SAServicio saCli = FactoriaAbstractaNegocio.getInstance().crearSAServicio();
 
-		    TArticulo servicio = saCli.getMejorArticulo();
+			TArticulo servicio = saCli.getMejorArticulo();
 
-		    IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(evento);
+			IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(evento);
 
-		    if (servicio != null) {
-		        vista.actualizar(Eventos.RES_MOSTRAR_MEJOR_ARTICULO_OK, servicio);
-		    } else {
-		        vista.actualizar(Eventos.RES_MOSTRAR_MEJOR_ARTICULO_KO, null);
-		    }
-		    break;
+			if (servicio != null) {
+				vista.actualizar(Eventos.RES_MOSTRAR_MEJOR_ARTICULO_OK, servicio);
+			} else {
+				vista.actualizar(Eventos.RES_MOSTRAR_MEJOR_ARTICULO_KO, null);
+			}
+			break;
 		}
 
 		case Eventos.MOSTRAR_SERVICIOS: {
@@ -628,20 +623,45 @@ public class ControladorImp extends Controlador {
 		// EVENTOS DE MONTADOR-MONTAJE
 
 		case Eventos.VINCULAR_MONTADOR_MONTAJE: {
-			TMontadorMontaje tmm = (TMontadorMontaje) datos;
-			SAMontadorMontaje saMN = FactoriaAbstractaNegocio.getInstance().crearSAMontadorMontaje();
-			int res = saMN.vincular(tmm);
+		    TMontadorMontaje tmm = (TMontadorMontaje) datos;
+		    SAMontadorMontaje saMN = FactoriaAbstractaNegocio.getInstance().crearSAMontadorMontaje();
 
-			IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(evento);
+		    int res = saMN.vincular(tmm);
 
-			if (res > 0) {
-				vista.actualizar(Eventos.RES_VINCULAR_MONTADOR_OK, res);
-			} else if (res == -1) {
-				vista.actualizar(Eventos.RES_VINCULAR_MONTADOR_KO_NO_EXISTE_EMPLEADO, null);
-			} else {
-				vista.actualizar(Eventos.RES_VINCULAR_MONTADOR_KO, null);
-			}
-			break;
+		    IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(evento);
+
+		    if (res > 0) {
+		        vista.actualizar(Eventos.RES_VINCULAR_MONTADOR_OK, res);
+
+		    } else {
+		        switch (res) {
+
+		        case -1:
+		            vista.actualizar(Eventos.RES_VINCULAR_MONTADOR_KO_NO_EXISTE_EMPLEADO, tmm.getIdMontador());
+		            break;
+
+		        case -2:
+		            vista.actualizar(Eventos.RES_VINCULAR_MONTADOR_KO_YA_EXISTE, tmm);
+		            break;
+
+		        case -4:
+		            vista.actualizar(Eventos.RES_VINCULAR_MONTADOR_KO_NO_ES_MONTADOR, tmm.getIdMontador());
+		            break;
+
+		        case -5:
+		            vista.actualizar(Eventos.RES_VINCULAR_MONTADOR_KO_MONTAJE_NO_EXISTE, tmm.getIdMontaje());
+		            break;
+
+		        case -3:
+		            vista.actualizar(Eventos.RES_VINCULAR_MONTADOR_KO, null);
+		            break;
+
+		        default:
+		            vista.actualizar(Eventos.RES_VINCULAR_MONTADOR_KO, null);
+		            break;
+		        }
+		    }
+		    break;
 		}
 
 		case Eventos.DESVINCULAR_MONTADOR_MONTAJE: {
@@ -825,20 +845,27 @@ public class ControladorImp extends Controlador {
 
 			if (res > 0) {
 				vista.actualizar(Eventos.RES_ALTA_DESCUENTO_OK, res);
+
 			} else {
 				switch (res) {
+
 				case -1:
-					vista.actualizar(Eventos.RES_ALTA_DESCUENTO_YA_EXISTE, saDescuento.getUltimoDuplicado());
+					vista.actualizar(Eventos.RES_ALTA_DESCUENTO_YA_EXISTE,
+							saDescuento.readByCodigo(tDescuento.getCodigo()));
 					break;
+
 				case -2:
 					vista.actualizar(Eventos.RES_ALTA_DESCUENTO_CONFIRMAR_REACTIVACION, tDescuento);
 					break;
+
 				case -3:
 					vista.actualizar(Eventos.RES_ALTA_DESCUENTO_KO_CODIGO, tDescuento);
 					break;
+
 				case -4:
 					vista.actualizar(Eventos.RES_ALTA_DESCUENTO_KO_PORCENTAJE, tDescuento);
 					break;
+
 				default:
 					vista.actualizar(Eventos.RES_ALTA_DESCUENTO_KO, res);
 					break;
@@ -854,10 +881,11 @@ public class ControladorImp extends Controlador {
 			int res = saDescuento.reactivate(tDescuento);
 
 			IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.ALTA_DESCUENTO);
-			if (res >= 0) {
+
+			if (res > 0) {
 				vista.actualizar(Eventos.RES_ALTA_DESCUENTO_OK, res);
 			} else {
-				vista.actualizar(Eventos.RES_ALTA_DESCUENTO_KO, res);
+				vista.actualizar(Eventos.RES_ALTA_DESCUENTO_KO, null);
 			}
 			break;
 		}

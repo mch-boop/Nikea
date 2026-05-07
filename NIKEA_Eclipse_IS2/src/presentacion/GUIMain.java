@@ -5,10 +5,6 @@ import java.awt.geom.RoundRectangle2D;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
-import presentacion.controlador.ControladorImp;
-import presentacion.controlador.Eventos;
-import presentacion.operacionResumenTOA.VistaOperacionResumen;
-
 @SuppressWarnings("serial")
 public class GUIMain extends JFrame {
 

@@ -8,14 +8,15 @@ import presentacion.controlador.Controlador;
 import presentacion.controlador.Eventos;
 import negocio.factura.TLineaFactura;
 
-@SuppressWarnings({ "serial", "this-escape" })
-public class VistaAnnadirServicioFactura extends JFrame implements IGUI {
+@SuppressWarnings({ "serial" })
+public class VistaAnnadirServicioFactura extends JDialog implements IGUI {
 
     private JTextField txtIdServicio;
     private JTextField txtCantidad;
     private JButton btnAceptar, btnCancelar;
 
     public VistaAnnadirServicioFactura() {
+    	super(null, "Añadir Servicio", ModalityType.APPLICATION_MODAL);
         setTitle("Añadir Servicio");
         initGUI();
 

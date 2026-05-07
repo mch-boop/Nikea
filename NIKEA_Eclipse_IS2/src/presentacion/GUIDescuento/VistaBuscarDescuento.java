@@ -110,7 +110,7 @@ public class VistaBuscarDescuento extends JDialog implements IGUI {
                     sb.append(" ------------------------------------------ \n");
                     sb.append("ID:          ").append(td.getId()).append("\n");
                     sb.append("Código:      ").append(td.getCodigo()).append("\n");
-                    sb.append("Nombre:      ").append(td.getNombre()).append("\n");
+                    sb.append("Descripción:      ").append(td.getNombre()).append("\n");
                     sb.append("Porcentaje:  ").append(td.getPorcentaje()).append(" %\n");
                     
                     if (td.isTipo()) {

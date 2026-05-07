@@ -2,8 +2,6 @@ package integracion.empleado;
 
 import negocio.empleado.TMontadorMontaje;
 import java.util.Collection;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.nio.charset.StandardCharsets;

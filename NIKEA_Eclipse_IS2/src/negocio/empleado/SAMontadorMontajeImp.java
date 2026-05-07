@@ -3,8 +3,8 @@ package negocio.empleado;
 import integracion.empleado.DAOEmpleado;
 import integracion.empleado.DAOMontadorMontaje;
 import integracion.factoria.FactoriaIntegracion;
-import integracion.servicio.DAOMontaje;
-import negocio.servicio.TMontaje;
+import integracion.servicio.DAOServicio;
+import negocio.servicio.TServicio;
 
 public class SAMontadorMontajeImp implements SAMontadorMontaje {
 
@@ -15,26 +15,22 @@ public class SAMontadorMontajeImp implements SAMontadorMontaje {
 
 	    DAOEmpleado daoEmp = FactoriaIntegracion.getInstance().crearDAOEmpleado();
 	    DAOMontadorMontaje daoMN = FactoriaIntegracion.getInstance().crearDAOMontadorMontaje();
-	    DAOMontaje daoMontaje = FactoriaIntegracion.getInstance().crearDAOMontaje();
+	    DAOServicio daoServicio = FactoriaIntegracion.getInstance().crearDAOServicio();
 	    // 1. validar empleado
 	    TEmpleado emp = daoEmp.read(tmm.getIdMontador());
-	    if (emp == null || !emp.isActivo()) {
+	    if (emp == null || !emp.isActivo())
 	        return -1;
-	    }
 
-	    if (emp.getTipo() != 2) { 
+	    if (emp.getTipo() != 2) 
             return -4;
-        }
 	    
-	    TMontaje montaje = daoMontaje.read(tmm.getIdMontaje());
-        if (montaje == null) {
-            return -5;
-        }
+	    TServicio servicio = daoServicio.read(tmm.getIdMontaje());
+	    if (servicio == null || servicio.getTipo() != 2) return -5;
+     
         
 	    // 2. evitar duplicado
-	    if (daoMN.existeVinculacion(tmm)) {
+	    if (daoMN.existeVinculacion(tmm))
 	        return -2;
-	    }
 
 	    // 3. crear relación
 	    return daoMN.vincular(tmm);
