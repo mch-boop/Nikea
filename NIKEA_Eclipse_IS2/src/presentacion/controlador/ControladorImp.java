@@ -224,7 +224,7 @@ public class ControladorImp extends Controlador {
 			}
 			break;
 		}
-		
+
 		// EVENTOS DE SERVICIO
 
 		case Eventos.ANNADIR_SERVICIO: {
@@ -271,8 +271,6 @@ public class ControladorImp extends Controlador {
 			}
 			break;
 		}
-
-		
 
 		case Eventos.ALTA_SERVICIO: {
 			TServicio tServicio = (TServicio) datos;
@@ -394,20 +392,20 @@ public class ControladorImp extends Controlador {
 			}
 			break;
 		}
-		
+
 		case Eventos.MOSTRAR_MEJOR_ARTICULO: {
-		    SAServicio saCli = FactoriaAbstractaNegocio.getInstance().crearSAServicio();
+			SAServicio saCli = FactoriaAbstractaNegocio.getInstance().crearSAServicio();
 
-		    TArticulo servicio = saCli.getMejorArticulo();
+			TArticulo servicio = saCli.getMejorArticulo();
 
-		    IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(evento);
+			IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(evento);
 
-		    if (servicio != null) {
-		        vista.actualizar(Eventos.RES_MOSTRAR_MEJOR_ARTICULO_OK, servicio);
-		    } else {
-		        vista.actualizar(Eventos.RES_MOSTRAR_MEJOR_ARTICULO_KO, null);
-		    }
-		    break;
+			if (servicio != null) {
+				vista.actualizar(Eventos.RES_MOSTRAR_MEJOR_ARTICULO_OK, servicio);
+			} else {
+				vista.actualizar(Eventos.RES_MOSTRAR_MEJOR_ARTICULO_KO, null);
+			}
+			break;
 		}
 
 		case Eventos.MOSTRAR_SERVICIOS: {
@@ -816,58 +814,58 @@ public class ControladorImp extends Controlador {
 		// EVENTOS DE DESCUENTO
 
 		case Eventos.ALTA_DESCUENTO: {
-		    TDescuento tDescuento = (TDescuento) datos;
-		    SADescuento saDescuento = FactoriaAbstractaNegocio.getInstance().crearSADescuento();
+			TDescuento tDescuento = (TDescuento) datos;
+			SADescuento saDescuento = FactoriaAbstractaNegocio.getInstance().crearSADescuento();
 
-		    int res = saDescuento.create(tDescuento);
+			int res = saDescuento.create(tDescuento);
 
-		    IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(evento);
+			IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(evento);
 
-		    if (res > 0) {
-		        vista.actualizar(Eventos.RES_ALTA_DESCUENTO_OK, res);
+			if (res > 0) {
+				vista.actualizar(Eventos.RES_ALTA_DESCUENTO_OK, res);
 
-		    } else {
-		        switch (res) {
+			} else {
+				switch (res) {
 
-		        case -1:
-		            vista.actualizar(Eventos.RES_ALTA_DESCUENTO_YA_EXISTE,
-		                    saDescuento.readByCodigo(tDescuento.getCodigo()));
-		            break;
+				case -1:
+					vista.actualizar(Eventos.RES_ALTA_DESCUENTO_YA_EXISTE,
+							saDescuento.readByCodigo(tDescuento.getCodigo()));
+					break;
 
-		        case -2:
-		            vista.actualizar(Eventos.RES_ALTA_DESCUENTO_CONFIRMAR_REACTIVACION, tDescuento);
-		            break;
+				case -2:
+					vista.actualizar(Eventos.RES_ALTA_DESCUENTO_CONFIRMAR_REACTIVACION, tDescuento);
+					break;
 
-		        case -3:
-		            vista.actualizar(Eventos.RES_ALTA_DESCUENTO_KO_CODIGO, tDescuento);
-		            break;
+				case -3:
+					vista.actualizar(Eventos.RES_ALTA_DESCUENTO_KO_CODIGO, tDescuento);
+					break;
 
-		        case -4:
-		            vista.actualizar(Eventos.RES_ALTA_DESCUENTO_KO_PORCENTAJE, tDescuento);
-		            break;
+				case -4:
+					vista.actualizar(Eventos.RES_ALTA_DESCUENTO_KO_PORCENTAJE, tDescuento);
+					break;
 
-		        default:
-		            vista.actualizar(Eventos.RES_ALTA_DESCUENTO_KO, res);
-		            break;
-		        }
-		    }
-		    break;
+				default:
+					vista.actualizar(Eventos.RES_ALTA_DESCUENTO_KO, res);
+					break;
+				}
+			}
+			break;
 		}
 
 		case Eventos.REACTIVAR_DESCUENTO: {
-		    TDescuento tDescuento = (TDescuento) datos;
-		    SADescuento saDescuento = FactoriaAbstractaNegocio.getInstance().crearSADescuento();
+			TDescuento tDescuento = (TDescuento) datos;
+			SADescuento saDescuento = FactoriaAbstractaNegocio.getInstance().crearSADescuento();
 
-		    int res = saDescuento.reactivate(tDescuento);
+			int res = saDescuento.reactivate(tDescuento);
 
-		    IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.ALTA_DESCUENTO);
+			IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.ALTA_DESCUENTO);
 
-		    if (res > 0) {
-		        vista.actualizar(Eventos.RES_ALTA_DESCUENTO_OK, res);
-		    } else {
-		        vista.actualizar(Eventos.RES_ALTA_DESCUENTO_KO, null);
-		    }
-		    break;
+			if (res > 0) {
+				vista.actualizar(Eventos.RES_ALTA_DESCUENTO_OK, res);
+			} else {
+				vista.actualizar(Eventos.RES_ALTA_DESCUENTO_KO, null);
+			}
+			break;
 		}
 
 		case Eventos.MOSTRAR_DESCUENTOS: {
