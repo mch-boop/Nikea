@@ -14,23 +14,16 @@ import integracion.servicio.DAOServicio;
 import negocio.cliente.TCliente;
 import negocio.factura.TFactura;
 import negocio.factura.TLineaFactura;
-import negocio.marca.TMarca;
 import negocio.servicio.TServicio;
 
 public class OperacionResumenTOAImp implements OperacionResumenTOA {
 
-	private DAOFactura facturaDAO;
-	private DAOCliente clienteDAO;
-	private DAOServicio servicioDAO;
-	private DAOMarca marcaDAO;
-	private DAOEmpleado vendedorDAO;
-
 	@Override
 	public TResumenNegocio resumenShop(int mes, int anio) {
 
-		facturaDAO = FactoriaAbstractaIntegracion.getInstance().crearDAOFactura();
-		clienteDAO = FactoriaAbstractaIntegracion.getInstance().crearDAOCliente();
-		servicioDAO = FactoriaAbstractaIntegracion.getInstance().crearDAOServicio();
+		DAOFactura facturaDAO = FactoriaAbstractaIntegracion.getInstance().crearDAOFactura();
+		DAOCliente clienteDAO = FactoriaAbstractaIntegracion.getInstance().crearDAOCliente();
+		DAOServicio servicioDAO = FactoriaAbstractaIntegracion.getInstance().crearDAOServicio();
 
 		List<TFactura> facturas = facturaDAO.readByMonth(mes, anio);
 

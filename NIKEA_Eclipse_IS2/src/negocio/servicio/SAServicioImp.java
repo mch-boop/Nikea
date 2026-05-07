@@ -8,6 +8,7 @@ import negocio.factura.TFactura;
 import negocio.factura.TLineaFactura;
 import negocio.marca.TMarca;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -195,7 +196,13 @@ public class SAServicioImp implements SAServicio {
 	@Override
 	public Collection<TServicio> readAll() {
 		DAOServicio dao = FactoriaIntegracion.getInstance().crearDAOServicio();
-		return dao.readAll();
+		Collection<TServicio> servicios = dao.readAll();
+		Collection<TServicio> salida = new ArrayList<TServicio>();
+		for (TServicio s : servicios)
+			if (s.isActivo())
+				salida.add(s);
+		
+		return salida;
 	}
 
 	// Usadas en Marca
