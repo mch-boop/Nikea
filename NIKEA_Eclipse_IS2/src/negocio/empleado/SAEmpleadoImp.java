@@ -1,7 +1,10 @@
 package negocio.empleado;
 
+import integracion.factoria.FactoriaAbstractaIntegracion;
 import integracion.factoria.FactoriaIntegracion;
 import integracion.empleado.DAOEmpleado;
+
+import java.util.ArrayList;
 import java.util.Collection;
 
 public class SAEmpleadoImp implements SAEmpleado {
@@ -137,8 +140,14 @@ public class SAEmpleadoImp implements SAEmpleado {
 
 	@Override
 	public Collection<TEmpleado> readAll() {
-		DAOEmpleado dao = FactoriaIntegracion.getInstance().crearDAOEmpleado();
-        return dao.readAll();
+		DAOEmpleado dao = FactoriaAbstractaIntegracion.getInstance().crearDAOEmpleado();
+		Collection<TEmpleado> empleados = dao.readAll();
+		Collection<TEmpleado> salida = new ArrayList<TEmpleado>();
+		for (TEmpleado e : empleados)
+			if (e.isActivo())
+				salida.add(e);
+
+		return salida;
 	}
 
 	

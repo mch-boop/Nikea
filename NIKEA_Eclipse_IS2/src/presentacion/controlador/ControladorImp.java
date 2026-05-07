@@ -58,9 +58,8 @@ public class ControladorImp extends Controlador {
 
 			if (cli == null) {
 				vista.actualizar(Eventos.RES_BAJA_CLIENTE_KO_NO_EXISTE, id);
-			} else if (!cli.isActivo()) {
-				vista.actualizar(Eventos.RES_BAJA_CLIENTE_KO_YA_INACTIVO, id);
-			} else {
+			} 
+			else {
 				vista.actualizar(Eventos.RES_BAJA_CLIENTE_OK, cli);
 			}
 			break;

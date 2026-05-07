@@ -13,7 +13,7 @@
         "telefono": 727272727,
         "nombre": "Julia",
         "DNI": "19092873K",
-        "activo": true
+        "activo": false
     },
     {
         "apellidos": "López Gallego",
