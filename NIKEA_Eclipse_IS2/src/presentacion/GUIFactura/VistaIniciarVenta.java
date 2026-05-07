@@ -10,6 +10,7 @@ import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -23,7 +24,7 @@ import presentacion.controlador.Eventos;
 import negocio.factura.TFactura;
 
 @SuppressWarnings("serial")
-public class VistaIniciarVenta extends JFrame implements IGUI {
+public class VistaIniciarVenta extends JDialog implements IGUI {
 
 	private JTextField txtIdVendedor;
 	private JButton btnAceptar, btnCancelar;

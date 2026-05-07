@@ -11,7 +11,7 @@ import presentacion.controlador.Controlador;
 import presentacion.controlador.Eventos;
 
 @SuppressWarnings({ "serial", "this-escape" })
-public class VistaMostrarFacturaPorId extends JFrame implements IGUI {
+public class VistaMostrarFacturaPorId extends JDialog implements IGUI {
 
     private JTextField txtIdFactura;
     private JTextArea areaDetalles;

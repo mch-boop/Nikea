@@ -10,7 +10,7 @@ import negocio.factura.TFactura;
 import java.util.Calendar;
 
 @SuppressWarnings("serial")
-public class VistaCerrarVenta extends JFrame implements IGUI {
+public class VistaCerrarVenta extends JDialog implements IGUI {
 
 	// ATRIBUTOS
 	private JTextField txtIdCliente, txtIdDescuento;
