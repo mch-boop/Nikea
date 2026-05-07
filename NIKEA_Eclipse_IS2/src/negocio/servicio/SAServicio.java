@@ -12,7 +12,7 @@ public interface SAServicio {
 	public int readToDelete(int id);
 	public Collection<TServicio> readAll();
 	public int update(TServicio ts);
-	public TServicio getUltimoDuplicado();
+	public int reactivate(TServicio ts);
 	
 	// CU extras
     public Optional<TArticulo> getMejorArticulo();

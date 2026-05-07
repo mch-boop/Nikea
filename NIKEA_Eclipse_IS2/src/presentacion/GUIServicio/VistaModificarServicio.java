@@ -258,7 +258,7 @@ public class VistaModificarServicio extends JDialog implements IGUI {
 				if (txtPrecioActual.getText().trim().isEmpty()) {
 					datosNuevos.setPrecioActual(null);
 				} else {
-					datosNuevos.setPrecioActual(Integer.parseInt(txtPrecioActual.getText().trim()));
+					datosNuevos.setPrecioActual(Double.parseDouble(txtPrecioActual.getText().trim()));
 				}
 
 				// Asignar marca si es Artículo y ha cambiado

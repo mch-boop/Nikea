@@ -219,5 +219,38 @@
         "idMarca": 7,
         "nombre": "cuadro AOT",
         "activo": true
+    },
+    {
+        "descripcion": "Pantalla 27 pulgadas",
+        "precioActual": 200,
+        "marca": "Iluminadamente",
+        "tipo": 1,
+        "ventas": 0,
+        "id": 20,
+        "stock": 10,
+        "idMarca": 6,
+        "nombre": "Pantalla OLED",
+        "activo": true
+    },
+    {
+        "descripcion": "Roja y moderna",
+        "precioActual": 29.9,
+        "tipo": 2,
+        "id": 21,
+        "stock": 3,
+        "nombre": "Mesa Roja",
+        "activo": true
+    },
+    {
+        "descripcion": "Prueba",
+        "precioActual": 1,
+        "marca": "Nokia",
+        "tipo": 1,
+        "ventas": 0,
+        "id": 22,
+        "stock": 1,
+        "idMarca": 1,
+        "nombre": "Servicio Prueba",
+        "activo": true
     }
 ]
