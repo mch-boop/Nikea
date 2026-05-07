@@ -7,9 +7,9 @@ public abstract class TServicio {
 	private Integer id;
 	private String descripcion;
 	private Integer stock;
-	private Integer precioActual;
+	private Double precioActual;
 	private boolean activo;
-	private Integer tipo;
+	protected Integer tipo;
 	private String marca;
 	
 	// MÉTODOS
@@ -18,7 +18,7 @@ public abstract class TServicio {
 		this.activo = true;
 	}
 
-	public TServicio(Integer id, String nombre, String descripcion, Integer stock, Integer precioActual, boolean activo, Integer tipo) {
+	public TServicio(Integer id, String nombre, String descripcion, Integer stock, double precioActual, boolean activo, Integer tipo) {
 		this.id = id;
 		this.nombre = nombre;
 		this.descripcion = descripcion;
@@ -60,12 +60,12 @@ public abstract class TServicio {
 		this.stock = stock;
 	}
 
-	public Integer getPrecioActual() {
+	public Double getPrecioActual() {
 		return precioActual;
 	}
 
-	public void setPrecioActual(Integer precioActual) {
-		this.precioActual = precioActual;
+	public void setPrecioActual(Double precio) {
+		this.precioActual = precio;
 	}
 
 	public boolean isActivo() {
