@@ -84,8 +84,8 @@
         "nombre": "Raúl",
         "dni": "44556677G",
         "activo": false
-    },	
-	{
+    },
+    {
         "tipo": 2,
         "apellido": "Moafi",
         "sueldo": 5100,
@@ -93,5 +93,15 @@
         "nombre": "Isa",
         "dni": "06020800K",
         "activo": true
-	}
+    },
+    {
+        "tipo": 1,
+        "apellido": "A",
+        "sueldo": 1200,
+        "id": 11,
+        "nombre": "A",
+        "dni": "12345678A",
+        "numeroVentas": 0,
+        "activo": true
+    }
 ]
