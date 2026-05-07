@@ -100,25 +100,17 @@ public class VistaMostrarServicios extends JDialog implements IGUI {
                         JOptionPane.showMessageDialog(this, "No hay servicios registrados en el sistema.", "Información", JOptionPane.INFORMATION_MESSAGE);
                     } else {
                         setVisible(true);
-                        boolean hayActivos = false;
                         for (TServicio ts : lista) {
-                            if (ts.isActivo()) {
-                                Object[] fila = {
-                                    ts.getId(),
-                                    ts.getNombre(),
-                                    ts.getDescripcion(),
-                                    ts.getStock(),
-                                    ts.getPrecioActual(),
-                                    ts.getTipo() != null && ts.getTipo() == 1 ? "Artículo" : "Montaje",
-                                    ts.getMarca() != null ? ts.getMarca() : "-"
-                                };
-                                modeloTabla.addRow(fila);
-                                hayActivos = true;
-                            }
-                        }
-
-                        if (!hayActivos) {
-                            JOptionPane.showMessageDialog(this, "No hay servicios activos para mostrar.", "Información", JOptionPane.INFORMATION_MESSAGE);
+                            Object[] fila = {
+                                ts.getId(),
+                                ts.getNombre(),
+                                ts.getDescripcion(),
+                                ts.getStock(),
+                                ts.getPrecioActual(),
+                                ts.getTipo() != null && ts.getTipo() == 1 ? "Artículo" : "Montaje",
+                                ts.getMarca() != null ? ts.getMarca() : "-"
+                            };
+                            modeloTabla.addRow(fila);
                         }
                     }
                     break;
