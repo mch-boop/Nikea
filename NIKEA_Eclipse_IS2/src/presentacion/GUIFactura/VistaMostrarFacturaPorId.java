@@ -18,8 +18,7 @@ public class VistaMostrarFacturaPorId extends JDialog implements IGUI {
     private JButton btnBuscar, btnLimpiar, btnCancelar;
 
     public VistaMostrarFacturaPorId() {
-        super();
-        setTitle("Buscar Factura por ID");
+        super(null, "Buscar Factura por ID", ModalityType.APPLICATION_MODAL);
         initGUI();
 
         this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
