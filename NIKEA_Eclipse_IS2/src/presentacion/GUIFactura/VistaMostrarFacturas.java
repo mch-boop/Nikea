@@ -8,6 +8,7 @@ import java.util.List;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -25,7 +26,7 @@ import presentacion.IGUI;
 import presentacion.controlador.Eventos;
 
 @SuppressWarnings({ "serial", "this-escape" })
-public class VistaMostrarFacturas extends JFrame implements IGUI {
+public class VistaMostrarFacturas extends JDialog implements IGUI {
 
 	private JTable tabla;
 	private DefaultTableModel modelo;
