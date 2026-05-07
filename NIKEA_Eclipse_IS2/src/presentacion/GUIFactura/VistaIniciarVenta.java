@@ -2,7 +2,6 @@ package presentacion.GUIFactura;
 
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.Dialog.ModalityType;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -66,21 +65,21 @@ public class VistaIniciarVenta extends JDialog implements IGUI {
 		// ACEPTAR
 		btnAceptar.addActionListener(e -> {
 
-		    try {
+			try {
 
-		        int idVendedor = Integer.parseInt(txtIdVendedor.getText().trim());
+				int idVendedor = Integer.parseInt(txtIdVendedor.getText().trim());
 
-		        TFactura tFactura = new TFactura();
-		        tFactura.setIdVendedor(idVendedor);
+				TFactura tFactura = new TFactura();
+				tFactura.setIdVendedor(idVendedor);
 
-		        Controlador.getInstance().accion(Eventos.INICIAR_VENTA, tFactura);
+				Controlador.getInstance().accion(Eventos.INICIAR_VENTA, tFactura);
 
-		    } catch (NumberFormatException ex) {
-		        JOptionPane.showMessageDialog(this,
-		            "El ID del vendedor debe ser numérico.",
-		            "Error",
-		            JOptionPane.ERROR_MESSAGE);
-		    }
+			} catch (NumberFormatException ex) {
+				JOptionPane.showMessageDialog(this,
+						"El ID del vendedor debe ser numérico.",
+						"Error",
+						JOptionPane.ERROR_MESSAGE);
+			}
 		});
 
 		// CANCELAR
@@ -126,35 +125,35 @@ public class VistaIniciarVenta extends JDialog implements IGUI {
 
 			switch (evento) {
 
-			case Eventos.RES_INICIAR_VENTA_OK:
-				JOptionPane.showMessageDialog(this, "Venta iniciada correctamente" );
-				limpiarCampos();
-				break;
-
-			case Eventos.RES_INICIAR_VENTA_KO:
-
-				int error = (int) datos;
-				String mensaje;
-
-				switch (error) {
-
-				case Eventos.RES_INICIAR_VENTA_KO_VENDEDOR_NO_EXISTE:
-					mensaje = "El vendedor no existe.";
+				case Eventos.RES_INICIAR_VENTA_OK:
+					JOptionPane.showMessageDialog(this, "Venta iniciada correctamente");
+					limpiarCampos();
 					break;
 
-				case Eventos.RES_INICIAR_VENTA_KO_VENDEDOR_INACTIVO:
-					mensaje = "El vendedor está inactivo.";
-					break;
-				case Eventos.RES_INICIAR_VENTA_KO_YA_EN_CURSO:
-					mensaje = "Ya hay una venta en curso";
-					break;
-				default:
-					mensaje = "Error al iniciar la venta.";
-					break;
-				}
+				case Eventos.RES_INICIAR_VENTA_KO:
 
-				JOptionPane.showMessageDialog(this, mensaje, "Error", JOptionPane.ERROR_MESSAGE);
-				break;
+					int error = (int) datos;
+					String mensaje;
+
+					switch (error) {
+
+						case Eventos.RES_INICIAR_VENTA_KO_VENDEDOR_NO_EXISTE:
+							mensaje = "El vendedor no existe.";
+							break;
+
+						case Eventos.RES_INICIAR_VENTA_KO_VENDEDOR_INACTIVO:
+							mensaje = "El vendedor está inactivo.";
+							break;
+						case Eventos.RES_INICIAR_VENTA_KO_YA_EN_CURSO:
+							mensaje = "Ya hay una venta en curso";
+							break;
+						default:
+							mensaje = "Error al iniciar la venta.";
+							break;
+					}
+
+					JOptionPane.showMessageDialog(this, mensaje, "Error", JOptionPane.ERROR_MESSAGE);
+					break;
 			}
 		});
 	}
