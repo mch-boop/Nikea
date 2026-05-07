@@ -8,12 +8,6 @@ public class TLineaFactura {
     private int cantidad;
     private double precioUnitario;
 
-    // Constructor por defecto
-    public TLineaFactura() {
-    }
-
-    // GETTERS Y SETTERS
-
     public int getIdFactura() {
         return idFactura;
     }
@@ -22,7 +16,7 @@ public class TLineaFactura {
         this.idFactura = idFactura;
     }
 
-    public int getIdProducto() {
+    public Integer getIdServicio() {
         return idServicio;
     }
 
@@ -43,18 +37,6 @@ public class TLineaFactura {
     }
 
     public void setPrecioUnitario(double precioUnitario) {
-        if (precioUnitario < 0) {
-            this.precioUnitario = 0.0;
-        } else {
-            this.precioUnitario = precioUnitario;
-        }
-    }
-
-    public double getSubtotal() {
-        return cantidad * precioUnitario;
-    }
-
-    public Integer getIdServicio() {
-        return idServicio;
+        this.precioUnitario = precioUnitario;
     }
 }

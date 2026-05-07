@@ -148,10 +148,11 @@ public class VistaMostrarFacturaPorId extends JDialog implements IGUI {
                         sb.append("  No hay líneas de factura registradas.\n");
                     } else {
                         for (TLineaFactura linea : factura.getLineas()) {
-                            sb.append("  Producto: ").append(linea.getIdProducto())
+                            sb.append("  Producto: ").append(linea.getIdServicio())
                                     .append(" | Cantidad: ").append(linea.getCantidad())
                                     .append(" | Precio unitario: ").append(linea.getPrecioUnitario())
-                                    .append(" | Subtotal: ").append(linea.getSubtotal()).append("\n");
+                                    .append(" | Subtotal: ")
+                                    .append(linea.getCantidad() * linea.getPrecioUnitario()).append("\n");
                         }
                     }
 
