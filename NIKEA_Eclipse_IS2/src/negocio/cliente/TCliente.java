@@ -17,11 +17,11 @@ public class TCliente {
     public TCliente() { activo = true; }
 
     // Constructora completa (para el DAO al leer del JSON)
-    public TCliente(Integer id, String dni, String nombre, String apellido, Integer telefono, boolean activo) {
+    public TCliente(Integer id, String dni, String nombre, String apellidos, Integer telefono, boolean activo) {
         this.idCliente = id;
         this.DNI = dni;
         this.nombre = nombre;
-        this.apellidos = apellido;
+        this.apellidos = apellidos;
         this.telefono = telefono;
         this.activo = activo;
     }

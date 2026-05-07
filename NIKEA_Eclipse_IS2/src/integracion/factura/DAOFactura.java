@@ -5,19 +5,19 @@ import negocio.factura.TFactura;
 
 public interface DAOFactura {
 
-	public int crear(TFactura factura); // Crea una nueva factura y devuelve su ID
+	public int create(TFactura factura); // Crea una nueva factura y devuelve su ID
 
-	public TFactura leerPorId(int id);  // Busca una factura por su ID
+	public TFactura read(int id);  // Busca una factura por su ID
 
-	public List<TFactura> leerTodas(); // Devuelve todas las facturas del sistema
+	public List<TFactura> readAll(); // Devuelve todas las facturas del sistema
 
-	public boolean actualizar(TFactura factura);// Actualiza los datos de una factura existente
+	public boolean update(TFactura factura);// Actualiza los datos de una factura existente
 
-	public void eliminar(int id);
+	public void delete(int id);
 
-	public List<TFactura> leerPorCliente(int idCliente); //Buscar facturas de un cliente concreto
+	public List<TFactura> readByClient(int idCliente); //Buscar facturas de un cliente concreto
 
-	public List<TFactura> leerPorRangoFechas(String fechaInicio, String fechaFin); //Buscar facturas entre dos fechas
+	public List<TFactura> readByDateRange(String fechaInicio, String fechaFin); //Buscar facturas entre dos fechas
 
-	public List<TFactura> readByMes(int mes, int anio); //Lee las facturas de un mes concreto
+	public List<TFactura> readByMonth(int mes, int anio); //Lee las facturas de un mes concreto
 }

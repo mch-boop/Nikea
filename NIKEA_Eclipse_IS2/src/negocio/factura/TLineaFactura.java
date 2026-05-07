@@ -3,7 +3,7 @@ package negocio.factura;
 public class TLineaFactura {
 
     private int idFactura;
-    private int idProducto;
+    private int idServicio;
 
     private int cantidad;
     private double precioUnitario;
@@ -23,11 +23,11 @@ public class TLineaFactura {
     }
 
     public int getIdProducto() {
-        return idProducto;
+        return idServicio;
     }
 
-    public void setIdProducto(int idProducto) {
-        this.idProducto = idProducto;
+    public void setIdServicio(int idServicio) {
+        this.idServicio = idServicio;
     }
 
     public int getCantidad() {
@@ -55,6 +55,6 @@ public class TLineaFactura {
     }
 
     public Integer getIdServicio() {
-        return idProducto;
+        return idServicio;
     }
 }

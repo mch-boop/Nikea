@@ -7,13 +7,15 @@ public interface SAEmpleado {
 	// Métodos CU básicos
     public int create(TEmpleado te);
     public int delete(int id);
+    public int readToDelete(Integer id);
+    public TEmpleado readActive(int id); 
     public int update(TEmpleado te);
     public int reactivate(TEmpleado tEmpleado);
-    public TEmpleado getUltimoDuplicado();
     public TEmpleado read(int id);
     public Collection<TEmpleado> readAll();
     
     // Métodos para la relación M:N (Montador-Montaje)
     public int vincularMontadorAMontaje(TMontadorMontaje tmm);
     public int desvincularMontadorDeMontaje(TMontadorMontaje tmm);
+	
 }

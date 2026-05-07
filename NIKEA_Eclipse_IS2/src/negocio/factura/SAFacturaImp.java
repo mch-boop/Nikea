@@ -1,6 +1,8 @@
 package negocio.factura;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -56,7 +58,7 @@ public class SAFacturaImp implements SAFactura {
 
 		servicioAMontador.clear();
 
-		return facturaActual.getId() + 1;
+		return Eventos.RES_INICIAR_VENTA_OK;
 
 	}
 
@@ -68,21 +70,20 @@ public class SAFacturaImp implements SAFactura {
 
 		facturaActual.getLineas().add(linea);
 
-		// if (esMontaje(servicio)) {
+		if (esMontaje(servicio)) {
 
-		Integer idMontador1 = obtenerMontadorDisponible();
+			Integer idMontador1 = obtenerMontadorDisponible();
+			if (idMontador1 == null)
+				return false;
 
-		if (idMontador1 == null)
-			return false;
+			servicioAMontador.put(servicio.getId(), idMontador1);
 
-		servicioAMontador.put(servicio.getId(), idMontador1);
+			TMontadorMontaje tm = new TMontadorMontaje(idMontador1, servicio.getId());
 
-		TMontadorMontaje tm = new TMontadorMontaje(idMontador1, servicio.getId());
-
-		if (!daoMontaje.existeVinculacion(tm)) {
-			daoMontaje.vincular(tm);
+			if (!daoMontaje.existeVinculacion(tm)) {
+				daoMontaje.vincular(tm);
+			}
 		}
-		// }
 		return true;
 
 	}
@@ -135,7 +136,7 @@ public class SAFacturaImp implements SAFactura {
 			return -4;
 		}
 
-		TLineaFactura existente = facturaActual.buscarLinea(linea.getIdProducto());
+		TLineaFactura existente = buscarLinea(facturaActual, linea.getIdProducto());
 
 		// Si el producto ya está añadido, aumentamos la cantidad
 		if (existente != null) {
@@ -144,11 +145,11 @@ public class SAFacturaImp implements SAFactura {
 		// De lo contrario, añadimos la nueva linea de factura
 		else {
 			TLineaFactura nuevaLinea = new TLineaFactura();
-			nuevaLinea.setIdProducto(servicio.getId());
+			nuevaLinea.setIdServicio(servicio.getId());
 			nuevaLinea.setCantidad(linea.getCantidad());
 			nuevaLinea.setPrecioUnitario(servicio.getPrecioActual());
 
-			facturaActual.addLinea(nuevaLinea);
+			addLinea(facturaActual, nuevaLinea);
 		}
 		return 1;
 	}
@@ -164,7 +165,7 @@ public class SAFacturaImp implements SAFactura {
 			return 0;
 		}
 
-		TLineaFactura existente = facturaActual.buscarLinea(linea.getIdProducto());
+		TLineaFactura existente = buscarLinea(facturaActual, linea.getIdProducto());
 
 		// Si el producto no existe, delvolvemos false
 		if (existente == null) {
@@ -177,7 +178,7 @@ public class SAFacturaImp implements SAFactura {
 		if (nuevaCantidad < 0) {
 			return -3;
 		} else if (nuevaCantidad == 0) {
-			facturaActual.removeLinea(existente);
+			facturaActual.getLineas().remove(existente);
 		} else {
 			existente.setCantidad(nuevaCantidad);
 		}
@@ -196,6 +197,11 @@ public class SAFacturaImp implements SAFactura {
 		if (factura.getFecha() == null)
 			return Eventos.RES_CERRAR_VENTA_KO_FECHA_INVALIDA;
 
+		Date fecha = normalizarFecha(factura.getFecha());
+		Date hoy = normalizarFecha(new Date());
+
+		if (fecha.after(hoy))
+			return Eventos.RES_CERRAR_VENTA_KO_FECHA_INVALIDA;
 		DAOCliente daoCliente = FactoriaAbstractaIntegracion.getInstance().crearDAOCliente();
 		DAODescuento daoDescuento = FactoriaAbstractaIntegracion.getInstance().crearDAODescuento();
 
@@ -207,7 +213,7 @@ public class SAFacturaImp implements SAFactura {
 			return Eventos.RES_CERRAR_VENTA_KO_CLIENTE_INACTIVO;
 
 		int idDesc = factura.getIdDescuento();
-		if (idDesc != 0) {
+		if (idDesc > 0) {
 
 			TDescuento descuento = daoDescuento.read(idDesc);
 
@@ -234,14 +240,25 @@ public class SAFacturaImp implements SAFactura {
 		DAOFactura dao = FactoriaAbstractaIntegracion.getInstance().crearDAOFactura();
 		DAOLineaFactura daoLinea = FactoriaAbstractaIntegracion.getInstance().crearDAOLineaFactura();
 
-		int id = dao.crear(facturaActual);
+		int id = dao.create(facturaActual);
 		facturaActual.setId(id);
 
 		for (TLineaFactura l : facturaActual.getLineas()) {
 			l.setIdFactura(id);
-			daoLinea.crear(l);
+			daoLinea.create(l);
+
+			TServicio servicio = FactoriaAbstractaIntegracion.getInstance().crearDAOServicio().read(l.getIdServicio());
+
+			if (servicio != null && esMontaje(servicio)) {
+				Integer idMontador = obtenerMontadorDisponible();
+
+				if (idMontador != null) {
+					TMontadorMontaje tm = new TMontadorMontaje(idMontador, servicio.getId());
+
+					daoMontaje.vincular(tm);
+				}
+			}
 		}
-//para obtener el mejor articulo en sevicios
 		SAServicio saServicio = FactoriaAbstractaNegocio.getInstance().crearSAServicio();
 		saServicio.getMejorArticulo();
 
@@ -251,6 +268,22 @@ public class SAFacturaImp implements SAFactura {
 		return id;
 	}
 
+	private Date normalizarFecha(Date fecha) {
+
+		if (fecha == null)
+			return null;
+
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(fecha);
+
+		cal.set(Calendar.HOUR_OF_DAY, 0);
+		cal.set(Calendar.MINUTE, 0);
+		cal.set(Calendar.SECOND, 0);
+		cal.set(Calendar.MILLISECOND, 0);
+
+		return cal.getTime();
+	}
+
 	@Override
 	public TFactura mostrarPorId(int idFactura) {
 
@@ -258,13 +291,13 @@ public class SAFacturaImp implements SAFactura {
 			return null;
 		}
 
-		TFactura factura = FactoriaAbstractaIntegracion.getInstance().crearDAOFactura().leerPorId(idFactura);
+		TFactura factura = FactoriaAbstractaIntegracion.getInstance().crearDAOFactura().read(idFactura);
 
 		if (factura == null) {
 			return null;
 		}
 
-		factura.setLineas(FactoriaAbstractaIntegracion.getInstance().crearDAOLineaFactura().leerPorFactura(idFactura));
+		factura.setLineas(FactoriaAbstractaIntegracion.getInstance().crearDAOLineaFactura().read(idFactura));
 
 		return factura;
 	}
@@ -272,7 +305,7 @@ public class SAFacturaImp implements SAFactura {
 	@Override
 	public List<TFactura> mostrarTodas() {
 
-		return FactoriaAbstractaIntegracion.getInstance().crearDAOFactura().leerTodas();
+		return FactoriaAbstractaIntegracion.getInstance().crearDAOFactura().readAll();
 	}
 
 	@Override
@@ -287,12 +320,11 @@ public class SAFacturaImp implements SAFactura {
 			return null;
 		}
 
-		List<TFactura> facturas = FactoriaAbstractaIntegracion.getInstance().crearDAOFactura()
-				.leerPorCliente(idCliente);
+		List<TFactura> facturas = FactoriaAbstractaIntegracion.getInstance().crearDAOFactura().readByClient(idCliente);
 
 		DAOLineaFactura linea = FactoriaAbstractaIntegracion.getInstance().crearDAOLineaFactura();
 		for (TFactura f : facturas) {
-			f.setLineas(linea.leerPorFactura(f.getId()));
+			f.setLineas(linea.read(f.getId()));
 		}
 		return facturas;
 	}
@@ -314,7 +346,7 @@ public class SAFacturaImp implements SAFactura {
 
 		return null;
 	}
-	
+
 	@Override
 	public int annadirDescuento(int idFactura, int idDescuento) {
 		if (idFactura <= 0 || idDescuento <= 0) {
@@ -325,14 +357,14 @@ public class SAFacturaImp implements SAFactura {
 		if (factura == null) {
 			return -1;
 		}
-		
+
 		if (factura.getIdDescuento() > 0) {
 			return -5; // RES_ANNADIR_DESCUENTO_FACTURA_KO_YA_TIENE_DESCUENTO
 		}
 
 		DAODescuento daoDescuento = FactoriaAbstractaIntegracion.getInstance().crearDAODescuento();
 		TDescuento descuento = daoDescuento.read(idDescuento);
-		
+
 		if (descuento == null || !descuento.isActivo()) {
 			return -2;
 		}
@@ -361,13 +393,13 @@ public class SAFacturaImp implements SAFactura {
 		}
 
 		factura.setIdDescuento(idDescuento);
-		
+
 		double importeBase = factura.getImporte();
 		double cantidadDescontada = importeBase * ((double) descuento.getPorcentaje() / 100.0);
 		factura.setTotal(importeBase - cantidadDescontada);
 
 		DAOFactura daoFactura = FactoriaAbstractaIntegracion.getInstance().crearDAOFactura();
-		boolean actualizado = daoFactura.actualizar(factura);
+		boolean actualizado = daoFactura.update(factura);
 
 		if (actualizado) {
 			return 1;
@@ -375,13 +407,36 @@ public class SAFacturaImp implements SAFactura {
 			return -4;
 		}
 	}
-	
-	
+
 	// Casos de uso extra
-	
+
 	@Override
-	 public Map<String, Double> getVentasPorMarca() {
+	public Map<String, Double> getVentasPorMarca() {
 		System.out.println("Falta en SAFacturaImp");
-	    return null;
+		return null;
 	}
+
+	// Métodos auxiliares
+	private TLineaFactura buscarLinea(TFactura factura, int idProducto) {
+
+		for (TLineaFactura l : factura.getLineas()) {
+			if (l.getIdProducto() == idProducto) {
+				return l;
+			}
+		}
+
+		return null;
+	}
+
+	private void addLinea(TFactura factura, TLineaFactura nueva) {
+
+		TLineaFactura existente = buscarLinea(factura, nueva.getIdProducto());
+
+		if (existente != null) {
+			existente.setCantidad(existente.getCantidad() + nueva.getCantidad());
+		} else {
+			factura.getLineas().add(nueva);
+		}
+	}
+
 }

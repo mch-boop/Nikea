@@ -84,7 +84,7 @@ public class VistaAnnadirServicioFactura extends JFrame implements IGUI {
                 }
 
                 TLineaFactura tLinea = new TLineaFactura();
-                tLinea.setIdProducto(idServicio);
+                tLinea.setIdServicio(idServicio);
                 tLinea.setCantidad(cantidad);
 
                 Controlador.getInstance().accion(Eventos.ANNADIR_SERVICIO, tLinea);

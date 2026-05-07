@@ -1,7 +1,5 @@
 package negocio.servicio;
 
-import org.json.JSONObject;
-
 public abstract class TServicio {
 
 	// ATRIBUTOS
@@ -28,31 +26,6 @@ public abstract class TServicio {
 		this.precioActual = precioActual;
 		this.activo = activo;
 		this.tipo = tipo;
-	}
-
-	public JSONObject asJSON() {
-		JSONObject obj = new JSONObject();
-		obj.put("id", this.id);
-		obj.put("nombre", this.nombre);
-		obj.put("descripcion", this.descripcion);
-		obj.put("stock", this.stock);
-		obj.put("precioActual", this.precioActual);
-		obj.put("activo", this.activo);
-		obj.put("tipo", this.tipo);
-		obj.put("marca", this.marca);
-		return obj;
-	}
-
-	public void fromJSON(JSONObject obj) {
-		if (obj == null) return;
-		this.id = obj.has("id") && !obj.isNull("id") ? obj.getInt("id") : null;
-		this.nombre = obj.has("nombre") && !obj.isNull("nombre") ? obj.getString("nombre") : null;
-		this.descripcion = obj.has("descripcion") && !obj.isNull("descripcion") ? obj.getString("descripcion") : null;
-		this.stock = obj.has("stock") && !obj.isNull("stock") ? obj.getInt("stock") : null;
-		this.precioActual = obj.has("precioActual") && !obj.isNull("precioActual") ? obj.getInt("precioActual") : null;
-		this.activo = obj.has("activo") && !obj.isNull("activo") ? obj.getBoolean("activo") : true;
-		this.tipo = obj.has("tipo") && !obj.isNull("tipo") ? obj.getInt("tipo") : null;
-		this.marca = obj.has("marca") && !obj.isNull("marca") ? obj.getString("marca") : null;
 	}
 
 	public Integer getId() {

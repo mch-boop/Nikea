@@ -26,9 +26,11 @@ public class GUIEmpleadoDialog extends JDialog {
     
     private void initGUI() {
     	
-    	JPanel panel = new JPanel(new GridLayout(2, 4, 10, 10));
-        panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+    	JPanel mainPanel = new JPanel();
+        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+        mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
+        // Botones
         JButton btnAlta        = new JButton("Alta Empleado");
         JButton btnBaja        = new JButton("Baja Empleado");
         JButton btnActualizar  = new JButton("Modificar Empleado");
@@ -37,17 +39,45 @@ public class GUIEmpleadoDialog extends JDialog {
         JButton btnVincular    = new JButton("Vincular montador-montaje");
         JButton btnDesvincular = new JButton("Desvincular montador-montaje");
 
-        JButton[] botones = { btnAlta, btnBaja, btnActualizar, btnBuscar, btnListar, btnVincular, btnDesvincular };
+        JButton[] botones = {
+            btnAlta, btnBaja, btnActualizar,
+            btnBuscar, btnListar, btnVincular,
+            btnDesvincular
+        };
+
+        Dimension size = new Dimension(220, 40);
         for (JButton b : botones) {
             b.setFocusPainted(false);
-            panel.add(b);
+            b.setPreferredSize(size);
+            b.setMaximumSize(size);
+            b.setMinimumSize(size);
         }
 
-        add(panel, BorderLayout.CENTER);
-        pack();
+        // FILA 1 (3 botones)
+        JPanel fila1 = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
+        fila1.add(btnAlta);
+        fila1.add(btnBaja);
+        fila1.add(btnActualizar);
 
-        // Listeners
+        // FILA 2 (3 botones)
+        JPanel fila2 = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
+        fila2.add(btnBuscar);
+        fila2.add(btnListar);
+        fila2.add(btnVincular);
+
+        // FILA 3 (centrado)
+        JPanel fila3 = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
+        fila3.add(btnDesvincular);
+
+        mainPanel.add(fila1);
+        mainPanel.add(fila2);
+        mainPanel.add(fila3);
+
+        add(mainPanel, BorderLayout.CENTER);
+        pack();
+        setLocationRelativeTo(null);
         
+        // Listeners
         btnAlta.addActionListener(e -> {
             IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.ALTA_EMPLEADO);
             abrirVistaBloqueante((JDialog) vista);

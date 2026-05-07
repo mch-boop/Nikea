@@ -12,8 +12,6 @@ public class Eventos {
     public static final int BAJA_CLIENTE = 102;
     public static final int RES_BAJA_CLIENTE_OK = 1021;
     public static final int RES_BAJA_CLIENTE_KO = 1020;
-    public static final int RES_BAJA_CLIENTE_KO_ID_VACIO = 10201;
-    public static final int RES_BAJA_CLIENTE_KO_ID_FORMATO = 10202;
     public static final int RES_BAJA_CLIENTE_KO_NO_EXISTE = 10203;
     public static final int RES_BAJA_CLIENTE_KO_YA_INACTIVO = 10204;
     public static final int CONFIRMAR_BAJA_CLIENTE = 10211;
@@ -22,7 +20,6 @@ public class Eventos {
     public static final int MODIFICAR_CLIENTE = 103;
     public static final int RES_MODIFICAR_CLIENTE_OK = 1031;
     public static final int RES_MODIFICAR_CLIENTE_KO_NO_EXISTE = 10300;
-    public static final int RES_MODIFICAR_CLIENTE_KO_DATOS_INVALIDOS = 10301;
     public static final int BUSCAR_CLIENTE_PARA_MODIFICAR = 10303;
     public static final int VENTANA_BUSCAR_ID_CLIENTE = 103030;
     public static final int RES_BUSCAR_CLIENTE_PARA_MODIFICAR_OK = 103031;
@@ -96,11 +93,11 @@ public class Eventos {
 
     public static final int INICIAR_VENTA = 301;
     public static final int RES_INICIAR_VENTA_OK = 3011;
-    public static final int RES_INICIAR_VENTA_KO = -3010;
-    public static final int RES_INICIAR_VENTA_KO_VENDEDOR_NO_EXISTE = -30101;
-    public static final int RES_INICIAR_VENTA_KO_VENDEDOR_INACTIVO = -30102;
-    public static final int RES_INICIAR_VENTA_KO_YA_EN_CURSO = -30103;
-    public static final int RES_INICIAR_VENTA_KO_GENERAL = -30104;
+    public static final int RES_INICIAR_VENTA_KO = 3010;
+    public static final int RES_INICIAR_VENTA_KO_VENDEDOR_NO_EXISTE = 30101;
+    public static final int RES_INICIAR_VENTA_KO_VENDEDOR_INACTIVO = 30102;
+    public static final int RES_INICIAR_VENTA_KO_YA_EN_CURSO = 30103;
+    public static final int RES_INICIAR_VENTA_KO_GENERAL = 30104;
 
     public static final int CERRAR_VENTA = 302;
     public static final int RES_CERRAR_VENTA_OK = 3021;
@@ -277,4 +274,6 @@ public class Eventos {
     // TOA RESUMEN MENSUAL
     
     public static final int MOSTRAR_RESUMEN_MENSUAL = 700;
+    public static final int RES_RESUMEN_MENSUAL_OK = 7001;
+    public static final int RES_RESUMEN_MENSUAL_KO = -7000;
 }

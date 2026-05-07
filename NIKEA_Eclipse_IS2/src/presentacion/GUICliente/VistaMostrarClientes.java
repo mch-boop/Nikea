@@ -89,33 +89,26 @@ public class VistaMostrarClientes extends JDialog implements IGUI {
 	            modeloTabla.setRowCount(0); // Limpiar tabla antes de cargar
 	            
 	            if (lista.isEmpty()) {
-	                JOptionPane.showMessageDialog(this, "No hay clientes registrados en el sistema.", "Información", JOptionPane.INFORMATION_MESSAGE);
+	                JOptionPane.showMessageDialog(VistaMostrarClientes.this, "No hay clientes registrados en el sistema.", "Información", JOptionPane.INFORMATION_MESSAGE);
 	            } else {
 	            	
-	                boolean hayActivos = false;
 	                for (TCliente tc : lista) {
-	                    if (tc.isActivo()) { // Solo mostramos si el estado es activo
-	                        Object[] fila = {
-	                            tc.getId(),
-	                            tc.getDNI(),
-	                            tc.getNombre() + " " + tc.getApellidos(),
-	                            tc.getTelefono(),
-	                        };
-	                        modeloTabla.addRow(fila);
-	                        hayActivos = true;
-	                    }
+                        Object[] fila = {
+                            tc.getId(),
+                            tc.getDNI(),
+                            tc.getNombre() + " " + tc.getApellidos(),
+                            String.format("%09d", tc.getTelefono()),
+                        };
+                        modeloTabla.addRow(fila);	                    
 	                }
 	                
-	                if (!hayActivos) {
-	                    JOptionPane.showMessageDialog(this, "No hay clientes activos para mostrar.", "Información", JOptionPane.INFORMATION_MESSAGE);
-	                } 
 	            	setVisible(true);
 	            }
 	            break;
 	
 	        case Eventos.RES_MOSTRAR_CLIENTES_KO:
 	            modeloTabla.setRowCount(0);
-	            JOptionPane.showMessageDialog(this, "Error al recuperar la lista de clientes.", "Error", JOptionPane.ERROR_MESSAGE);
+	            JOptionPane.showMessageDialog(VistaMostrarClientes.this, "Error al recuperar la lista de clientes.", "Error", JOptionPane.ERROR_MESSAGE);
 	            break;
 	
 	            default:

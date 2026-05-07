@@ -1,146 +1,42 @@
 [
     {
-        "apellidos": "Clientin",
-        "teléfono": 100000000,
-        "id": 1,
-        "nombre": "c",
-        "DNI": "29228282838D",
-        "activo": false
-    },
-    {
-        "apellidos": "de prueba",
-        "teléfono": 171717171,
-        "id": 2,
-        "nombre": "Cliente",
-        "DNI": "999111888G",
-        "activo": true
-    },
-    {
-        "apellidos": "clicli",
-        "teléfono": 1,
-        "id": 3,
-        "nombre": "cliente",
-        "DNI": "jiji",
-        "activo": true
-    },
-    {
-        "apellidos": "Comprador",
-        "teléfono": -1,
-        "id": 4,
-        "nombre": "Cliente",
-        "DNI": "5114",
-        "activo": true
-    },
-    {
-        "apellidos": "Clientable",
-        "teléfono": 8181,
-        "id": 5,
-        "nombre": "Cliente",
-        "DNI": "8181",
-        "activo": true
-    },
-    {
-        "apellidos": "Clientable",
-        "teléfono": 55,
-        "id": 6,
-        "nombre": "Cliente",
-        "DNI": "55",
-        "activo": true
-    },
-    {
-        "apellidos": "C1",
-        "teléfono": 123456789,
-        "id": 7,
-        "nombre": "C1",
-        "DNI": "12344B",
-        "activo": true
-    },
-    {
-        "apellidos": "clientino",
-        "teléfono": 0,
-        "id": 8,
-        "nombre": "client",
-        "DNI": "denei",
-        "activo": true
-    },
-    {
-        "apellidos": "en",
-        "teléfono": 88,
-        "id": 9,
-        "nombre": "Cli",
-        "DNI": "te",
-        "activo": true
-    },
-    {
-        "apellidos": "veinti",
-        "teléfono": 232323232,
-        "id": 10,
-        "nombre": "cliente23",
-        "DNI": "23232323",
-        "activo": true
-    },
-    {
-        "apellidos": "b",
-        "teléfono": 1111111111,
-        "id": 11,
-        "nombre": "a",
-        "DNI": "c",
-        "activo": true
-    },
-    {
-        "apellidos": "l",
-        "teléfono": 2,
-        "id": 12,
-        "nombre": "C",
-        "DNI": "i",
-        "activo": false
-    },
-    {
-        "apellidos": "Nocompra",
-        "teléfono": 23,
-        "id": 13,
-        "nombre": "Nocliente",
-        "DNI": "00000003A",
-        "activo": true
-    },
-    {
-        "apellidos": "Apellidos",
-        "teléfono": 980822826,
-        "id": 14,
-        "nombre": "Nombre",
-        "DNI": "6262728D",
-        "activo": true
-    },
-    {
-        "apellidos": "Cer",
-        "teléfono": 123,
-        "id": 15,
-        "nombre": "Jul",
-        "DNI": "9090",
-        "activo": false
-    },
-    {
-        "apellidos": "J",
-        "teléfono": 98,
-        "id": 16,
-        "nombre": "Pim",
-        "DNI": "111A",
-        "activo": true
-    },
-    {
-        "apellidos": "clicli",
-        "teléfono": 11,
-        "id": 17,
-        "nombre": "cliente",
-        "DNI": "jojo",
-        "activo": true
-    },
-    {
         "apellidos": "Morales",
-        "teléfono": 888828212,
-        "id": 18,
+        "id": 1,
+        "telefono": 1,
         "nombre": "David",
-        "DNI": "51497239G",
+        "DNI": "17717171H",
+        "activo": true
+    },
+    {
+        "apellidos": "Ceregido Andrade",
+        "id": 2,
+        "telefono": 727272727,
+        "nombre": "Julia",
+        "DNI": "19092873K",
+        "activo": true
+    },
+    {
+        "apellidos": "López Gallego",
+        "id": 3,
+        "telefono": 711890348,
+        "nombre": "Ana",
+        "DNI": "51478327J",
+        "activo": true
+    },
+    {
+        "apellidos": "Ortiz Luengo",
+        "id": 4,
+        "telefono": 881909918,
+        "nombre": "Javier",
+        "DNI": "71182939O",
+        "activo": false
+    },
+    {
+        "apellidos": "Smith Jones",
+        "id": 5,
+        "telefono": 9382616,
+        "nombre": "Peter",
+        "DNI": "72839482U",
         "activo": true
     }
 ]

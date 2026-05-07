@@ -60,7 +60,7 @@ public class DAOClienteImp implements DAOCliente {
                 c.setNombre(obj.getString("nombre"));
                 c.setApellidos(obj.getString("apellidos"));
                 c.setDNI(obj.getString("DNI"));
-                c.setTelefono(obj.getInt("teléfono"));
+                c.setTelefono(obj.getInt("telefono"));
                 c.setActivo(obj.getBoolean("activo"));
                 
                 // Añado el cliente a la lista.
@@ -114,13 +114,13 @@ public class DAOClienteImp implements DAOCliente {
     }
 	
 	// Método auxiliar para convertir los transfers a json:
-	public JSONObject asJSON(TCliente tc) {
+	private JSONObject asJSON(TCliente tc) {
         JSONObject obj = new JSONObject();
         obj.put("id", tc.getId());
         obj.put("nombre", tc.getNombre());
         obj.put("apellidos", tc.getApellidos());
         obj.put("DNI", tc.getDNI());
-        obj.put("teléfono", tc.getTelefono());
+        obj.put("telefono", tc.getTelefono());
         obj.put("activo", tc.isActivo());
         return obj;
     }

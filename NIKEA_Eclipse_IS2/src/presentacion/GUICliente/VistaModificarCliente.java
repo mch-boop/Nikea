@@ -61,7 +61,7 @@ public class VistaModificarCliente extends JDialog implements IGUI {
         btnBuscar.addActionListener(e -> {
         	try {
                 if (txtId.getText().isEmpty()) {
-                    JOptionPane.showMessageDialog(null, "El ID es obligatorio para identificar al cliente.", "Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(VistaModificarCliente.this, "El ID es obligatorio para identificar al cliente.", "Error", JOptionPane.ERROR_MESSAGE);
                 }
                 else {
 	                int id = (Integer.parseInt(txtId.getText()));
@@ -69,7 +69,7 @@ public class VistaModificarCliente extends JDialog implements IGUI {
 	                Controlador.getInstance().accion(Eventos.BUSCAR_CLIENTE_PARA_MODIFICAR, id);
 	            }
             } catch (NumberFormatException ex) {
-                JOptionPane.showMessageDialog(null, "Asegúrese de que el ID sea un número válido.");
+                JOptionPane.showMessageDialog(VistaModificarCliente.this, "Asegúrese de que el ID sea un número válido.");
             }
         });
         
@@ -192,15 +192,15 @@ public class VistaModificarCliente extends JDialog implements IGUI {
 	                // Telefono 
 	                if (!txtTelefono.getText().trim().isEmpty()) {
 	                	int tfno = Integer.valueOf(txtTelefono.getText().trim());
-	                	if (!esFormatoTelefonoValido(txtTelefono.getText().trim())) {
-						    mostrarError("Teléfono inválido. Debe tener 9 dígitos", txtTelefono);
-						    return;
-						}
 	                	if (tfno <= 0) {
-	                		JOptionPane.showMessageDialog(null, "El teléfono debe ser un número positivo.", "Error", JOptionPane.ERROR_MESSAGE);
+	                		JOptionPane.showMessageDialog(VistaModificarCliente.this, "El teléfono debe ser un número positivo.", "Error", JOptionPane.ERROR_MESSAGE);
 	                        txtTelefono.requestFocus();
 	                        return;
 	                	}
+	                	else if (!esFormatoTelefonoValido(txtTelefono.getText().trim())) {
+						    mostrarError("Teléfono inválido. Debe tener 9 dígitos", txtTelefono);
+						    return;
+						}
 	                	else tc.setTelefono(tfno);
 	                } else {
 	                	tc.setTelefono(-1); // Valor centinela: "No modificar teléfono"
@@ -209,7 +209,7 @@ public class VistaModificarCliente extends JDialog implements IGUI {
 	                // DNI 
 	                if (!txtDNI.getText().trim().isEmpty()) {
 	                	if (!esFormatoDNIValido(txtDNI.getText().trim())) {
-						    mostrarError("DNI inválido. Formato: 8 dígitos + 1 letra", txtDNI);
+						    mostrarError("DNI inválido. Formato: 8 dígitos + 1 mayúscula", txtDNI);
 						    return;
 						}
 	                	tc.setDNI(txtDNI.getText().trim());
@@ -218,7 +218,7 @@ public class VistaModificarCliente extends JDialog implements IGUI {
 	                }
 	                
 	                if (tc.getNombre() == null && tc.getApellidos() == null && tc.getTelefono() == -1 && tc.getDNI() == null) {
-	                	JOptionPane.showMessageDialog(null, "Alguno de los campos debe estar rellenado.", "Error", JOptionPane.ERROR_MESSAGE);
+	                	JOptionPane.showMessageDialog(VistaModificarCliente.this, "Alguno de los campos debe estar rellenado.", "Error", JOptionPane.ERROR_MESSAGE);
                         txtNombre.requestFocus();
                         return;
 	                }
@@ -229,7 +229,7 @@ public class VistaModificarCliente extends JDialog implements IGUI {
 	                String info = "ID: " + clienteEncontrado.getId() + "\nNombre: " + clienteEncontrado.getNombre() + " " 
 	                        + clienteEncontrado.getApellidos() + "\nDNI: " + clienteEncontrado.getDNI();
 	                        
-                    int respuesta = JOptionPane.showConfirmDialog(null, 
+                    int respuesta = JOptionPane.showConfirmDialog(VistaModificarCliente.this, 
                         "¿Está seguro de que desea modificar este cliente?:\n\n" + info ,
                         "Confirmar Modificación:", 
                         JOptionPane.YES_NO_OPTION, 
@@ -241,11 +241,10 @@ public class VistaModificarCliente extends JDialog implements IGUI {
                     }
 	            }
                  catch (NumberFormatException ex) {
-                    JOptionPane.showMessageDialog(null, "Asegúrese de que el teléfono sea un número válido.", "Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(VistaModificarCliente.this, "Asegúrese de que el teléfono sea un número válido.", "Error", JOptionPane.ERROR_MESSAGE);
                     txtTelefono.requestFocus();
                  }
                 
-                pBotones.setVisible(true);
                 pack();
                 setLocationRelativeTo(null);
             }
@@ -295,7 +294,7 @@ public class VistaModificarCliente extends JDialog implements IGUI {
                 break;
                 
             case Eventos.RES_MODIFICAR_CLIENTE_OK:
-                JOptionPane.showMessageDialog(this, "Cliente modificado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(VistaModificarCliente.this, "Cliente modificado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
                 
                 panelEdicion.setVisible(false);
                 pBotones.setVisible(true);
@@ -307,7 +306,7 @@ public class VistaModificarCliente extends JDialog implements IGUI {
                 break;
                 
             case Eventos.RES_MODIFICAR_CLIENTE_KO_NO_EXISTE:
-                JOptionPane.showMessageDialog(this, "Error: No se encontró ningún cliente con el ID especificado.", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(VistaModificarCliente.this, "Error: No se encontró ningún cliente con el ID especificado.", "Error", JOptionPane.ERROR_MESSAGE);
                 
                 panelEdicion.setVisible(false);
                 pBotones.setVisible(true);
@@ -318,9 +317,6 @@ public class VistaModificarCliente extends JDialog implements IGUI {
                 setLocationRelativeTo(null);
                 break;
 
-            case Eventos.RES_MODIFICAR_CLIENTE_KO_DATOS_INVALIDOS:
-                JOptionPane.showMessageDialog(this, "Error: Los datos introducidos no son válidos para la modificación.", "Validación Fallida", JOptionPane.ERROR_MESSAGE);
-                break;
 
         }
     }
@@ -328,7 +324,7 @@ public class VistaModificarCliente extends JDialog implements IGUI {
     // Métodos auxiliares:
 	
  	private boolean esFormatoDNIValido(String dni) {
- 		String regex_dni = "^[0-9]{8}[A-Za-z]$";
+ 		String regex_dni = "^[0-9]{8}[A-Z]$";
  		return dni.matches(regex_dni);
  	}
 

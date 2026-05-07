@@ -90,9 +90,7 @@ public class DAOServicioImp implements DAOServicio {
 
             for (int i = 0; i < array.length(); i++) {
                 JSONObject obj = array.getJSONObject(i);
-                TServicio s = obj.optInt("tipo", 1) == 1 ? new TArticulo() : new TMontaje();
-                s.fromJSON(obj);
-                lista.add(s);
+                lista.add(fromJSON(obj));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -125,7 +123,7 @@ public class DAOServicioImp implements DAOServicio {
         JSONArray array = new JSONArray();
 
         for (TServicio s : lista) {
-            array.put(s.asJSON());
+            array.put(toJSON(s));
         }
 
         try (FileOutputStream os = new FileOutputStream(new File(PATH))) {
@@ -133,6 +131,47 @@ public class DAOServicioImp implements DAOServicio {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private TServicio fromJSON(JSONObject obj) {
+        TServicio servicio = obj.optInt("tipo", 1) == 1 ? new TArticulo() : new TMontaje();
+
+        servicio.setId(obj.has("id") && !obj.isNull("id") ? obj.getInt("id") : null);
+        servicio.setNombre(obj.has("nombre") && !obj.isNull("nombre") ? obj.getString("nombre") : null);
+        servicio.setDescripcion(obj.has("descripcion") && !obj.isNull("descripcion") ? obj.getString("descripcion") : null);
+        servicio.setStock(obj.has("stock") && !obj.isNull("stock") ? obj.getInt("stock") : null);
+        servicio.setPrecioActual(obj.has("precioActual") && !obj.isNull("precioActual") ? obj.getInt("precioActual") : null);
+        servicio.setActivo(obj.has("activo") && !obj.isNull("activo") ? obj.getBoolean("activo") : true);
+        servicio.setTipo(obj.has("tipo") && !obj.isNull("tipo") ? obj.getInt("tipo") : null);
+        servicio.setMarca(obj.has("marca") && !obj.isNull("marca") ? obj.getString("marca") : null);
+
+        if (servicio instanceof TArticulo) {
+            TArticulo articulo = (TArticulo) servicio;
+            articulo.setMarcaId(obj.has("idMarca") && !obj.isNull("idMarca") ? obj.getInt("idMarca") : 0);
+            articulo.setVentas(obj.has("ventas") && !obj.isNull("ventas") ? obj.getInt("ventas") : 0);
+        }
+
+        return servicio;
+    }
+
+    private JSONObject toJSON(TServicio servicio) {
+        JSONObject obj = new JSONObject();
+        obj.put("id", servicio.getId());
+        obj.put("nombre", servicio.getNombre());
+        obj.put("descripcion", servicio.getDescripcion());
+        obj.put("stock", servicio.getStock());
+        obj.put("precioActual", servicio.getPrecioActual());
+        obj.put("activo", servicio.isActivo());
+        obj.put("tipo", servicio.getTipo());
+        obj.put("marca", servicio.getMarca());
+
+        if (servicio instanceof TArticulo) {
+            TArticulo articulo = (TArticulo) servicio;
+            obj.put("idMarca", articulo.getMarcaId());
+            obj.put("ventas", articulo.getVentas());
+        }
+
+        return obj;
     }
 
 }

@@ -68,88 +68,36 @@ public class VistaCerrarVenta extends JFrame implements IGUI {
 
 		// Acción aceptar
 		btnAceptar.addActionListener(e -> {
-			try {
-				TFactura tFactura = new TFactura();
 
-				if (txtIdCliente.getText().isEmpty() || txtIdCliente.getText().trim().isEmpty()) {
-					JOptionPane.showMessageDialog(this, "El ID del cliente no puede ser vacío", "Error",
-							JOptionPane.ERROR_MESSAGE);
-					return;
-				}
+		    try {
+		        TFactura tFactura = new TFactura();
 
-				int idCliente = Integer.parseInt(txtIdCliente.getText());
-				
+		        int idCliente = Integer.parseInt(txtIdCliente.getText().trim());
 
-				
+		        int idDescuento = 0;
+		        if (!txtIdDescuento.getText().trim().isEmpty()) {
+		            idDescuento = Integer.parseInt(txtIdDescuento.getText().trim());
+		        }
 
-				if (idCliente <= 0) {
-					JOptionPane.showMessageDialog(this, "El ID de cliente debe ser mayor que 0.", "Error",
-							JOptionPane.ERROR_MESSAGE);
-					return;
-				}
-				
-				int idDescuento = 0;
+		        int dia = (Integer) spinnerDia.getValue();
+		        int mes = (Integer) spinnerMes.getValue();
+		        int anio = (Integer) spinnerAnyo.getValue();
 
-				if (!txtIdDescuento.getText().isEmpty()) {
-				    idDescuento = Integer.parseInt(txtIdDescuento.getText());
+		        Calendar fecha = Calendar.getInstance();
+		        fecha.set(anio, mes - 1, dia);
 
-				    if (idDescuento < 0) {
-				        JOptionPane.showMessageDialog(this,
-				            "El ID de descuento no puede ser negativo.",
-				            "Error",
-				            JOptionPane.ERROR_MESSAGE);
-				        return;
-				    }
-				}
-				tFactura.setIdCliente(idCliente);
-				tFactura.setIdDescuento(idDescuento);
+		        tFactura.setIdCliente(idCliente);
+		        tFactura.setIdDescuento(idDescuento);
+		        tFactura.setFecha(fecha.getTime());
 
-				int dia = (Integer) spinnerDia.getValue();
-				int mes = (Integer) spinnerMes.getValue();
-				int anio = (Integer) spinnerAnyo.getValue();
+		        Controlador.getInstance().accion(Eventos.CERRAR_VENTA, tFactura);
 
-				Calendar fechaSeleccionada = Calendar.getInstance();
-				fechaSeleccionada.setLenient(false); 
-				fechaSeleccionada.set(anio, mes - 1, dia);
-
-				try {
-				    fechaSeleccionada.getTime();
-				} catch (Exception ex) {
-				    JOptionPane.showMessageDialog(this, "La fecha introducida no es válida.", "Error",
-				            JOptionPane.ERROR_MESSAGE);
-				    return;
-				}
-
-				Calendar hoy = Calendar.getInstance();
-
-				hoy.set(Calendar.HOUR_OF_DAY, 0);
-				hoy.set(Calendar.MINUTE, 0);
-				hoy.set(Calendar.SECOND, 0);
-				hoy.set(Calendar.MILLISECOND, 0);
-				
-				fechaSeleccionada.set(Calendar.HOUR_OF_DAY, 0);
-				fechaSeleccionada.set(Calendar.MINUTE, 0);
-				fechaSeleccionada.set(Calendar.SECOND, 0);
-				fechaSeleccionada.set(Calendar.MILLISECOND, 0);
-
-				if (fechaSeleccionada.after(hoy)) {
-				    JOptionPane.showMessageDialog(this, "La fecha no puede ser futura.", "Error",
-				            JOptionPane.ERROR_MESSAGE);
-				    return;
-				}
-
-				tFactura.setFecha(fechaSeleccionada.getTime());
-
-				btnAceptar.setEnabled(false);
-				Controlador.getInstance().accion(Eventos.CERRAR_VENTA, tFactura);
-				btnAceptar.setEnabled(true);
-
-				limpiarCampos();
-
-			} catch (NumberFormatException ex) {
-				JOptionPane.showMessageDialog(null, "Los IDs deben ser números válidos.", "Error",
-						JOptionPane.ERROR_MESSAGE);
-			}
+		    } catch (NumberFormatException ex) {
+		        JOptionPane.showMessageDialog(this,
+		            "Los IDs deben ser numéricos",
+		            "Error",
+		            JOptionPane.ERROR_MESSAGE);
+		    }
 		});
 
 		// Acción cancelar
@@ -221,9 +169,16 @@ public class VistaCerrarVenta extends JFrame implements IGUI {
 			switch (evento) {
 
 			case Eventos.RES_CERRAR_VENTA_OK:
-				JOptionPane.showMessageDialog(this, "Venta cerrada correctamente con ID: " + (Integer) datos);
-				setVisible(false);
-				break;
+				
+
+				    JOptionPane.showMessageDialog(
+				        VistaCerrarVenta.this,
+				        "Venta cerrada correctamente con ID: " + datos
+				    );
+
+				    VistaCerrarVenta.this.setVisible(false);
+				    VistaCerrarVenta.this.dispose();
+				    break;
 
 			case Eventos.RES_CERRAR_VENTA_KO:
 

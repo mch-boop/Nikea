@@ -17,8 +17,8 @@ public class DAOLineaFacturaImp implements DAOLineaFactura {
 	private final String PATH = "resources/BD/lineasFactura.json";
 
 	@Override
-	public void crear(TLineaFactura lineaFactura) {
-		List<TLineaFactura> lista = leerTodas();
+	public void create(TLineaFactura lineaFactura) {
+		List<TLineaFactura> lista = readAll();
 
 		lista.add(lineaFactura);
 
@@ -27,11 +27,11 @@ public class DAOLineaFacturaImp implements DAOLineaFactura {
 	}
 
 	@Override
-	public List<TLineaFactura> leerPorFactura(int idFactura) {
+	public List<TLineaFactura> read(int idFactura) {
 
 		List<TLineaFactura> res = new ArrayList<>();
 
-		for (TLineaFactura l : leerTodas()) {
+		for (TLineaFactura l : readAll()) {
 
 			if (l.getIdFactura() == idFactura) {
 				res.add(l);
@@ -42,9 +42,9 @@ public class DAOLineaFacturaImp implements DAOLineaFactura {
 	}
 
 	@Override
-	public TLineaFactura leerPorLinea(Integer idFactura, Integer idProducto) {
+	public TLineaFactura readLine(Integer idFactura, Integer idProducto) {
 
-		for (TLineaFactura l : leerTodas()) {
+		for (TLineaFactura l : readAll()) {
 
 			if (l.getIdFactura() == idFactura && l.getIdProducto() == idProducto) {
 
@@ -56,9 +56,9 @@ public class DAOLineaFacturaImp implements DAOLineaFactura {
 	}
 
 	@Override
-	public void actualizar(TLineaFactura lineaFactura) {
+	public void update(TLineaFactura lineaFactura) {
 
-		List<TLineaFactura> lista = leerTodas();
+		List<TLineaFactura> lista = readAll();
 
 		for (int i = 0; i < lista.size(); i++) {
 
@@ -75,9 +75,9 @@ public class DAOLineaFacturaImp implements DAOLineaFactura {
 	}
 
 	@Override
-	public void eliminar(Integer idFactura, Integer idProducto) {
+	public void deleteLine(Integer idFactura, Integer idProducto) {
 
-		List<TLineaFactura> lista = leerTodas();
+		List<TLineaFactura> lista = readAll();
 
 		lista.removeIf(l -> l.getIdFactura() == idFactura && l.getIdProducto() == idProducto);
 
@@ -85,16 +85,16 @@ public class DAOLineaFacturaImp implements DAOLineaFactura {
 	}
 
 	@Override
-	public void eliminarPorFactura(Integer idFactura) {
+	public void deleteAll(Integer idFactura) {
 
-		List<TLineaFactura> lista = leerTodas();
+		List<TLineaFactura> lista = readAll();
 
 		lista.removeIf(l -> l.getIdFactura() == idFactura);
 
 		guardar(lista);
 	}
 
-	private List<TLineaFactura> leerTodas() {
+	public List<TLineaFactura> readAll() {
 
 		List<TLineaFactura> lista = new ArrayList<>();
 
@@ -114,7 +114,7 @@ public class DAOLineaFacturaImp implements DAOLineaFactura {
 				TLineaFactura l = new TLineaFactura();
 
 				l.setIdFactura(obj.getInt("idFactura"));
-				l.setIdProducto(obj.getInt("idProducto"));
+				l.setIdServicio(obj.getInt("idProducto"));
 				l.setCantidad(obj.getInt("cantidad"));
 				l.setPrecioUnitario(obj.getDouble("precioUnitario"));
 

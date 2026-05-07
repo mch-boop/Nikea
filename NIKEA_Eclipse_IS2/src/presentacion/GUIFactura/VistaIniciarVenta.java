@@ -56,31 +56,21 @@ public class VistaIniciarVenta extends JFrame implements IGUI {
 		// ACEPTAR
 		btnAceptar.addActionListener(e -> {
 
-			try {
+		    try {
 
-				if (txtIdVendedor.getText().trim().isEmpty()) {
-					JOptionPane.showMessageDialog(this, "El ID del vendedor es obligatorio.", "Error",
-							JOptionPane.ERROR_MESSAGE);
-					return;
-				}
+		        int idVendedor = Integer.parseInt(txtIdVendedor.getText().trim());
 
-				int idVendedor = Integer.parseInt(txtIdVendedor.getText());
+		        TFactura tFactura = new TFactura();
+		        tFactura.setIdVendedor(idVendedor);
 
-				if (idVendedor <= 0) {
-					JOptionPane.showMessageDialog(this, "El ID del vendedor debe ser mayor que 0.", "Error",
-							JOptionPane.ERROR_MESSAGE);
-					return;
-				}
+		        Controlador.getInstance().accion(Eventos.INICIAR_VENTA, tFactura);
 
-				TFactura tFactura = new TFactura();
-				tFactura.setIdVendedor(idVendedor);
-
-				Controlador.getInstance().accion(Eventos.INICIAR_VENTA, tFactura);
-
-			} catch (NumberFormatException ex) {
-				JOptionPane.showMessageDialog(this, "El ID del vendedor debe ser numérico.", "Error",
-						JOptionPane.ERROR_MESSAGE);
-			}
+		    } catch (NumberFormatException ex) {
+		        JOptionPane.showMessageDialog(this,
+		            "El ID del vendedor debe ser numérico.",
+		            "Error",
+		            JOptionPane.ERROR_MESSAGE);
+		    }
 		});
 
 		// CANCELAR
@@ -127,7 +117,7 @@ public class VistaIniciarVenta extends JFrame implements IGUI {
 			switch (evento) {
 
 			case Eventos.RES_INICIAR_VENTA_OK:
-				JOptionPane.showMessageDialog(this, "Venta iniciada correctamente con ID: " + (Integer) datos);
+				JOptionPane.showMessageDialog(this, "Venta iniciada correctamente" );
 				limpiarCampos();
 				break;
 

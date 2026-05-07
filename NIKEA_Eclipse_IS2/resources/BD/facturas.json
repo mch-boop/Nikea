@@ -106,5 +106,41 @@
         "idCliente": 9,
         "idVendedor": 6,
         "id": 12
+    },
+    {
+        "fecha": "2026-05-06",
+        "total": 29,
+        "cerrada": true,
+        "idDescuento": 2,
+        "idCliente": 1,
+        "idVendedor": 2,
+        "id": 13
+    },
+    {
+        "fecha": "2026-05-01",
+        "total": 87,
+        "cerrada": true,
+        "idDescuento": 3,
+        "idCliente": 1,
+        "idVendedor": 1,
+        "id": 14
+    },
+    {
+        "fecha": "2026-05-06",
+        "total": 87,
+        "cerrada": true,
+        "idDescuento": 0,
+        "idCliente": 5,
+        "idVendedor": 7,
+        "id": 15
+    },
+    {
+        "fecha": "2026-05-06",
+        "total": 87,
+        "cerrada": true,
+        "idDescuento": 2,
+        "idCliente": 3,
+        "idVendedor": 1,
+        "id": 16
     }
 ]

@@ -86,29 +86,29 @@ public class VistaAnadirCliente extends JDialog implements IGUI {
 
 					// Validación previa de los campos.
 					if (txtNombre.getText().trim().isEmpty()) {
-						JOptionPane.showMessageDialog(null, "Error: El nombre es un campo obligatorio.", "Faltan datos",
+						JOptionPane.showMessageDialog(VistaAnadirCliente.this, "Error: El nombre es un campo obligatorio.", "Faltan datos",
 								JOptionPane.WARNING_MESSAGE);
 						txtNombre.requestFocus();
 						return;
 					}
 					if (txtApellido.getText().trim().isEmpty()) {
-						JOptionPane.showMessageDialog(null, "Error: Los apellidos son un campo obligatorio.",
+						JOptionPane.showMessageDialog(VistaAnadirCliente.this, "Error: Los apellidos son un campo obligatorio.",
 								"Faltan datos", JOptionPane.WARNING_MESSAGE);
 						txtApellido.requestFocus();
 						return;
 					}
 					if (txtDNI.getText().trim().isEmpty()) {
-						JOptionPane.showMessageDialog(null, "Error: El DNI es un campo obligatorio.", "Faltan datos",
+						JOptionPane.showMessageDialog(VistaAnadirCliente.this, "Error: El DNI es un campo obligatorio.", "Faltan datos",
 								JOptionPane.WARNING_MESSAGE);
 						txtDNI.requestFocus();
 						return;
 					}
 					if (!esFormatoDNIValido(txtDNI.getText().trim())) {
-					    mostrarError("DNI inválido. Formato: 8 dígitos + 1 letra", txtDNI);
+					    mostrarError("DNI inválido. Formato: 8 dígitos + 1 mayúscula", txtDNI);
 					    return;
 					}
 					if (txtTelefono.getText().trim().isEmpty()) {
-						JOptionPane.showMessageDialog(null, "Error: El teléfono es un campo obligatorio.",
+						JOptionPane.showMessageDialog(VistaAnadirCliente.this, "Error: El teléfono es un campo obligatorio.",
 								"Faltan datos", JOptionPane.WARNING_MESSAGE);
 						txtTelefono.requestFocus();
 						return;
@@ -135,7 +135,7 @@ public class VistaAnadirCliente extends JDialog implements IGUI {
 
 						tfno = (int) telLong;
 					} catch (NumberFormatException ex) {
-						mostrarError("El teléfono debe contener solo números (máximo 10 dígitos).", txtTelefono);
+						mostrarError("El teléfono debe contener solo números (máximo 9 dígitos).", txtTelefono);
 						return;
 					}
 
@@ -200,7 +200,7 @@ public class VistaAnadirCliente extends JDialog implements IGUI {
 		formPanel.add(txtTelefono, ajuste);
 
 		// Label de título.
-		JLabel lblTitulo = new JLabel("Introduzca el ID del Cliente a dar de alta:");
+		JLabel lblTitulo = new JLabel("Introduzca los datos del nuevo Cliente:");
 		lblTitulo.setAlignmentX(Component.CENTER_ALIGNMENT);
 
 		// Añadir componentes.
@@ -255,7 +255,7 @@ public class VistaAnadirCliente extends JDialog implements IGUI {
 	// Métodos auxiliares:
 	
 	private boolean esFormatoDNIValido(String dni) {
-		String regex_dni = "^[0-9]{8}[A-Za-z]$";
+		String regex_dni = "^[0-9]{8}[A-Z]$";
 		return dni.matches(regex_dni);
 	}
 
