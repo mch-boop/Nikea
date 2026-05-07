@@ -816,50 +816,58 @@ public class ControladorImp extends Controlador {
 		// EVENTOS DE DESCUENTO
 
 		case Eventos.ALTA_DESCUENTO: {
-			TDescuento tDescuento = (TDescuento) datos;
-			SADescuento saDescuento = FactoriaAbstractaNegocio.getInstance().crearSADescuento();
+		    TDescuento tDescuento = (TDescuento) datos;
+		    SADescuento saDescuento = FactoriaAbstractaNegocio.getInstance().crearSADescuento();
 
-			int res = saDescuento.create(tDescuento);
+		    int res = saDescuento.create(tDescuento);
 
-			IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(evento);
+		    IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(evento);
 
-			if (res > 0) {
-				vista.actualizar(Eventos.RES_ALTA_DESCUENTO_OK, res);
-			} else {
-				switch (res) {
-				case -1:
-					vista.actualizar(Eventos.RES_ALTA_DESCUENTO_YA_EXISTE, saDescuento.getUltimoDuplicado());
-					break;
-				case -2:
-					vista.actualizar(Eventos.RES_ALTA_DESCUENTO_CONFIRMAR_REACTIVACION, tDescuento);
-					break;
-				case -3:
-					vista.actualizar(Eventos.RES_ALTA_DESCUENTO_KO_CODIGO, tDescuento);
-					break;
-				case -4:
-					vista.actualizar(Eventos.RES_ALTA_DESCUENTO_KO_PORCENTAJE, tDescuento);
-					break;
-				default:
-					vista.actualizar(Eventos.RES_ALTA_DESCUENTO_KO, res);
-					break;
-				}
-			}
-			break;
+		    if (res > 0) {
+		        vista.actualizar(Eventos.RES_ALTA_DESCUENTO_OK, res);
+
+		    } else {
+		        switch (res) {
+
+		        case -1:
+		            vista.actualizar(Eventos.RES_ALTA_DESCUENTO_YA_EXISTE,
+		                    saDescuento.readByCodigo(tDescuento.getCodigo()));
+		            break;
+
+		        case -2:
+		            vista.actualizar(Eventos.RES_ALTA_DESCUENTO_CONFIRMAR_REACTIVACION, tDescuento);
+		            break;
+
+		        case -3:
+		            vista.actualizar(Eventos.RES_ALTA_DESCUENTO_KO_CODIGO, tDescuento);
+		            break;
+
+		        case -4:
+		            vista.actualizar(Eventos.RES_ALTA_DESCUENTO_KO_PORCENTAJE, tDescuento);
+		            break;
+
+		        default:
+		            vista.actualizar(Eventos.RES_ALTA_DESCUENTO_KO, res);
+		            break;
+		        }
+		    }
+		    break;
 		}
 
 		case Eventos.REACTIVAR_DESCUENTO: {
-			TDescuento tDescuento = (TDescuento) datos;
-			SADescuento saDescuento = FactoriaAbstractaNegocio.getInstance().crearSADescuento();
+		    TDescuento tDescuento = (TDescuento) datos;
+		    SADescuento saDescuento = FactoriaAbstractaNegocio.getInstance().crearSADescuento();
 
-			int res = saDescuento.reactivate(tDescuento);
+		    int res = saDescuento.reactivate(tDescuento);
 
-			IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.ALTA_DESCUENTO);
-			if (res >= 0) {
-				vista.actualizar(Eventos.RES_ALTA_DESCUENTO_OK, res);
-			} else {
-				vista.actualizar(Eventos.RES_ALTA_DESCUENTO_KO, res);
-			}
-			break;
+		    IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.ALTA_DESCUENTO);
+
+		    if (res > 0) {
+		        vista.actualizar(Eventos.RES_ALTA_DESCUENTO_OK, res);
+		    } else {
+		        vista.actualizar(Eventos.RES_ALTA_DESCUENTO_KO, null);
+		    }
+		    break;
 		}
 
 		case Eventos.MOSTRAR_DESCUENTOS: {

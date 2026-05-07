@@ -8,49 +8,75 @@ import java.util.Collection;
 
 public class SADescuentoImp implements SADescuento {
 
-	private TDescuento ultimoDuplicado;
-
 	@Override
 	public int create(TDescuento td) {
-		DAODescuento dao = FactoriaIntegracion.getInstance().crearDAODescuento();
-		TDescuento existente = dao.readByCodigo(td.getCodigo());
+	    DAODescuento dao = FactoriaIntegracion.getInstance().crearDAODescuento();
 
-		this.ultimoDuplicado = null;
+	    // Validaciones
+	    if (td.getCodigo() == null || td.getCodigo().trim().isEmpty())
+	        return -3;
+	    if (td.getPorcentaje() <= 0 || td.getPorcentaje() > 100)
+	        return -4;
 
-		if (td.getCodigo() == null || td.getCodigo().trim().isEmpty())
-			return -3;
-		if (td.getPorcentaje() <= 0 || td.getPorcentaje() > 100)
-			return -4;
+	    TDescuento existente = dao.readByCodigo(td.getCodigo());
 
-		if (existente == null) {
-			return dao.create(td);
-		}
+	    // No existe -> alta normal
+	    if (existente == null) {
+	        return dao.create(td);
+	    }
 
-		this.ultimoDuplicado = existente;
+	    // Existe activo -> duplicado
+	    if (existente.isActivo()) {
+	        return -1;
+	    }
 
-		if (existente.isActivo()) {
-			return -1;
-		} else {
-			if (existente.isTipo() == td.isTipo() && Double.compare(existente.getPorcentaje(), td.getPorcentaje()) == 0
-					&& Double.compare(existente.getCantidad(), td.getCantidad()) == 0) {
-
-				existente.setActivo(true);
-				existente.setNombre(td.getNombre());
-				dao.update(existente);
-				return existente.getId();
-			}
-
-			this.ultimoDuplicado = td;
-			this.ultimoDuplicado.setId(existente.getId()); // Arrastramos el ID viejo
-			return -2;
-		}
+	    // Existe inactivo -> posible reactivación
+	    return -2;
 	}
 
 	@Override
 	public int reactivate(TDescuento td) {
-		DAODescuento dao = FactoriaIntegracion.getInstance().crearDAODescuento();
-		td.setActivo(true);
-		return dao.update(td);
+	    DAODescuento dao = FactoriaIntegracion.getInstance().crearDAODescuento();
+
+	    if (td.getCodigo() == null || td.getCodigo().trim().isEmpty()) return -3;
+	    if (td.getPorcentaje() <= 0 || td.getPorcentaje() > 100) return -4;
+
+	    TDescuento existente = dao.readByCodigo(td.getCodigo());
+
+	    if (existente == null || existente.isActivo()) {
+	        return -1; // no existe o ya activo
+	    }
+
+	    // Actualizamos datos nuevos
+	    existente.setActivo(true);
+	    existente.setNombre(td.getNombre());
+	    existente.setPorcentaje(td.getPorcentaje());
+	    existente.setTipo(td.isTipo());
+	    if (td.isTipo()) {
+	        if (td.getImporteMin() != null) {
+	            existente.setImporteMin(td.getImporteMin());
+	        }
+	    } else {
+	        if (td.getProductosMin() != null) {
+	            existente.setProductosMin(td.getProductosMin());
+	        }
+	    }
+
+	    dao.update(existente);
+
+	    return existente.getId();
+	}
+	
+	@Override
+	public TDescuento readByCodigo(String codigo) {
+	    Collection<TDescuento> todos = readAll(); 
+	    
+	    for (TDescuento td : todos) {
+	        if (td.getCodigo().equalsIgnoreCase(codigo)) {
+	            return td;
+	        }
+	    }
+	    return null; // Si no lo encuentra
 	}
 
 	@Override
@@ -92,11 +118,6 @@ public class SADescuentoImp implements SADescuento {
 		}
 
 		return activos.isEmpty() ? null : activos;
-	}
-
-	@Override
-	public TDescuento getUltimoDuplicado() {
-		return this.ultimoDuplicado;
 	}
 
 	@Override
