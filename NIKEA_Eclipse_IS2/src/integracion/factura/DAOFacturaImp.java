@@ -114,16 +114,6 @@ public class DAOFacturaImp implements DAOFactura {
 	}
 
 	@Override
-	public void delete(int id) {
-		List<TFactura> lista = readAll();
-
-		lista.removeIf(f -> f.getId() == id);
-
-		guardarEnArchivo(lista);
-
-	}
-
-	@Override
 	public List<TFactura> readByClient(int idCliente) {
 		List<TFactura> res = new ArrayList<>();
 

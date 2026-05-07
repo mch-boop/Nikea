@@ -13,8 +13,6 @@ public interface DAOFactura {
 
 	public boolean update(TFactura factura);// Actualiza los datos de una factura existente
 
-	public void delete(int id);
-
 	public List<TFactura> readByClient(int idCliente); //Buscar facturas de un cliente concreto
 
 	public List<TFactura> readByDateRange(String fechaInicio, String fechaFin); //Buscar facturas entre dos fechas
