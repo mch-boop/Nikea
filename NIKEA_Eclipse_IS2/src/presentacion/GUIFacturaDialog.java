@@ -14,7 +14,7 @@ import presentacion.controlador.Controlador;
 import presentacion.controlador.Eventos;
 import presentacion.factoria.FactoriaAbstractaPresentacion;
 
-@SuppressWarnings("serial")
+@SuppressWarnings({ "serial", "this-escape" })
 public class GUIFacturaDialog extends JDialog {
 
     // CONSTRUCTORA
@@ -32,7 +32,7 @@ public class GUIFacturaDialog extends JDialog {
     // MÉTODOS
 
     private void initGUI() {
-        JPanel panel = new JPanel(new GridLayout(3, 2, 10, 10));
+        JPanel panel = new JPanel(new GridLayout(4, 2, 10, 10));
         panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
         JButton btnIniciar = new JButton("Iniciar venta");
@@ -44,7 +44,8 @@ public class GUIFacturaDialog extends JDialog {
         JButton btnListarCliente = new JButton("Listar facturas de cliente");
         JButton btnResumenMensual = new JButton("Resumen mensual");
 
-        JButton[] botones = { btnIniciar, btnAnnadir, btnEliminar, btnCerrar, btnBuscar, btnListar, btnListarCliente };
+        JButton[] botones = { btnIniciar, btnAnnadir, btnEliminar, btnCerrar, btnBuscar, btnListar, btnListarCliente,
+                btnResumenMensual };
         for (JButton b : botones) {
             b.setFocusPainted(false);
             panel.add(b);

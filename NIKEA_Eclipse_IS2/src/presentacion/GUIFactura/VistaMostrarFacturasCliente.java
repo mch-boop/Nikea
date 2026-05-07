@@ -14,7 +14,7 @@ import presentacion.IGUI;
 import presentacion.controlador.Controlador;
 import presentacion.controlador.Eventos;
 
-@SuppressWarnings("serial")
+@SuppressWarnings({ "serial", "this-escape" })
 public class VistaMostrarFacturasCliente extends JFrame implements IGUI {
 
     private JTextField txtIdCliente;

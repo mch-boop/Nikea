@@ -308,7 +308,14 @@ public class SAFacturaImp implements SAFactura {
 	@Override
 	public List<TFactura> mostrarTodas() {
 
-		return FactoriaAbstractaIntegracion.getInstance().crearDAOFactura().readAll();
+		List<TFactura> facturas = FactoriaAbstractaIntegracion.getInstance().crearDAOFactura().readAll();
+		DAOLineaFactura daoLinea = FactoriaAbstractaIntegracion.getInstance().crearDAOLineaFactura();
+
+		for (TFactura f : facturas) {
+			f.setLineas(daoLinea.read(f.getId()));
+		}
+
+		return facturas;
 	}
 
 	@Override

@@ -8,7 +8,7 @@ import presentacion.controlador.Controlador;
 import presentacion.controlador.Eventos;
 import negocio.factura.TLineaFactura;
 
-@SuppressWarnings("serial")
+@SuppressWarnings({ "serial", "this-escape" })
 public class VistaEliminarServicioFactura extends JFrame implements IGUI {
 
     private JTextField txtIdServicio;

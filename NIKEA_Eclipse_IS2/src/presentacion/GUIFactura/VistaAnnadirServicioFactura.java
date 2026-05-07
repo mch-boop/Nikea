@@ -8,7 +8,7 @@ import presentacion.controlador.Controlador;
 import presentacion.controlador.Eventos;
 import negocio.factura.TLineaFactura;
 
-@SuppressWarnings("serial")
+@SuppressWarnings({ "serial", "this-escape" })
 public class VistaAnnadirServicioFactura extends JFrame implements IGUI {
 
     private JTextField txtIdServicio;
@@ -180,6 +180,7 @@ public class VistaAnnadirServicioFactura extends JFrame implements IGUI {
                             JOptionPane.ERROR_MESSAGE);
                     limpiarCampos();
                     break;
+
             }
         });
     }
