@@ -1,4 +1,10 @@
-[{
-    "idMontador": 2,
-    "idMontaje": 14
-}]
+[
+    {
+        "idMontador": 2,
+        "idMontaje": 14
+    },
+    {
+        "idMontador": 10,
+        "idMontaje": 14
+    }
+]
