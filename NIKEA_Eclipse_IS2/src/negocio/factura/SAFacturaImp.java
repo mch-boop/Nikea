@@ -191,6 +191,9 @@ public class SAFacturaImp implements SAFactura {
 		if (facturaActual == null)
 			return Eventos.RES_CERRAR_VENTA_KO_NO_INICIADA; // venta no iniciada
 
+		if (factura == null)
+			return Eventos.RES_CERRAR_VENTA_KO_GENERAL;
+
 		if (facturaActual.getLineas() == null || facturaActual.getLineas().isEmpty())
 			return Eventos.RES_CERRAR_VENTA_KO_SIN_LINEAS;
 

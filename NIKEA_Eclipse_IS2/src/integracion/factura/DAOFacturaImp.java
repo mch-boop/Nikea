@@ -25,13 +25,25 @@ public class DAOFacturaImp implements DAOFactura {
 	public int create(TFactura factura) {
 		List<TFactura> lista = readAll();
 
-		factura.setId(lista.size()+1);
+		factura.setId(siguienteId(lista));
         lista.add(factura);
 
 
 		guardarEnArchivo(lista);
 
 		return factura.getId();
+	}
+
+	private int siguienteId(List<TFactura> lista) {
+		int maxId = 0;
+
+		for (TFactura f : lista) {
+			if (f.getId() > maxId) {
+				maxId = f.getId();
+			}
+		}
+
+		return maxId + 1;
 	}
 
 	@Override

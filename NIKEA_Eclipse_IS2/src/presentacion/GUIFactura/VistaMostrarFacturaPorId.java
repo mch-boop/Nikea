@@ -1,6 +1,7 @@
 package presentacion.GUIFactura;
 
 import java.awt.*;
+import java.text.SimpleDateFormat;
 import javax.swing.*;
 
 import negocio.factura.TFactura;
@@ -130,6 +131,7 @@ public class VistaMostrarFacturaPorId extends JFrame implements IGUI {
 
                 case Eventos.RES_BUSCAR_FACTURA_OK:
                     TFactura factura = (TFactura) datos;
+                    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
                     StringBuilder sb = new StringBuilder();
                     sb.append(" ------------------------------------------ \n");
                     sb.append("          DETALLES DE LA FACTURA           \n");
@@ -138,7 +140,7 @@ public class VistaMostrarFacturaPorId extends JFrame implements IGUI {
                     sb.append("Vendedor:    ").append(factura.getIdVendedor()).append("\n");
                     sb.append("Cliente:     ").append(factura.getIdCliente()).append("\n");
                     sb.append("Descuento:   ").append(factura.getIdDescuento()).append("\n");
-                    sb.append("Fecha:       ").append(factura.getFecha()).append("\n");
+                    sb.append("Fecha:       ").append(sdf.format(factura.getFecha())).append("\n");
                     sb.append("Total:       ").append(factura.getTotal()).append("\n");
                     sb.append("Cerrada:     ").append(factura.isCerrada()).append("\n\n");
                     sb.append("Líneas de factura:\n");

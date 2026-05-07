@@ -84,7 +84,10 @@ public class VistaCerrarVenta extends JFrame implements IGUI {
 		        int anio = (Integer) spinnerAnyo.getValue();
 
 		        Calendar fecha = Calendar.getInstance();
+		        fecha.setLenient(false);
+		        fecha.clear();
 		        fecha.set(anio, mes - 1, dia);
+		        fecha.getTime();
 
 		        tFactura.setIdCliente(idCliente);
 		        tFactura.setIdDescuento(idDescuento);
@@ -95,6 +98,11 @@ public class VistaCerrarVenta extends JFrame implements IGUI {
 		    } catch (NumberFormatException ex) {
 		        JOptionPane.showMessageDialog(this,
 		            "Los IDs deben ser numéricos",
+		            "Error",
+		            JOptionPane.ERROR_MESSAGE);
+		    } catch (IllegalArgumentException ex) {
+		        JOptionPane.showMessageDialog(this,
+		            "La fecha no es valida.",
 		            "Error",
 		            JOptionPane.ERROR_MESSAGE);
 		    }

@@ -13,48 +13,48 @@ import presentacion.operacionResumenTOA.VistaOperacionResumen;
 public class GUIMain extends JFrame {
 
 	// CONSTANTES
-	
+
 	private final Color AZUL_NIKEA = new Color(0, 81, 158);
 	private final Color AMARILLO_NIKEA = new Color(255, 218, 26);
 	private final Color FONDO = new Color(15, 35, 65);
 	private final Color TEXTO_FOOTER = new Color(120, 130, 150);
-	
+
 	// CONSTRUCTORA
-	
+
 	public GUIMain() {
 		super("[NIKEA - IS2]");
 		initGUI();
 	}
-	
+
 	// MÉTODOS
-	
+
 	private void initGUI() {
-		
+
 		// Configuración de la ventana
 		setMinimumSize(new Dimension(850, 650));
 		setSize(1000, 750);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
 		getContentPane().setBackground(FONDO);
-		
+
 		setLayout(new GridBagLayout());
 		GridBagConstraints gbc = new GridBagConstraints();
 
 		// CREACIÓN DE COMPONENTES
 
-		// Botones 
-		JButton btnClientes   = crearBotonNikea("CLIENTE");
-		JButton btnEmpleados  = crearBotonNikea("EMPLEADO");
-		JButton btnFacturas   = crearBotonNikea("FACTURA");
-		JButton btnServicios  = crearBotonNikea("SERVICIO");
-		JButton btnMarcas     = crearBotonNikea("MARCA");
+		// Botones
+		JButton btnClientes = crearBotonNikea("CLIENTE");
+		JButton btnEmpleados = crearBotonNikea("EMPLEADO");
+		JButton btnFacturas = crearBotonNikea("FACTURA");
+		JButton btnServicios = crearBotonNikea("SERVICIO");
+		JButton btnMarcas = crearBotonNikea("MARCA");
 		JButton btnDescuentos = crearBotonNikea("DESCUENTO");
-		JButton btnResumen    = crearBotonNikea("RESUMEN MES");
-		// Logo central 
+		JButton btnResumen = crearBotonNikea("RESUMEN MES");
+		// Logo central
 		ImagePanel logoPanel = new ImagePanel("resources/Icons/logo.png");
 
 		// LISTENERS (FUNCIONALIDAD)
-		
+
 		// TODO Revisar si vale hacer esto
 		btnClientes.addActionListener(e -> abrirVentanaBloqueante(new GUIClienteDialog(this)));
 		btnEmpleados.addActionListener(e -> abrirVentanaBloqueante(new GUIEmpleadoDialog(this)));
@@ -73,12 +73,14 @@ public class GUIMain extends JFrame {
 		rowTop.add(btnEmpleados);
 		rowTop.add(btnFacturas);
 
-		gbc.gridx = 0; gbc.gridy = 0;
-		gbc.weightx = 1.0; gbc.weighty = 0.2;
+		gbc.gridx = 0;
+		gbc.gridy = 0;
+		gbc.weightx = 1.0;
+		gbc.weighty = 0.2;
 		gbc.fill = GridBagConstraints.BOTH;
 		add(rowTop, gbc);
 
-		// Logo Central 
+		// Logo Central
 		gbc.gridy = 1;
 		gbc.weighty = 0.4;
 		gbc.insets = new Insets(30, 100, 30, 100);
@@ -92,7 +94,7 @@ public class GUIMain extends JFrame {
 		rowBottom.add(btnMarcas);
 		rowBottom.add(btnDescuentos);
 		rowBottom.add(btnResumen);
-		
+
 		gbc.gridy = 2;
 		gbc.weighty = 0.2;
 		gbc.insets = new Insets(0, 0, 0, 0);
@@ -106,7 +108,7 @@ public class GUIMain extends JFrame {
 		gbc.weighty = 0.1;
 		add(footer, gbc);
 	}
-	
+
 	// TODO Este es el nuevo
 	private void abrirVentanaBloqueante(Window ventanaSecundaria) {
 		this.setEnabled(false);
@@ -117,7 +119,7 @@ public class GUIMain extends JFrame {
 				GUIMain.this.setEnabled(true);
 				GUIMain.this.toFront();
 			}
-			
+
 			@Override
 			public void windowClosing(java.awt.event.WindowEvent e) {
 				GUIMain.this.setEnabled(true);
@@ -127,14 +129,14 @@ public class GUIMain extends JFrame {
 	}
 
 	// MÉTODOS AUXILIARES DE ESTILO
-	
+
 	private JButton crearBotonNikea(String texto) {
 		JButton boton = new JButton(texto) {
 			@Override
 			protected void paintComponent(Graphics g) {
 				Graphics2D g2 = (Graphics2D) g.create();
 				g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-				
+
 				if (getModel().isPressed()) {
 					g2.setColor(AZUL_NIKEA.darker());
 				} else if (getModel().isRollover()) {
@@ -142,7 +144,7 @@ public class GUIMain extends JFrame {
 				} else {
 					g2.setColor(AZUL_NIKEA);
 				}
-				
+
 				int arc = Math.min(getWidth(), getHeight()) / 2;
 				g2.fill(new RoundRectangle2D.Double(0, 0, getWidth(), getHeight(), arc, arc));
 				g2.dispose();
@@ -161,7 +163,7 @@ public class GUIMain extends JFrame {
 	}
 
 	// CLASE INTERNA PARA EL LOGO
-	
+
 	class ImagePanel extends JPanel {
 		private Image img;
 
@@ -180,11 +182,11 @@ public class GUIMain extends JFrame {
 
 				int iw = img.getWidth(this);
 				int ih = img.getHeight(this);
-				
+
 				double ratio = Math.min((double) getWidth() / iw, (double) getHeight() / ih);
-				
+
 				// Logo pequeño: limitado al 80% de su tamaño original
-				ratio = Math.min(ratio, 0.8); 
+				ratio = Math.min(ratio, 0.8);
 
 				int nw = (int) (iw * ratio);
 				int nh = (int) (ih * ratio);

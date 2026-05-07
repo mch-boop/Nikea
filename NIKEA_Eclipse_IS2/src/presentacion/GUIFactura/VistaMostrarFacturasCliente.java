@@ -5,6 +5,7 @@ import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.*;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import negocio.factura.TFactura;
@@ -184,9 +185,10 @@ public class VistaMostrarFacturasCliente extends JFrame implements IGUI {
             return;
         }
 
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         for (TFactura f : facturas) {
             modelo.addRow(
-                    new Object[] { f.getId(), f.getIdCliente(), f.getIdVendedor(), f.getFecha(), f.getTotal() });
+                    new Object[] { f.getId(), f.getIdCliente(), f.getIdVendedor(), sdf.format(f.getFecha()), f.getTotal() });
         }
 
         // Seleccionar la primera fila automáticamente para mostrar sus líneas
