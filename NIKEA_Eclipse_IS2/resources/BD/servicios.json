@@ -2,11 +2,12 @@
     {
         "descripcion": "Mesa redonda de madera",
         "precioActual": 25.50,
+		"marca": "El Corte Inglés",
         "tipo": 1,
         "ventas": 0,
         "id": 1,
         "stock": 10,
-        "idMarca": 0,
+        "idMarca": 4,
         "nombre": "Mesa redonda",
         "activo": true
     },
@@ -22,11 +23,12 @@
     {
         "descripcion": "Mueble de dormitorio",
         "precioActual": 45.0,
+		"marca": "El Corte Inglés",
         "tipo": 1,
         "ventas": 0,
         "id": 3,
         "stock": 30,
-        "idMarca": 0,
+        "idMarca": 4,
         "nombre": "Mueble ABC",
         "activo": true
     },
@@ -42,44 +44,48 @@
     {
         "descripcion": "Sofá tapizado para 4 personas",
         "precioActual": 50.25,
+		"marca": "El Corte Inglés",
         "tipo": 1,
         "ventas": 0,
         "id": 5,
         "stock": 230,
-        "idMarca": 0,
+        "idMarca": 4,
         "nombre": "Sofá tapizado",
         "activo": true
     },
     {
         "descripcion": "Cazuela para cocina tradicional",
         "precioActual": 10,
+		"marca": "El Corte Inglés",
         "tipo": 1,
         "ventas": 0,
         "id": 6,
         "stock": 10,
-        "idMarca": 0,
+        "idMarca": 4,
         "nombre": "Cazuela",
         "activo": true
     },
     {
         "descripcion": "Madera y pelo de cabello natural",
         "precioActual": 7,
+		"marca": "El Corte Inglés",
         "tipo": 1,
         "ventas": 0,
         "id": 7,
         "stock": 100,
-        "idMarca": 0,
+        "idMarca": 4,
         "nombre": "Cepillo",
         "activo": true
     },
     {
         "descripcion": "Cómoda infantil",
         "precioActual": 23,
+		"marca": "El Corte Inglés",
         "tipo": 1,
         "ventas": 0,
         "id": 8,
         "stock": 50,
-        "idMarca": 0,
+        "idMarca": 4,
         "nombre": "Cómoda",
         "activo": true
     },
@@ -91,7 +97,7 @@
         "ventas": 6,
         "id": 9,
         "stock": 10,
-        "idMarca": 0,
+        "idMarca": 5,
         "nombre": "Nevera",
         "activo": true
     },
@@ -231,7 +237,7 @@
         "activo": true
     },
     {
-        "descripcion": "Prueba",
+        "descripcion": "Teléfono Nokia nuevo",
         "precioActual": 1,
         "marca": "Nokia",
         "tipo": 1,
@@ -239,7 +245,16 @@
         "id": 22,
         "stock": 1,
         "idMarca": 1,
-        "nombre": "Servicio Prueba",
+        "nombre": "Nokia2.0",
+        "activo": true
+    },
+    {
+        "descripcion": "Blanco y alto",
+        "precioActual": 29.9,
+        "tipo": 2,
+        "id": 23,
+        "stock": 3,
+        "nombre": "Armario empotrado",
         "activo": true
     }
 ]
