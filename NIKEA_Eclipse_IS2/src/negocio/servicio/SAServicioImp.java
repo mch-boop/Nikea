@@ -216,15 +216,13 @@ public class SAServicioImp implements SAServicio {
 	@Override
 	public Collection<TArticulo> readArticulosPorMarca(int idMarca) {
 		Collection<TArticulo> lista = readAllArticulos();
-		if (idMarca != 0) {
+		if (idMarca > 0) {
 			TMarca marca = FactoriaIntegracion.getInstance().crearDAOMarca().read(idMarca);
 			if (marca == null || !marca.isActivo()) {
 				return Collections.emptyList();
 			}
 		}
 
-		for (TArticulo t : lista.stream().filter(s -> s.getMarcaId() == idMarca).toList())
-			System.out.println(t.getNombre());
 		return lista.stream().filter(s -> s.getMarcaId() == idMarca).toList();
 	}
 

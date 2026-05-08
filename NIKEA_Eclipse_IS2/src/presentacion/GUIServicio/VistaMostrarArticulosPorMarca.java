@@ -48,7 +48,7 @@ public class VistaMostrarArticulosPorMarca extends JDialog implements IGUI {
         txtIdMarca = new JTextField(10);
         btnBuscar = new JButton("BUSCAR");
 
-        panelNorte.add(new JLabel("ID Marca (0 para los artículos sin marca):"));
+        panelNorte.add(new JLabel("ID Marca:"));
         panelNorte.add(txtIdMarca);
         panelNorte.add(btnBuscar);
 
@@ -86,11 +86,16 @@ public class VistaMostrarArticulosPorMarca extends JDialog implements IGUI {
                 }
 
                 int id = Integer.parseInt(txtIdMarca.getText().trim());
+                if (id <= 0) {
+                	JOptionPane.showMessageDialog(this, "ID inválido. Inserte un número positivo con el id de la marca", "Error",
+                            JOptionPane.ERROR_MESSAGE);
+                	return;
+                }
                 modeloTabla.setRowCount(0); // limpia antes de buscar
                 Controlador.getInstance().accion(Eventos.MOSTRAR_ARTICULOS_POR_MARCA, id);
 
             } catch (Exception ex) {
-                JOptionPane.showMessageDialog(this, "ID inválido. Inserte un número positivo con el id de la marca, o cero, si quiere buscar los artículos sin marca de Nikea", "Error",
+                JOptionPane.showMessageDialog(this, "ID inválido. El id de la marca debe ser válido", "Error",
                         JOptionPane.ERROR_MESSAGE);
             }
         });

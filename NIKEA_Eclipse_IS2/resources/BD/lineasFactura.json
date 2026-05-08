@@ -346,5 +346,23 @@
         "idFactura": 3,
         "idProducto": 0,
         "cantidad": 2
+    },
+    {
+        "precioUnitario": 27.27,
+        "idFactura": 20,
+        "idProducto": 4,
+        "cantidad": 30
+    },
+    {
+        "precioUnitario": 45,
+        "idFactura": 20,
+        "idProducto": 3,
+        "cantidad": 10
+    },
+    {
+        "precioUnitario": 25.5,
+        "idFactura": 20,
+        "idProducto": 1,
+        "cantidad": 10
     }
 ]
