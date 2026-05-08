@@ -103,5 +103,15 @@
         "dni": "12345678A",
         "numeroVentas": 0,
         "activo": true
+    },
+    {
+        "tipo": 1,
+        "apellido": "Herrera López",
+        "sueldo": 3700.5,
+        "id": 12,
+        "nombre": "Inés",
+        "dni": "12333384D",
+        "numeroVentas": 0,
+        "activo": true
     }
 ]

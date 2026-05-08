@@ -677,7 +677,7 @@ public class ControladorImp extends Controlador {
 			} else if (res == -2) {
 				vista.actualizar(Eventos.RES_DESVINCULAR_MONTADOR_KO_ID_NO_ENCONTRADO, null);
 			} else {
-				vista.actualizar(Eventos.RES_VINCULAR_MONTADOR_KO, null);
+				vista.actualizar(Eventos.RES_DESVINCULAR_MONTADOR_KO, null);
 			}
 			break;
 		}
@@ -807,7 +807,7 @@ public class ControladorImp extends Controlador {
 			SAMarca saMarca = FactoriaAbstractaNegocio.getInstance().crearSAMarca();
 			Collection<TMarca> lista = saMarca.readAll();
 
-			IGUI vista = (IGUI) datos;
+			IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(Eventos.ALTA_SERVICIO);
 
 			if (lista != null && !lista.isEmpty()) {
 				vista.actualizar(Eventos.RES_CARGAR_MARCAS_PARA_SERVICIO_OK, lista);

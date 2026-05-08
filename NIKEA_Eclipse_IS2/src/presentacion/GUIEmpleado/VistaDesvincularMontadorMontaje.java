@@ -6,6 +6,7 @@ import java.awt.*;
 import presentacion.IGUI;
 import presentacion.controlador.Controlador;
 import presentacion.controlador.Eventos;
+import negocio.empleado.TMontadorMontaje;
 
 @SuppressWarnings("serial")
 public class VistaDesvincularMontadorMontaje extends JDialog implements IGUI {
@@ -71,7 +72,9 @@ public class VistaDesvincularMontadorMontaje extends JDialog implements IGUI {
                     int idMontaje = Integer.parseInt(idMontStr);
                     
                     // Empaquetamos los IDs para el controlador
-                    int[] datos = {idMontador, idMontaje};
+                    TMontadorMontaje datos = new TMontadorMontaje();
+                    datos.setIdMontador(idMontador);
+                    datos.setIdMontaje(idMontaje);
                     Controlador.getInstance().accion(Eventos.DESVINCULAR_MONTADOR_MONTAJE, datos);
                 }
             } catch (NumberFormatException ex) {

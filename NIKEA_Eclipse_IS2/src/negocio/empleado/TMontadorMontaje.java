@@ -1,6 +1,6 @@
 package negocio.empleado;
 
-/**
+/*
  * Transfer que representa la relación M:N entre Montador y Montaje.
  * Se utiliza para gestionar las asignaciones de montadores a montajes específicos.
  */

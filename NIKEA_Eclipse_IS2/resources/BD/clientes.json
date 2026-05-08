@@ -54,5 +54,21 @@
         "nombre": "Martina",
         "DNI": "82739984I",
         "activo": true
+    },
+    {
+        "apellidos": "Pérez Herrera",
+        "id": 8,
+        "telefono": 680822816,
+        "nombre": "Inés",
+        "DNI": "02788256G",
+        "activo": true
+    },
+    {
+        "apellidos": "Martínez",
+        "id": 9,
+        "telefono": 963258741,
+        "nombre": "Azucena",
+        "DNI": "01235889S",
+        "activo": true
     }
 ]

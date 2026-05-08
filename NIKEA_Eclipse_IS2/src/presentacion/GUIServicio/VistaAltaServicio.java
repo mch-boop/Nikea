@@ -440,7 +440,7 @@ public class VistaAltaServicio extends JDialog implements IGUI {
     public void setVisible(boolean b) {
         if (b) {
             limpiarCampos();
-            Controlador.getInstance().accion(Eventos.CARGAR_MARCAS_PARA_SERVICIO, this);
+            Controlador.getInstance().accion(Eventos.CARGAR_MARCAS_PARA_SERVICIO, null);
         }
         super.setVisible(b);
     }

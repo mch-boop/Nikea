@@ -10,5 +10,17 @@
     {
         "idMontador": 2,
         "idMontaje": 14
+    },
+    {
+        "idMontador": 7,
+        "idMontaje": 2
+    },
+    {
+        "idMontador": 7,
+        "idMontaje": 4
+    },
+    {
+        "idMontador": 4,
+        "idMontaje": 4
     }
 ]
