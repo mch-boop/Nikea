@@ -70,14 +70,14 @@
         "nombre": "Azucena",
         "DNI": "01235889S",
         "activo": true
-	},
-	{
+    },
+    {
         "apellidos": "Alonso Ferrer",
         "id": 10,
         "telefono": 9038872,
-        "nombre": "Claudia",
+        "nombre": "Marta",
         "DNI": "92839870L",
-        "activo": true
+        "activo": false
     },
     {
         "apellidos": "Sánchez Bravo",

@@ -248,7 +248,7 @@ public class VistaModificarCliente extends JDialog implements IGUI {
 					// la primera llamada a actualizar y por tanto hemos recibido e inicializado
 					// clienteEncontrado.
 					String info = "ID: " + clienteEncontrado.getId() + "\nNombre: " + clienteEncontrado.getNombre()
-							+ " " + clienteEncontrado.getApellidos() + "\nTelefono: " + clienteEncontrado.getTelefono() + "\nDNI: " + clienteEncontrado.getDNI();
+							+ " " + clienteEncontrado.getApellidos() + "\nTelefono: " + String.format("%09d", clienteEncontrado.getTelefono()) + "\nDNI: " + clienteEncontrado.getDNI();
 
 					int respuesta = JOptionPane.showConfirmDialog(VistaModificarCliente.this,
 							"¿Está seguro de que desea modificar este cliente?:\n\n" + info, "Confirmar Modificación:",
@@ -299,7 +299,7 @@ public class VistaModificarCliente extends JDialog implements IGUI {
 			// Rellenar datos actuales
 			txtNombreAct.setText(clienteEncontrado.getNombre());
 			txtApellidoAct.setText(clienteEncontrado.getApellidos());
-			txtTelefonoAct.setText(String.valueOf(clienteEncontrado.getTelefono()));
+			txtTelefonoAct.setText(String.format("%09d", clienteEncontrado.getTelefono()));
 			txtDNIAct.setText(clienteEncontrado.getDNI());
 
 			// Mostramos el panel y ajustamos la ventana
