@@ -31,15 +31,10 @@ public class VistaMostrarServicios extends JDialog implements IGUI {
     	super(null, "Listado General de Servicios", ModalityType.APPLICATION_MODAL);
         setTitle("Listado General de Servicios");
         initGUI();
-        addWindowListener(new java.awt.event.WindowAdapter() {
+        addComponentListener(new java.awt.event.ComponentAdapter() {
             @Override
-            public void windowOpened(java.awt.event.WindowEvent e) {
-                cargarServicios();
-            }
-
-            @Override
-            public void windowClosing(java.awt.event.WindowEvent e) {
-                modeloTabla.setRowCount(0);
+            public void componentShown(java.awt.event.ComponentEvent e) {
+                cargarServicios();  // ← Se ejecuta CADA VEZ que setVisible(true)
             }
         });
         setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
@@ -72,7 +67,6 @@ public class VistaMostrarServicios extends JDialog implements IGUI {
 
         btnCancelar.addActionListener(e -> {
             setVisible(false);
-            dispose();
         });
 
         mainPanel.add(scroll, BorderLayout.CENTER);

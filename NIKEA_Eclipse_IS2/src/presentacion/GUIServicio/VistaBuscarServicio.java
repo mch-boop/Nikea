@@ -154,14 +154,14 @@ public class VistaBuscarServicio extends JDialog implements IGUI {
                 sb.append(" ------------------------------------------ \n");
                 sb.append("          DETALLES DEL SERVICIO             \n");
                 sb.append(" ------------------------------------------ \n");
-                sb.append("ID:       ").append(tc.getId()).append("\n");
-                sb.append("Nombre:      ").append(tc.getNombre()).append("\n");
-                sb.append("Descripción:   ").append(tc.getDescripcion()).append("\n");
-                sb.append("Stock: ").append(tc.getStock()).append("\n");
-                sb.append("Tipo:   ").append(tc.getTipo()).append("\n");
+                sb.append("ID:              ").append(tc.getId()).append("\n");
+                sb.append("Nombre:          ").append(tc.getNombre()).append("\n");
+                sb.append("Descripción:     ").append(tc.getDescripcion()).append("\n");
+                sb.append("Stock:           ").append(tc.getStock()).append("\n");
+                sb.append("Tipo:            ").append(tc.getTipo()).append("\n");
 
                 if (tc.getTipo() != null && tc.getTipo() == 1 && tc instanceof TArticulo) {
-                    sb.append("Marca:   ").append(((TArticulo) tc).getMarca()).append("\n");
+                    sb.append("Marca:           ").append(((TArticulo) tc).getMarca()).append("\n");
                 }
 
                 areaDetalles.setText(sb.toString());
