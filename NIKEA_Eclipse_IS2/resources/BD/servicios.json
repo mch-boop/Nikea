@@ -1,122 +1,122 @@
 [
     {
-        "descripcion": "LOL",
-        "precioActual": 1,
+        "descripcion": "Mesa redonda de madera",
+        "precioActual": 25.50,
         "tipo": 1,
         "ventas": 0,
         "id": 1,
-        "stock": 1,
+        "stock": 10,
         "idMarca": 0,
-        "nombre": "LOL",
+        "nombre": "Mesa redonda",
         "activo": true
     },
     {
-        "descripcion": "a",
-        "precioActual": 23,
+        "descripcion": "Mesa cuadrada de plástico",
+        "precioActual": 5.5,
         "tipo": 2,
         "id": 2,
-        "stock": 2,
-        "nombre": "a",
-        "activo": false
+        "stock": 20,
+        "nombre": "Mesa cuadrada",
+        "activo": true
     },
     {
-        "descripcion": "pata de palo madera",
-        "precioActual": 9,
+        "descripcion": "Mueble de dormitorio",
+        "precioActual": 45.0,
         "tipo": 1,
         "ventas": 0,
         "id": 3,
-        "stock": 3,
+        "stock": 30,
         "idMarca": 0,
-        "nombre": "patapalo",
-        "activo": false
+        "nombre": "Mueble ABC",
+        "activo": true
     },
     {
-        "descripcion": "casi sillas metal vintage",
-        "precioActual": 27,
+        "descripcion": "Casi sillas de metal vintage",
+        "precioActual": 27.27,
         "tipo": 2,
         "id": 4,
-        "stock": 17,
-        "nombre": "casillas",
-        "activo": false
+        "stock": 170,
+        "nombre": "Sillas Casillas",
+        "activo": true
     },
     {
-        "descripcion": "pata",
-        "precioActual": 12,
+        "descripcion": "Sofá tapizado para 4 personas",
+        "precioActual": 50.25,
         "tipo": 1,
         "ventas": 0,
         "id": 5,
-        "stock": 23,
+        "stock": 230,
         "idMarca": 0,
-        "nombre": "pata",
-        "activo": false
+        "nombre": "Sofá tapizado",
+        "activo": true
     },
     {
-        "descripcion": "2",
+        "descripcion": "Cazuela para cocina tradicional",
         "precioActual": 10,
         "tipo": 1,
         "ventas": 0,
         "id": 6,
-        "stock": 1,
+        "stock": 10,
         "idMarca": 0,
-        "nombre": "2",
-        "activo": false
+        "nombre": "Cazuela",
+        "activo": true
     },
     {
-        "descripcion": "metaliccas1",
+        "descripcion": "Cama de matrimonio",
         "precioActual": 34,
         "tipo": 1,
         "ventas": 0,
         "id": 6,
-        "stock": 2,
+        "stock": 200,
         "idMarca": 0,
-        "nombre": "canastas",
-        "activo": false
+        "nombre": "Cama",
+        "activo": true
     },
     {
-        "descripcion": "madera y pelo de cabello natural",
+        "descripcion": "Madera y pelo de cabello natural",
         "precioActual": 7,
         "tipo": 1,
         "ventas": 0,
         "id": 7,
         "stock": 100,
         "idMarca": 0,
-        "nombre": "cepillo",
-        "activo": false
+        "nombre": "Cepillo",
+        "activo": true
     },
     {
-        "descripcion": "prueba",
+        "descripcion": "Cómoda infantil",
         "precioActual": -23,
         "tipo": 1,
         "ventas": 0,
         "id": 8,
-        "stock": -1,
+        "stock": 50,
         "idMarca": 0,
-        "nombre": "jlprueba",
-        "activo": false
+        "nombre": "Cómoda",
+        "activo": true
     },
     {
-        "descripcion": "s",
+        "descripcion": "Temperaturas muy bajas",
         "precioActual": 20,
         "marca": "Nikea",
         "tipo": 1,
         "ventas": 6,
         "id": 9,
-        "stock": 1,
+        "stock": 10,
         "idMarca": 0,
-        "nombre": "martillo",
+        "nombre": "Nevera",
         "activo": true
     },
     {
-        "descripcion": "d",
+        "descripcion": "Con estampados",
         "precioActual": 10,
         "tipo": 2,
         "id": 10,
         "stock": 2,
-        "nombre": "desguaje",
+        "nombre": "Cojín",
         "activo": true
     },
     {
-        "descripcion": "chinchetas metalicas",
+        "descripcion": "Chinchetas metalicas",
         "precioActual": 1,
         "marca": "Nikea",
         "tipo": 1,
@@ -124,11 +124,11 @@
         "id": 11,
         "stock": 1000,
         "idMarca": 5,
-        "nombre": "chinchetas",
+        "nombre": "Chinchetas",
         "activo": true
     },
     {
-        "descripcion": "sofa terciopelado biplaza",
+        "descripcion": "Sofa terciopelado biplaza",
         "precioActual": 389,
         "marca": "Muebles SA",
         "tipo": 1,
@@ -136,11 +136,11 @@
         "id": 12,
         "stock": 100,
         "idMarca": 11,
-        "nombre": "sofa ILKET",
+        "nombre": "Sofa ILKET",
         "activo": true
     },
     {
-        "descripcion": "lamparitad LED ajustables con mando",
+        "descripcion": "Lamparitad LED ajustables con mando",
         "precioActual": 4,
         "marca": "Iluminadamente",
         "tipo": 1,
@@ -148,16 +148,16 @@
         "id": 13,
         "stock": 500,
         "idMarca": 6,
-        "nombre": "lamparitas LED",
+        "nombre": "Lamparitas LED",
         "activo": true
     },
     {
-        "descripcion": "MONTAJE CON MONTADOR EN TU CASA",
+        "descripcion": "Montaje con montador en tu casa",
         "precioActual": 29,
         "tipo": 2,
         "id": 14,
         "stock": 10,
-        "nombre": "montaje sofa ILKET",
+        "nombre": "Montaje sofa ILKET",
         "activo": true
     },
     {
@@ -169,7 +169,7 @@
         "id": 15,
         "stock": 15,
         "idMarca": 4,
-        "nombre": "Silla",
+        "nombre": "Silla CI",
         "activo": true
     },
     {
@@ -185,7 +185,7 @@
         "activo": true
     },
     {
-        "descripcion": "burro metalico colgar ropa",
+        "descripcion": "Burro metálico colgar ropa",
         "precioActual": 30,
         "marca": "Muebles SA",
         "tipo": 1,
@@ -197,7 +197,7 @@
         "activo": true
     },
     {
-        "descripcion": "perchas negras terciopeladas",
+        "descripcion": "Perchas negras terciopeladas",
         "precioActual": 1,
         "marca": "El Corte Inglés",
         "tipo": 1,
@@ -205,11 +205,11 @@
         "id": 18,
         "stock": 1000,
         "idMarca": 4,
-        "nombre": "perchas tercipelo",
+        "nombre": "Perchas tercipelo",
         "activo": true
     },
     {
-        "descripcion": "cuadro AOT season 3 20x30",
+        "descripcion": "Cuadro AOT season 3 20x30",
         "precioActual": 8,
         "marca": "Decoracasa",
         "tipo": 1,
@@ -217,7 +217,7 @@
         "id": 19,
         "stock": 35,
         "idMarca": 7,
-        "nombre": "cuadro AOT",
+        "nombre": "Cuadro AOT",
         "activo": true
     },
     {
