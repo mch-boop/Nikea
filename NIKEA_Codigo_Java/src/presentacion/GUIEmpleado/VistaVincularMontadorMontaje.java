@@ -1,0 +1,150 @@
+package presentacion.GUIEmpleado;
+
+import javax.swing.*;
+
+import negocio.empleado.TMontadorMontaje;
+
+import java.awt.*;
+
+import presentacion.IGUI;
+import presentacion.controlador.Controlador;
+import presentacion.controlador.Eventos;
+
+@SuppressWarnings("serial")
+public class VistaVincularMontadorMontaje extends JDialog implements IGUI {
+
+	// ATRIBUTOS 
+	
+    private JTextField txtIdMontador, txtIdMontaje;
+    private JButton btnVincular, btnCancelar;
+
+    // CONSTRUCTORA
+    
+    public VistaVincularMontadorMontaje() {
+    	super(null, "Vincular Montador a Montaje", ModalityType.APPLICATION_MODAL);
+        setTitle("Vincular Montador a Montaje");
+        initGUI();
+        setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+    }
+
+    // MÉTODOS
+    private void initGUI() {
+    	
+    	// Panel principal
+        JPanel mainPanel = new JPanel();
+        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+        mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+
+        // Formulario
+        JPanel panelCampos = new JPanel(new GridLayout(2, 2, 10, 10));
+        txtIdMontaje = new JTextField();
+        txtIdMontador = new JTextField();
+        
+        panelCampos.add(new JLabel("ID Montaje:"));
+        panelCampos.add(txtIdMontaje);
+        panelCampos.add(new JLabel("ID Montador:"));
+        panelCampos.add(txtIdMontador);
+
+        // Botones
+        JPanel panelBotones = new JPanel();
+        btnVincular = new JButton("VINCULAR");
+        btnCancelar = new JButton("CANCELAR");
+        panelBotones.add(btnVincular);
+        panelBotones.add(btnCancelar);
+
+        btnVincular.addActionListener(e -> {
+            try {
+                int idMontador = Integer.parseInt(txtIdMontador.getText().trim());
+                int idMontaje = Integer.parseInt(txtIdMontaje.getText().trim());
+
+                TMontadorMontaje tmm = new TMontadorMontaje(idMontador, idMontaje);
+
+                Controlador.getInstance().accion(
+                    Eventos.VINCULAR_MONTADOR_MONTAJE,
+                    tmm
+                );
+
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(this, "Los IDs deben ser números enteros.");
+            }
+        });
+
+        btnCancelar.addActionListener(e -> {
+            txtIdMontador.setText("");
+            txtIdMontaje.setText("");
+            setVisible(false);
+        });
+
+        mainPanel.add(new JLabel("Introduzca los datos para la vinculación:"));
+        mainPanel.add(Box.createRigidArea(new Dimension(0, 15)));
+        mainPanel.add(panelCampos);
+        mainPanel.add(Box.createRigidArea(new Dimension(0, 15)));
+        mainPanel.add(panelBotones);
+
+        getContentPane().add(mainPanel);
+        pack();
+        setResizable(false);
+        setLocationRelativeTo(null);
+    }
+
+    @Override
+    public void actualizar(int evento, Object datos) {
+        SwingUtilities.invokeLater(() -> {
+            switch (evento) {
+
+            case Eventos.RES_VINCULAR_MONTADOR_OK:
+                JOptionPane.showMessageDialog(this, "Vinculación realizada con éxito.");
+                txtIdMontador.setText("");
+                txtIdMontaje.setText("");
+                break;
+
+            case Eventos.RES_VINCULAR_MONTADOR_KO_NO_EXISTE_EMPLEADO:
+                JOptionPane.showMessageDialog(this,
+                        "Error: el montador con ID " + datos + " no existe o no está activo.",
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE);
+                txtIdMontador.setText("");
+                break;
+
+            case Eventos.RES_VINCULAR_MONTADOR_KO_YA_EXISTE:
+                JOptionPane.showMessageDialog(this,
+                        "Error: la vinculación ya existe.",
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE);
+                txtIdMontador.setText("");
+                txtIdMontaje.setText("");
+                break;
+
+            case Eventos.RES_VINCULAR_MONTADOR_KO_NO_ES_MONTADOR:
+                JOptionPane.showMessageDialog(this,
+                        "Error: el empleado no es un montador.",
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE);
+                txtIdMontador.setText("");
+                break;
+
+            case Eventos.RES_VINCULAR_MONTADOR_KO_MONTAJE_NO_EXISTE:
+                JOptionPane.showMessageDialog(this,
+                        "Error: el montaje con ID " + datos + " no existe.",
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE);
+                txtIdMontaje.setText("");
+                break;
+
+            case Eventos.RES_VINCULAR_MONTADOR_KO:
+                JOptionPane.showMessageDialog(this,
+                        "Error al realizar la vinculación.",
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE);
+                break;
+
+            default:
+                JOptionPane.showMessageDialog(this,
+                        "Error desconocido.",
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE);
+                break;
+            }
+        });
+    }
+}

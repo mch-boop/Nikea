@@ -1,0 +1,117 @@
+[
+    {
+        "tipo": 1,
+        "apellido": "López",
+        "sueldo": 1200,
+        "id": 1,
+        "nombre": "Ana",
+        "dni": "12345678Z",
+        "numeroVentas": 5,
+        "activo": true
+    },
+    {
+        "tipo": 2,
+        "apellido": "Gómez",
+        "sueldo": 1800,
+        "id": 2,
+        "nombre": "Luis",
+        "dni": "87654321X",
+        "activo": true
+    },
+    {
+        "tipo": 1,
+        "apellido": "Martínez",
+        "sueldo": 1250,
+        "id": 3,
+        "nombre": "Carlos",
+        "dni": "11223344A",
+        "numeroVentas": 2,
+        "activo": false
+    },
+    {
+        "tipo": 2,
+        "apellido": "Fernández",
+        "sueldo": 2000,
+        "id": 4,
+        "nombre": "Elena",
+        "dni": "55667788B",
+        "activo": true
+    },
+    {
+        "tipo": 1,
+        "apellido": "Santos",
+        "sueldo": 1200,
+        "id": 5,
+        "nombre": "Marta",
+        "dni": "66778899C",
+        "numeroVentas": 0,
+        "activo": true
+    },
+    {
+        "tipo": 1,
+        "apellido": "Ruiz",
+        "sueldo": 1300,
+        "id": 6,
+        "nombre": "Pedro",
+        "dni": "99887766D",
+        "numeroVentas": 1,
+        "activo": false
+    },
+    {
+        "tipo": 2,
+        "apellido": "Hernández",
+        "sueldo": 1900,
+        "id": 7,
+        "nombre": "Lucía",
+        "dni": "22334455E",
+        "activo": true
+    },
+    {
+        "tipo": 1,
+        "apellido": "García",
+        "sueldo": 1200,
+        "id": 8,
+        "nombre": "Sergio",
+        "dni": "33445566F",
+        "numeroVentas": 3,
+        "activo": true
+    },
+    {
+        "tipo": 2,
+        "apellido": "Torres",
+        "sueldo": 2100,
+        "id": 9,
+        "nombre": "Raúl",
+        "dni": "44556677G",
+        "activo": false
+    },
+    {
+        "tipo": 2,
+        "apellido": "Moafi",
+        "sueldo": 5100,
+        "id": 10,
+        "nombre": "Isa",
+        "dni": "06020800K",
+        "activo": true
+    },
+    {
+        "tipo": 1,
+        "apellido": "A",
+        "sueldo": 1200,
+        "id": 11,
+        "nombre": "A",
+        "dni": "12345678A",
+        "numeroVentas": 0,
+        "activo": true
+    },
+    {
+        "tipo": 1,
+        "apellido": "Herrera López",
+        "sueldo": 3700.5,
+        "id": 12,
+        "nombre": "Inés",
+        "dni": "12333384D",
+        "numeroVentas": 0,
+        "activo": true
+    }
+]

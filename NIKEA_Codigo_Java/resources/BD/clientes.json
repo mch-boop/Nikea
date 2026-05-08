@@ -1,0 +1,90 @@
+[
+    {
+        "apellidos": "Morales Bravo",
+        "id": 1,
+        "telefono": 999827388,
+        "nombre": "David",
+        "DNI": "17717171H",
+        "activo": true
+    },
+    {
+        "apellidos": "Ceregido Andrade",
+        "id": 2,
+        "telefono": 727272727,
+        "nombre": "Julia",
+        "DNI": "19092873K",
+        "activo": false
+    },
+    {
+        "apellidos": "López Gallego",
+        "id": 3,
+        "telefono": 711890348,
+        "nombre": "Ana",
+        "DNI": "51478327J",
+        "activo": true
+    },
+    {
+        "apellidos": "Ortiz Luengo",
+        "id": 4,
+        "telefono": 881909918,
+        "nombre": "Javier",
+        "DNI": "71182939O",
+        "activo": false
+    },
+    {
+        "apellidos": "Smith Jones",
+        "id": 5,
+        "telefono": 9382616,
+        "nombre": "Peter",
+        "DNI": "72839482U",
+        "activo": true
+    },
+    {
+        "apellidos": "López Fernández",
+        "id": 6,
+        "telefono": 933847700,
+        "nombre": "Pepa",
+        "DNI": "73382928U",
+        "activo": true
+    },
+    {
+        "apellidos": "Gamo Ramirez",
+        "id": 7,
+        "telefono": 544157744,
+        "nombre": "Martina",
+        "DNI": "82739984I",
+        "activo": true
+    },
+    {
+        "apellidos": "Pérez Herrera",
+        "id": 8,
+        "telefono": 680822816,
+        "nombre": "Inés",
+        "DNI": "02788256G",
+        "activo": true
+    },
+    {
+        "apellidos": "Martínez",
+        "id": 9,
+        "telefono": 963258741,
+        "nombre": "Azucena",
+        "DNI": "01235889S",
+        "activo": true
+    },
+    {
+        "apellidos": "Alonso Ferrer",
+        "id": 10,
+        "telefono": 9038872,
+        "nombre": "Marta",
+        "DNI": "92839870L",
+        "activo": false
+    },
+    {
+        "apellidos": "Sánchez Bravo",
+        "id": 11,
+        "telefono": 182938727,
+        "nombre": "Jaime",
+        "DNI": "34323322G",
+        "activo": false
+    }
+]

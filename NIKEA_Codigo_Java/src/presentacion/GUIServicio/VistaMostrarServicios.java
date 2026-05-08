@@ -1,0 +1,122 @@
+package presentacion.GUIServicio;
+
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.util.Collection;
+
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.SwingUtilities;
+
+import negocio.servicio.TServicio;
+import presentacion.IGUI;
+import presentacion.controlador.Controlador;
+import presentacion.controlador.Eventos;
+
+@SuppressWarnings("serial")
+public class VistaMostrarServicios extends JDialog implements IGUI {
+
+    private JTable tablaServicios;
+    private DefaultTableModel modeloTabla;
+    private JButton btnCancelar;
+
+    public VistaMostrarServicios() {
+    	super(null, "Listado General de Servicios", ModalityType.APPLICATION_MODAL);
+        setTitle("Listado General de Servicios");
+        initGUI();
+        addComponentListener(new java.awt.event.ComponentAdapter() {
+            @Override
+            public void componentShown(java.awt.event.ComponentEvent e) {
+                cargarServicios();  // ← Se ejecuta CADA VEZ que setVisible(true)
+            }
+        });
+        setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+    }
+
+    private void initGUI() {
+        JPanel mainPanel = new JPanel(new BorderLayout(10, 10));
+        mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+
+        String[] columnas = {"ID", "NOMBRE", "DESCRIPCIÓN", "STOCK", "PRECIO", "TIPO", "MARCA"};
+        modeloTabla = new DefaultTableModel(columnas, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+
+        tablaServicios = new JTable(modeloTabla);
+        tablaServicios.getTableHeader().setReorderingAllowed(false);
+
+        JScrollPane scroll = new JScrollPane(tablaServicios);
+        scroll.setBorder(BorderFactory.createTitledBorder("Lista de Servicios Activos"));
+        scroll.setPreferredSize(new Dimension(750, 400));
+        scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+
+        JPanel panelSur = new JPanel();
+        btnCancelar = new JButton("CERRAR");
+        btnCancelar = new JButton("SALIR");
+        panelSur.add(btnCancelar);
+
+        btnCancelar.addActionListener(e -> {
+            setVisible(false);
+        });
+
+        mainPanel.add(scroll, BorderLayout.CENTER);
+        mainPanel.add(panelSur, BorderLayout.SOUTH);
+
+        getContentPane().add(mainPanel);
+        pack();
+        setLocationRelativeTo(null);
+    }
+
+    public void cargarServicios() {
+        Controlador.getInstance().accion(Eventos.MOSTRAR_SERVICIOS, null);
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public void actualizar(int evento, Object datos) {
+        SwingUtilities.invokeLater(() -> {
+            switch (evento) {
+                case Eventos.RES_MOSTRAR_SERVICIOS_OK:
+                    Collection<TServicio> lista = (Collection<TServicio>) datos;
+                    modeloTabla.setRowCount(0);
+
+                    if (lista.isEmpty()) {
+                        JOptionPane.showMessageDialog(this, "No hay servicios registrados en el sistema.", "Información", JOptionPane.INFORMATION_MESSAGE);
+                    } else {
+                        setVisible(true);
+                        for (TServicio ts : lista) {
+                            Object[] fila = {
+                                ts.getId(),
+                                ts.getNombre(),
+                                ts.getDescripcion(),
+                                ts.getStock(),
+                                ts.getPrecioActual(),
+                                ts.getTipo() != null && ts.getTipo() == 1 ? "Artículo" : "Montaje",
+                                ts.getMarca() != null ? ts.getMarca() : "-"
+                            };
+                            modeloTabla.addRow(fila);
+                        }
+                    }
+                    break;
+
+                case Eventos.RES_MOSTRAR_SERVICIOS_KO:
+                    modeloTabla.setRowCount(0);
+                    JOptionPane.showMessageDialog(this, "Error al recuperar la lista de servicios.", "Error", JOptionPane.ERROR_MESSAGE);
+                    break;
+
+                default:
+                    break;
+            }
+        });
+    }
+}

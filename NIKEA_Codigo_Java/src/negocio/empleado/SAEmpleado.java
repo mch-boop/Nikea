@@ -1,0 +1,18 @@
+package negocio.empleado;
+
+import java.util.Collection;
+
+public interface SAEmpleado {
+	
+	// Métodos CU básicos
+    public int create(TEmpleado te);
+    public int delete(int id);
+    public int readToDelete(Integer id);
+    public TEmpleado readActive(int id); 
+    public int update(TEmpleado te);
+    public int reactivate(TEmpleado tEmpleado);
+    public TEmpleado read(int id);
+    public Collection<TEmpleado> readAll();
+    
+	
+}

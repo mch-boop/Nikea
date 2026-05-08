@@ -1,0 +1,126 @@
+[
+    {
+        "especialidades": [
+            "ELECTRODOMESTICOS",
+            "OFICINA",
+            "TECNOLOGIA"
+        ],
+        "idMarca": 1,
+        "nombre": "Nokia",
+        "activo": false
+    },
+    {
+        "especialidades": ["OFICINA"],
+        "idMarca": 2,
+        "nombre": "Nivea",
+        "activo": false
+    },
+    {
+        "especialidades": ["OFICINA"],
+        "idMarca": 3,
+        "nombre": "Ikea",
+        "activo": false
+    },
+    {
+        "especialidades": [
+            "MUEBLES",
+            "JARDIN_EXTERIOR",
+            "TECNOLOGIA",
+            "DECORACION"
+        ],
+        "idMarca": 4,
+        "nombre": "El Corte Inglés",
+        "activo": true
+    },
+    {
+        "especialidades": [
+            "ILUMINACION",
+            "DECORACION"
+        ],
+        "idMarca": 5,
+        "nombre": "Nikea",
+        "activo": true
+    },
+    {
+        "especialidades": [
+            "MUEBLES",
+            "ILUMINACION",
+            "ELECTRODOMESTICOS"
+        ],
+        "idMarca": 6,
+        "nombre": "Iluminadamente",
+        "activo": true
+    },
+    {
+        "especialidades": [
+            "TECNOLOGIA",
+            "MUEBLES",
+            "DECORACION"
+        ],
+        "idMarca": 7,
+        "nombre": "Decoracasa",
+        "activo": true
+    },
+    {
+        "especialidades": [
+            "ILUMINACION",
+            "OTROS",
+            "MUEBLES"
+        ],
+        "idMarca": 8,
+        "nombre": "UCM",
+        "activo": true
+    },
+    {
+        "especialidades": [
+            "JARDIN_EXTERIOR",
+            "DECORACION",
+            "ELECTRODOMESTICOS",
+            "TECNOLOGIA",
+            "ILUMINACION",
+            "OFICINA",
+            "OTROS",
+            "MUEBLES"
+        ],
+        "idMarca": 9,
+        "nombre": "Polivalente",
+        "activo": true
+    },
+    {
+        "especialidades": ["TECNOLOGIA"],
+        "idMarca": 10,
+        "nombre": "Tecnology",
+        "activo": false
+    },
+    {
+        "especialidades": ["MUEBLES"],
+        "idMarca": 11,
+        "nombre": "Muebles SA",
+        "activo": true
+    },
+    {
+        "especialidades": ["OTROS"],
+        "idMarca": 12,
+        "nombre": "Temu2",
+        "activo": false
+    },
+    {
+        "especialidades": [
+            "DECORACION",
+            "JARDIN_EXTERIOR"
+        ],
+        "idMarca": 13,
+        "nombre": "Gnomo de Jardin",
+        "activo": true
+    },
+    {
+        "especialidades": [
+            "JARDIN_EXTERIOR",
+            "ELECTRODOMESTICOS",
+            "MUEBLES"
+        ],
+        "idMarca": 14,
+        "nombre": "Blanca",
+        "activo": false
+    }
+]

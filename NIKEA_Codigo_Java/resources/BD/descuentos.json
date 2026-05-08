@@ -1,0 +1,74 @@
+[
+    {
+        "codigo": "UNO",
+        "tipo": true,
+        "id": 1,
+        "porcentaje": 10,
+        "cantidad": 100,
+        "nombre": "Primer descuento",
+        "activo": true
+    },
+    {
+        "codigo": "DOS",
+        "tipo": false,
+        "id": 2,
+        "porcentaje": 20,
+        "cantidad": 2,
+        "nombre": "Segundo descuento",
+        "activo": true
+    },
+    {
+        "codigo": "TRES",
+        "tipo": true,
+        "id": 3,
+        "porcentaje": 30,
+        "cantidad": 30,
+        "nombre": "Tercer descuento",
+        "activo": true
+    },
+    {
+        "codigo": "Prueba_BAJA",
+        "tipo": false,
+        "id": 4,
+        "porcentaje": 50,
+        "cantidad": 14,
+        "nombre": "Descuento para baja",
+        "activo": false
+    },
+    {
+        "codigo": "Prueba_modif",
+        "tipo": false,
+        "id": 5,
+        "porcentaje": 90,
+        "cantidad": 7,
+        "nombre": "Modificado",
+        "activo": true
+    },
+    {
+        "codigo": "Annadir_a_factura",
+        "tipo": false,
+        "id": 6,
+        "porcentaje": 50,
+        "cantidad": 1,
+        "nombre": "Descuento para aplicar a una factura",
+        "activo": true
+    },
+    {
+        "codigo": "CARNAVAL",
+        "tipo": true,
+        "id": 7,
+        "porcentaje": 18,
+        "cantidad": 100,
+        "nombre": "",
+        "activo": true
+    },
+    {
+        "codigo": "CARNIVAL",
+        "tipo": false,
+        "id": 8,
+        "porcentaje": 15,
+        "cantidad": 10,
+        "nombre": "",
+        "activo": false
+    }
+]

@@ -1,0 +1,182 @@
+[
+    {
+        "fecha": "2026-03-04",
+        "total": 426,
+        "cerrada": true,
+        "idDescuento": 0,
+        "idCliente": 1,
+        "idVendedor": 1,
+        "id": 1
+    },
+    {
+        "fecha": "2026-03-08",
+        "total": 122,
+        "cerrada": true,
+        "idDescuento": 0,
+        "idCliente": 2,
+        "idVendedor": 5,
+        "id": 2
+    },
+    {
+        "fecha": "2026-03-15",
+        "total": 66,
+        "cerrada": true,
+        "idDescuento": 0,
+        "idCliente": 3,
+        "idVendedor": 8,
+        "id": 3
+    },
+    {
+        "fecha": "2026-03-22",
+        "total": 80,
+        "cerrada": true,
+        "idDescuento": 0,
+        "idCliente": 5,
+        "idVendedor": 1,
+        "id": 4
+    },
+    {
+        "fecha": "2026-04-02",
+        "total": 852,
+        "cerrada": true,
+        "idDescuento": 0,
+        "idCliente": 1,
+        "idVendedor": 8,
+        "id": 5
+    },
+    {
+        "fecha": "2026-04-07",
+        "total": 194,
+        "cerrada": true,
+        "idDescuento": 0,
+        "idCliente": 2,
+        "idVendedor": 1,
+        "id": 6
+    },
+    {
+        "fecha": "2026-04-12",
+        "total": 190,
+        "cerrada": true,
+        "idDescuento": 0,
+        "idCliente": 3,
+        "idVendedor": 5,
+        "id": 7
+    },
+    {
+        "fecha": "2026-04-18",
+        "total": 62,
+        "cerrada": true,
+        "idDescuento": 0,
+        "idCliente": 5,
+        "idVendedor": 8,
+        "id": 8
+    },
+    {
+        "fecha": "2026-04-25",
+        "total": 488,
+        "cerrada": true,
+        "idDescuento": 0,
+        "idCliente": 1,
+        "idVendedor": 1,
+        "id": 9
+    },
+    {
+        "fecha": "2026-05-01",
+        "total": 80,
+        "cerrada": true,
+        "idDescuento": 0,
+        "idCliente": 2,
+        "idVendedor": 5,
+        "id": 10
+    },
+    {
+        "fecha": "2026-05-02",
+        "total": 140,
+        "cerrada": true,
+        "idDescuento": 0,
+        "idCliente": 3,
+        "idVendedor": 1,
+        "id": 11
+    },
+    {
+        "fecha": "2026-05-03",
+        "total": 458,
+        "cerrada": true,
+        "idDescuento": 0,
+        "idCliente": 5,
+        "idVendedor": 8,
+        "id": 12
+    },
+    {
+        "fecha": "2026-05-04",
+        "total": 55,
+        "cerrada": true,
+        "idDescuento": 0,
+        "idCliente": 1,
+        "idVendedor": 5,
+        "id": 13
+    },
+    {
+        "fecha": "2026-05-05",
+        "total": 104,
+        "cerrada": true,
+        "idDescuento": 0,
+        "idCliente": 2,
+        "idVendedor": 1,
+        "id": 14
+    },
+    {
+        "fecha": "2026-05-06",
+        "total": 87,
+        "cerrada": true,
+        "idDescuento": 0,
+        "idCliente": 3,
+        "idVendedor": 8,
+        "id": 15
+    },
+    {
+        "fecha": "2026-05-06",
+        "total": 448,
+        "cerrada": true,
+        "idDescuento": 0,
+        "idCliente": 5,
+        "idVendedor": 1,
+        "id": 16
+    },
+    {
+        "fecha": "2026-05-07",
+        "total": 111,
+        "cerrada": true,
+        "idDescuento": 0,
+        "idCliente": 1,
+        "idVendedor": 5,
+        "id": 17
+    },
+    {
+        "fecha": "2026-05-07",
+        "total": 58,
+        "cerrada": true,
+        "idDescuento": 6,
+        "idCliente": 2,
+        "idVendedor": 8,
+        "id": 18
+    },
+    {
+        "fecha": "2026-05-07",
+        "total": 778,
+        "cerrada": true,
+        "idDescuento": 5,
+        "idCliente": 2,
+        "idVendedor": 1,
+        "id": 19
+    },
+    {
+        "fecha": "2026-05-08",
+        "total": 1523.1,
+        "cerrada": true,
+        "idDescuento": 1,
+        "idCliente": 5,
+        "idVendedor": 2,
+        "id": 20
+    }
+]

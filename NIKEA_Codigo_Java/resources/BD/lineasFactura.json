@@ -1,0 +1,368 @@
+[
+    {
+        "precioUnitario": 389,
+        "idFactura": 1,
+        "idProducto": 12,
+        "cantidad": 1
+    },
+    {
+        "precioUnitario": 29,
+        "idFactura": 1,
+        "idProducto": 14,
+        "cantidad": 1
+    },
+    {
+        "precioUnitario": 4,
+        "idFactura": 1,
+        "idProducto": 13,
+        "cantidad": 2
+    },
+    {
+        "precioUnitario": 25,
+        "idFactura": 2,
+        "idProducto": 15,
+        "cantidad": 4
+    },
+    {
+        "precioUnitario": 10,
+        "idFactura": 2,
+        "idProducto": 16,
+        "cantidad": 1
+    },
+    {
+        "precioUnitario": 1,
+        "idFactura": 2,
+        "idProducto": 18,
+        "cantidad": 12
+    },
+    {
+        "precioUnitario": 30,
+        "idFactura": 3,
+        "idProducto": 17,
+        "cantidad": 1
+    },
+    {
+        "precioUnitario": 1,
+        "idFactura": 3,
+        "idProducto": 18,
+        "cantidad": 20
+    },
+    {
+        "precioUnitario": 8,
+        "idFactura": 3,
+        "idProducto": 19,
+        "cantidad": 2
+    },
+    {
+        "precioUnitario": 20,
+        "idFactura": 4,
+        "idProducto": 9,
+        "cantidad": 1
+    },
+    {
+        "precioUnitario": 1,
+        "idFactura": 4,
+        "idProducto": 11,
+        "cantidad": 50
+    },
+    {
+        "precioUnitario": 10,
+        "idFactura": 4,
+        "idProducto": 10,
+        "cantidad": 1
+    },
+    {
+        "precioUnitario": 389,
+        "idFactura": 5,
+        "idProducto": 12,
+        "cantidad": 2
+    },
+    {
+        "precioUnitario": 29,
+        "idFactura": 5,
+        "idProducto": 14,
+        "cantidad": 2
+    },
+    {
+        "precioUnitario": 4,
+        "idFactura": 5,
+        "idProducto": 13,
+        "cantidad": 4
+    },
+    {
+        "precioUnitario": 25,
+        "idFactura": 6,
+        "idProducto": 15,
+        "cantidad": 6
+    },
+    {
+        "precioUnitario": 10,
+        "idFactura": 6,
+        "idProducto": 16,
+        "cantidad": 2
+    },
+    {
+        "precioUnitario": 8,
+        "idFactura": 6,
+        "idProducto": 19,
+        "cantidad": 3
+    },
+    {
+        "precioUnitario": 30,
+        "idFactura": 7,
+        "idProducto": 17,
+        "cantidad": 2
+    },
+    {
+        "precioUnitario": 1,
+        "idFactura": 7,
+        "idProducto": 18,
+        "cantidad": 30
+    },
+    {
+        "precioUnitario": 1,
+        "idFactura": 7,
+        "idProducto": 11,
+        "cantidad": 100
+    },
+    {
+        "precioUnitario": 20,
+        "idFactura": 8,
+        "idProducto": 9,
+        "cantidad": 2
+    },
+    {
+        "precioUnitario": 10,
+        "idFactura": 8,
+        "idProducto": 10,
+        "cantidad": 1
+    },
+    {
+        "precioUnitario": 4,
+        "idFactura": 8,
+        "idProducto": 13,
+        "cantidad": 3
+    },
+    {
+        "precioUnitario": 389,
+        "idFactura": 9,
+        "idProducto": 12,
+        "cantidad": 1
+    },
+    {
+        "precioUnitario": 10,
+        "idFactura": 9,
+        "idProducto": 16,
+        "cantidad": 2
+    },
+    {
+        "precioUnitario": 25,
+        "idFactura": 9,
+        "idProducto": 15,
+        "cantidad": 2
+    },
+    {
+        "precioUnitario": 29,
+        "idFactura": 9,
+        "idProducto": 14,
+        "cantidad": 1
+    },
+    {
+        "precioUnitario": 8,
+        "idFactura": 10,
+        "idProducto": 19,
+        "cantidad": 5
+    },
+    {
+        "precioUnitario": 1,
+        "idFactura": 10,
+        "idProducto": 18,
+        "cantidad": 20
+    },
+    {
+        "precioUnitario": 4,
+        "idFactura": 10,
+        "idProducto": 13,
+        "cantidad": 5
+    },
+    {
+        "precioUnitario": 25,
+        "idFactura": 11,
+        "idProducto": 15,
+        "cantidad": 4
+    },
+    {
+        "precioUnitario": 10,
+        "idFactura": 11,
+        "idProducto": 16,
+        "cantidad": 1
+    },
+    {
+        "precioUnitario": 30,
+        "idFactura": 11,
+        "idProducto": 17,
+        "cantidad": 1
+    },
+    {
+        "precioUnitario": 389,
+        "idFactura": 12,
+        "idProducto": 12,
+        "cantidad": 1
+    },
+    {
+        "precioUnitario": 29,
+        "idFactura": 12,
+        "idProducto": 14,
+        "cantidad": 1
+    },
+    {
+        "precioUnitario": 1,
+        "idFactura": 12,
+        "idProducto": 11,
+        "cantidad": 40
+    },
+    {
+        "precioUnitario": 20,
+        "idFactura": 13,
+        "idProducto": 9,
+        "cantidad": 1
+    },
+    {
+        "precioUnitario": 10,
+        "idFactura": 13,
+        "idProducto": 10,
+        "cantidad": 2
+    },
+    {
+        "precioUnitario": 1,
+        "idFactura": 13,
+        "idProducto": 18,
+        "cantidad": 15
+    },
+    {
+        "precioUnitario": 10,
+        "idFactura": 14,
+        "idProducto": 16,
+        "cantidad": 3
+    },
+    {
+        "precioUnitario": 25,
+        "idFactura": 14,
+        "idProducto": 15,
+        "cantidad": 2
+    },
+    {
+        "precioUnitario": 4,
+        "idFactura": 14,
+        "idProducto": 13,
+        "cantidad": 6
+    },
+    {
+        "precioUnitario": 30,
+        "idFactura": 15,
+        "idProducto": 17,
+        "cantidad": 1
+    },
+    {
+        "precioUnitario": 8,
+        "idFactura": 15,
+        "idProducto": 19,
+        "cantidad": 4
+    },
+    {
+        "precioUnitario": 1,
+        "idFactura": 15,
+        "idProducto": 11,
+        "cantidad": 25
+    },
+    {
+        "precioUnitario": 389,
+        "idFactura": 16,
+        "idProducto": 12,
+        "cantidad": 1
+    },
+    {
+        "precioUnitario": 29,
+        "idFactura": 16,
+        "idProducto": 14,
+        "cantidad": 1
+    },
+    {
+        "precioUnitario": 1,
+        "idFactura": 16,
+        "idProducto": 18,
+        "cantidad": 30
+    },
+    {
+        "precioUnitario": 25,
+        "idFactura": 17,
+        "idProducto": 15,
+        "cantidad": 3
+    },
+    {
+        "precioUnitario": 10,
+        "idFactura": 17,
+        "idProducto": 16,
+        "cantidad": 2
+    },
+    {
+        "precioUnitario": 4,
+        "idFactura": 17,
+        "idProducto": 13,
+        "cantidad": 4
+    },
+    {
+        "precioUnitario": 20,
+        "idFactura": 18,
+        "idProducto": 9,
+        "cantidad": 2
+    },
+    {
+        "precioUnitario": 1,
+        "idFactura": 18,
+        "idProducto": 11,
+        "cantidad": 60
+    },
+    {
+        "precioUnitario": 8,
+        "idFactura": 18,
+        "idProducto": 19,
+        "cantidad": 2
+    },
+    {
+        "precioUnitario": 389,
+        "idFactura": 19,
+        "idProducto": 12,
+        "cantidad": 2
+    },
+    {
+        "precioUnitario": 61,
+        "idFactura": 2,
+        "idProducto": 1,
+        "cantidad": 2
+    },
+    {
+        "precioUnitario": 59.4,
+        "idFactura": 3,
+        "idProducto": 0,
+        "cantidad": 2
+    },
+    {
+        "precioUnitario": 27.27,
+        "idFactura": 20,
+        "idProducto": 4,
+        "cantidad": 30
+    },
+    {
+        "precioUnitario": 45,
+        "idFactura": 20,
+        "idProducto": 3,
+        "cantidad": 10
+    },
+    {
+        "precioUnitario": 25.5,
+        "idFactura": 20,
+        "idProducto": 1,
+        "cantidad": 10
+    }
+]

@@ -1,0 +1,61 @@
+package negocio.marca;
+
+import java.util.Collection;
+
+public class TMarca {
+	
+	// ATRIBUTOS
+	
+	public enum Especialidad {
+	    MUEBLES,
+	    ELECTRODOMESTICOS,
+	    TECNOLOGIA,
+	    ILUMINACION,
+	    DECORACION,
+	    JARDIN_EXTERIOR,
+	    OFICINA,
+	    OTROS;
+	    
+	    @Override
+	    public String toString() {
+	        switch (this) {
+	            case MUEBLES: return "Muebles";
+	            case ELECTRODOMESTICOS: return "Electrodomésticos";
+	            case TECNOLOGIA: return "Tecnología";
+	            case ILUMINACION: return "Iluminación";
+	            case DECORACION: return "Decoración";
+	            case JARDIN_EXTERIOR: return "Jardín / Exterior";
+	            case OFICINA: return "Oficina";
+	            case OTROS: return "Otros";
+	            default: return super.toString();
+	        }
+	    }
+	}
+	
+	private String nombre;
+	private int idMarca;
+	private double vendidos;
+	private Collection<Especialidad> especialidades;
+	private boolean activo;
+	
+	// MÉTODOS
+	
+	// Getters
+	public String getNombre() { return this.nombre; }
+	public int getId() { return this.idMarca; }
+	public boolean isActivo() { return this.activo; }
+	public Collection<Especialidad> getEspecialidades() { return especialidades; }
+	public double getVendidos() { return this.vendidos; }
+	
+	// Setters
+	public void setNombre(String nom) { this.nombre = nom; }
+	public void setId(int id) { this.idMarca = id; }
+	public void setActivo(boolean ac) { this.activo = ac; }
+	public void setEspecialidades(Collection<Especialidad> l) { this.especialidades = l; }
+	public void setVendidos(double d) { this.vendidos = d; }
+	
+	@Override
+	public String toString() {
+		return this.nombre.toUpperCase();
+	}
+}

@@ -1,0 +1,330 @@
+package presentacion.GUIEmpleado;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import negocio.empleado.TEmpleado;
+import negocio.empleado.TVendedor;
+import negocio.empleado.TMontador;
+import presentacion.IGUI;
+import presentacion.controlador.Eventos;
+import presentacion.controlador.Controlador;
+
+@SuppressWarnings("serial")
+public class VistaAnadirEmpleado extends JDialog implements IGUI {
+
+	// ATRIBUTOS
+
+	private JTextField txtNombre, txtApellido, txtDNI;
+	private JSpinner spSueldo;
+	private JRadioButton rbVendedor, rbMontador; // Selección de tipo
+	private JButton btnAceptar, btnCancelar;
+
+	// CONSTRUCTORA
+
+	public VistaAnadirEmpleado() {
+		super(null, "Alta Empleado", ModalityType.APPLICATION_MODAL);
+		setTitle("Alta Empleado");
+		initGUI();
+		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+		this.addWindowListener(new java.awt.event.WindowAdapter() {
+		    @Override
+		    public void windowClosing(java.awt.event.WindowEvent e) {
+		        limpiarCampos(); 
+		    }
+		});
+	}
+
+	// MÉTODOS
+	
+	@Override
+    public void setVisible(boolean b) {
+        if (b) limpiarCampos();
+        super.setVisible(b);
+    }
+
+	private void limpiarCampos() {
+		txtNombre.setText("");
+		txtApellido.setText("");
+		txtDNI.setText("");
+
+		if (spSueldo != null) {
+			spSueldo.setValue(1200.0);
+		}
+
+		if (rbVendedor != null) {
+			rbVendedor.setSelected(true);
+		}
+
+		txtNombre.requestFocus();
+		repaint();
+		revalidate();
+	}
+
+	private void initGUI() {
+
+		// Panel principal
+		JPanel mainPanel = new JPanel();
+		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+		mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+
+		// Inicialización de campos
+		txtNombre = new JTextField(20);
+		txtApellido = new JTextField(20);
+		txtDNI = new JTextField(20);
+
+		// Configuración del Spinner para el sueldo (mínimo 1200, máximo 1000000, pasos de 500)
+		SpinnerNumberModel sueldoModel = new SpinnerNumberModel(1200.0, 1200.0, 1000000.0, 500.0);
+		spSueldo = new JSpinner(sueldoModel);
+		JSpinner.NumberEditor editor = new JSpinner.NumberEditor(spSueldo, "0.00");
+		spSueldo.setEditor(editor);
+
+		// Selección de tipo (Vendedor/Montador)
+		rbVendedor = new JRadioButton("Vendedor", true);
+		rbMontador = new JRadioButton("Montador");
+		ButtonGroup group = new ButtonGroup();
+		group.add(rbVendedor);
+		group.add(rbMontador);
+
+		// Panel para los RadioButtons
+		JPanel panelRadio = new JPanel();
+		panelRadio.add(new JLabel("Tipo de Empleado: "));
+		panelRadio.add(rbVendedor);
+		panelRadio.add(rbMontador);
+
+		// Panel de botones
+		JPanel panelBotones = new JPanel();
+		btnAceptar = new JButton("ACEPTAR");
+		btnCancelar = new JButton("CANCELAR");
+		panelBotones.add(btnAceptar);
+		panelBotones.add(btnCancelar);
+
+		// Lógica del botón Aceptar
+		btnAceptar.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					// Validación previa de campos obligatorios
+					if (txtNombre.getText().trim().isEmpty()) {
+						JOptionPane.showMessageDialog(null, "Error: El nombre es un campo obligatorio.", "Faltan datos",
+								JOptionPane.WARNING_MESSAGE);
+						txtNombre.requestFocus();
+						return;
+					}
+					if (txtApellido.getText().trim().isEmpty()) {
+						JOptionPane.showMessageDialog(null, "Error: Los apellidos son un campo obligatorio.", "Faltan datos",
+								JOptionPane.WARNING_MESSAGE);
+						txtNombre.requestFocus();
+						return;
+					}
+					if (txtDNI.getText().trim().isEmpty()) {
+						JOptionPane.showMessageDialog(null, "Error: El DNI es un campo obligatorio.", "Faltan datos",
+								JOptionPane.WARNING_MESSAGE);
+						txtDNI.requestFocus();
+						return;
+					}
+					// Validación del DNI
+		            if (!validarDNI(txtDNI.getText().trim())) {
+		                JOptionPane.showMessageDialog(null, 
+		                    "El formato del DNI no es válido.\nDebe tener 8 números y una letra (ej: 12345678Z).", 
+		                    "DNI Incorrecto", JOptionPane.ERROR_MESSAGE);
+		                txtDNI.requestFocus();
+		                return;
+		            }
+					TEmpleado te;
+
+					// Decisión de instanciación del Transfer según el RadioButton
+					if (rbVendedor.isSelected()) {
+						te = new TVendedor();
+						te.setTipo(1);
+					} else {
+						te = new TMontador();
+						te.setTipo(2);
+					}
+
+					// Asignación de atributos
+					te.setNombre(txtNombre.getText());
+					te.setApellido(txtApellido.getText());
+					te.setDNI(txtDNI.getText());
+					te.setSueldo((Double) spSueldo.getValue());
+					te.setActivo(true); // Se da de alta siempre como activo
+
+					// Comunicación con el Controlador (Singleton)
+					Controlador.getInstance().accion(Eventos.ALTA_EMPLEADO, te);
+
+				} catch (NumberFormatException ex) {
+					JOptionPane.showMessageDialog(null, "Error: El sueldo debe ser un número válido.");
+				}
+			}
+		});
+
+		// Lógica del botón Cancelar
+		btnCancelar.addActionListener(al -> {
+			// Limpiar campos
+			limpiarCampos();
+			// Cerrar la ventana
+			setVisible(false);
+			// dispose();
+		});
+
+		// ALINEACIÓN
+		JPanel formPanel = new JPanel(new GridBagLayout());
+		GridBagConstraints gbc = new GridBagConstraints();
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.insets = new Insets(5, 5, 5, 5); // Espaciado entre componentes
+
+		// Fila 0: Nombre
+		gbc.gridx = 0;
+		gbc.gridy = 0;
+		formPanel.add(new JLabel("Nombre:"), gbc);
+		gbc.gridx = 1;
+		formPanel.add(txtNombre, gbc);
+
+		// Fila 1: Apellido
+		gbc.gridx = 0;
+		gbc.gridy = 1;
+		formPanel.add(new JLabel("Apellido:"), gbc);
+		gbc.gridx = 1;
+		formPanel.add(txtApellido, gbc);
+
+		// Fila 2: DNI
+		gbc.gridx = 0;
+		gbc.gridy = 2;
+		formPanel.add(new JLabel("DNI:"), gbc);
+		gbc.gridx = 1;
+		formPanel.add(txtDNI, gbc);
+
+		// Fila 3: Sueldo
+		gbc.gridx = 0;
+		gbc.gridy = 3;
+		formPanel.add(new JLabel("Sueldo Bruto:"), gbc);
+		gbc.gridx = 1;
+		formPanel.add(spSueldo, gbc);
+
+		// Añadir el formulario alineado al panel principal
+		mainPanel.add(formPanel);
+		mainPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+		mainPanel.add(panelRadio);
+		mainPanel.add(Box.createRigidArea(new Dimension(0, 20)));
+		mainPanel.add(panelBotones);
+
+		getContentPane().add(mainPanel);
+		pack();
+		setResizable(false); // Recomendado para que no se desajuste al redimensionar
+		setLocationRelativeTo(null); // Centrar en pantalla
+	}
+	
+	private boolean validarDNI(String dni) {
+	    // Formato básico: 8 números y una letra (sin espacios ni guiones)
+	    if (dni == null || !dni.matches("^[0-9]{8}[A-Z]$")) {
+	        return false;
+	    }
+	    return true; 
+	    /*
+	    // Cálculo de la letra
+	    String letras = "TRWAGMYFPDXBNJZSQVHLCKE";
+	    int numero = Integer.parseInt(dni.substring(0, 8));
+	    char letraEsperada = letras.charAt(numero % 23);
+	    char letraIntroducida = dni.charAt(8);
+
+	    return letraEsperada == letraIntroducida;
+	    */
+	}
+
+	@Override
+	public void actualizar(int evento, Object datos) {
+		// El controlador llama a este método tras la ejecución en el SA
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				switch (evento) {
+
+				case Eventos.RES_ALTA_EMPLEADO_OK:
+					VistaAnadirEmpleado.this.limpiarCampos(); // Limpia los campos para el siguiente alta
+					JOptionPane.showMessageDialog(VistaAnadirEmpleado.this, "Éxito: Empleado creado con ID: " + datos);
+					limpiarCampos(); 
+					break;
+
+				case Eventos.RES_ALTA_EMPLEADO_YA_EXISTE_MISMO:
+					// El SA ya nos confirmó que nombre y apellido coinciden
+					JOptionPane.showMessageDialog(VistaAnadirEmpleado.this, "Este empleado ya existe en el sistema.",
+							"Aviso", JOptionPane.WARNING_MESSAGE);
+					VistaAnadirEmpleado.this.txtDNI.requestFocus();
+					break;
+
+				case Eventos.RES_ALTA_EMPLEADO_YA_EXISTE_DISTINTO:
+				    JOptionPane.showMessageDialog(VistaAnadirEmpleado.this,
+				        "El DNI introducido ya está registrado en el sistema.",
+				        "DNI duplicado",
+				        JOptionPane.ERROR_MESSAGE);
+				    break;
+
+				case Eventos.RES_ALTA_EMPLEADO_CONFIRMAR_REACTIVACION:
+					// El empleado existe inactivo con datos distintos (Caso -2)
+					TEmpleado empReac = (TEmpleado) datos;
+
+					String mensaje = "ATENCION: Conflicto de identidad en el histórico.\n\n" + "Ya existe un empleado con ese DNI en estado inactivo.\n"
+							+ "¿Desea reactivar la ficha existente y actualizarla con los nuevos datos introducidos?\n";
+
+					int respReac = JOptionPane.showConfirmDialog(VistaAnadirEmpleado.this, mensaje,
+							"Reactivación de Empleado", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+
+					if (respReac == JOptionPane.YES_OPTION) {
+				        // Creamos el transfer correcto según el tipo que seleccionó el usuario
+				        TEmpleado nuevosDatos;
+				        if (rbVendedor.isSelected()) {
+				            nuevosDatos = new TVendedor();
+				            nuevosDatos.setTipo(1);
+				        } else {
+				            nuevosDatos = new TMontador();
+				            nuevosDatos.setTipo(2);
+				        }
+
+				        // Le asignamos el ID que viene de la BD para que el SA sepa a quién actualizar
+				        nuevosDatos.setId(empReac.getId());
+				        
+				        // Recogemos lo que el usuario ha escrito ahora en la vista
+				        nuevosDatos.setNombre(txtNombre.getText().trim());
+				        nuevosDatos.setApellido(txtApellido.getText().trim());
+				        nuevosDatos.setDNI(txtDNI.getText().trim());
+				        nuevosDatos.setSueldo((Double) spSueldo.getValue());
+				        nuevosDatos.setActivo(true);
+
+				        // Enviamos los datos nuevos al controlador
+				        Controlador.getInstance().accion(Eventos.REACTIVAR_EMPLEADO, nuevosDatos);
+				        limpiarCampos();
+				        }
+					break;
+
+				case Eventos.RES_ALTA_EMPLEADO_CAMBIO_TIPO_REQUERIDO_ACTIVO:
+					// El empleado ya está trabajando pero con otro cargo
+					JOptionPane.showMessageDialog(VistaAnadirEmpleado.this,
+							"Este empleado ya figura en el sistema pero con un cargo distinto.\n"
+									+ "Para cambiar su tipo (ej. de Vendedor a Montador), use el botón 'Actualizar Empleado' del menú.",
+							"Empleado Activo - Cambio de Tipo", JOptionPane.INFORMATION_MESSAGE);
+					limpiarCampos(); 
+					break;
+
+				case Eventos.RES_ALTA_EMPLEADO_CAMBIO_TIPO_REQUERIDO_INACTIVO:
+					JOptionPane.showMessageDialog(VistaAnadirEmpleado.this,
+							"El empleado existe en el histórico como inactivo con un cargo distinto al introducido.\n\n" + "PASOS A SEGUIR:\n"
+									+ "1. Vuelva a darle de alta seleccionando el cargo actual para reactivarlo.\n"
+									+ "2. Una vez reactivado, use el botón 'Actualizar Empleado' para cambiar su cargo al deseado.",
+							"Reactivación Requerida", JOptionPane.WARNING_MESSAGE);
+					break;
+
+				case Eventos.RES_ALTA_EMPLEADO_KO:
+					JOptionPane.showMessageDialog(VistaAnadirEmpleado.this, "Error en el sistema de persistencia.",
+							"Error Grave", JOptionPane.ERROR_MESSAGE);
+					break;
+
+				default:
+					JOptionPane.showMessageDialog(VistaAnadirEmpleado.this, "Error no identificado.");
+					break;
+				}
+			}
+		});
+	}
+}
