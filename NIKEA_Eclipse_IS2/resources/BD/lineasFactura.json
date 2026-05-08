@@ -338,13 +338,13 @@
     {
         "precioUnitario": 61,
         "idFactura": 2,
-        "idProducto": 0,
-        "cantidad": -1
+        "idProducto": 1,
+        "cantidad": 2
     },
     {
         "precioUnitario": 59.4,
         "idFactura": 3,
         "idProducto": 0,
-        "cantidad": -1
+        "cantidad": 2
     }
 ]

@@ -62,17 +62,6 @@
         "activo": true
     },
     {
-        "descripcion": "Cama de matrimonio",
-        "precioActual": 34,
-        "tipo": 1,
-        "ventas": 0,
-        "id": 6,
-        "stock": 200,
-        "idMarca": 0,
-        "nombre": "Cama",
-        "activo": true
-    },
-    {
         "descripcion": "Madera y pelo de cabello natural",
         "precioActual": 7,
         "tipo": 1,
@@ -85,7 +74,7 @@
     },
     {
         "descripcion": "Cómoda infantil",
-        "precioActual": -23,
+        "precioActual": 23,
         "tipo": 1,
         "ventas": 0,
         "id": 8,
