@@ -726,11 +726,7 @@ public class ControladorImp extends Controlador {
 			IGUI vista = FactoriaAbstractaPresentacion.getInstance().createVista(evento);
 
 			if (tm != null) {
-				if (!tm.getListaArticulos().isEmpty()) {
-					vista.actualizar(Eventos.RES_BAJA_MARCA_KO_TIENE_ARTICULOS, null);
-				} else {
-					vista.actualizar(Eventos.RES_BAJA_MARCA_OK, tm);
-				}
+				vista.actualizar(Eventos.RES_BAJA_MARCA_OK, tm);
 			} else {
 				vista.actualizar(Eventos.RES_BAJA_MARCA_KO_NO_EXISTE, id);
 			}
@@ -747,6 +743,10 @@ public class ControladorImp extends Controlador {
 
 			if (res >= 0) {
 				vista.actualizar(Eventos.RES_BAJA_MARCA_CONFIRMADA, res);
+			} else if (res == -3) {
+				vista.actualizar(Eventos.RES_BAJA_MARCA_KO_TIENE_ARTICULOS, null);
+			} else if (res == -1) {
+				vista.actualizar(Eventos.RES_BAJA_MARCA_KO_NO_EXISTE, res);
 			} else {
 				vista.actualizar(Eventos.RES_BAJA_MARCA_KO, res);
 			}

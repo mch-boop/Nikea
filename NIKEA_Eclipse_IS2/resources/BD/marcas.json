@@ -7,7 +7,7 @@
         ],
         "idMarca": 1,
         "nombre": "Nokia",
-        "activo": true
+        "activo": false
     },
     {
         "especialidades": ["OFICINA"],
@@ -102,7 +102,7 @@
         "especialidades": ["OTROS"],
         "idMarca": 12,
         "nombre": "Temu2",
-        "activo": true
+        "activo": false
     },
     {
         "especialidades": [
@@ -112,5 +112,15 @@
         "idMarca": 13,
         "nombre": "Gnomo de Jardin",
         "activo": true
+    },
+    {
+        "especialidades": [
+            "JARDIN_EXTERIOR",
+            "ELECTRODOMESTICOS",
+            "MUEBLES"
+        ],
+        "idMarca": 14,
+        "nombre": "Blanca",
+        "activo": false
     }
 ]

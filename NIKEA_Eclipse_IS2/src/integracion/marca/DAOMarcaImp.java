@@ -45,7 +45,6 @@ public class DAOMarcaImp implements DAOMarca {
 	            existente.setNombre(tm.getNombre());
 	            existente.setActivo(tm.isActivo());
 	            existente.setEspecialidades(tm.getEspecialidades());
-	            existente.setListaArticulos(tm.getListaArticulos());
 	            
 	            guardarEnArchivo(lista);
 	            return 1;
@@ -100,8 +99,6 @@ public class DAOMarcaImp implements DAOMarca {
                         listaArticulos.add(arrArt.getInt(j));
                     }
                 }
-
-                m.setListaArticulos(listaArticulos);
 
                 // especialidades
                 JSONArray arrEsp = obj.optJSONArray("especialidades");

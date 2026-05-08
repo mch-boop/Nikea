@@ -3,6 +3,8 @@ package negocio.marca;
 import java.util.Collection;
 
 import integracion.marca.DAOMarca;
+import integracion.servicio.DAOServicio;
+import negocio.servicio.TArticulo;
 import integracion.factoria.FactoriaAbstractaIntegracion;
 
 public class SAMarcaImp implements SAMarca {
@@ -70,21 +72,17 @@ public class SAMarcaImp implements SAMarca {
        
         return dao.update(existente);
 	}
-	
-	@Override
-	public Collection<TMarca> update_listar() {
-	    DAOMarca dao = FactoriaAbstractaIntegracion.getInstance().crearDAOMarca();
-	    return dao.readAll();
-	}
 
 	@Override
 	public int delete(int id) {
 		DAOMarca dao = FactoriaAbstractaIntegracion.getInstance().crearDAOMarca();
+		DAOServicio daoS = FactoriaAbstractaIntegracion.getInstance().crearDAOServicio();
 
 	    TMarca tm = dao.read(id);
-	    if (tm == null) return -1; // no existe
-	    if (!tm.isActivo()) return -2; // ya inactivo
-	    if (tm.getListaArticulos().isEmpty()) return -3; // todavía tiene artículos
+	    if (tm == null) return -1; // no existe o inactivo
+	    if (!tm.isActivo()) return -1; // no existe o inactivo
+	    if (!daoS.readAll().stream().filter(s -> s.getTipo() == 1 && s.isActivo()).map(s -> (TArticulo) s).filter(s -> s.getMarcaId() == id)
+	    		.toList().isEmpty()) return -3; // todavía tiene artículos
 
 	    tm.setActivo(false);
 	    return dao.update(tm);
