@@ -1,10 +1,10 @@
 [
     {
         "descripcion": "Mesa redonda de madera",
-        "precioActual": 25.50,
-		"marca": "El Corte Inglés",
+        "precioActual": 25.5,
+        "marca": "El Corte Inglés",
         "tipo": 1,
-        "ventas": 0,
+        "ventas": 2,
         "id": 1,
         "stock": 10,
         "idMarca": 4,
@@ -22,8 +22,8 @@
     },
     {
         "descripcion": "Mueble de dormitorio",
-        "precioActual": 45.0,
-		"marca": "El Corte Inglés",
+        "precioActual": 45,
+        "marca": "El Corte Inglés",
         "tipo": 1,
         "ventas": 0,
         "id": 3,
@@ -44,7 +44,7 @@
     {
         "descripcion": "Sofá tapizado para 4 personas",
         "precioActual": 50.25,
-		"marca": "El Corte Inglés",
+        "marca": "El Corte Inglés",
         "tipo": 1,
         "ventas": 0,
         "id": 5,
@@ -56,7 +56,7 @@
     {
         "descripcion": "Cazuela para cocina tradicional",
         "precioActual": 10,
-		"marca": "El Corte Inglés",
+        "marca": "El Corte Inglés",
         "tipo": 1,
         "ventas": 0,
         "id": 6,
@@ -68,7 +68,7 @@
     {
         "descripcion": "Madera y pelo de cabello natural",
         "precioActual": 7,
-		"marca": "El Corte Inglés",
+        "marca": "El Corte Inglés",
         "tipo": 1,
         "ventas": 0,
         "id": 7,
@@ -80,7 +80,7 @@
     {
         "descripcion": "Cómoda infantil",
         "precioActual": 23,
-		"marca": "El Corte Inglés",
+        "marca": "El Corte Inglés",
         "tipo": 1,
         "ventas": 0,
         "id": 8,
